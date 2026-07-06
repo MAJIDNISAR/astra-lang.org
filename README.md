@@ -33,7 +33,5 @@ meta, and the home page includes Schema.org JSON-LD.
 Served by GitHub Pages from the `main` branch root.
 Custom domain: `astra-lang.org` (see `CNAME`).
 
-**Go-live checklist (DNS records + Pages settings): see [`DNS.md`](DNS.md).**
-
 Created by [Majid Nisar](https://majidnisar.com) —
 [project page](https://majidnisar.com/projects/astra/).
