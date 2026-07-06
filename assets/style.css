@@ -60,7 +60,17 @@ header.site .wrap {
 }
 .brand .tld { color: var(--accent); }
 
-nav.main { display: flex; gap: 22px; flex-wrap: wrap; }
+nav.main { display: flex; gap: 10px 0; flex-wrap: wrap; align-items: baseline; }
+.nav-group { display: inline-flex; gap: 18px; }
+.nav-group + .nav-group {
+  margin-left: 18px;
+  padding-left: 18px;
+  border-left: 1px solid var(--rule);
+}
+@media (max-width: 720px) {
+  .nav-group + .nav-group { margin-left: 14px; padding-left: 14px; }
+  .nav-group { gap: 14px; }
+}
 nav.main a {
   font-family: var(--mono);
   font-size: 13px;
