@@ -24,10 +24,16 @@ python3 -m http.server 8080
 # open http://localhost:8080
 ```
 
+Plus: `404.html` (custom error page), `robots.txt`, `sitemap.xml`,
+`assets/favicon.svg`. All pages carry canonical URLs, Open Graph / Twitter
+meta, and the home page includes Schema.org JSON-LD.
+
 ## Deployment
 
 Served by GitHub Pages from the `main` branch root.
 Custom domain: `astra-lang.org` (see `CNAME`).
+
+**Go-live checklist (DNS records + Pages settings): see [`DNS.md`](DNS.md).**
 
 Created by [Majid Nisar](https://majidnisar.com) —
 [project page](https://majidnisar.com/projects/astra/).

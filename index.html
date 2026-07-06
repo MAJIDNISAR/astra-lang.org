@@ -5,7 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Astra — an AI-first native programming language</title>
 <meta name="description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
+<link rel="canonical" href="https://astra-lang.org/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta name="theme-color" content="#faf6ef">
+<meta name="author" content="Majid Nisar">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="astra-lang.org">
+<meta property="og:title" content="Astra — an AI-first native programming language">
+<meta property="og:description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
+<meta property="og:url" content="https://astra-lang.org/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Astra — an AI-first native programming language">
+<meta name="twitter:description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
 <link rel="stylesheet" href="assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Astra",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "macOS, Linux",
+      "description": "Astra is a statically checked, natively compiled programming language designed for AI agents: machine-readable JSON diagnostics, stable error codes, and LLVM native compilation.",
+      "url": "https://astra-lang.org/",
+      "license": "https://opensource.org/licenses/MIT",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
+      "softwareVersion": "0.7.0-dev",
+      "downloadUrl": "https://github.com/MAJIDNISAR/Astra"
+    },
+    {
+      "@type": "WebSite",
+      "name": "astra-lang.org",
+      "url": "https://astra-lang.org/",
+      "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"}
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -137,6 +175,67 @@
         content-hashed <code>astra.lock</code> so the same inputs always
         produce the same dependency graph.</p>
       </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Audience</span>Who Astra is for</h2>
+      <div class="grid2">
+        <div class="def">
+          <b>Agent &amp; framework builders</b>
+          <p>You orchestrate LLMs that write code. You want generated code
+          rejected <em>before</em> it runs, and compiler feedback your loop
+          can parse mechanically. Start at
+          <a href="agents.html">the machine interface</a>.</p>
+        </div>
+        <div class="def">
+          <b>Engineers supervising AI output</b>
+          <p>You review more code than you write. A strict type system and
+          explicit <code>dyn</code> boundaries mean the compiler has already
+          audited what you're reading — you review intent, not typos.</p>
+        </div>
+        <div class="def">
+          <b>Python developers hitting the ceiling</b>
+          <p>You like Python's surface but pay for it in runtime failures
+          and slow loops. Astra keeps the terseness — inference, string
+          interpolation, no lifetimes — and compiles to native.</p>
+        </div>
+        <div class="def">
+          <b>Language &amp; compiler enthusiasts</b>
+          <p>A readable Rust codebase (~230 tests) implementing a full
+          pipeline: lexer → parser → Hindley-Milner inference → LLVM IR →
+          native. Every architecture decision is
+          <a href="vision.html">written down and ratified</a>.</p>
+        </div>
+      </div>
+      <p>Astra is <em>not</em> aimed (yet) at kernel developers, hard
+      real-time systems, or teams needing a mature ecosystem today — see the
+      honest status below.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Paradigm</span>Strategic language, tactical speed</h2>
+      <p>
+        In <em>A Philosophy of Software Design</em>, John Ousterhout draws
+        the line between <strong>tactical programming</strong> — getting
+        something working as fast as possible — and <strong>strategic
+        programming</strong> — investing in design so the system stays
+        changeable. LLMs are the ultimate tactical programmers: they produce
+        working-looking code at machine speed, with no stake in the design
+        surviving next week.
+      </p>
+      <p>
+        Astra's position: when generation is free, <strong>the strategic
+        layer must move into the language</strong>. Types, contracts,
+        <code>Result</code>-based errors, deterministic builds, and (soon)
+        typed agent primitives are the design investment — enforced by the
+        compiler, not by discipline. The agent supplies tactical speed; the
+        language supplies strategic structure; the human supervises intent.
+        That's the modern programming paradigm Astra is built for.
+      </p>
     </div>
   </section>
 

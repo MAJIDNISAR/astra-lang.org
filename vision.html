@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vision — where Astra is going</title>
 <meta name="description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
+<link rel="canonical" href="https://astra-lang.org/vision.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta name="theme-color" content="#faf6ef">
+<meta name="author" content="Majid Nisar">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="astra-lang.org">
+<meta property="og:title" content="Vision — where Astra is going">
+<meta property="og:description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
+<meta property="og:url" content="https://astra-lang.org/vision.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vision — where Astra is going">
+<meta name="twitter:description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -36,6 +48,30 @@
         with decorators and dictionaries — nothing checks them. Astra's
         endgame is to make these first-class, typechecked constructs of the
         language itself.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Thesis</span>The division of labor is changing</h2>
+      <p>
+        Every previous language generation optimized for a human at a
+        keyboard. The next one has three participants with different
+        strengths:
+      </p>
+      <table>
+        <thead><tr><th>Participant</th><th>Contributes</th><th>Needs from the language</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The agent</strong></td><td>Tactical speed — code at machine pace</td><td>A generable surface + machine-readable feedback</td></tr>
+          <tr><td><strong>The compiler</strong></td><td>Strategic structure — enforced design</td><td>Types, contracts, deterministic builds baked in</td></tr>
+          <tr><td><strong>The human</strong></td><td>Judgment — intent and review</td><td>Code where the compiler already ruled out the mundane bugs</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Astra is designed around that triangle. The v0.8–v1.0 roadmap below
+        is the plan to make each corner first-class — culminating in agent
+        concepts the compiler itself typechecks.
       </p>
     </div>
   </section>

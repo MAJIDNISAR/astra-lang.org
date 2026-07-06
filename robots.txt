@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://astra-lang.org/sitemap.xml
