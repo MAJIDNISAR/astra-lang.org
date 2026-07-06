@@ -79,6 +79,42 @@
     </div>
   </section>
 
+  <section id="strategic">
+    <div class="wrap">
+      <h2><span class="k">The strategic layer</span>Design investment, tracked like a feature</h2>
+      <p>
+        Astra's thesis is that when code generation is free, the
+        <em>strategic</em> layer — the design investment Ousterhout says
+        tactical programming skips — must live in the language and be
+        enforced by the compiler. That claim is only honest if each piece of
+        the strategic layer is tracked and tested like any other feature.
+        This table is that commitment:
+      </p>
+      <table>
+        <thead><tr><th>Strategic guarantee</th><th>Mechanism</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Interfaces can't drift silently</td><td>Static types + Hindley-Milner inference</td><td><span class="badge done">shipped v0.6</span></td></tr>
+          <tr><td>Errors are values, not surprises</td><td><code>Result&lt;T,E&gt;</code> + exhaustive <code>match</code></td><td><span class="badge done">shipped v0.6</span></td></tr>
+          <tr><td>Feedback is a machine contract</td><td>JSON diagnostics, stable E-codes, <code>suggestion</code>, <code>astra explain</code></td><td><span class="badge done">shipped v0.7</span></td></tr>
+          <tr><td>Flexibility is explicit, never accidental</td><td><code>dyn</code> gradual-typing boundary</td><td><span class="badge done">shipped v0.7</span></td></tr>
+          <tr><td>Builds are reproducible</td><td>Mifa sha256-stable <code>astra.lock</code></td><td><span class="badge done">shipped M2</span></td></tr>
+          <tr><td>Memory correctness without generator burden</td><td>ARC + escape analysis (no GC, no lifetimes)</td><td><span class="badge wip">scaffolding → v0.8</span></td></tr>
+          <tr><td>Generated code runs in a cage</td><td>WASM sandbox target</td><td><span class="badge planned">v0.8</span></td></tr>
+          <tr><td>Tool schemas can't lie</td><td><code>tool</code> keyword — signature <em>is</em> the schema</td><td><span class="badge planned">v0.9</span></td></tr>
+          <tr><td>Agent state is typed, prompts are checked</td><td><code>agent</code> / <code>memory</code> / <code>prompt</code> keywords</td><td><span class="badge planned">v0.9</span></td></tr>
+          <tr><td>Delegation graphs typecheck end-to-end</td><td>Agent-to-agent contracts, verified at compile time</td><td><span class="badge planned">v0.9</span></td></tr>
+          <tr><td>One strategic layer, every target</td><td>Single compiler → native / WASM / GPU</td><td><span class="badge planned">v1.0</span></td></tr>
+        </tbody>
+      </table>
+      <p>
+        Scorecard: <strong>5 of 11 strategic guarantees shipped</strong>,
+        1 in progress, 5 planned. The paradigm behind this table is on the
+        <a href="index.html">home page</a>; the release plan that delivers
+        the rest is on the <a href="vision.html">vision page</a>.
+      </p>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2><span class="k">Astra</span>Language feature matrix</h2>

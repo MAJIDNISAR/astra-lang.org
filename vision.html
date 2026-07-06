@@ -74,9 +74,22 @@
         </tbody>
       </table>
       <p>
-        Astra is designed around that triangle. The v0.8–v1.0 roadmap below
-        is the plan to make each corner first-class — culminating in agent
-        concepts the compiler itself typechecks.
+        Astra is designed around that triangle. Each release strengthens the
+        strategic layer another notch:
+      </p>
+      <table>
+        <thead><tr><th>Release</th><th>Strategic guarantee it adds</th></tr></thead>
+        <tbody>
+          <tr><td><strong>v0.6–0.7</strong> <span class="badge done">shipped</span></td><td>Types, <code>Result</code>, machine-readable diagnostics, explicit <code>dyn</code>, reproducible locks</td></tr>
+          <tr><td><strong>v0.8</strong></td><td>Memory correctness (ARC) + generated code sandboxed in WASM</td></tr>
+          <tr><td><strong>v0.9</strong></td><td>Tool schemas, agent state, prompts, and delegation — all typechecked</td></tr>
+          <tr><td><strong>v1.0</strong></td><td>One strategic layer across native, WASM, and GPU targets</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Delivery against each guarantee is scored on the
+        <a href="progress.html#strategic">progress tracker</a> — currently
+        5 of 11 shipped, each backed by a passing test.
       </p>
     </div>
   </section>
