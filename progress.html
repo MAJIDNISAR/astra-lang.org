@@ -175,10 +175,10 @@
           <tr><td>Path dependencies</td><td><span class="badge done">shipped</span></td><td>Resolve from local <code>astra.toml</code></td></tr>
           <tr><td>Cache (<code>~/.mifa/cache</code>)</td><td><span class="badge done">shipped</span></td><td><code>MIFA_CACHE_DIR</code> override supported</td></tr>
           <tr><td><code>mifa clean [--cache]</code></td><td><span class="badge done">shipped</span></td><td></td></tr>
-          <tr><td><code>--json</code> output on local commands</td><td><span class="badge planned">next</span></td><td>M5-basics</td></tr>
-          <tr><td>Registry protocol (<code>/v1/packages</code>)</td><td><span class="badge planned">M3</span></td><td>Currently simulated in-memory for tests</td></tr>
-          <tr><td>Publish + auth</td><td><span class="badge planned">M4</span></td><td></td></tr>
-          <tr><td>mifa.dev hosted registry</td><td><span class="badge planned">v1.0</span></td><td></td></tr>
+          <tr><td><strong>M5-basics</strong> — <code>--json</code> on local commands</td><td><span class="badge planned">next</span></td><td>Machine-readable output for agent consumption; mirrors the compiler's JSON contract</td></tr>
+          <tr><td><strong>M3</strong> — Registry protocol</td><td><span class="badge planned">planned</span></td><td><code>/v1/packages</code> API, checksums, yanked-version handling; currently simulated in-memory for tests</td></tr>
+          <tr><td><strong>M4</strong> — Publish + auth</td><td><span class="badge planned">planned</span></td><td><code>mifa login</code>, <code>publish --dry-run</code>, token-based auth</td></tr>
+          <tr><td>mifa.dev hosted registry</td><td><span class="badge planned">v1.0</span></td><td>Checksummed, signed packages; lockfile contract goes global</td></tr>
         </tbody>
       </table>
       <p>55+ tests cover the package manager: manifest parsing, version
