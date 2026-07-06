@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Agents — Astra's machine interface</title>
+<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0012, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="vision.html">Vision</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="agents.html" class="active">For Agents</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Machine interface · integration spec</p>
+      <h1>The compiler is an API.<br>This page is its documentation.</h1>
+      <p class="lede">
+        If you're building an agent, a coding assistant, or a framework that
+        generates Astra, everything you need is here: the CLI surface, the
+        JSON contract, the error-code catalog, and the canonical loop.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Surface</span>Three commands, stable semantics</h2>
+      <table>
+        <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>astra verify --error-format=json &lt;file&gt;</code></td>
+            <td>Parse + typecheck only. No codegen, no execution. ~100 ms.</td>
+            <td>0 = verified · non-zero = diagnostics emitted</td>
+          </tr>
+          <tr>
+            <td><code>astra compile --error-format=json &lt;file&gt; --output &lt;bin&gt;</code></td>
+            <td>Full pipeline to a native executable.</td>
+            <td>0 = binary written · non-zero = failed</td>
+          </tr>
+          <tr>
+            <td><code>astra explain E0002</code></td>
+            <td>Expands any error code into a full explanation + guidance.</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Rust callers can skip the CLI entirely:</p>
+<pre><code><span class="kw">let</span> report = astra::compiler::<span class="fn">verify</span>(source);
+<span class="kw">let</span> result = astra::compiler::<span class="fn">compile_to_result</span>(source);</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Contract</span>The diagnostic JSON shape</h2>
+      <p>One object per invocation. Fields are stable; new fields may be
+      added, existing ones are never repurposed.</p>
+<pre><code>{
+  <span class="s">"success"</span>: <span class="kw">false</span>,
+  <span class="s">"diagnostics"</span>: [
+    {
+      <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,       <span class="c">// "parse" | "typecheck" | "codegen"</span>
+      <span class="s">"kind"</span>: <span class="s">"TypeError"</span>,        <span class="c">// coarse class</span>
+      <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,      <span class="c">// stable, catalog below</span>
+      <span class="s">"message"</span>: <span class="s">"Type error: Undefined variable 'total'"</span>,
+      <span class="s">"file"</span>: <span class="kw">null</span>,
+      <span class="s">"line"</span>: <span class="n">4</span>,                  <span class="c">// 1-based; null if unresolvable</span>
+      <span class="s">"column"</span>: <span class="n">12</span>,               <span class="c">// 1-based; null if unresolvable</span>
+      <span class="s">"severity"</span>: <span class="s">"error"</span>,
+      <span class="s">"suggestion"</span>: <span class="s">"Declare 'total' with let before use, e.g. let total = ...;"</span>
+    }
+  ]
+}</code></pre>
+      <ul>
+        <li><strong>Parse errors</strong> always carry <code>line</code> and <code>column</code> of the offending token.</li>
+        <li><strong>Typecheck errors</strong> carry them when the error names a symbol; otherwise <code>null</code> (never <code>0</code>).</li>
+        <li><strong><code>suggestion</code></strong> is a human/LLM-readable repair hint, name-aware where possible.</li>
+        <li>Success shape: <code>{"success": true, "diagnostics": []}</code>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Catalog</span>Stable error codes</h2>
+      <p>Codes are permanent identifiers — safe to branch on, cache repair
+      strategies against, or fine-tune with. <code>astra explain E####</code>
+      returns the long-form description for any of them.</p>
+      <table>
+        <thead><tr><th>Code</th><th>Meaning</th><th>Typical agent repair</th></tr></thead>
+        <tbody>
+          <tr><td><code>E0001</code></td><td>Syntax error</td><td>Re-emit the statement; check delimiters and semicolons</td></tr>
+          <tr><td><code>E0002</code></td><td>Undefined variable</td><td>Declare with <code>let</code>, or fix the identifier spelling</td></tr>
+          <tr><td><code>E0003</code></td><td>Undefined function</td><td>Define the function or correct the call target</td></tr>
+          <tr><td><code>E0004</code></td><td>Type mismatch</td><td>Align value type with the annotation / return type</td></tr>
+          <tr><td><code>E0005</code></td><td>Wrong number of arguments</td><td>Match the call to the function signature</td></tr>
+          <tr><td><code>E0006</code></td><td>Condition must be boolean</td><td>Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
+          <tr><td><code>E0007</code></td><td>Unknown method</td><td>Check the receiver type's supported methods</td></tr>
+          <tr><td><code>E0008</code></td><td>Cannot index non-array</td><td>Index arrays only; check the variable's type</td></tr>
+          <tr><td><code>E0009</code></td><td>Duplicate definition</td><td>Rename or remove the redefinition</td></tr>
+          <tr><td><code>E0010</code></td><td>Struct field error</td><td>Use fields declared on the struct; check literal completeness</td></tr>
+          <tr><td><code>E0011</code></td><td>Generic type error</td><td>Make type parameters consistent at the call site</td></tr>
+          <tr><td><code>E0012</code></td><td>IO error</td><td>Check the file path passed to the CLI</td></tr>
+          <tr><td><code>E0099</code></td><td>Internal / uncategorized</td><td>Report upstream; do not retry blindly</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">The loop</span>Canonical integration pattern</h2>
+<pre><code><span class="c"># pseudocode for any agent framework</span>
+<span class="kw">source</span> = llm.generate(task)
+
+<span class="kw">for</span> attempt <span class="kw">in</span> 1..MAX_REPAIRS:
+    report = run(<span class="s">"astra verify --error-format=json"</span>, source)
+    <span class="kw">if</span> report.success:
+        <span class="kw">break</span>                                <span class="c"># verified — safe to compile</span>
+    <span class="kw">source</span> = llm.repair(source, report.diagnostics)
+                                             <span class="c"># feed error_code + line +</span>
+                                             <span class="c"># column + suggestion back in</span>
+
+binary = run(<span class="s">"astra compile --error-format=json"</span>, source)
+execute(binary)                              <span class="c"># native, already typechecked</span></code></pre>
+      <p>Why this converges better than a Python retry loop:</p>
+      <ul>
+        <li>Diagnostics are <strong>positional</strong> — the model repairs one
+        pinpointed line instead of regenerating the file.</li>
+        <li>Codes are <strong>categorical</strong> — frameworks can route
+        E0002 to a cheap local fix and reserve the LLM for E0004/E0011.</li>
+        <li>Verification is <strong>~100 ms</strong> — cheaper than any token
+        round-trip, so verify after every single edit.</li>
+        <li>Whole error classes <strong>cannot escape to runtime</strong>, so
+        the expensive failure mode (bad code executing) is structurally
+        removed.</li>
+      </ul>
+      <div class="callout">
+        <p><strong>Versioning promise:</strong> the JSON field set and the
+        E-code catalog only grow — existing codes and fields are never
+        renamed or repurposed. Breaking changes to this contract would get a
+        major version bump and a migration note on this page.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn primary" href="https://github.com/MAJIDNISAR/Astra">Integrate from source</a>
+        <a class="btn ghost" href="benchmarks.html">See the loop validated end-to-end</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

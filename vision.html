@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vision — where Astra is going</title>
+<meta name="description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="vision.html" class="active">Vision</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="agents.html">For Agents</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Vision · v0.8 → v1.0</p>
+      <h1>What if agents were<br>a language feature?</h1>
+      <p class="lede">
+        Today's agent stacks bolt tools, prompts, and memory onto Python
+        with decorators and dictionaries — nothing checks them. Astra's
+        endgame is to make these first-class, typechecked constructs of the
+        language itself.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">v0.9</span>Agent-native keywords</h2>
+      <p>
+        Four keywords are reserved and ratified (Bet 4). The design intent —
+        syntax is illustrative and will evolve through the v0.9 RFC process:
+      </p>
+
+      <div class="codeblock">
+        <span class="tab">design sketch — v0.9 (not yet implemented)</span>
+<pre><code><span class="kw">tool</span> <span class="fn">search_flights</span>(from: <span class="kw">str</span>, to: <span class="kw">str</span>, date: <span class="kw">str</span>) -> Result&lt;[Flight], ApiError&gt; {
+    <span class="c">// a tool is a typed, sandboxed capability;</span>
+    <span class="c">// its signature IS its schema — no JSON-schema drift</span>
+}
+
+<span class="kw">memory</span> TripContext {
+    budget: <span class="kw">float</span>,
+    preferences: [<span class="kw">str</span>]        <span class="c">// typed, persistent agent state</span>
+}
+
+<span class="kw">agent</span> TravelPlanner {
+    tools: [search_flights],
+    memory: TripContext,
+
+    <span class="kw">prompt</span> plan = <span class="s">"Find flights within ${memory.budget}"</span>;
+}</code></pre>
+      </div>
+
+      <p>What the compiler can then guarantee — before anything runs:</p>
+      <ul>
+        <li><strong>Tool contracts hold.</strong> A tool's parameter and return
+        types are checked at every call site. The "function-calling schema"
+        cannot drift from the implementation because they are the same thing.</li>
+        <li><strong>Memory is typed.</strong> Agent state isn't a dict of
+        anything — reads and writes typecheck like struct access.</li>
+        <li><strong>Prompts are checked templates.</strong> A
+        <code>prompt</code> interpolation referencing a missing memory field
+        is a compile error, not a silent hallucination input.</li>
+        <li><strong>Subagent boundaries are contracts.</strong> An agent
+        handing work to another agent is a typed call — the compiler verifies
+        the whole delegation graph.</li>
+      </ul>
+
+      <p>Alongside the keywords: an <strong>agent SDK</strong> (bindings for
+      LLM providers) and a <strong>sandbox</strong> so tools execute with
+      declared capabilities only.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">v0.8</span>The enabling layer</h2>
+      <div class="grid2">
+        <div class="def">
+          <b>WASM target</b>
+          <p>The same LLVM backend emits WebAssembly — verified agent code
+          running in a capability-scoped sandbox, plus a browser playground
+          for this site.</p>
+        </div>
+        <div class="def">
+          <b>Python interop (embedded CPython)</b>
+          <p>Astra won't pretend NumPy and PyTorch don't exist. A typed
+          boundary calls into the Python ecosystem where it's strong, keeps
+          the orchestration layer verified.</p>
+        </div>
+        <div class="def">
+          <b>LSP + fmt</b>
+          <p>Language server and formatter — for the humans reviewing what
+          agents wrote.</p>
+        </div>
+        <div class="def">
+          <b>async / await + stdlib core</b>
+          <p>The last semantic-core gap closes, and a real standard library
+          starts to form under ARC memory management.</p>
+        </div>
+      </div>
+
+      <h3>v1.0 completes the arc</h3>
+      <ul>
+        <li><strong>GPU target (NVPTX)</strong> — the third LLVM target: same language from orchestration script to kernel.</li>
+        <li><strong>Mifa registry (mifa.dev)</strong> — checksummed, signed packages; the lockfile contract goes global.</li>
+        <li><strong>Production tooling</strong> — test/bench runners, docs generator, debugger support.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Positioning</span>Astra vs. the alternatives for agent code</h2>
+      <p>Every language in this table is excellent at what it was designed
+      for. The comparison is scoped to one question: <em>what should an agent
+      generate?</em></p>
+      <table>
+        <thead><tr><th></th><th>Python</th><th>Rust</th><th>Go</th><th>Mojo</th><th>Astra</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Mistakes caught before run</td>
+            <td>Few (runtime)</td><td>Most</td><td>Many</td><td>Most</td>
+            <td><strong>Most — by design goal</strong></td>
+          </tr>
+          <tr>
+            <td>Diagnostics as machine-readable contract</td>
+            <td>No</td><td>Partial (<code>--message-format=json</code>, rich but complex)</td><td>Partial</td><td>No</td>
+            <td><strong>Yes — stable codes + suggestions, primary interface</strong></td>
+          </tr>
+          <tr>
+            <td>Easy for an LLM to generate correctly</td>
+            <td><strong>Yes</strong></td><td>Hard (lifetimes)</td><td>Yes</td><td>Moderate</td>
+            <td><strong>Yes — Python-like surface, no borrow checker</strong></td>
+          </tr>
+          <tr>
+            <td>Native performance</td>
+            <td>No</td><td><strong>Yes</strong></td><td>Yes</td><td>Yes</td>
+            <td><strong>Yes (LLVM)</strong></td>
+          </tr>
+          <tr>
+            <td>Agent primitives in the language</td>
+            <td>Frameworks only</td><td>Frameworks only</td><td>Frameworks only</td><td>No</td>
+            <td><strong>Planned as keywords (v0.9)</strong></td>
+          </tr>
+          <tr>
+            <td>Memory model burden on the generator</td>
+            <td>None (GC)</td><td>High (ownership)</td><td>None (GC)</td><td>Low</td>
+            <td><strong>None visible (ARC)</strong></td>
+          </tr>
+          <tr>
+            <td>Maturity today</td>
+            <td><strong>Production</strong></td><td><strong>Production</strong></td><td><strong>Production</strong></td><td>Early</td>
+            <td>Alpha — <a href="progress.html">tracked honestly</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <p><strong>The bet in one sentence:</strong> Rust-grade verification
+        with Python-grade generability, plus agent concepts the compiler
+        itself understands. No incumbent occupies that intersection — and the
+        maturity row is exactly why this roadmap exists.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Locked</span>The five bets underneath</h2>
+      <p>The vision isn't a mood board — it rests on five architecture
+      decisions debated and ratified on 2026-07-02, each with recorded
+      rationale, accepted costs, and first milestones (two of which have
+      already shipped):</p>
+      <table>
+        <thead><tr><th>Bet</th><th>Decision</th><th>First milestone</th></tr></thead>
+        <tbody>
+          <tr><td>1 — Memory</td><td>ARC + escape analysis + <code>region</code></td><td><span class="badge wip">scaffolding shipped</span></td></tr>
+          <tr><td>2 — Typing</td><td>Static by default, gradual via <code>dyn</code></td><td><span class="badge done">shipped v0.7</span></td></tr>
+          <tr><td>3 — Backend</td><td>One LLVM compiler → native / WASM / GPU</td><td><span class="badge planned">WASM in v0.8</span></td></tr>
+          <tr><td>4 — AI primitives</td><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> keywords</td><td><span class="badge planned">v0.9</span></td></tr>
+          <tr><td>5 — Interop</td><td>Embedded CPython in stdlib</td><td><span class="badge planned">v0.8 alpha</span></td></tr>
+        </tbody>
+      </table>
+      <div class="btn-row">
+        <a class="btn ghost" href="https://github.com/MAJIDNISAR/Astra/blob/main/docs/development/decisions-ratified.md">Read the ratified decisions</a>
+        <a class="btn ghost" href="progress.html">Track delivery</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

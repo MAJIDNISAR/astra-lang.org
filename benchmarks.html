@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmarks — validated metrics, reproducible on your machine</title>
+<meta name="description" content="Astra's internally tested and verified metrics: verify latency, compile+run vs Python, agent-mistake rejection, lockfile determinism — every number reproducible from a script in the repo.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="vision.html">Vision</a>
+      <a href="benchmarks.html" class="active">Benchmarks</a>
+      <a href="agents.html">For Agents</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Validated metrics</p>
+      <h1>Every number on this page<br>comes from a script you can run.</h1>
+      <p class="lede">
+        No synthetic marketing charts. The repo ships a validation harness —
+        <code>scripts/validate_metrics.sh</code> — that exercises the five
+        differentiators end-to-end and asserts 12 checks. All 12 pass.
+        Measurements below are from macOS ARM64 (Apple Silicon), 2026-07.
+      </p>
+<pre><code><span class="p">$</span> ./scripts/validate_metrics.sh
+...
+RESULT: 12/12 checks passed</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">D1</span>The repair loop closes</h2>
+      <p><strong>Claim:</strong> an agent can take broken source, get a
+      structured diagnosis, repair it, and reach a native binary — fully
+      mechanically.</p>
+      <p><strong>Test:</strong> scenario 1 feeds a program with an undefined
+      variable to <code>astra verify --error-format=json</code>, asserts the
+      JSON carries the exact <code>line</code>/<code>column</code>/<code>error_code</code>,
+      applies the fix, and asserts the binary compiles and prints the
+      expected output.</p>
+      <p><strong>Result:</strong> <span class="badge done">pass</span> —
+      broken → JSON(line 2, col 13, E0002) → repaired → native, in one
+      scripted pass.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">D2</span>Agent mistakes rejected before execution</h2>
+      <p><strong>Claim:</strong> the classes of error LLMs most commonly
+      generate never reach runtime.</p>
+      <p><strong>Test:</strong> scenario 2 submits four canonical mistake
+      programs; each must be rejected by <code>verify</code> with the right
+      error class, and none may produce a binary.</p>
+      <table>
+        <thead><tr><th>Mistake class</th><th>Example</th><th>Caught pre-run</th></tr></thead>
+        <tbody>
+          <tr><td>Undefined variable</td><td><code>print(totl)</code> (typo)</td><td><span class="badge done">yes — E0002</span></td></tr>
+          <tr><td>Type mismatch</td><td><code>let n: int = "hello"</code></td><td><span class="badge done">yes — E0004</span></td></tr>
+          <tr><td>Wrong argument count</td><td><code>add(1)</code> for <code>add(a, b)</code></td><td><span class="badge done">yes — E0005</span></td></tr>
+          <tr><td>Invalid return type</td><td>returning <code>str</code> from <code>-> int</code></td><td><span class="badge done">yes — E0004</span></td></tr>
+        </tbody>
+      </table>
+      <p><strong>Result:</strong> <span class="badge done">4/4 rejected</span>
+      — in Python, all four would execute until the faulty line is reached
+      (or silently succeed).</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">D3</span>Native speed — including compile time</h2>
+      <p><strong>Claim:</strong> for compute-shaped work, Astra's
+      <em>compile-then-run</em> beats Python's <em>run alone</em>.</p>
+      <p><strong>Test:</strong> scenario 3 runs an identical 5,000,000-iteration
+      arithmetic loop in both languages, wall-clock timed.</p>
+
+      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:12%"></span></div><span class="pct">115 ms</span></div>
+      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">959 ms</span></div>
+
+      <p><strong>Result:</strong> <span class="badge done">~8.3× faster</span>
+      — and the Astra figure <em>includes</em> full compilation (parse,
+      typecheck, LLVM IR, llc, link). Run-only, the gap widens further.</p>
+      <div class="callout">
+        <p><strong>Scope honesty:</strong> this is one compute-bound
+        microbenchmark, not a suite. It demonstrates the architecture
+        (native codegen with negligible compile overhead), not a general
+        "8× faster than Python" claim. Broader benchmarks land with the
+        stdlib in v0.8.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">D4</span>Verification is fast enough for every loop iteration</h2>
+      <p><strong>Claim:</strong> <code>verify</code> is cheap enough that an
+      agent can call it after every edit — like a linter, with compiler
+      guarantees.</p>
+      <p><strong>Test:</strong> time <code>astra verify</code> (full parse +
+      typecheck, no codegen) on a representative program.</p>
+      <p><strong>Result:</strong> <span class="badge done">113 ms</span>
+      wall-clock. At that latency, verification costs less than a fraction of
+      a single LLM token round-trip — there is no reason for an agent
+      <em>not</em> to verify.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">D5</span>Deterministic dependency resolution</h2>
+      <p><strong>Claim:</strong> the same manifest always resolves to the
+      same lockfile, byte for byte.</p>
+      <p><strong>Test:</strong> resolve a workspace, hash
+      <code>astra.lock</code>, wipe, resolve again, compare sha256.</p>
+      <p><strong>Result:</strong> <span class="badge done">sha256-identical</span>
+      across repeated runs. A build an agent verified once stays verified —
+      no drifting transitive dependencies.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Suite</span>Correctness metrics</h2>
+      <table>
+        <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Test suite</td><td><strong>232 passed · 0 failed · 1 ignored</strong></td><td><code>cargo test --quiet</code></td></tr>
+          <tr><td>Build warnings</td><td><strong>0</strong></td><td><code>cargo build --quiet</code></td></tr>
+          <tr><td>Ignored-test burn-down (v0.7)</td><td><strong>10 → 1</strong></td><td>Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
+          <tr><td>Showcase examples runtime-verified</td><td>compile + execute + stdout asserted</td><td><code>tests/showcase_examples_tests.rs</code></td></tr>
+          <tr><td>Validation checks</td><td><strong>12 / 12</strong></td><td><code>scripts/validate_metrics.sh</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Reproduce</span>Run it yourself</h2>
+<pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git &amp;&amp; cd Astra
+<span class="p">$</span> cargo build --quiet
+<span class="p">$</span> cargo test --quiet                    <span class="c"># 232 passed, 0 failed</span>
+<span class="p">$</span> ./scripts/validate_metrics.sh        <span class="c"># 12/12 checks, prints timings</span></code></pre>
+      <p>The scenario programs live in
+      <a href="https://github.com/MAJIDNISAR/Astra/tree/main/examples/validation">examples/validation/</a>.
+      If a number on this page doesn't reproduce on your machine, that's a
+      bug — <a href="https://github.com/MAJIDNISAR/Astra/issues">file it</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>
