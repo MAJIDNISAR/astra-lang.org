@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Astra, Mifa, and the person behind them</title>
+<meta name="description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">About</p>
+      <h1>From a compiler assignment<br>to a language with a thesis.</h1>
+      <p class="lede">
+        Astra started as a university compiler-construction project in
+        October 2025. It kept going because a question wouldn't let go:
+        <em>if most new code will be written by machines, what should the
+        language they write look like?</em>
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Creator</span>Majid Nisar</h2>
+      <p>
+        Astra and Mifa are created and maintained by
+        <a href="https://majidnisar.com"><strong>Majid Nisar</strong></a> —
+        the compiler, the runtime, the package manager, the test suite, and
+        this site. The project's detailed write-up, design notes, and
+        development history live on his site:
+      </p>
+      <ul class="meta-list">
+        <li><b>Project page:</b> <a href="https://majidnisar.com/projects/astra/">majidnisar.com/projects/astra</a></li>
+        <li><b>Personal site:</b> <a href="https://majidnisar.com">majidnisar.com</a></li>
+        <li><b>Source:</b> <a href="https://github.com/MAJIDNISAR/Astra">github.com/MAJIDNISAR/Astra</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Thesis</span>Why build a language in 2026?</h2>
+      <p>
+        Because the economics of code changed. When agents generate most of
+        the code, the bottleneck moves from <em>writing</em> to
+        <em>verifying</em>. Dynamic languages push verification to runtime —
+        the most expensive possible place. Astra's bet is that the language
+        itself should be the verification layer:
+      </p>
+      <ul>
+        <li>Diagnostics that are a <strong>stable machine interface</strong> (JSON, error codes, suggestions), not prose on stderr.</li>
+        <li>A type system strict enough to <strong>reject whole classes of generated mistakes</strong> before execution.</li>
+        <li><strong>Native compilation</strong>, so a verified program is also a fast program.</li>
+        <li>Eventually, <strong>agent concepts in the grammar itself</strong> — <code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code> — so multi-agent systems typecheck like ordinary code.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Principles</span>How the project is run</h2>
+      <div class="def">
+        <b>Ground truth over hype</b>
+        <p>A feature is "working" only when a test compiles it, runs the
+        binary, and asserts the output. The public
+        <a href="progress.html">progress page</a> and the in-repo tracker are
+        the same document in two forms.</p>
+      </div>
+      <div class="def">
+        <b>Decisions are written down</b>
+        <p>Five architecture bets (memory model, typing, backend, AI
+        primitives, Python interop) were debated, ratified, and locked with
+        rationale and accepted costs. Amendments require a documented
+        process, not a mood.</p>
+      </div>
+      <div class="def">
+        <b>Claims are measured</b>
+        <p>Performance and verification numbers come from a scripted
+        validation harness in the repository that anyone can rerun.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Timeline</span>Milestones so far</h2>
+      <table>
+        <thead><tr><th>When</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Oct 2025</td><td>v0.1 — university project: lexer, parser, first AST</td></tr>
+          <tr><td>Nov 2025</td><td>v0.5 — native compilation, Docker CI, first pre-built binaries</td></tr>
+          <tr><td>Jun 2026</td><td>v0.6 — honest alpha reset: JSON diagnostics, verify mode, AI-first thesis adopted</td></tr>
+          <tr><td>Jul 2026</td><td>v0.7 (~95%) — source spans, structs/Result/closures native, REPL, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa lockfile</td></tr>
+        </tbody>
+      </table>
+      <div class="btn-row">
+        <a class="btn primary" href="https://github.com/MAJIDNISAR/Astra">Follow the project on GitHub</a>
+        <a class="btn ghost" href="https://majidnisar.com/projects/astra/">Read the full story</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

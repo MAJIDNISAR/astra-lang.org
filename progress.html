@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress — Astra &amp; Mifa ground-truth status</title>
+<meta name="description" content="Live ground-truth status of the Astra compiler and Mifa package manager: release progress, feature matrix, ratified architecture decisions, and roadmap.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html" class="active">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Ground truth · updated 2026-07-06</p>
+      <h1>Progress tracker</h1>
+      <p class="lede">
+        This page mirrors the tracker maintained inside the repository.
+        Every "shipped" claim below is backed by a passing test; the suite
+        currently stands at <strong>232 passed, 0 failed, 1 ignored</strong>.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Releases</span>Where each version stands</h2>
+
+      <div class="bar-row"><span>v0.6</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:95%"></span></div><span class="pct">~95%</span></div>
+      <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+
+      <table>
+        <thead><tr><th>Release</th><th>Scope</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>v0.6 alpha</strong></td><td>Native core, JSON diagnostics, verify mode</td><td><span class="badge done">done</span></td></tr>
+          <tr><td><strong>v0.7</strong></td><td>Source spans, semantic core native, REPL, closures, <code>dyn</code>, ARC scaffolding, rich diagnostics</td><td><span class="badge wip">~95% — async/await remains</span></td></tr>
+          <tr><td><strong>v0.8</strong></td><td>LSP, stdlib core, WASM target, Python-interop alpha, deterministic builds</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td><strong>v0.9</strong></td><td><code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td><strong>v1.0</strong></td><td>GPU target (NVPTX), production tooling, Mifa registry</td><td><span class="badge planned">planned</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Astra</span>Language feature matrix</h2>
+      <table>
+        <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Lexer / parser / AST</td><td><span class="badge done">working</span></td><td>Full token + column tracking</td></tr>
+          <tr><td>Type checking + inference</td><td><span class="badge done">working</span></td><td>Hindley-Milner solving for core language</td></tr>
+          <tr><td>Native compilation (LLVM IR → binary)</td><td><span class="badge done">working</span></td><td>ARM64 macOS verified; Linux via Docker</td></tr>
+          <tr><td>Functions, recursion, control flow</td><td><span class="badge done">working</span></td><td>if/else, while, for-range, switch</td></tr>
+          <tr><td>Arrays + <code>.push()</code></td><td><span class="badge done">working</span></td><td>Bounds-checked; iteration partial</td></tr>
+          <tr><td>Structs (typed field access)</td><td><span class="badge done">working</span></td><td>Native GEP loads, nested access</td></tr>
+          <tr><td><code>Result&lt;T,E&gt;</code> + match</td><td><span class="badge done">working</span></td><td>Ok/Err paths, match binding, return-in-arms</td></tr>
+          <tr><td>Closures (native execution)</td><td><span class="badge done">v0.7</span></td><td>Lambda-lifting codegen; closures-as-values → v0.8</td></tr>
+          <tr><td>Generics (monomorphized fns)</td><td><span class="badge done">working</span></td><td>Constraints + generic structs partial</td></tr>
+          <tr><td>String interpolation <code>${}</code></td><td><span class="badge done">working</span></td><td>Plus <code>.length()</code>, <code>.to_string()</code>, concat</td></tr>
+          <tr><td>Float arithmetic / compare</td><td><span class="badge done">v0.7</span></td><td>Native <code>fadd</code>/<code>fcmp</code> with int→double promotion</td></tr>
+          <tr><td>JSON diagnostics with line + column</td><td><span class="badge done">working</span></td><td>Parse + named-symbol typecheck spans</td></tr>
+          <tr><td>Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td><span class="badge done">v0.7</span></td><td>Stable E0001–E0012 codes</td></tr>
+          <tr><td><code>astra repl</code></td><td><span class="badge done">alpha</span></td><td>Whole-program re-compile model</td></tr>
+          <tr><td><code>dyn</code> gradual typing</td><td><span class="badge done">v0.7</span></td><td>First milestone: boundary typecheck + boxed lowering</td></tr>
+          <tr><td>ARC memory model</td><td><span class="badge wip">scaffolding</span></td><td>Retain/release analysis pass + runtime stubs</td></tr>
+          <tr><td>Enums + match (advanced)</td><td><span class="badge wip">partial</span></td><td>Core paths native; advanced codegen incomplete</td></tr>
+          <tr><td>async / await</td><td><span class="badge wip">partial</span></td><td>Last ignored test; v0.8 scope</td></tr>
+          <tr><td>WASM target</td><td><span class="badge planned">v0.8</span></td><td>Also unlocks a browser playground</td></tr>
+          <tr><td>Python interop</td><td><span class="badge planned">v0.8–0.9</span></td><td>Embedded CPython, ratified decision</td></tr>
+          <tr><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code></td><td><span class="badge planned">v0.9</span></td><td>Agent-native keywords</td></tr>
+          <tr><td>GPU kernels (NVPTX)</td><td><span class="badge planned">v1.0</span></td><td></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Ignored-test burn-down</h3>
+      <p>A release KPI: tests stay ignored until the feature truly works
+      end-to-end, and the count must shrink every release. It went
+      <strong>10 → 1</strong> across v0.7 — nine features moved from
+      "claimed" to "compiles, runs, and asserts natively." Only
+      <code>test_async_functions</code> remains.</p>
+    </div>
+  </section>
+
+  <section id="mifa">
+    <div class="wrap">
+      <h2><span class="k">Mifa</span>Package manager progress</h2>
+
+      <div class="bar-row"><span>M1 local</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>M2 lock</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>M5 json</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>M3 registry</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>M4 publish</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+
+      <table>
+        <thead><tr><th>Capability</th><th>Status</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td><code>mifa init</code> — project scaffolding</td><td><span class="badge done">shipped</span></td><td>Integration-tested manifest + src layout</td></tr>
+          <tr><td><code>mifa add</code> — dependency management</td><td><span class="badge done">shipped</span></td><td>Manifest round-trip tests</td></tr>
+          <tr><td><code>mifa verify</code> — workspace typecheck</td><td><span class="badge done">shipped</span></td><td>7 failure modes + success path tested</td></tr>
+          <tr><td><code>mifa lock</code> — reproducible lockfile</td><td><span class="badge done">shipped</span></td><td>sha256-stable across runs (validated)</td></tr>
+          <tr><td>Path dependencies</td><td><span class="badge done">shipped</span></td><td>Resolve from local <code>astra.toml</code></td></tr>
+          <tr><td>Cache (<code>~/.mifa/cache</code>)</td><td><span class="badge done">shipped</span></td><td><code>MIFA_CACHE_DIR</code> override supported</td></tr>
+          <tr><td><code>mifa clean [--cache]</code></td><td><span class="badge done">shipped</span></td><td></td></tr>
+          <tr><td><code>--json</code> output on local commands</td><td><span class="badge planned">next</span></td><td>M5-basics</td></tr>
+          <tr><td>Registry protocol (<code>/v1/packages</code>)</td><td><span class="badge planned">M3</span></td><td>Currently simulated in-memory for tests</td></tr>
+          <tr><td>Publish + auth</td><td><span class="badge planned">M4</span></td><td></td></tr>
+          <tr><td>mifa.dev hosted registry</td><td><span class="badge planned">v1.0</span></td><td></td></tr>
+        </tbody>
+      </table>
+      <p>55+ tests cover the package manager: manifest parsing, version
+      requirements, resolution (direct + transitive), lockfile stability,
+      and the simulated registry.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Direction</span>Ratified architecture decisions</h2>
+      <p>Five foundational bets were debated and locked on 2026-07-02.
+      They set the direction through v1.0 and can only change through a
+      documented amendment process.</p>
+      <table>
+        <thead><tr><th>Bet</th><th>Decision</th></tr></thead>
+        <tbody>
+          <tr><td>1 — Memory model</td><td>ARC + escape analysis + <code>region</code> (no GC, no borrow checker)</td></tr>
+          <tr><td>2 — Typing discipline</td><td>Static by default; gradual via explicit <code>dyn</code> boundaries</td></tr>
+          <tr><td>3 — Backend</td><td>One LLVM compiler, three targets: native, WASM, GPU</td></tr>
+          <tr><td>4 — AI primitives</td><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> as language keywords</td></tr>
+          <tr><td>5 — Python interop</td><td>Embedded CPython in the standard library</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Measured</span>Validated performance claims</h2>
+      <p>Numbers on this site come from a scripted validation harness in the
+      repo (<code>scripts/validate_metrics.sh</code>, 12/12 checks passing),
+      not from marketing copy:</p>
+      <ul>
+        <li><strong>115 ms</strong> — Astra compile <em>and</em> run of a 5M-iteration loop (Python: 959 ms run-only)</li>
+        <li><strong>113 ms</strong> — <code>astra verify</code> full typecheck of a program, no codegen</li>
+        <li><strong>4/4</strong> — classes of agent mistakes (undefined vars, type errors, arity, bad returns) rejected before execution</li>
+        <li><strong>sha256-stable</strong> — <code>astra.lock</code> byte-identical across repeated resolutions</li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn ghost" href="https://github.com/MAJIDNISAR/Astra/blob/main/docs/development/progress-tracker.md">Full tracker in the repo</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

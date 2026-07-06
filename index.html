@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Astra — an AI-first native programming language</title>
+<meta name="description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html" class="active">Home</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="status-line"><span class="dot">●</span> v0.7.0-dev · 232 tests passing · public alpha compiler</p>
+      <h1>A language built for the way<br>code is written now.</h1>
+      <p class="lede">
+        Astra is a statically checked, natively compiled programming
+        language designed for AI agents and the humans who supervise them.
+        Code is generated, verified against machine-readable diagnostics,
+        repaired, and compiled to a real executable — before it ever runs.
+      </p>
+
+      <div class="btn-row">
+        <a class="btn primary" href="https://github.com/MAJIDNISAR/Astra">Source on GitHub</a>
+        <a class="btn ghost" href="language.html">Read the language tour</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">The loop</span>Verify before you run</h2>
+      <p>
+        Most agent frameworks generate Python and discover mistakes at
+        runtime — in production, in a sandbox, or in a retry loop that burns
+        tokens. Astra moves that discovery to compile time and speaks to the
+        agent in JSON.
+      </p>
+
+      <div class="hero-grid">
+        <div class="codeblock">
+          <span class="tab">agent → astra verify</span>
+<pre><code><span class="p">$</span> astra verify --error-format=json bad.astra
+{
+  <span class="s">"success"</span>: <span class="kw">false</span>,
+  <span class="s">"diagnostics"</span>: [{
+    <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,
+    <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,
+    <span class="s">"message"</span>: <span class="s">"Undefined variable 'total'"</span>,
+    <span class="s">"line"</span>: <span class="n">4</span>, <span class="s">"column"</span>: <span class="n">12</span>,
+    <span class="s">"suggestion"</span>:
+      <span class="s">"Declare 'total' with let before use"</span>
+  }]
+}</code></pre>
+        </div>
+
+        <div class="codeblock">
+          <span class="tab">fixed.astra → native binary</span>
+<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
+    <span class="kw">let</span> total = <span class="n">0</span>;
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="n">1</span>..<span class="n">10</span> {
+        total = total + i;
+    }
+    <span class="fn">print</span>(<span class="s">"sum = ${total}"</span>);
+    <span class="kw">return</span> <span class="n">0</span>;
+}
+
+<span class="c">$ astra compile fixed.astra -o sum</span>
+<span class="c">$ ./sum</span>
+<span class="c">sum = 45</span></code></pre>
+        </div>
+      </div>
+
+      <p>
+        The full cycle — <em>generate → verify → read diagnostics → repair →
+        compile → native executable</em> — is the design center of the
+        language, not a bolt-on.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Why it matters</span>Five things Astra does differently</h2>
+
+      <div class="def">
+        <b>D1 — Structured diagnostics as the agent interface</b>
+        <p>Every compiler error carries a stable <code>error_code</code>,
+        source line/column, and a repair <code>suggestion</code> — in JSON.
+        <code>astra explain E0002</code> expands any code into a full
+        explanation. Agents parse it; they don't scrape stderr.</p>
+      </div>
+
+      <div class="def">
+        <b>D2 — Mistakes rejected before execution</b>
+        <p>Undefined names, type mismatches, arity errors, and bad returns
+        are all caught by <code>astra verify</code> in ~100&nbsp;ms — no code
+        is generated, nothing runs.</p>
+      </div>
+
+      <div class="def">
+        <b>D3 — Native speed through LLVM</b>
+        <p>Verified programs compile through LLVM IR to real machine code
+        linked against a small C runtime. In a measured 5M-iteration loop,
+        Astra's <em>compile + run</em> finished in 115&nbsp;ms where Python's
+        run alone took 959&nbsp;ms.</p>
+      </div>
+
+      <div class="def">
+        <b>D4 — Static by default, gradual where needed</b>
+        <p>The type system is strict, with inference so code stays terse.
+        The <code>dyn</code> keyword opens a deliberate, marked boundary
+        where checks defer to runtime — gradual typing on your terms.</p>
+      </div>
+
+      <div class="def">
+        <b>D5 — Reproducible builds with Mifa</b>
+        <p><a href="mifa.html">Mifa</a>, Astra's package manager, writes a
+        content-hashed <code>astra.lock</code> so the same inputs always
+        produce the same dependency graph.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Honesty</span>What Astra is — and isn't — today</h2>
+      <div class="callout">
+        <p>Astra is a <strong>public alpha compiler project</strong>. The
+        core language compiles and runs natively with 232 tests green, but it
+        is not yet a production language, a package ecosystem, or a
+        memory-safe systems language. The <a href="progress.html">progress
+        page</a> tracks exactly what works, what's partial, and what's
+        planned — the same ground truth used inside the repo.</p>
+      </div>
+      <ul class="meta-list">
+        <li><b>Works today:</b> variables, functions, recursion, control flow, arrays, structs, enums + match, Result&lt;T,E&gt;, closures, generics (monomorphized), string interpolation, floats, REPL</li>
+        <li><b>In progress:</b> ARC memory model, async/await, LSP, WASM target</li>
+        <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, GPU target, Mifa registry</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Start</span>Build it in two minutes</h2>
+<pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git &amp;&amp; cd Astra
+<span class="p">$</span> cargo build
+<span class="p">$</span> cargo run --bin astra -- verify examples/showcase/01_hello_world.astra
+<span class="p">$</span> cargo run --bin astra -- compile examples/showcase/01_hello_world.astra --output hello
+<span class="p">$</span> ./hello
+Hello, World!</code></pre>
+      <p>Requirements: Rust toolchain, LLVM tools (<code>llc</code>), and a C
+      compiler (<code>clang</code>). Tested on macOS ARM64; Linux via Docker.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

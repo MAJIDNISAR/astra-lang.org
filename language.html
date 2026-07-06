@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Astra Language — tour &amp; design</title>
+<meta name="description" content="A tour of Astra: syntax, type system, error handling with Result, closures, gradual typing with dyn, and the compiler pipeline.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="language.html" class="active">Language</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Language tour</p>
+      <h1>Readable to humans.<br>Checkable by machines.</h1>
+      <p class="lede">
+        Astra's syntax borrows Python's directness and Rust's discipline:
+        type inference keeps code terse, static checking keeps it honest,
+        and every program compiles to a native binary.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Basics</span>Variables, inference, and strings</h2>
+      <p>Types are inferred from initializers; annotations are optional and
+      checked when present. Template literals interpolate with
+      <code>${}</code>.</p>
+<pre><code><span class="kw">let</span> name = <span class="s">"Astra"</span>;          <span class="c">// inferred str</span>
+<span class="kw">let</span> version: <span class="kw">float</span> = <span class="n">0.7</span>;   <span class="c">// explicit annotation</span>
+<span class="kw">let</span> tests = <span class="n">232</span>;            <span class="c">// inferred int</span>
+
+<span class="fn">print</span>(<span class="s">"${name} v${version} — ${tests} tests green"</span>);</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Functions</span>Recursion, control flow, loops</h2>
+<pre><code><span class="kw">fn</span> <span class="fn">fib</span>(n: <span class="kw">int</span>) -> <span class="kw">int</span> {
+    <span class="kw">if</span> n &lt; <span class="n">2</span> { <span class="kw">return</span> n; }
+    <span class="kw">return</span> <span class="fn">fib</span>(n - <span class="n">1</span>) + <span class="fn">fib</span>(n - <span class="n">2</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="n">0</span>..<span class="n">10</span> {
+        <span class="fn">print</span>(<span class="s">"fib(${i}) = ${fib(i)}"</span>);
+    }
+    <span class="kw">return</span> <span class="n">0</span>;
+}</code></pre>
+      <p><code>while</code>, <code>do/while</code>, <code>switch</code>,
+      <code>break</code>/<code>continue</code>, and for-range loops all
+      compile to native code today.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Data</span>Structs, enums, and pattern matching</h2>
+<pre><code><span class="kw">struct</span> User {
+    name: <span class="kw">str</span>,
+    age: <span class="kw">int</span>,
+    active: <span class="kw">bool</span>
+}
+
+<span class="kw">let</span> u = User { name: <span class="s">"Ada"</span>, age: <span class="n">36</span>, active: <span class="kw">true</span> };
+<span class="fn">print</span>(u.name);              <span class="c">// typed field access, native GEP loads</span>
+
+<span class="kw">enum</span> Status { Active, Suspended, Deleted }
+
+<span class="kw">let</span> label = <span class="kw">match</span> status {
+    Status::Active    => <span class="s">"ok"</span>,
+    Status::Suspended => <span class="s">"paused"</span>,
+    Status::Deleted   => <span class="s">"gone"</span>
+};</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Errors</span>Result&lt;T,E&gt; — no exceptions</h2>
+      <p>Fallible operations return <code>Result</code>. The compiler forces
+      the caller to handle both arms; there is no invisible control flow.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">divide</span>(a: <span class="kw">int</span>, b: <span class="kw">int</span>) -> Result&lt;<span class="kw">int</span>, <span class="kw">str</span>&gt; {
+    <span class="kw">if</span> b == <span class="n">0</span> {
+        <span class="kw">return</span> <span class="fn">Err</span>(<span class="s">"division by zero"</span>);
+    }
+    <span class="kw">return</span> <span class="fn">Ok</span>(a / b);
+}
+
+<span class="kw">match</span> <span class="fn">divide</span>(<span class="n">10</span>, <span class="n">2</span>) {
+    Ok(value)  => <span class="fn">print</span>(<span class="s">"result: ${value}"</span>),
+    Err(cause) => <span class="fn">print</span>(<span class="s">"failed: ${cause}"</span>)
+}</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Functional</span>Closures</h2>
+      <p>Closures capture from the enclosing scope. The compiler lifts them
+      into standalone functions at compile time (lambda lifting), so a
+      closure call is exactly as fast as a plain function call.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
+    <span class="kw">let</span> factor = <span class="n">3</span>;
+    <span class="kw">let</span> scale = |x: <span class="kw">int</span>| { x * factor };   <span class="c">// captures factor</span>
+    <span class="fn">print</span>(<span class="fn">scale</span>(<span class="n">5</span>));                       <span class="c">// 15 — native call</span>
+    <span class="kw">return</span> <span class="n">0</span>;
+}</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Types</span>Generics and gradual typing</h2>
+      <p>Generic functions are monomorphized — specialized per concrete type
+      at compile time, like Rust and C++ — so generics carry zero runtime
+      cost.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">max</span>&lt;T&gt;(a: T, b: T) -> T {
+    <span class="kw">if</span> a &gt; b { <span class="kw">return</span> a; }
+    <span class="kw">return</span> b;
+}</code></pre>
+      <p>When a boundary genuinely can't be typed statically — data from an
+      LLM, a dynamic config — <code>dyn</code> marks it explicitly. Checks
+      defer to runtime at that boundary and nowhere else.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">handle</span>(payload: <span class="kw">dyn</span>) -> <span class="kw">dyn</span> {
+    <span class="c">// statically compatible with every type;</span>
+    <span class="c">// the escape hatch is visible in the signature</span>
+    <span class="kw">return</span> payload;
+}</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Under the hood</span>The compiler pipeline</h2>
+      <p>Astra is implemented in Rust (~15 core modules) as a classic
+      multi-phase compiler:</p>
+<pre><code>source.astra
+  → <span class="fn">lexer</span>        tokens with line + column
+  → <span class="fn">parser</span>       recursive-descent AST
+  → <span class="fn">typechecker</span>  inference + Hindley-Milner solving
+  → <span class="fn">closure lift</span> closures → top-level functions
+  → <span class="fn">monomorphize</span> generic specialization
+  → <span class="fn">IR</span>           LLVM IR generation
+  → <span class="fn">llc + link</span>   object code + small C runtime
+  → native executable</code></pre>
+      <p>Diagnostics are emitted as structured JSON at every phase, which is
+      what makes the agent repair loop possible. The direction is locked in
+      five ratified architecture decisions: ARC memory management, gradual
+      typing via <code>dyn</code>, a single LLVM backend targeting native /
+      WASM / GPU, AI primitives as keywords, and Python interop via embedded
+      CPython.</p>
+      <div class="btn-row">
+        <a class="btn ghost" href="https://github.com/MAJIDNISAR/Astra/tree/main/examples">Browse 60+ examples on GitHub</a>
+        <a class="btn ghost" href="progress.html">See what's implemented</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

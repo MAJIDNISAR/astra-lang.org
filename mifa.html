@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mifa — Astra's package manager</title>
+<meta name="description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a href="language.html">Language</a>
+      <a href="mifa.html" class="active">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Package manager</p>
+      <h1>Mifa</h1>
+      <p class="lede">
+        Mifa is Astra's package manager — Cargo-shaped, agent-friendly,
+        and built around one non-negotiable: the same inputs must always
+        produce the same build.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Workflow</span>From zero to running project</h2>
+<pre><code><span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra</span>
+<span class="p">$</span> cd myapp
+<span class="p">$</span> mifa add utils@1.0.0     <span class="c"># record a dependency in the manifest</span>
+<span class="p">$</span> mifa verify              <span class="c"># typecheck the whole workspace, no codegen</span>
+<span class="p">$</span> mifa lock                <span class="c"># write astra.lock (sha256-stable)</span>
+<span class="p">$</span> mifa run                 <span class="c"># compile + execute natively</span>
+<span class="p">$</span> mifa clean --cache       <span class="c"># drop target/ and ~/.mifa/cache</span></code></pre>
+
+      <p>The manifest is plain TOML:</p>
+      <div class="codeblock">
+        <span class="tab">astra.toml</span>
+<pre><code>[package]
+name = <span class="s">"myapp"</span>
+version = <span class="s">"0.1.0"</span>
+
+[dependencies]
+utils = <span class="s">"1.0.0"</span>
+local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Determinism</span>The lockfile</h2>
+      <p>
+        <code>mifa lock</code> resolves the full dependency graph and writes
+        <code>astra.lock</code> — versioned, sorted, and content-hashed. Two
+        machines with the same manifest resolve identical graphs, byte for
+        byte. This was validated as differentiator D5: repeated locks of the
+        same workspace produce sha256-identical files.
+      </p>
+      <p>
+        Reproducibility matters twice over for Astra's mission. Humans get
+        reliable CI; agents get a guarantee that a build that verified once
+        will verify the same way again — no drifting dependencies invalidating
+        an earlier repair loop.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Status</span>Mifa milestones</h2>
+      <table>
+        <thead><tr><th>Milestone</th><th>Scope</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>M1</strong> — Honest local workflow</td>
+            <td><code>init</code> / <code>add</code> / <code>build</code> / <code>run</code> / <code>verify</code>; 43-test integration suite</td>
+            <td><span class="badge done">shipped</span></td>
+          </tr>
+          <tr>
+            <td><strong>M2</strong> — Lockfile + cache</td>
+            <td><code>astra.lock</code>, <code>~/.mifa/cache</code>, path dependencies, <code>lock</code> / <code>clean</code></td>
+            <td><span class="badge done">shipped</span></td>
+          </tr>
+          <tr>
+            <td><strong>M5-basics</strong> — JSON output</td>
+            <td><code>--json</code> on local commands for agent consumption</td>
+            <td><span class="badge planned">next</span></td>
+          </tr>
+          <tr>
+            <td><strong>M3</strong> — Registry protocol</td>
+            <td><code>/v1/packages</code> API, checksums, yanked-version handling</td>
+            <td><span class="badge planned">planned</span></td>
+          </tr>
+          <tr>
+            <td><strong>M4</strong> — Publish + auth</td>
+            <td><code>mifa login</code>, <code>publish --dry-run</code></td>
+            <td><span class="badge planned">planned</span></td>
+          </tr>
+          <tr>
+            <td><strong>mifa.dev</strong> — Public registry</td>
+            <td>Hosted global registry with semantic versioning</td>
+            <td><span class="badge planned">v1.0</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <p><strong>Honest note:</strong> the registry is currently simulated
+        in-memory for tests. Local workflows (init, add, verify, lock, run,
+        path dependencies) are real and covered by 55+ tests. Nothing on this
+        page claims a hosted registry exists yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Design</span>Why not reuse an existing manager?</h2>
+      <ul>
+        <li><strong>Verification-first resolution.</strong> <code>mifa verify</code>
+        typechecks the whole workspace — including dependencies — without
+        generating code, so an agent can validate a project graph in
+        milliseconds.</li>
+        <li><strong>Lockfile as a contract.</strong> The lock isn't advisory;
+        future registry fetches will refuse checksum mismatches outright.</li>
+        <li><strong>One tool, one mental model.</strong> Mifa wraps the same
+        compiler library the <code>astra</code> CLI uses. Diagnostics, exit
+        codes, and JSON shapes stay identical between both tools.</li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn ghost" href="progress.html#mifa">Detailed Mifa progress</a>
+        <a class="btn ghost" href="https://github.com/MAJIDNISAR/Astra/blob/main/src/package.rs">Read the source</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>
