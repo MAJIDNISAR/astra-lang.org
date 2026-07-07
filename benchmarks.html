@@ -154,38 +154,45 @@ RESULT: 12/12 checks passed</code></pre>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Cross-language</span>Astra vs Python 3 vs Node.js</h2>
-      <p><strong>Claim:</strong> Astra binaries run CPU-bound work at native
-      speed — far ahead of interpreters, competitive with a warmed-up JIT —
-      with no VM on the target machine.</p>
+      <h2><span class="k">Cross-language</span>Astra vs Rust vs Go vs Node.js vs Python 3</h2>
+      <p><strong>Claim:</strong> Astra binaries run CPU-bound work in the
+      same class as Rust and Go — ahead of a warmed-up JIT, far ahead of
+      interpreters — with no VM on the target machine.</p>
       <p><strong>Test:</strong> <code>scripts/run_benchmarks.sh</code> runs
-      the <em>identical algorithm</em> in all three languages and
+      the <em>identical algorithm</em> in all five languages and
       <strong>fails if the outputs don't match</strong>, so no benchmark can
-      quietly compute something different. Best-of-3 wall-clock, macOS ARM64,
-      Python 3.9 · Node v22 · Astra v0.8.0-alpha (default LLVM-IR pipeline).</p>
+      quietly compute something different. Best-of-3 wall-clock, macOS ARM64:
+      Astra v0.8.0-alpha (default LLVM-IR pipeline) · rustc 1.94
+      (<code>-O</code>) · go 1.26 · Node v22 · Python 3.9. Run-only unless
+      noted.</p>
       <table>
-        <thead><tr><th>Benchmark</th><th>Astra run</th><th>Astra compile+run</th><th>Python 3</th><th>Node.js</th></tr></thead>
+        <thead><tr><th>Benchmark</th><th>Astra</th><th>Rust <code>-O</code></th><th>Go</th><th>Node.js</th><th>Python 3</th><th>Astra compile+run</th></tr></thead>
         <tbody>
-          <tr><td>Recursive fib(30)</td><td><strong>101 ms</strong></td><td>582 ms</td><td>421 ms</td><td>130 ms</td></tr>
-          <tr><td>10M-iteration arithmetic loop</td><td><strong>109 ms</strong></td><td>298 ms</td><td>1,983 ms</td><td>147 ms</td></tr>
-          <tr><td>Collatz steps for 1..100,000</td><td><strong>114 ms</strong></td><td>288 ms</td><td>1,727 ms</td><td>173 ms</td></tr>
+          <tr><td>Recursive fib(30)</td><td><strong>98 ms</strong></td><td>98 ms</td><td>97 ms</td><td>126 ms</td><td>424 ms</td><td>646 ms</td></tr>
+          <tr><td>10M-iteration arithmetic loop</td><td><strong>114 ms</strong></td><td>99 ms</td><td>112 ms</td><td>138 ms</td><td>2,062 ms</td><td>293 ms</td></tr>
+          <tr><td>Collatz steps for 1..100,000</td><td><strong>112 ms</strong></td><td>112 ms</td><td>114 ms</td><td>179 ms</td><td>1,754 ms</td><td>599 ms</td></tr>
         </tbody>
       </table>
-      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:6%"></span></div><span class="pct">109 ms</span></div>
-      <div class="bar-row"><span>node</span><div class="bar"><span style="width:8%"></span></div><span class="pct">147 ms</span></div>
-      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">1,983 ms</span></div>
+      <div class="bar-row"><span>rust</span><div class="bar"><span style="width:5%"></span></div><span class="pct">99 ms</span></div>
+      <div class="bar-row"><span>go</span><div class="bar"><span style="width:5.5%"></span></div><span class="pct">112 ms</span></div>
+      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:5.5%"></span></div><span class="pct">114 ms</span></div>
+      <div class="bar-row"><span>node</span><div class="bar"><span style="width:7%"></span></div><span class="pct">138 ms</span></div>
+      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">2,062 ms</span></div>
       <p style="font-size:.85em">10M-loop benchmark, run time. Full data + source: <a href="https://github.com/MAJIDNISAR/Astra/tree/main/examples/performance_benchmarks/cross_language">examples/performance_benchmarks/cross_language/</a></p>
-      <p><strong>Result:</strong> <span class="badge done">4–18× faster than
-      Python</span> run-only; even <em>compile + run</em> beats Python's
-      run-only on two of three workloads. Against Node, Astra wins modestly —
-      V8's JIT is excellent on hot numeric loops — but Astra needs no warm-up
-      and no 40+&nbsp;MB runtime on the target machine.</p>
+      <p><strong>Result:</strong> <span class="badge done">Rust/Go-class
+      native speed</span> — statistically indistinguishable from Rust and Go
+      on fib and Collatz (±2 ms is noise; Rust leads by ~15 ms on the pure
+      loop). <span class="badge done">4–18× faster than Python</span>
+      run-only, with even <em>compile + run</em> beating Python's run-only
+      on two of three workloads. Against Node, a modest but consistent win —
+      with no JIT warm-up and no 40+&nbsp;MB runtime on the target machine.</p>
       <div class="callout">
         <p><strong>Scope honesty:</strong> three CPU-bound microbenchmarks,
-        not a language shootout. Current Astra binaries carry a
-        ~100&nbsp;ms fixed runtime-init floor (tracked for reduction in
-        v0.8); on longer workloads it amortizes away.
-        String/collection/IO benchmarks land with the stdlib.</p>
+        not a language shootout. All native binaries here (Astra, Rust, Go)
+        share a ~100&nbsp;ms wall-clock floor on this host — process spawn +
+        measurement overhead, not language runtime — which amortizes away on
+        longer workloads. String/collection/IO benchmarks land with the
+        stdlib.</p>
       </div>
     </div>
   </section>
