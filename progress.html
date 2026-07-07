@@ -46,12 +46,12 @@
 <main>
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Ground truth · updated 2026-07-06</p>
+      <p class="kicker">Ground truth · updated 2026-07-07</p>
       <h1>Progress tracker</h1>
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        currently stands at <strong>232 passed, 0 failed, 1 ignored</strong>.
+        currently stands at <strong>285 passed, 0 failed, 0 ignored</strong>.
       </p>
     </div>
   </section>
@@ -61,8 +61,8 @@
       <h2><span class="k">Releases</span>Where each version stands</h2>
 
       <div class="bar-row"><span>v0.6</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
-      <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:95%"></span></div><span class="pct">~95%</span></div>
-      <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:40%"></span></div><span class="pct">40%</span></div>
       <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
       <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
 
@@ -70,12 +70,45 @@
         <thead><tr><th>Release</th><th>Scope</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td><strong>v0.6 alpha</strong></td><td>Native core, JSON diagnostics, verify mode</td><td><span class="badge done">done</span></td></tr>
-          <tr><td><strong>v0.7</strong></td><td>Source spans, semantic core native, REPL, closures, <code>dyn</code>, ARC scaffolding, rich diagnostics</td><td><span class="badge wip">~95% — async/await remains</span></td></tr>
-          <tr><td><strong>v0.8</strong></td><td>LSP, stdlib core, WASM target, Python-interop alpha, deterministic builds</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td><strong>v0.7</strong></td><td>Source spans, semantic core native, REPL, closures, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa registry protocol + publish</td><td><span class="badge done">released 2026-07-06</span></td></tr>
+          <tr><td><strong>v0.8</strong></td><td>Async/await (sync lowering) ✓, true LLVM-IR default backend ✓, end-to-end regression suite ✓; remaining: LSP, <code>astra fmt</code>, stdlib core, WASM target, Python-interop alpha</td><td><span class="badge wip">in progress</span></td></tr>
           <tr><td><strong>v0.9</strong></td><td><code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td><span class="badge planned">planned</span></td></tr>
           <tr><td><strong>v1.0</strong></td><td>GPU target (NVPTX), production tooling, Mifa registry</td><td><span class="badge planned">planned</span></td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <section id="next">
+    <div class="wrap">
+      <h2><span class="k">What's next</span>The v0.8 work queue, in priority order</h2>
+      <p>
+        v0.7 is closed; the first two v0.8 big rocks landed 2026-07-07. This
+        is the committed order of attack, mirrored from the in-repo
+        next-steps report:
+      </p>
+      <table>
+        <thead><tr><th>#</th><th>Astra</th><th>Status / why it's next</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>async</code> / <code>await</code> parsing + lowering</td><td><span class="badge done">done 2026-07-07</span> — synchronous lowering; un-ignored <code>test_async_functions</code>, burn-down complete (10 → 0). Real scheduler still ahead</td></tr>
+          <tr><td>2</td><td>True LLVM-IR backend (<code>--emit-ir</code>, <code>--target</code>)</td><td><span class="badge done">done 2026-07-07</span> — LLVM-IR is now the <em>default</em> compile path (IR → <code>opt</code> → <code>llc</code> → link); <code>--target</code> cross-compiles real objects; legacy C emission behind <code>--legacy-c</code>. Unblocks WASM and GPU</td></tr>
+          <tr><td>3</td><td>Codegen-gap fixes (4)</td><td>Surfaced by the new 14-test regression suite; tracked with acceptance criteria in <code>syntax-enhancement-plan.md</code> — quick wins before LSP</td></tr>
+          <tr><td>4</td><td>LSP alpha (<code>astra-lsp</code>)</td><td>Diagnostics-on-save first (reuses the JSON pipeline), then hover / goto-def. Highest human-adoption ROI</td></tr>
+          <tr><td>5</td><td><code>astra fmt</code></td><td>Canonical formatter — agents produce messy whitespace; a formatter makes diffs reviewable</td></tr>
+          <tr><td>6</td><td>Stdlib core</td><td>Collections, string utils, fs/io surface — specs already sketched in <code>docs/planned/</code></td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>#</th><th>Mifa</th><th>Why it's next</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>mifa build --json</code> + real <code>mifa test</code> discovery</td><td>The last gaps in the agent-native local story; JSON snapshot tests lock the envelope contract</td></tr>
+          <tr><td>2</td><td>HTTP registry client</td><td>Implements <code>RegistryApi</code> over HTTP — the trait means resolver code doesn't change</td></tr>
+          <tr><td>3</td><td>Staging registry + real <code>mifa publish</code></td><td>Smallest deployable <code>/v1/packages</code> service; <code>--dry-run</code> stays as the local pre-flight</td></tr>
+        </tbody>
+      </table>
+      <p>Guiding rule: no hosted registry before the local <code>--json</code>
+      story is complete. Stretch items for v0.8 — WASM target,
+      Python-interop alpha, closures-as-values — follow the big rocks.</p>
     </div>
   </section>
 
@@ -123,7 +156,8 @@
         <tbody>
           <tr><td>Lexer / parser / AST</td><td><span class="badge done">working</span></td><td>Full token + column tracking</td></tr>
           <tr><td>Type checking + inference</td><td><span class="badge done">working</span></td><td>Hindley-Milner solving for core language</td></tr>
-          <tr><td>Native compilation (LLVM IR → binary)</td><td><span class="badge done">working</span></td><td>ARM64 macOS verified; Linux via Docker</td></tr>
+          <tr><td>Native compilation (LLVM IR → binary)</td><td><span class="badge done">working</span></td><td><strong>Default path since v0.8</strong>: IR → <code>opt</code> → <code>llc</code> → link; ARM64 macOS verified; Linux via Docker</td></tr>
+          <tr><td><code>--emit-ir</code> / <code>--target</code> cross-compile</td><td><span class="badge done">v0.8</span></td><td>Prints LLVM IR; <code>--target</code> emits target object files (<code>llc -mtriple</code>); <code>--legacy-c</code> fallback</td></tr>
           <tr><td>Functions, recursion, control flow</td><td><span class="badge done">working</span></td><td>if/else, while, for-range, switch</td></tr>
           <tr><td>Arrays + <code>.push()</code></td><td><span class="badge done">working</span></td><td>Bounds-checked; iteration partial</td></tr>
           <tr><td>Structs (typed field access)</td><td><span class="badge done">working</span></td><td>Native GEP loads, nested access</td></tr>
@@ -138,7 +172,7 @@
           <tr><td><code>dyn</code> gradual typing</td><td><span class="badge done">v0.7</span></td><td>First milestone: boundary typecheck + boxed lowering</td></tr>
           <tr><td>ARC memory model</td><td><span class="badge wip">scaffolding</span></td><td>Retain/release analysis pass + runtime stubs</td></tr>
           <tr><td>Enums + match (advanced)</td><td><span class="badge wip">partial</span></td><td>Core paths native; advanced codegen incomplete</td></tr>
-          <tr><td>async / await</td><td><span class="badge wip">partial</span></td><td>Last ignored test; v0.8 scope</td></tr>
+          <tr><td>async / await</td><td><span class="badge done">v0.8</span></td><td>Parses + compiles natively; synchronous lowering — real task runtime still ahead</td></tr>
           <tr><td>WASM target</td><td><span class="badge planned">v0.8</span></td><td>Also unlocks a browser playground</td></tr>
           <tr><td>Python interop</td><td><span class="badge planned">v0.8–0.9</span></td><td>Embedded CPython, ratified decision</td></tr>
           <tr><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code></td><td><span class="badge planned">v0.9</span></td><td>Agent-native keywords</td></tr>
@@ -148,10 +182,12 @@
 
       <h3>Ignored-test burn-down</h3>
       <p>A release KPI: tests stay ignored until the feature truly works
-      end-to-end, and the count must shrink every release. It went
-      <strong>10 → 1</strong> across v0.7 — nine features moved from
-      "claimed" to "compiles, runs, and asserts natively." Only
-      <code>test_async_functions</code> remains.</p>
+      end-to-end, and the count must shrink every release. It is now
+      <strong>complete: 10 → 0</strong> — the last holdout,
+      <code>test_async_functions</code>, passes as of 2026-07-07. A new
+      14-test regression suite (<code>tests/regression_tests.rs</code>) now
+      locks every shipped feature through
+      compile → IR → native run → stdout/exit-code assertions.</p>
     </div>
   </section>
 
@@ -161,9 +197,9 @@
 
       <div class="bar-row"><span>M1 local</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>M2 lock</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
-      <div class="bar-row"><span>M5 json</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
-      <div class="bar-row"><span>M3 registry</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
-      <div class="bar-row"><span>M4 publish</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>M5 json</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>M3 registry</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>M4 publish</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
 
       <table>
         <thead><tr><th>Capability</th><th>Status</th><th>Evidence</th></tr></thead>
@@ -175,15 +211,15 @@
           <tr><td>Path dependencies</td><td><span class="badge done">shipped</span></td><td>Resolve from local <code>astra.toml</code></td></tr>
           <tr><td>Cache (<code>~/.mifa/cache</code>)</td><td><span class="badge done">shipped</span></td><td><code>MIFA_CACHE_DIR</code> override supported</td></tr>
           <tr><td><code>mifa clean [--cache]</code></td><td><span class="badge done">shipped</span></td><td></td></tr>
-          <tr><td><strong>M5-basics</strong> — <code>--json</code> on local commands</td><td><span class="badge planned">next</span></td><td>Machine-readable output for agent consumption; mirrors the compiler's JSON contract</td></tr>
-          <tr><td><strong>M3</strong> — Registry protocol</td><td><span class="badge planned">planned</span></td><td><code>/v1/packages</code> API, checksums, yanked-version handling; currently simulated in-memory for tests</td></tr>
-          <tr><td><strong>M4</strong> — Publish + auth</td><td><span class="badge planned">planned</span></td><td><code>mifa login</code>, <code>publish --dry-run</code>, token-based auth</td></tr>
-          <tr><td>mifa.dev hosted registry</td><td><span class="badge planned">v1.0</span></td><td>Checksummed, signed packages; lockfile contract goes global</td></tr>
+          <tr><td><strong>M5-basics</strong> — <code>--json</code> on local commands</td><td><span class="badge done">shipped</span></td><td>Stable JSON envelope (<code>command</code>, <code>success</code>, <code>diagnostics[]</code>) on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; JSON error envelope on failure</td></tr>
+          <tr><td><strong>M3</strong> — Registry protocol</td><td><span class="badge done">shipped</span></td><td><code>/v1/packages</code> v1 API (<code>RegistryApi</code> trait), SHA-256 checksums with verification, yanked-version handling, stable <code>REG4xx</code> error codes; 34 tests</td></tr>
+          <tr><td><strong>M4</strong> — Publish + auth</td><td><span class="badge done">shipped</span></td><td><code>mifa login</code> (per-registry tokens, 0600 credentials file), <code>publish --dry-run</code> (semver/license validation, deterministic archive, 10&nbsp;MiB limit, checksum report)</td></tr>
+          <tr><td>mifa.dev hosted registry</td><td><span class="badge planned">v1.0</span></td><td>Protocol done; HTTP client + hosted deployment pending. Checksummed packages; lockfile contract goes global</td></tr>
         </tbody>
       </table>
-      <p>55+ tests cover the package manager: manifest parsing, version
+      <p>90+ tests cover the package manager: manifest parsing, version
       requirements, resolution (direct + transitive), lockfile stability,
-      and the simulated registry.</p>
+      JSON envelopes, the registry protocol, and publish/auth flows.</p>
     </div>
   </section>
 

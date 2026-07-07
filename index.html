@@ -32,7 +32,7 @@
       "license": "https://opensource.org/licenses/MIT",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
-      "softwareVersion": "0.7.0-dev",
+      "softwareVersion": "0.8.0-alpha",
       "downloadUrl": "https://github.com/MAJIDNISAR/Astra"
     },
     {
@@ -72,7 +72,7 @@
 <main>
   <section class="hero">
     <div class="wrap">
-      <p class="status-line"><span class="dot">●</span> v0.7.0-dev · 232 tests passing · public alpha compiler</p>
+      <p class="status-line"><span class="dot">●</span> v0.8.0-alpha · 285 tests passing · true LLVM-IR default backend</p>
       <h1>A language built for the way<br>code is written now.</h1>
       <p class="lede">
         Astra is a statically checked, natively compiled programming
@@ -178,7 +178,9 @@
         <b>D5 — Reproducible builds with Mifa</b>
         <p><a href="mifa.html">Mifa</a>, Astra's package manager, writes a
         content-hashed <code>astra.lock</code> so the same inputs always
-        produce the same dependency graph.</p>
+        produce the same dependency graph — and speaks JSON
+        (<code>--json</code>) so agents can consume every command's result
+        mechanically.</p>
       </div>
     </div>
   </section>
@@ -208,7 +210,7 @@
         </div>
         <div class="def">
           <b>Language &amp; compiler enthusiasts</b>
-          <p>A readable Rust codebase (~230 tests) implementing a full
+          <p>A readable Rust codebase (285 tests) implementing a full
           pipeline: lexer → parser → Hindley-Milner inference → LLVM IR →
           native. Every architecture decision is
           <a href="vision.html">written down and ratified</a>.</p>
@@ -256,16 +258,18 @@
       <h2><span class="k">Honesty</span>What Astra is — and isn't — today</h2>
       <div class="callout">
         <p>Astra is a <strong>public alpha compiler project</strong>. The
-        core language compiles and runs natively with 232 tests green, but it
-        is not yet a production language, a package ecosystem, or a
-        memory-safe systems language. The <a href="progress.html">progress
-        page</a> tracks exactly what works, what's partial, and what's
-        planned — the same ground truth used inside the repo.</p>
+        core language compiles and runs natively with 285 tests green
+        (0 ignored), but it is not yet a production language, a package
+        ecosystem, or a memory-safe systems language. The
+        <a href="progress.html">progress page</a> tracks exactly what works,
+        what's partial, and what's planned — the same ground truth used
+        inside the repo.</p>
       </div>
       <ul class="meta-list">
-        <li><b>Works today:</b> variables, functions, recursion, control flow, arrays, structs, enums + match, Result&lt;T,E&gt;, closures, generics (monomorphized), string interpolation, floats, REPL</li>
-        <li><b>In progress:</b> ARC memory model, async/await, LSP, WASM target</li>
-        <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, GPU target, Mifa registry</li>
+        <li><b>Works today:</b> variables, functions, recursion, control flow, arrays, structs, enums + match, Result&lt;T,E&gt;, closures, generics (monomorphized), string interpolation, floats, async/await (sync lowering), REPL — all through the <b>default LLVM-IR pipeline</b> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback)</li>
+        <li><b>Next (v0.8):</b> 4 codegen-gap fixes, LSP alpha, <code>astra fmt</code>, stdlib core, real async runtime — <a href="progress.html#next">full priority queue</a></li>
+        <li><b>In progress:</b> ARC memory model (scaffolding), WASM target (unblocked by the LLVM-IR backend)</li>
+        <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, GPU target, hosted Mifa registry (protocol done, deployment pending)</li>
       </ul>
     </div>
   </section>

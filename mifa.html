@@ -65,6 +65,9 @@
 <span class="p">$</span> mifa verify              <span class="c"># typecheck the whole workspace, no codegen</span>
 <span class="p">$</span> mifa lock                <span class="c"># write astra.lock (sha256-stable)</span>
 <span class="p">$</span> mifa run                 <span class="c"># compile + execute natively</span>
+<span class="p">$</span> mifa verify --json       <span class="c"># same result as a machine-readable envelope</span>
+<span class="p">$</span> mifa login &lt;token&gt;       <span class="c"># store a registry token (~/.mifa/credentials.toml)</span>
+<span class="p">$</span> mifa publish --dry-run   <span class="c"># validate + archive + checksum, no upload</span>
 <span class="p">$</span> mifa clean --cache       <span class="c"># drop target/ and ~/.mifa/cache</span></code></pre>
 
       <p>The manifest is plain TOML:</p>
@@ -118,18 +121,18 @@ local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
           </tr>
           <tr>
             <td><strong>M5-basics</strong> — JSON output</td>
-            <td><code>--json</code> on local commands for agent consumption</td>
-            <td><span class="badge planned">next</span></td>
+            <td><code>--json</code> on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; stable envelope for agent consumption</td>
+            <td><span class="badge done">shipped</span></td>
           </tr>
           <tr>
             <td><strong>M3</strong> — Registry protocol</td>
-            <td><code>/v1/packages</code> API, checksums, yanked-version handling</td>
-            <td><span class="badge planned">planned</span></td>
+            <td><code>/v1/packages</code> v1 API, SHA-256 checksums, yanked-version handling, stable <code>REG4xx</code> error codes</td>
+            <td><span class="badge done">shipped</span></td>
           </tr>
           <tr>
             <td><strong>M4</strong> — Publish + auth</td>
-            <td><code>mifa login</code>, <code>publish --dry-run</code></td>
-            <td><span class="badge planned">planned</span></td>
+            <td><code>mifa login</code> (per-registry tokens), <code>publish --dry-run</code> (validation, deterministic archive, checksum)</td>
+            <td><span class="badge done">shipped</span></td>
           </tr>
           <tr>
             <td><strong>mifa.dev</strong> — Public registry</td>
@@ -139,10 +142,12 @@ local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
         </tbody>
       </table>
       <div class="callout">
-        <p><strong>Honest note:</strong> the registry is currently simulated
-        in-memory for tests. Local workflows (init, add, verify, lock, run,
-        path dependencies) are real and covered by 55+ tests. Nothing on this
-        page claims a hosted registry exists yet.</p>
+        <p><strong>Honest note:</strong> the registry protocol is fully
+        specified and tested against an in-memory implementation — checksums,
+        yanked versions, auth, and publish validation all work — but there is
+        no hosted registry yet; real uploads are blocked on deployment. Local
+        workflows (init, add, verify, lock, run, path dependencies, JSON
+        output, login, dry-run publish) are real and covered by 90+ tests.</p>
       </div>
     </div>
   </section>
@@ -159,7 +164,9 @@ local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
         future registry fetches will refuse checksum mismatches outright.</li>
         <li><strong>One tool, one mental model.</strong> Mifa wraps the same
         compiler library the <code>astra</code> CLI uses. Diagnostics, exit
-        codes, and JSON shapes stay identical between both tools.</li>
+        codes, and JSON shapes stay identical between both tools — every
+        command supports <code>--json</code> and emits the same
+        <code>diagnostics[]</code> envelope.</li>
       </ul>
       <div class="btn-row">
         <a class="btn ghost" href="progress.html#mifa">Detailed Mifa progress</a>
