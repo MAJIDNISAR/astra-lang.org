@@ -46,7 +46,7 @@
 <main>
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Vision · v0.8 → v1.0</p>
+      <p class="kicker">Vision · v0.9 → v1.0</p>
       <h1>What if agents were<br>a language feature?</h1>
       <p class="lede">
         Today's agent stacks bolt tools, prompts, and memory onto Python
@@ -81,8 +81,9 @@
         <thead><tr><th>Release</th><th>Strategic guarantee it adds</th></tr></thead>
         <tbody>
           <tr><td><strong>v0.6–0.7</strong> <span class="badge done">shipped</span></td><td>Types, <code>Result</code>, machine-readable diagnostics, explicit <code>dyn</code>, reproducible locks</td></tr>
-          <tr><td><strong>v0.8</strong></td><td>Memory correctness (ARC) + generated code sandboxed in WASM</td></tr>
-          <tr><td><strong>v0.9</strong></td><td>Tool schemas, agent state, prompts, and delegation — all typechecked</td></tr>
+          <tr><td><strong>v0.8</strong> <span class="badge done">shipped</span></td><td>One true LLVM-IR backend — the foundation every future target builds on</td></tr>
+          <tr><td><strong>v0.9</strong> <span class="badge done">shipped</span></td><td>A sound core: nominal types, payload enums, <code>?</code> error handling, ARC memory reclamation, a compiler that never panics — delivered as cross-platform binaries</td></tr>
+          <tr><td><strong>Next</strong></td><td>Tool schemas, agent state, prompts, and delegation — all typechecked; generated code sandboxed in WASM</td></tr>
           <tr><td><strong>v1.0</strong></td><td>One strategic layer across native, WASM, and GPU targets</td></tr>
         </tbody>
       </table>
@@ -96,14 +97,14 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">v0.9</span>Agent-native keywords</h2>
+      <h2><span class="k">Ahead</span>Agent-native keywords</h2>
       <p>
         Four keywords are reserved and ratified (Bet 4). The design intent —
-        syntax is illustrative and will evolve through the v0.9 RFC process:
+        syntax is illustrative and will evolve through an RFC process:
       </p>
 
       <div class="codeblock">
-        <span class="tab">design sketch — v0.9 (not yet implemented)</span>
+        <span class="tab">design sketch — not yet implemented</span>
 <pre><code><span class="kw">tool</span> <span class="fn">search_flights</span>(from: <span class="kw">str</span>, to: <span class="kw">str</span>, date: <span class="kw">str</span>) -> Result&lt;[Flight], ApiError&gt; {
     <span class="c">// a tool is a typed, sandboxed capability;</span>
     <span class="c">// its signature IS its schema — no JSON-schema drift</span>
@@ -145,7 +146,7 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">v0.8</span>The enabling layer</h2>
+      <h2><span class="k">Enabling layer</span>What has to land first</h2>
       <div class="grid2">
         <div class="def">
           <b>WASM target</b>
@@ -165,9 +166,10 @@
           agents wrote.</p>
         </div>
         <div class="def">
-          <b>async / await + stdlib core</b>
-          <p>The last semantic-core gap closes, and a real standard library
-          starts to form under ARC memory management.</p>
+          <b>Real async runtime + stdlib core</b>
+          <p>async/await already parses and compiles (synchronous lowering);
+          a real task runtime and a standard library form under ARC memory
+          management.</p>
         </div>
       </div>
 
@@ -212,7 +214,7 @@
           <tr>
             <td>Agent primitives in the language</td>
             <td>Frameworks only</td><td>Frameworks only</td><td>Frameworks only</td><td>No</td>
-            <td><strong>Planned as keywords (v0.9)</strong></td>
+            <td><strong>Planned as keywords</strong></td>
           </tr>
           <tr>
             <td>Memory model burden on the generator</td>
@@ -245,11 +247,11 @@
       <table>
         <thead><tr><th>Bet</th><th>Decision</th><th>First milestone</th></tr></thead>
         <tbody>
-          <tr><td>1 — Memory</td><td>ARC + escape analysis + <code>region</code></td><td><span class="badge wip">scaffolding shipped</span></td></tr>
+          <tr><td>1 — Memory</td><td>ARC + escape analysis + <code>region</code></td><td><span class="badge wip">reclaiming since v0.9 (partial)</span></td></tr>
           <tr><td>2 — Typing</td><td>Static by default, gradual via <code>dyn</code></td><td><span class="badge done">shipped v0.7</span></td></tr>
-          <tr><td>3 — Backend</td><td>One LLVM compiler → native / WASM / GPU</td><td><span class="badge planned">WASM in v0.8</span></td></tr>
-          <tr><td>4 — AI primitives</td><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> keywords</td><td><span class="badge planned">v0.9</span></td></tr>
-          <tr><td>5 — Interop</td><td>Embedded CPython in stdlib</td><td><span class="badge planned">v0.8 alpha</span></td></tr>
+          <tr><td>3 — Backend</td><td>One LLVM compiler → native / WASM / GPU</td><td><span class="badge done">native shipped v0.8 · WASM planned</span></td></tr>
+          <tr><td>4 — AI primitives</td><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> keywords</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td>5 — Interop</td><td>Embedded CPython in stdlib</td><td><span class="badge planned">planned</span></td></tr>
         </tbody>
       </table>
       <div class="btn-row">

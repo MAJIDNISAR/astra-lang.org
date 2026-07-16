@@ -119,7 +119,7 @@ RESULT: 12/12 checks passed</code></pre>
         microbenchmark, not a suite. It demonstrates the architecture
         (native codegen with negligible compile overhead), not a general
         "8× faster than Python" claim. Broader benchmarks land with the
-        stdlib in v0.8.</p>
+        stdlib.</p>
       </div>
     </div>
   </section>
@@ -206,11 +206,12 @@ RESULT: 12/12 checks passed</code></pre>
       <table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td>Test suite</td><td><strong>285 passed · 0 failed · 0 ignored</strong></td><td><code>cargo test --quiet</code></td></tr>
-          <tr><td>Build warnings</td><td><strong>0</strong></td><td><code>cargo build --quiet</code></td></tr>
+          <tr><td>Test suite</td><td><strong>449 passed · 0 failed · 0 ignored</strong></td><td><code>cargo test --quiet</code> (v0.9.1-alpha)</td></tr>
+          <tr><td>Build warnings</td><td><strong>0</strong> — CI enforces <code>clippy -D warnings</code></td><td><code>cargo build --quiet</code></td></tr>
           <tr><td>Ignored-test burn-down</td><td><strong>10 → 0 (complete)</strong></td><td>Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
-          <tr><td>End-to-end regression suite</td><td><strong>14 / 14</strong> — compile → IR → native run → stdout/exit-code asserted</td><td><code>tests/regression_tests.rs</code></td></tr>
+          <tr><td>End-to-end regression suite</td><td><strong>108 / 108</strong> — compile → IR → native run → stdout/exit-code asserted</td><td><code>tests/regression_tests.rs</code></td></tr>
           <tr><td>Showcase examples runtime-verified</td><td>compile + execute + stdout asserted</td><td><code>tests/showcase_examples_tests.rs</code></td></tr>
+          <tr><td>IR validity gate</td><td>every corpus program's IR must pass <code>llc</code></td><td><code>tests/ir_validity_tests.rs</code> (in CI)</td></tr>
           <tr><td>Validation checks</td><td><strong>12 / 12</strong></td><td><code>scripts/validate_metrics.sh</code></td></tr>
         </tbody>
       </table>
@@ -222,7 +223,7 @@ RESULT: 12/12 checks passed</code></pre>
       <h2><span class="k">Reproduce</span>Run it yourself</h2>
 <pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git &amp;&amp; cd Astra
 <span class="p">$</span> cargo build --quiet
-<span class="p">$</span> cargo test --quiet                    <span class="c"># 285 passed, 0 failed, 0 ignored</span>
+<span class="p">$</span> cargo test --quiet                    <span class="c"># 449 passed, 0 failed, 0 ignored</span>
 <span class="p">$</span> ./scripts/validate_metrics.sh        <span class="c"># 12/12 checks, prints timings</span>
 <span class="p">$</span> ./scripts/run_benchmarks.sh          <span class="c"># cross-language table above, output-verified</span></code></pre>
       <p>The scenario programs live in

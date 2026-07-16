@@ -8,10 +8,10 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 ## Pages
 
 - `index.html` — home: the AI-first verify-repair-compile loop
-- `start.html` — getting started: clone → verify → compile → REPL → Mifa
+- `start.html` — getting started: download or clone → verify → compile → REPL → Mifa
 - `language.html` — language tour: syntax, types, Result, closures, `dyn`, pipeline
 - `mifa.html` — Mifa package manager: workflow, lockfile, milestones
-- `vision.html` — v0.8→v1.0 roadmap, agent-native keywords, comparison table
+- `vision.html` — v0.9→v1.0 roadmap, agent-native keywords, comparison table
 - `benchmarks.html` — validated metrics (D1–D5) with reproduce-it-yourself commands
 - `agents.html` — machine interface spec: JSON diagnostics contract + error-code catalog
 - `progress.html` — ground-truth progress tracker for Astra and Mifa
