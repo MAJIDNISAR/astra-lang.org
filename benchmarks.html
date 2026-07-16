@@ -180,7 +180,7 @@ RESULT: 12/12 checks passed</code></pre>
       <div class="bar-row"><span>java</span><div class="bar"><span style="width:7%"></span></div><span class="pct">146 ms</span></div>
       <div class="bar-row"><span>node</span><div class="bar"><span style="width:7%"></span></div><span class="pct">146 ms</span></div>
       <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">2,088 ms</span></div>
-      <p style="font-size:.85em">10M-loop benchmark, run time. Full data + source: <a href="https://github.com/MAJIDNISAR/Astra/tree/main/examples/performance_benchmarks/cross_language">examples/performance_benchmarks/cross_language/</a></p>
+      <p style="font-size:.85em">10M-loop benchmark, run time. The full data and the seven-language benchmark sources ship with the compiler source (opens at v1.0-beta).</p>
       <p><strong>Result:</strong> <span class="badge done">C/Rust/Go-class
       native speed</span> — statistically indistinguishable from C, Rust,
       and Go across all three workloads (±10 ms on a ~110 ms measurement is
@@ -221,15 +221,19 @@ RESULT: 12/12 checks passed</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Reproduce</span>Run it yourself</h2>
-<pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git &amp;&amp; cd Astra
-<span class="p">$</span> cargo build --quiet
-<span class="p">$</span> cargo test --quiet                    <span class="c"># 449 passed, 0 failed, 0 ignored</span>
-<span class="p">$</span> ./scripts/validate_metrics.sh        <span class="c"># 12/12 checks, prints timings</span>
-<span class="p">$</span> ./scripts/run_benchmarks.sh          <span class="c"># cross-language table above, output-verified</span></code></pre>
-      <p>The scenario programs live in
-      <a href="https://github.com/MAJIDNISAR/Astra/tree/main/examples/validation">examples/validation/</a>.
-      If a number on this page doesn't reproduce on your machine, that's a
-      bug — <a href="https://github.com/MAJIDNISAR/Astra/issues">file it</a>.</p>
+      <p>The compiled-binary side reproduces today:
+      <a href="https://github.com/MAJIDNISAR/astra-releases/releases">download
+      a release</a>, write the loop, and time it —</p>
+<pre><code><span class="p">$</span> astra verify loop.astra               <span class="c"># the ~100 ms typecheck</span>
+<span class="p">$</span> time astra compile loop.astra --output loop &amp;&amp; ./loop
+<span class="p">$</span> time python3 loop.py                  <span class="c"># the comparison</span></code></pre>
+      <p>The full scripted harness (<code>validate_metrics.sh</code>,
+      <code>run_benchmarks.sh</code>, the output-verified seven-language
+      scenario programs, and the 449-test suite) ships with the compiler
+      source, which opens at v1.0-beta. If a number on this page doesn't
+      reproduce on your machine, that's a bug —
+      <a href="https://github.com/MAJIDNISAR/astra-releases/issues">file
+      it</a>.</p>
     </div>
   </section>
 </main>
@@ -237,7 +241,7 @@ RESULT: 12/12 checks passed</code></pre>
 <footer class="site">
   <div class="wrap">
     <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+    <span><a href="https://github.com/MAJIDNISAR/astra-releases">Downloads</a> · MIT License</span>
   </div>
 </footer>
 

@@ -33,7 +33,7 @@
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
       "softwareVersion": "0.9.1-alpha",
-      "downloadUrl": "https://github.com/MAJIDNISAR/Astra"
+      "downloadUrl": "https://github.com/MAJIDNISAR/astra-releases/releases"
     },
     {
       "@type": "WebSite",
@@ -82,7 +82,7 @@
       </p>
 
       <div class="btn-row">
-        <a class="btn primary" href="https://github.com/MAJIDNISAR/Astra">Source on GitHub</a>
+        <a class="btn primary" href="https://github.com/MAJIDNISAR/astra-releases/releases">Download v0.9.1-alpha</a>
         <a class="btn ghost" href="language.html">Read the language tour</a>
       </div>
     </div>
@@ -210,7 +210,8 @@
         </div>
         <div class="def">
           <b>Language &amp; compiler enthusiasts</b>
-          <p>A readable Rust codebase (449 tests) implementing a full
+          <p>A readable Rust codebase (449 tests; source opens at
+          v1.0-beta, early access on request) implementing a full
           pipeline: lexer → parser → type inference → LLVM IR →
           native. Every architecture decision is
           <a href="vision.html">written down and ratified</a>.</p>
@@ -270,6 +271,7 @@
         <li><b>In progress:</b> ARC memory reclamation — single-owner structs, strings, tuples, and arrays are freed at loop-body and function scope with retain-on-alias; string-aliased values still leak (bounded, safe)</li>
         <li><b>Next:</b> consolidating the two codegen paths, traits, generic structs, typed collections beyond a minimal <code>Vec&lt;int&gt;</code>, LSP alpha, <code>astra fmt</code>, stdlib core — <a href="progress.html#next">full priority queue</a></li>
         <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, WASM + GPU targets, hosted Mifa registry (protocol done, deployment pending)</li>
+        <li><b>Source availability:</b> the compiler's source repository is private while the core hardens and <b>opens at v1.0-beta</b>. Binaries, examples, and the issue tracker are public at <a href="https://github.com/MAJIDNISAR/astra-releases">astra-releases</a>; for early source access, <a href="https://majidnisar.com">get in touch</a></li>
       </ul>
     </div>
   </section>
@@ -279,18 +281,16 @@
       <h2><span class="k">Start</span>Run it in two minutes</h2>
       <p>Prebuilt <code>astra</code> + <code>mifa</code> binaries for
       <strong>Linux x64, macOS (Intel and Apple Silicon), and Windows x64</strong>
-      ship with each <a href="https://github.com/MAJIDNISAR/Astra/releases">release</a>
-      — or build from source:</p>
-<pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git &amp;&amp; cd Astra
-<span class="p">$</span> cargo build
-<span class="p">$</span> cargo run --bin astra -- verify examples/showcase/01_hello_world.astra
-<span class="p">$</span> cargo run --bin astra -- compile examples/showcase/01_hello_world.astra --output hello
+      ship with each <a href="https://github.com/MAJIDNISAR/astra-releases/releases">release</a>,
+      alongside the runnable showcase examples:</p>
+<pre><code><span class="p">$</span> astra verify examples/showcase/01_hello_world.astra
+Verification passed
+<span class="p">$</span> astra compile examples/showcase/01_hello_world.astra --output hello
 <span class="p">$</span> ./hello
 Hello, World!</code></pre>
       <p>Requirements: LLVM tools (<code>llc</code>) and a C compiler
-      (<code>clang</code>) on your PATH — even the prebuilt binaries call
-      them to produce native executables. Building from source additionally
-      needs the Rust toolchain.</p>
+      (<code>clang</code>) on your PATH — the compiler calls them to produce
+      native executables.</p>
     </div>
   </section>
 </main>
@@ -298,7 +298,7 @@ Hello, World!</code></pre>
 <footer class="site">
   <div class="wrap">
     <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+    <span><a href="https://github.com/MAJIDNISAR/astra-releases">Downloads</a> · MIT License</span>
   </div>
 </footer>
 
