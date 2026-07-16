@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Get started — Astra</title>
-<meta name="description" content="Install and run Astra in minutes: build the compiler, verify a program, compile to native, use the REPL, and start a Mifa project.">
+<meta name="description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <link rel="canonical" href="https://astra-lang.org/start.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="theme-color" content="#faf6ef">
@@ -12,11 +12,11 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Get started — Astra">
-<meta property="og:description" content="Install and run Astra in minutes: build the compiler, verify a program, compile to native, use the REPL, and start a Mifa project.">
+<meta property="og:description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <meta property="og:url" content="https://astra-lang.org/start.html">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Get started — Astra">
-<meta name="twitter:description" content="Install and run Astra in minutes: build the compiler, verify a program, compile to native, use the REPL, and start a Mifa project.">
+<meta name="twitter:description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -51,8 +51,7 @@
       <p class="lede">
         Since v0.9.1-alpha, prebuilt <code>astra</code> and <code>mifa</code>
         binaries ship for Linux, macOS (Intel and Apple Silicon), and
-        Windows. Prefer auditability? Astra also builds from source with the
-        standard Rust toolchain.
+        Windows — together with the runnable showcase examples.
       </p>
     </div>
   </section>
@@ -63,30 +62,31 @@
       <ul>
         <li><strong>LLVM tools</strong> — <code>llc</code> on your PATH (<code>brew install llvm</code> on macOS)</li>
         <li><strong>A C compiler</strong> — <code>clang</code> or <code>gcc</code>, for linking the small runtime</li>
-        <li><strong>Rust</strong> (stable, <code>rustup</code> recommended) — only if you build from source</li>
       </ul>
-      <p><code>llc</code> and <code>clang</code> are needed even with the
-      prebuilt binaries: the compiler invokes them to turn LLVM IR into your
-      native executable. Primary tested platform is macOS ARM64; the
-      Linux/Windows/Intel-macOS release binaries are CI-built.</p>
+      <p>The compiler invokes <code>llc</code> and <code>clang</code> to
+      turn LLVM IR into your native executable. Primary tested platform is
+      macOS ARM64; the Linux/Windows/Intel-macOS release binaries are
+      CI-built.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 1a</span>Download a release…</h2>
+      <h2><span class="k">Step 1</span>Download a release</h2>
       <p>Grab the archive for your platform from the
-      <a href="https://github.com/MAJIDNISAR/Astra/releases">releases
+      <a href="https://github.com/MAJIDNISAR/astra-releases/releases">releases
       page</a> — <code>linux-x64</code>, <code>macos-x64</code>,
       <code>macos-arm64</code>, or <code>windows-x64</code>. Each contains
       the <code>astra</code> compiler and the <code>mifa</code> package
       manager. Unpack, put them on your PATH, done.</p>
-
-      <h2><span class="k">Step 1b</span>…or build the compiler yourself</h2>
-<pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git
-<span class="p">$</span> cd Astra
-<span class="p">$</span> cargo build
-<span class="p">$</span> cargo test --quiet     <span class="c"># 449 passed, 0 failed, 0 ignored</span></code></pre>
+      <div class="callout">
+        <p><strong>Where's the source?</strong> The compiler's repository is
+        private while the core hardens; it <strong>opens at v1.0-beta</strong>.
+        Everything runnable — binaries, examples, issue tracker — is public
+        in <a href="https://github.com/MAJIDNISAR/astra-releases">astra-releases</a>.
+        For early source access, <a href="https://majidnisar.com">get in
+        touch</a>.</p>
+      </div>
     </div>
   </section>
 
@@ -103,10 +103,10 @@
       </div>
       <p><code>verify</code> typechecks without generating code — it's the
       fast feedback path, for humans and agents alike:</p>
-<pre><code><span class="p">$</span> cargo run --bin astra -- verify hello.astra
+<pre><code><span class="p">$</span> astra verify hello.astra
 Verification passed
 
-<span class="p">$</span> cargo run --bin astra -- verify --error-format=json hello.astra
+<span class="p">$</span> astra verify --error-format=json hello.astra
 {"success": true, "diagnostics": []}</code></pre>
     </div>
   </section>
@@ -114,7 +114,7 @@ Verification passed
   <section>
     <div class="wrap">
       <h2><span class="k">Step 3</span>Compile and run natively</h2>
-<pre><code><span class="p">$</span> cargo run --bin astra -- compile hello.astra --output hello
+<pre><code><span class="p">$</span> astra compile hello.astra --output hello
 <span class="p">$</span> ./hello
 Hello, world!</code></pre>
       <p>The output is a real machine-code executable — no interpreter, no VM,
@@ -125,7 +125,7 @@ Hello, world!</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Step 4</span>Explore interactively</h2>
-<pre><code><span class="p">$</span> cargo run --bin astra -- repl
+<pre><code><span class="p">$</span> astra repl
 astra&gt; let x = 21;
 astra&gt; print(x * 2);
 42
@@ -139,11 +139,11 @@ astra&gt; :quit</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Step 5</span>Start a real project with Mifa</h2>
-<pre><code><span class="p">$</span> cargo run --bin mifa -- init myapp
+<pre><code><span class="p">$</span> mifa init myapp
 <span class="p">$</span> cd myapp
-<span class="p">$</span> cargo run --bin mifa -- verify
-<span class="p">$</span> cargo run --bin mifa -- lock     <span class="c"># reproducible astra.lock</span>
-<span class="p">$</span> cargo run --bin mifa -- run</code></pre>
+<span class="p">$</span> mifa verify
+<span class="p">$</span> mifa lock     <span class="c"># reproducible astra.lock</span>
+<span class="p">$</span> mifa run</code></pre>
       <p>See the <a href="mifa.html">Mifa page</a> for manifests, path
       dependencies, and the lockfile contract.</p>
     </div>
@@ -158,7 +158,7 @@ astra&gt; :quit</code></pre>
         <div class="def"><b><a href="agents.html">For agents</a></b>
           <p>The JSON diagnostics contract and error-code catalog for integrating Astra into an agent loop.</p></div>
         <div class="def"><b>Showcase examples</b>
-          <p><a href="https://github.com/MAJIDNISAR/Astra/tree/main/examples/showcase">examples/showcase/</a> in the repo — every one is compiled, executed, and output-asserted in CI. (The wider <code>examples/</code> tree includes aspirational programs that don't compile yet.)</p></div>
+          <p><a href="https://github.com/MAJIDNISAR/astra-releases/tree/main/examples/showcase">examples/showcase/</a> ships with the releases — every one is compiled, executed, and output-asserted in the compiler's CI.</p></div>
         <div class="def"><b><a href="progress.html">What works today</a></b>
           <p>The honest feature matrix, so you know what to rely on.</p></div>
       </div>
@@ -169,7 +169,7 @@ astra&gt; :quit</code></pre>
 <footer class="site">
   <div class="wrap">
     <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="https://github.com/MAJIDNISAR/Astra">GitHub</a> · MIT License</span>
+    <span><a href="https://github.com/MAJIDNISAR/astra-releases">Downloads</a> · MIT License</span>
   </div>
 </footer>
 
