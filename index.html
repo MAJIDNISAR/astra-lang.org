@@ -26,13 +26,13 @@
       "@type": "SoftwareApplication",
       "name": "Astra",
       "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "macOS, Linux",
+      "operatingSystem": "macOS, Linux, Windows",
       "description": "Astra is a statically checked, natively compiled programming language designed for AI agents: machine-readable JSON diagnostics, stable error codes, and LLVM native compilation.",
       "url": "https://astra-lang.org/",
       "license": "https://opensource.org/licenses/MIT",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
-      "softwareVersion": "0.8.0-alpha",
+      "softwareVersion": "0.9.1-alpha",
       "downloadUrl": "https://github.com/MAJIDNISAR/Astra"
     },
     {
@@ -72,7 +72,7 @@
 <main>
   <section class="hero">
     <div class="wrap">
-      <p class="status-line"><span class="dot">●</span> v0.8.0-alpha · 285 tests passing · true LLVM-IR default backend</p>
+      <p class="status-line"><span class="dot">●</span> v0.9.1-alpha · 449 tests passing · prebuilt binaries for Linux, macOS &amp; Windows</p>
       <h1>A language built for the way<br>code is written now.</h1>
       <p class="lede">
         Astra is a statically checked, natively compiled programming
@@ -210,8 +210,8 @@
         </div>
         <div class="def">
           <b>Language &amp; compiler enthusiasts</b>
-          <p>A readable Rust codebase (285 tests) implementing a full
-          pipeline: lexer → parser → Hindley-Milner inference → LLVM IR →
+          <p>A readable Rust codebase (449 tests) implementing a full
+          pipeline: lexer → parser → type inference → LLVM IR →
           native. Every architecture decision is
           <a href="vision.html">written down and ratified</a>.</p>
         </div>
@@ -258,7 +258,7 @@
       <h2><span class="k">Honesty</span>What Astra is — and isn't — today</h2>
       <div class="callout">
         <p>Astra is a <strong>public alpha compiler project</strong>. The
-        core language compiles and runs natively with 285 tests green
+        core language compiles and runs natively with 449 tests green
         (0 ignored), but it is not yet a production language, a package
         ecosystem, or a memory-safe systems language. The
         <a href="progress.html">progress page</a> tracks exactly what works,
@@ -266,25 +266,31 @@
         inside the repo.</p>
       </div>
       <ul class="meta-list">
-        <li><b>Works today:</b> variables, functions, recursion, control flow, arrays, structs, enums + match, Result&lt;T,E&gt;, closures, generics (monomorphized), string interpolation, floats, async/await (sync lowering), REPL — all through the <b>default LLVM-IR pipeline</b> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback)</li>
-        <li><b>Next (v0.8):</b> 4 codegen-gap fixes, LSP alpha, <code>astra fmt</code>, stdlib core, real async runtime — <a href="progress.html#next">full priority queue</a></li>
-        <li><b>In progress:</b> ARC memory model (scaffolding), WASM target (unblocked by the LLVM-IR backend)</li>
-        <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, GPU target, hosted Mifa registry (protocol done, deployment pending)</li>
+        <li><b>Works today:</b> variables, functions, recursion, control flow, arrays, nominal structs, enums with payload variants + match, tuples + destructuring, Result&lt;T,E&gt; + the <code>?</code> operator, try/catch (function-local), closures (defined <em>and called</em>), generic functions (monomorphized), impl blocks, bitwise ops, string interpolation, floats, async/await (sync lowering), REPL — all through the <b>default LLVM-IR pipeline</b> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback). The compiler returns diagnostics instead of panicking on malformed input, and CI gates every commit on fmt, clippy, audit, and an llc IR-validity corpus</li>
+        <li><b>In progress:</b> ARC memory reclamation — single-owner structs, strings, tuples, and arrays are freed at loop-body and function scope with retain-on-alias; string-aliased values still leak (bounded, safe)</li>
+        <li><b>Next:</b> consolidating the two codegen paths, traits, generic structs, typed collections beyond a minimal <code>Vec&lt;int&gt;</code>, LSP alpha, <code>astra fmt</code>, stdlib core — <a href="progress.html#next">full priority queue</a></li>
+        <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, WASM + GPU targets, hosted Mifa registry (protocol done, deployment pending)</li>
       </ul>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Start</span>Build it in two minutes</h2>
+      <h2><span class="k">Start</span>Run it in two minutes</h2>
+      <p>Prebuilt <code>astra</code> + <code>mifa</code> binaries for
+      <strong>Linux x64, macOS (Intel and Apple Silicon), and Windows x64</strong>
+      ship with each <a href="https://github.com/MAJIDNISAR/Astra/releases">release</a>
+      — or build from source:</p>
 <pre><code><span class="p">$</span> git clone https://github.com/MAJIDNISAR/Astra.git &amp;&amp; cd Astra
 <span class="p">$</span> cargo build
 <span class="p">$</span> cargo run --bin astra -- verify examples/showcase/01_hello_world.astra
 <span class="p">$</span> cargo run --bin astra -- compile examples/showcase/01_hello_world.astra --output hello
 <span class="p">$</span> ./hello
 Hello, World!</code></pre>
-      <p>Requirements: Rust toolchain, LLVM tools (<code>llc</code>), and a C
-      compiler (<code>clang</code>). Tested on macOS ARM64; Linux via Docker.</p>
+      <p>Requirements: LLVM tools (<code>llc</code>) and a C compiler
+      (<code>clang</code>) on your PATH — even the prebuilt binaries call
+      them to produce native executables. Building from source additionally
+      needs the Rust toolchain.</p>
     </div>
   </section>
 </main>

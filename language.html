@@ -63,8 +63,8 @@
       checked when present. Template literals interpolate with
       <code>${}</code>.</p>
 <pre><code><span class="kw">let</span> name = <span class="s">"Astra"</span>;          <span class="c">// inferred str</span>
-<span class="kw">let</span> version: <span class="kw">float</span> = <span class="n">0.8</span>;   <span class="c">// explicit annotation</span>
-<span class="kw">let</span> tests = <span class="n">285</span>;            <span class="c">// inferred int</span>
+<span class="kw">let</span> version: <span class="kw">float</span> = <span class="n">0.9</span>;   <span class="c">// explicit annotation</span>
+<span class="kw">let</span> tests = <span class="n">449</span>;            <span class="c">// inferred int</span>
 
 <span class="fn">print</span>(<span class="s">"${name} v${version} — ${tests} tests green"</span>);</code></pre>
     </div>
@@ -175,8 +175,8 @@
 <pre><code>source.astra
   → <span class="fn">lexer</span>        tokens with line + column
   → <span class="fn">parser</span>       recursive-descent AST
-  → <span class="fn">typechecker</span>  inference + Hindley-Milner solving
   → <span class="fn">closure lift</span> closures → top-level functions
+  → <span class="fn">typechecker</span>  type inference + checking
   → <span class="fn">monomorphize</span> generic specialization
   → <span class="fn">IR</span>           LLVM IR generation
   → <span class="fn">llc + link</span>   object code + small C runtime
@@ -188,7 +188,7 @@
       WASM / GPU, AI primitives as keywords, and Python interop via embedded
       CPython.</p>
       <div class="btn-row">
-        <a class="btn ghost" href="https://github.com/MAJIDNISAR/Astra/tree/main/examples">Browse 60+ examples on GitHub</a>
+        <a class="btn ghost" href="https://github.com/MAJIDNISAR/Astra/tree/main/examples/showcase">Browse the test-covered showcase examples</a>
         <a class="btn ghost" href="progress.html">See what's implemented</a>
       </div>
     </div>

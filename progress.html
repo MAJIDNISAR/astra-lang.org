@@ -46,12 +46,12 @@
 <main>
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Ground truth · updated 2026-07-07</p>
+      <p class="kicker">Ground truth · updated 2026-07-16</p>
       <h1>Progress tracker</h1>
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        currently stands at <strong>285 passed, 0 failed, 0 ignored</strong>.
+        currently stands at <strong>449 passed, 0 failed, 0 ignored</strong>.
       </p>
     </div>
   </section>
@@ -62,8 +62,8 @@
 
       <div class="bar-row"><span>v0.6</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
-      <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:40%"></span></div><span class="pct">40%</span></div>
-      <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
 
       <table>
@@ -71,9 +71,10 @@
         <tbody>
           <tr><td><strong>v0.6 alpha</strong></td><td>Native core, JSON diagnostics, verify mode</td><td><span class="badge done">done</span></td></tr>
           <tr><td><strong>v0.7</strong></td><td>Source spans, semantic core native, REPL, closures, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa registry protocol + publish</td><td><span class="badge done">released 2026-07-06</span></td></tr>
-          <tr><td><strong>v0.8</strong></td><td>Async/await (sync lowering) ✓, true LLVM-IR default backend ✓, end-to-end regression suite ✓; remaining: LSP, <code>astra fmt</code>, stdlib core, WASM target, Python-interop alpha</td><td><span class="badge wip">in progress</span></td></tr>
-          <tr><td><strong>v0.9</strong></td><td><code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td><span class="badge planned">planned</span></td></tr>
-          <tr><td><strong>v1.0</strong></td><td>GPU target (NVPTX), production tooling, Mifa registry</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td><strong>v0.8</strong></td><td>True LLVM-IR default backend, async/await (sync lowering), end-to-end regression suite, ignored-test burn-down 10 → 0</td><td><span class="badge done">released 2026-07-07</span></td></tr>
+          <tr><td><strong>v0.9</strong></td><td><em>Soundness &amp; hardening</em>: nominal structs, enums with payload variants, <code>?</code> operator + try/catch, tuples, impl blocks, bitwise ops, callable closures, ARC scope-based reclamation, compiler-never-panics on malformed input, CI gates (fmt / clippy / audit / llc corpus), <strong>cross-platform release binaries</strong> (Linux, macOS ×2, Windows)</td><td><span class="badge done">v0.9.1-alpha released 2026-07-15</span></td></tr>
+          <tr><td><strong>Next</strong></td><td>Traits, generic structs, typed collections, LSP alpha, <code>astra fmt</code>, stdlib core; then <code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td><strong>v1.0</strong></td><td>GPU target (NVPTX), production tooling, hosted Mifa registry</td><td><span class="badge planned">planned</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -81,21 +82,21 @@
 
   <section id="next">
     <div class="wrap">
-      <h2><span class="k">What's next</span>The v0.8 work queue, in priority order</h2>
+      <h2><span class="k">What's next</span>The work queue, in priority order</h2>
       <p>
-        v0.7 is closed; the first two v0.8 big rocks landed 2026-07-07. This
-        is the committed order of attack, mirrored from the in-repo
-        next-steps report:
+        v0.8 and v0.9 are closed. The current phase is
+        <em>narrow &amp; harden</em>: make what exists sound and honest
+        before widening the surface. The committed order of attack:
       </p>
       <table>
         <thead><tr><th>#</th><th>Astra</th><th>Status / why it's next</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>async</code> / <code>await</code> parsing + lowering</td><td><span class="badge done">done 2026-07-07</span> — synchronous lowering; un-ignored <code>test_async_functions</code>, burn-down complete (10 → 0). Real scheduler still ahead</td></tr>
-          <tr><td>2</td><td>True LLVM-IR backend (<code>--emit-ir</code>, <code>--target</code>)</td><td><span class="badge done">done 2026-07-07</span> — LLVM-IR is now the <em>default</em> compile path (IR → <code>opt</code> → <code>llc</code> → link); <code>--target</code> cross-compiles real objects; legacy C emission behind <code>--legacy-c</code>. Unblocks WASM and GPU</td></tr>
-          <tr><td>3</td><td>Codegen-gap fixes (4)</td><td>Surfaced by the new 14-test regression suite; tracked with acceptance criteria in <code>syntax-enhancement-plan.md</code> — quick wins before LSP</td></tr>
-          <tr><td>4</td><td>LSP alpha (<code>astra-lsp</code>)</td><td>Diagnostics-on-save first (reuses the JSON pipeline), then hover / goto-def. Highest human-adoption ROI</td></tr>
-          <tr><td>5</td><td><code>astra fmt</code></td><td>Canonical formatter — agents produce messy whitespace; a formatter makes diffs reviewable</td></tr>
-          <tr><td>6</td><td>Stdlib core</td><td>Collections, string utils, fs/io surface — specs already sketched in <code>docs/planned/</code></td></tr>
+          <tr><td>1</td><td>Robustness: compiler never panics</td><td><span class="badge done">done 2026-07-13</span> — lexer/parser return diagnostics instead of crashing on malformed input; CI gates every commit on fmt, clippy <code>-D warnings</code>, cargo-audit, and an llc IR-validity corpus</td></tr>
+          <tr><td>2</td><td>Callable closures</td><td><span class="badge done">done 2026-07-13</span> — root cause was pipeline order (closure-lift now runs before typecheck); v0 is int-typed closures on the default path</td></tr>
+          <tr><td>3</td><td>ARC scope-based reclamation</td><td><span class="badge done">done 2026-07-15</span> — single-owner structs, strings, tuples, arrays freed at loop-body <em>and</em> function scope; retain-on-alias; 2M-iteration loops now run in ~1.3 MB (were 98–194 MB). String-aliased values still leak (bounded, safe)</td></tr>
+          <tr><td>4</td><td>Consolidate the two codegen paths</td><td>The legacy string-emission backend (<code>--llvm-native</code>) duplicates the default <code>ir.rs</code> path — a maintenance risk to retire</td></tr>
+          <tr><td>5</td><td>Traits, generic structs, typed collections</td><td>Currently gated with clear errors, not faked; <code>Vec&lt;int&gt;</code> is the minimal first slice</td></tr>
+          <tr><td>6</td><td>LSP alpha + <code>astra fmt</code> + stdlib core</td><td>Diagnostics-on-save first (reuses the JSON pipeline); formatter makes agent diffs reviewable; collections/string/fs surface</td></tr>
         </tbody>
       </table>
       <table>
@@ -107,8 +108,8 @@
         </tbody>
       </table>
       <p>Guiding rule: no hosted registry before the local <code>--json</code>
-      story is complete. Stretch items for v0.8 — WASM target,
-      Python-interop alpha, closures-as-values — follow the big rocks.</p>
+      story is complete. Stretch items — WASM target, Python-interop alpha,
+      real async runtime — follow the big rocks.</p>
     </div>
   </section>
 
@@ -126,16 +127,16 @@
       <table>
         <thead><tr><th>Strategic guarantee</th><th>Mechanism</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Interfaces can't drift silently</td><td>Static types + Hindley-Milner inference</td><td><span class="badge done">shipped v0.6</span></td></tr>
-          <tr><td>Errors are values, not surprises</td><td><code>Result&lt;T,E&gt;</code> + exhaustive <code>match</code></td><td><span class="badge done">shipped v0.6</span></td></tr>
+          <tr><td>Interfaces can't drift silently</td><td>Static types + inference</td><td><span class="badge done">shipped v0.6</span></td></tr>
+          <tr><td>Errors are values, not surprises</td><td><code>Result&lt;T,E&gt;</code> + exhaustive <code>match</code> + <code>?</code> operator</td><td><span class="badge done">shipped v0.6 · <code>?</code> v0.9</span></td></tr>
           <tr><td>Feedback is a machine contract</td><td>JSON diagnostics, stable E-codes, <code>suggestion</code>, <code>astra explain</code></td><td><span class="badge done">shipped v0.7</span></td></tr>
           <tr><td>Flexibility is explicit, never accidental</td><td><code>dyn</code> gradual-typing boundary</td><td><span class="badge done">shipped v0.7</span></td></tr>
           <tr><td>Builds are reproducible</td><td>Mifa sha256-stable <code>astra.lock</code></td><td><span class="badge done">shipped M2</span></td></tr>
-          <tr><td>Memory correctness without generator burden</td><td>ARC + escape analysis (no GC, no lifetimes)</td><td><span class="badge wip">scaffolding → v0.8</span></td></tr>
-          <tr><td>Generated code runs in a cage</td><td>WASM sandbox target</td><td><span class="badge planned">v0.8</span></td></tr>
-          <tr><td>Tool schemas can't lie</td><td><code>tool</code> keyword — signature <em>is</em> the schema</td><td><span class="badge planned">v0.9</span></td></tr>
-          <tr><td>Agent state is typed, prompts are checked</td><td><code>agent</code> / <code>memory</code> / <code>prompt</code> keywords</td><td><span class="badge planned">v0.9</span></td></tr>
-          <tr><td>Delegation graphs typecheck end-to-end</td><td>Agent-to-agent contracts, verified at compile time</td><td><span class="badge planned">v0.9</span></td></tr>
+          <tr><td>Memory correctness without generator burden</td><td>ARC + escape analysis (no GC, no lifetimes)</td><td><span class="badge wip">reclaiming since v0.9 — loop + function scope; string aliasing pending</span></td></tr>
+          <tr><td>Generated code runs in a cage</td><td>WASM sandbox target</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td>Tool schemas can't lie</td><td><code>tool</code> keyword — signature <em>is</em> the schema</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td>Agent state is typed, prompts are checked</td><td><code>agent</code> / <code>memory</code> / <code>prompt</code> keywords</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td>Delegation graphs typecheck end-to-end</td><td>Agent-to-agent contracts, verified at compile time</td><td><span class="badge planned">planned</span></td></tr>
           <tr><td>One strategic layer, every target</td><td>Single compiler → native / WASM / GPU</td><td><span class="badge planned">v1.0</span></td></tr>
         </tbody>
       </table>
@@ -154,40 +155,49 @@
       <table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
-          <tr><td>Lexer / parser / AST</td><td><span class="badge done">working</span></td><td>Full token + column tracking</td></tr>
-          <tr><td>Type checking + inference</td><td><span class="badge done">working</span></td><td>Hindley-Milner solving for core language</td></tr>
-          <tr><td>Native compilation (LLVM IR → binary)</td><td><span class="badge done">working</span></td><td><strong>Default path since v0.8</strong>: IR → <code>opt</code> → <code>llc</code> → link; ARM64 macOS verified; Linux via Docker</td></tr>
+          <tr><td>Lexer / parser / AST</td><td><span class="badge done">working</span></td><td>Full token + column tracking; returns diagnostics instead of panicking on malformed input (v0.9)</td></tr>
+          <tr><td>Type checking + inference</td><td><span class="badge done">working</span></td><td>Ad-hoc inference + checking for the core language (a full Hindley-Milner solver exists but is not wired into the pipeline)</td></tr>
+          <tr><td>Native compilation (LLVM IR → binary)</td><td><span class="badge done">working</span></td><td><strong>Default path since v0.8</strong>: IR → <code>opt</code> → <code>llc</code> → link; release binaries built for Linux x64, macOS x64/ARM64, Windows x64 (v0.9.1)</td></tr>
           <tr><td><code>--emit-ir</code> / <code>--target</code> cross-compile</td><td><span class="badge done">v0.8</span></td><td>Prints LLVM IR; <code>--target</code> emits target object files (<code>llc -mtriple</code>); <code>--legacy-c</code> fallback</td></tr>
-          <tr><td>Functions, recursion, control flow</td><td><span class="badge done">working</span></td><td>if/else, while, for-range, switch</td></tr>
-          <tr><td>Arrays + <code>.push()</code></td><td><span class="badge done">working</span></td><td>Bounds-checked; iteration partial</td></tr>
-          <tr><td>Structs (typed field access)</td><td><span class="badge done">working</span></td><td>Native GEP loads, nested access</td></tr>
-          <tr><td><code>Result&lt;T,E&gt;</code> + match</td><td><span class="badge done">working</span></td><td>Ok/Err paths, match binding, return-in-arms</td></tr>
-          <tr><td>Closures (native execution)</td><td><span class="badge done">v0.7</span></td><td>Lambda-lifting codegen; closures-as-values → v0.8</td></tr>
-          <tr><td>Generics (monomorphized fns)</td><td><span class="badge done">working</span></td><td>Constraints + generic structs partial</td></tr>
-          <tr><td>String interpolation <code>${}</code></td><td><span class="badge done">working</span></td><td>Plus <code>.length()</code>, <code>.to_string()</code>, concat</td></tr>
+          <tr><td>Functions, recursion, control flow</td><td><span class="badge done">working</span></td><td>if/else, while, do/while, for-range, switch, ternary</td></tr>
+          <tr><td>Arrays + <code>.push()</code></td><td><span class="badge done">working</span></td><td>Bounds-checked; iteration, membership (<code>in</code>), honest <code>.length()</code>; push-then-read in statement position fixed v0.9</td></tr>
+          <tr><td>Structs (nominal, typed field access)</td><td><span class="badge done">working</span></td><td>Named literals typed nominally — same-shape structs are distinct types; mutable fields; native GEP loads, nested access</td></tr>
+          <tr><td>Enums + match</td><td><span class="badge done">v0.9</span></td><td>Unit variants + single-payload data variants (int, string, struct payloads via boxed repr), match in expression and statement position; multi-field variants gated with a clear error</td></tr>
+          <tr><td><code>Result&lt;T,E&gt;</code> + match + <code>?</code></td><td><span class="badge done">working</span></td><td>Ok/Err paths, match binding; <code>?</code> unwraps Ok/Some or early-returns Err/None (v0.9); built-in Result payloads currently int-like — user enums for richer payloads</td></tr>
+          <tr><td>try / catch</td><td><span class="badge done">v0.9 (local)</span></td><td>Lowered as function-local control flow — no unwinder, so a <code>throw</code> in a <em>called</em> function still aborts; use <code>Result</code> + <code>?</code> across functions</td></tr>
+          <tr><td>Closures (defined <em>and called</em>)</td><td><span class="badge done">v0.9</span></td><td>Lambda-lifting before typecheck (the v0.7 pipeline-order bug is fixed); v0 is int-typed closures on the default path</td></tr>
+          <tr><td>Tuples + destructuring</td><td><span class="badge done">v0.9</span></td><td><code>(a, b)</code>, <code>t.0</code>, <code>let (a, b) = e</code>, tuple types; arity mismatches rejected (E0017)</td></tr>
+          <tr><td>impl blocks</td><td><span class="badge done">v0.9</span></td><td>Instance methods and associated functions (<code>Type::new()</code>)</td></tr>
+          <tr><td>Generics (monomorphized fns)</td><td><span class="badge done">working</span></td><td>Generic <em>functions</em> specialize per concrete type; generic <em>structs</em> and traits are gated, not implemented</td></tr>
+          <tr><td><code>Vec&lt;int&gt;</code> (minimal)</td><td><span class="badge wip">v0.9 slice</span></td><td><code>Vec::new()</code> + push/read over the array runtime; typed <code>Vec&lt;T&gt;</code> annotations don't parse yet</td></tr>
+          <tr><td>String interpolation <code>${}</code></td><td><span class="badge done">working</span></td><td>Runtime-value interpolation, <code>.length()</code>, <code>.to_string()</code>, concat, string-method suite</td></tr>
+          <tr><td>Bitwise + compound operators</td><td><span class="badge done">v0.9</span></td><td><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code> with Python-parity precedence; <code>+=</code> family, <code>**</code>, radix literals</td></tr>
           <tr><td>Float arithmetic / compare</td><td><span class="badge done">v0.7</span></td><td>Native <code>fadd</code>/<code>fcmp</code> with int→double promotion</td></tr>
           <tr><td>JSON diagnostics with line + column</td><td><span class="badge done">working</span></td><td>Parse + named-symbol typecheck spans</td></tr>
           <tr><td>Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td><span class="badge done">v0.7</span></td><td>Stable E0001–E0012 codes</td></tr>
           <tr><td><code>astra repl</code></td><td><span class="badge done">alpha</span></td><td>Whole-program re-compile model</td></tr>
           <tr><td><code>dyn</code> gradual typing</td><td><span class="badge done">v0.7</span></td><td>First milestone: boundary typecheck + boxed lowering</td></tr>
-          <tr><td>ARC memory model</td><td><span class="badge wip">scaffolding</span></td><td>Retain/release analysis pass + runtime stubs</td></tr>
-          <tr><td>Enums + match (advanced)</td><td><span class="badge wip">partial</span></td><td>Core paths native; advanced codegen incomplete</td></tr>
+          <tr><td>ARC memory reclamation</td><td><span class="badge wip">working, partial</span></td><td>Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB). String-aliased values and some non-loop scopes still leak — bounded and safe, never a double-free</td></tr>
           <tr><td>async / await</td><td><span class="badge done">v0.8</span></td><td>Parses + compiles natively; synchronous lowering — real task runtime still ahead</td></tr>
-          <tr><td>WASM target</td><td><span class="badge planned">v0.8</span></td><td>Also unlocks a browser playground</td></tr>
-          <tr><td>Python interop</td><td><span class="badge planned">v0.8–0.9</span></td><td>Embedded CPython, ratified decision</td></tr>
-          <tr><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code></td><td><span class="badge planned">v0.9</span></td><td>Agent-native keywords</td></tr>
+          <tr><td>Traits + generic structs</td><td><span class="badge planned">next</span></td><td>Gated with clear errors today, not silently faked</td></tr>
+          <tr><td>WASM target</td><td><span class="badge planned">planned</span></td><td>Also unlocks a browser playground</td></tr>
+          <tr><td>Python interop</td><td><span class="badge planned">planned</span></td><td>Embedded CPython, ratified decision</td></tr>
+          <tr><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code></td><td><span class="badge planned">planned</span></td><td>Agent-native keywords</td></tr>
           <tr><td>GPU kernels (NVPTX)</td><td><span class="badge planned">v1.0</span></td><td></td></tr>
         </tbody>
       </table>
 
       <h3>Ignored-test burn-down</h3>
       <p>A release KPI: tests stay ignored until the feature truly works
-      end-to-end, and the count must shrink every release. It is now
-      <strong>complete: 10 → 0</strong> — the last holdout,
-      <code>test_async_functions</code>, passes as of 2026-07-07. A new
-      14-test regression suite (<code>tests/regression_tests.rs</code>) now
-      locks every shipped feature through
-      compile → IR → native run → stdout/exit-code assertions.</p>
+      end-to-end, and the count must shrink every release. It is
+      <strong>complete: 10 → 0</strong> and has stayed at 0 since 2026-07-07.
+      The end-to-end regression suite
+      (<code>tests/regression_tests.rs</code>) has grown from 14 to
+      <strong>108 tests</strong>, each locking a shipped feature through
+      compile → IR → native run → stdout/exit-code assertions. CI also
+      gates every commit on <code>cargo fmt</code>, <code>clippy -D
+      warnings</code>, <code>cargo audit</code>, and an llc IR-validity
+      corpus.</p>
     </div>
   </section>
 
