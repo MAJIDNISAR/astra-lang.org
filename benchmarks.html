@@ -59,14 +59,28 @@
       <p class="kicker">Validated metrics</p>
       <h1>Every number on this page<br>comes from a script you can run.</h1>
       <p class="lede">
-        No synthetic marketing charts. The repo ships a validation harness —
-        <code>scripts/validate_metrics.sh</code> — that exercises the five
-        differentiators end-to-end and asserts 12 checks. All 12 pass.
-        Measurements below are from macOS ARM64 (Apple Silicon), 2026-07.
+        No synthetic marketing charts. Two harnesses ship with the compiler:
+        <code>scripts/validate_metrics.sh</code> exercises the five
+        differentiators end-to-end (13 checks, all pass), and
+        <code>benchmarks/run.py</code> compares seven languages and fails if
+        any program's output differs. Measured 2026-10-29 on an Apple M2 Max,
+        macOS 26.1.
       </p>
 <pre><code><span class="p">$</span> ./scripts/validate_metrics.sh
 ...
-RESULT: 12/12 checks passed</code></pre>
+Checks passed: 13   failed: 0
+<span class="p">$</span> python3 benchmarks/run.py
+...
+RESULT: all outputs verified.</code></pre>
+      <div class="callout">
+        <p><strong>Correction (2026-10-29).</strong> Earlier versions of this
+        page showed C, Rust, Go and Astra all at about 100&nbsp;ms and
+        described Astra as "C/Rust/Go-class". That table was wrong: the
+        harness started a new Python process to read the clock, so every
+        measurement included tens of milliseconds of Python start-up. The
+        harness has been rebuilt and every number below re-measured; where
+        Astra is slower than Rust, the table now shows it.</p>
+      </div>
     </div>
   </section>
 
@@ -115,21 +129,25 @@ RESULT: 12/12 checks passed</code></pre>
       <h2><span class="k">D3</span>Native speed — including compile time</h2>
       <p><strong>Claim:</strong> for compute-shaped work, Astra's
       <em>compile-then-run</em> beats Python's <em>run alone</em>.</p>
-      <p><strong>Test:</strong> scenario 3 runs an identical 5,000,000-iteration
-      arithmetic loop in both languages, wall-clock timed.</p>
+      <p><strong>Test:</strong> scenario 3 runs the same 2,000,000-iteration
+      arithmetic loop in both languages; each command is timed as one
+      process run.</p>
 
-      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:12%"></span></div><span class="pct">115 ms</span></div>
-      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">959 ms</span></div>
+      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:45%"></span></div><span class="pct">72 ms</span></div>
+      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">158 ms</span></div>
 
-      <p><strong>Result:</strong> <span class="badge done">~8.3× faster</span>
-      — and the Astra figure <em>includes</em> full compilation (parse,
-      typecheck, LLVM IR, llc, link). Run-only, the gap widens further.</p>
+      <p><strong>Result:</strong> <span class="badge done">~2.2× faster, compile included</span>
+      — 68&nbsp;ms to compile (parse, type-check, LLVM IR, <code>llc</code>,
+      link) plus 4&nbsp;ms to run, against 158&nbsp;ms for Python to run the
+      loop. Run alone, the binary is about 40× faster.</p>
       <div class="callout">
-        <p><strong>Scope honesty:</strong> this is one compute-bound
-        microbenchmark, not a suite. It demonstrates the architecture
-        (native codegen with negligible compile overhead), not a general
-        "8× faster than Python" claim. Broader benchmarks land with the
-        stdlib.</p>
+        <p><strong>Scope honesty:</strong> one small loop, chosen to show the
+        architecture (native code with little compile overhead), not a
+        general speed-up figure. The first compile after the machine has
+        been idle is cold (about 300&nbsp;ms while the LLVM tools load from
+        disk), and macOS scans each newly built binary on its first launch
+        (about 180&nbsp;ms). The seven-language comparison below is the
+        broader picture.</p>
       </div>
     </div>
   </section>
@@ -142,10 +160,10 @@ RESULT: 12/12 checks passed</code></pre>
       guarantees.</p>
       <p><strong>Test:</strong> time <code>astra verify</code> (full parse +
       typecheck, no codegen) on a representative program.</p>
-      <p><strong>Result:</strong> <span class="badge done">113 ms</span>
-      wall-clock. At that latency, verification costs less than a fraction of
-      a single LLM token round-trip — there is no reason for an agent
-      <em>not</em> to verify.</p>
+      <p><strong>Result:</strong> <span class="badge done">4–5 ms</span>
+      wall-clock. At that latency verification costs far less than a single
+      LLM round-trip — there is no reason for an agent <em>not</em> to
+      verify after every edit.</p>
     </div>
   </section>
 
@@ -164,48 +182,60 @@ RESULT: 12/12 checks passed</code></pre>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Cross-language</span>Astra vs C vs Rust vs Go vs Java vs Node.js vs Python 3</h2>
-      <p><strong>Claim:</strong> Astra binaries run CPU-bound work in the
-      same class as C, Rust, and Go — ahead of the JVM and a warmed-up JIT,
-      far ahead of interpreters — with no VM on the target machine.</p>
-      <p><strong>Test:</strong> <code>scripts/run_benchmarks.sh</code> runs
-      the <em>identical algorithm</em> in all seven languages and
-      <strong>fails if the outputs don't match</strong>, so no benchmark can
-      quietly compute something different. Best-of-3 wall-clock, macOS ARM64:
-      Astra v0.8.0-alpha (default LLVM-IR pipeline) · Apple clang 17
-      (<code>-O2</code>) · rustc 1.94 (<code>-O</code>) · go 1.26 · OpenJDK
-      25 LTS · Node v22 · Python 3.9. Run-only unless noted.</p>
-      <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Astra vs C vs Rust vs Go vs Java vs Node.js vs Python 3 (scrolls sideways)"><table>
-        <thead><tr><th>Benchmark</th><th>Astra</th><th>C <code>-O2</code></th><th>Rust <code>-O</code></th><th>Go</th><th>Java</th><th>Node.js</th><th>Python 3</th><th>Astra compile+run</th></tr></thead>
+      <h2><span class="k">Cross-language</span>Astra against C, Rust, Go, Java, Node.js and Python</h2>
+      <p><strong>Test:</strong> six workloads, each written the normal way
+      in every language. <code>benchmarks/run.py</code> times each program
+      as one process run (one warm-up, then the median of 7 runs; 3 for
+      Python and the Astra interpreter) and <strong>fails if any output
+      differs</strong>. Apple clang 17 <code>-O2</code> · rustc 1.94
+      <code>-O</code> · Go 1.26 · OpenJDK 25 · Node 25 · Python 3.11 · Astra
+      via LLVM <code>-O2</code>. Median milliseconds, lower is better.</p>
+      <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Benchmark results in milliseconds (scrolls sideways)"><table>
+        <thead><tr><th>Workload</th><th>Astra</th><th>Rust&nbsp;-O, checked</th><th>Rust&nbsp;-O</th><th>C&nbsp;-O2</th><th>Go</th><th>Java</th><th>Node.js</th><th>Python 3</th><th>Astra interpreter</th></tr></thead>
         <tbody>
-          <tr><td data-label="Benchmark">Recursive fib(30)</td><td data-label="Astra"><strong>101 ms</strong></td><td data-label="C -O2">110 ms</td><td data-label="Rust -O">103 ms</td><td data-label="Go">104 ms</td><td data-label="Java">135 ms</td><td data-label="Node.js">138 ms</td><td data-label="Python 3">449 ms</td><td data-label="Astra compile+run">531 ms</td></tr>
-          <tr><td data-label="Benchmark">10M-iteration arithmetic loop</td><td data-label="Astra"><strong>117 ms</strong></td><td data-label="C -O2">108 ms</td><td data-label="Rust -O">111 ms</td><td data-label="Go">110 ms</td><td data-label="Java">146 ms</td><td data-label="Node.js">146 ms</td><td data-label="Python 3">2,088 ms</td><td data-label="Astra compile+run">295 ms</td></tr>
-          <tr><td data-label="Benchmark">Collatz steps for 1..100,000</td><td data-label="Astra"><strong>117 ms</strong></td><td data-label="C -O2">114 ms</td><td data-label="Rust -O">117 ms</td><td data-label="Go">120 ms</td><td data-label="Java">152 ms</td><td data-label="Node.js">178 ms</td><td data-label="Python 3">1,812 ms</td><td data-label="Astra compile+run">567 ms</td></tr>
+          <tr><td data-label="Workload">Recursive fib(35) — calls</td><td data-label="Astra"><strong>37</strong></td><td data-label="Rust -O, checked">35</td><td data-label="Rust -O">30</td><td data-label="C -O2">28</td><td data-label="Go">33</td><td data-label="Java">62</td><td data-label="Node.js">129</td><td data-label="Python 3">1,047</td><td data-label="Astra interpreter">2,506</td></tr>
+          <tr><td data-label="Workload">50M-iteration integer loop</td><td data-label="Astra"><strong>31</strong></td><td data-label="Rust -O, checked">29</td><td data-label="Rust -O">22</td><td data-label="C -O2">21</td><td data-label="Go">33</td><td data-label="Java">69</td><td data-label="Node.js">322</td><td data-label="Python 3">5,377</td><td data-label="Astra interpreter">3,947</td></tr>
+          <tr><td data-label="Workload">Collatz steps, 1..300,000</td><td data-label="Astra"><strong>48</strong></td><td data-label="Rust -O, checked">50</td><td data-label="Rust -O">37</td><td data-label="C -O2">35</td><td data-label="Go">47</td><td data-label="Java">90</td><td data-label="Node.js">234</td><td data-label="Python 3">2,396</td><td data-label="Astra interpreter">5,105</td></tr>
+          <tr><td data-label="Workload">Grow a 1M array + 10 indexed passes</td><td data-label="Astra"><strong>52</strong></td><td data-label="Rust -O, checked">12</td><td data-label="Rust -O">10</td><td data-label="C -O2">11</td><td data-label="Go">16</td><td data-label="Java">66</td><td data-label="Node.js">85</td><td data-label="Python 3">992</td><td data-label="Astra interpreter">880</td></tr>
+          <tr><td data-label="Workload">3M small structs in a loop</td><td data-label="Astra"><strong>5</strong></td><td data-label="Rust -O, checked">6</td><td data-label="Rust -O">6</td><td data-label="C -O2">5</td><td data-label="Go">8</td><td data-label="Java">46</td><td data-label="Node.js">64</td><td data-label="Python 3">587</td><td data-label="Astra interpreter">843</td></tr>
+          <tr><td data-label="Workload">1M short strings by concatenation</td><td data-label="Astra"><strong>120</strong></td><td data-label="Rust -O, checked">81</td><td data-label="Rust -O">80</td><td data-label="C -O2">84</td><td data-label="Go">31</td><td data-label="Java">79</td><td data-label="Node.js">82</td><td data-label="Python 3">204</td><td data-label="Astra interpreter">285</td></tr>
         </tbody>
       </table></div>
-      <div class="bar-row"><span>c -O2</span><div class="bar"><span style="width:5.2%"></span></div><span class="pct">108 ms</span></div>
-      <div class="bar-row"><span>go</span><div class="bar"><span style="width:5.3%"></span></div><span class="pct">110 ms</span></div>
-      <div class="bar-row"><span>rust</span><div class="bar"><span style="width:5.3%"></span></div><span class="pct">111 ms</span></div>
-      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:5.6%"></span></div><span class="pct">117 ms</span></div>
-      <div class="bar-row"><span>java</span><div class="bar"><span style="width:7%"></span></div><span class="pct">146 ms</span></div>
-      <div class="bar-row"><span>node</span><div class="bar"><span style="width:7%"></span></div><span class="pct">146 ms</span></div>
-      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">2,088 ms</span></div>
-      <p style="font-size:.85em">10M-loop benchmark, run time. The full data and the seven-language benchmark sources ship with the compiler source (opens at v1.0-beta).</p>
-      <p><strong>Result:</strong> <span class="badge done">C/Rust/Go-class
-      native speed</span> — statistically indistinguishable from C, Rust,
-      and Go across all three workloads (±10 ms on a ~110 ms measurement is
-      scheduler noise). <span class="badge done">4–18× faster than
-      Python</span> run-only, with even <em>compile + run</em> beating
-      Python's run-only on two of three workloads. Ahead of Java by ~30 ms
-      of JVM startup per process, and a modest but consistent win over Node —
-      with no JIT warm-up and no 40+&nbsp;MB runtime on the target machine.</p>
+      <p style="font-size:.85em">"Rust <code>-O</code>, checked" is Rust with
+      <code>overflow-checks=on</code>. Astra checks every integer operation
+      for overflow and stops with a runtime error, so this is the
+      like-for-like comparison. Java and Node.js include their VM start-up
+      (about 40&nbsp;ms) in every run.</p>
+
+      <h3>What the numbers say</h3>
+      <ul>
+        <li><strong>Plain computation:</strong> Astra is within about ±10% of
+        Rust with overflow checks (fib, loop, collatz). Against unchecked Rust
+        and C it is 1.3–1.5× slower — the price of always-on overflow
+        checking, not of the code generator.</li>
+        <li><strong>Small structs:</strong> at parity with C and Rust. A
+        struct that doesn't outlive its scope now lives on the stack (this
+        workload took 85&nbsp;ms before that change).</li>
+        <li><strong>Arrays:</strong> <span class="badge wip">5× slower than Rust</span>
+        — elements are stored in generic 8-byte slots and reached through a
+        runtime call. Being fixed next.</li>
+        <li><strong>Strings:</strong> 1.5× Rust and C; Go is fastest here.</li>
+        <li><strong>Against Python:</strong> native Astra is 15–170× faster.</li>
+        <li><strong>The interpreter</strong> (<code>astra run</code>, no LLVM
+        needed) beats CPython on the plain loop and on arrays, but is
+        1.4–2.4× slower on calls, branches, structs and strings. A redesign
+        (variables resolved to slots ahead of time) is planned to close
+        that.</li>
+      </ul>
       <div class="callout">
-        <p><strong>Scope honesty:</strong> three CPU-bound microbenchmarks,
-        not a language shootout. All native binaries here (Astra, C, Rust,
-        Go) share a ~100&nbsp;ms wall-clock floor on this host — process
-        spawn + measurement overhead, not language runtime — which amortizes
-        away on longer workloads. String/collection/IO benchmarks land with
-        the stdlib.</p>
+        <p><strong>Scope honesty:</strong> six small programs on one laptop
+        that wasn't isolated, not a language shoot-out. The input sizes are
+        written into the programs; reading them from the command line, as the
+        <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html">Computer Language Benchmarks Game</a>
+        does, comes next, along with that suite's standard programs. Several
+        of those (fannkuch-redux, n-body, binary-trees) need features Astra
+        doesn't have yet — assigning to array elements and recursive
+        structs — and will be added as those land.</p>
       </div>
     </div>
   </section>
@@ -216,13 +246,13 @@ RESULT: 12/12 checks passed</code></pre>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>449 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test --quiet</code> (v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>599 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-10-29 (449 at v0.9.1-alpha)</td></tr>
           <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong> — CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
           <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
-          <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>108 / 108</strong> — compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
+          <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>116 / 116</strong> — compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
           <tr><td data-label="Metric">Showcase examples runtime-verified</td><td data-label="Value">compile + execute + stdout asserted</td><td data-label="Source"><code>tests/showcase_examples_tests.rs</code></td></tr>
           <tr><td data-label="Metric">IR validity gate</td><td data-label="Value">every corpus program's IR must pass <code>llc</code></td><td data-label="Source"><code>tests/ir_validity_tests.rs</code> (in CI)</td></tr>
-          <tr><td data-label="Metric">Validation checks</td><td data-label="Value"><strong>12 / 12</strong></td><td data-label="Source"><code>scripts/validate_metrics.sh</code></td></tr>
+          <tr><td data-label="Metric">Validation checks</td><td data-label="Value"><strong>13 / 13</strong></td><td data-label="Source"><code>scripts/validate_metrics.sh</code></td></tr>
         </tbody>
       </table></div>
     </div>
@@ -234,13 +264,13 @@ RESULT: 12/12 checks passed</code></pre>
       <p>Once public downloads open (<a href="download.html">coming
       soon</a>), the compiled-binary side reproduces in a minute: write the
       loop and time it —</p>
-<pre><code><span class="p">$</span> astra verify loop.astra               <span class="c"># the ~100 ms typecheck</span>
+<pre><code><span class="p">$</span> astra verify loop.astra               <span class="c"># type-check: a few ms</span>
 <span class="p">$</span> time astra compile loop.astra --output loop &amp;&amp; ./loop
 <span class="p">$</span> time python3 loop.py                  <span class="c"># the comparison</span></code></pre>
-      <p>The full scripted harness (<code>validate_metrics.sh</code>,
-      <code>run_benchmarks.sh</code>, the output-verified seven-language
-      scenario programs, and the 449-test suite) ships with the compiler
-      source, which opens at v1.0-beta. If a number on this page doesn't
+      <p>The full harnesses (<code>scripts/validate_metrics.sh</code>,
+      <code>benchmarks/run.py</code> with the seven-language programs, and
+      the test suite) ship with the compiler source, which opens at
+      v1.0-beta. If a number on this page doesn't
       reproduce on your machine, that's a bug —
       <a href="https://majidnisar.com">tell us</a>.</p>
     </div>
