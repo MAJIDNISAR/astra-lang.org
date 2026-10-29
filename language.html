@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>The Astra Language — tour &amp; design</title>
 <meta name="description" content="A tour of Astra: syntax, type system, error handling with Result, closures, gradual typing with dyn, and the compiler pipeline.">
 <link rel="canonical" href="https://astra-lang.org/language.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="The Astra Language — tour &amp; design">
 <meta property="og:description" content="A tour of Astra: syntax, type system, error handling with Result, closures, gradual typing with dyn, and the compiler pipeline.">
 <meta property="og:url" content="https://astra-lang.org/language.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="The Astra Language — tour &amp; design">
 <meta name="twitter:description" content="A tour of Astra: syntax, type system, error handling with Result, closures, gradual typing with dyn, and the compiler pipeline.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -27,7 +36,7 @@
     <nav class="main" aria-label="Main">
       <span class="nav-group">
         <a href="start.html">Start</a>
-        <a href="language.html" class="active">Language</a>
+        <a href="language.html" class="active" aria-current="page">Language</a>
         <a href="mifa.html">Mifa</a>
       </span>
       <span class="nav-group">
@@ -43,7 +52,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">Language tour</p>

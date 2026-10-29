@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>For Agents — Astra's machine interface</title>
 <meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="canonical" href="https://astra-lang.org/agents.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="For Agents — Astra's machine interface">
 <meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <meta property="og:url" content="https://astra-lang.org/agents.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="For Agents — Astra's machine interface">
 <meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -33,7 +42,7 @@
       <span class="nav-group">
         <a href="vision.html">Vision</a>
         <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html" class="active">Agents</a>
+        <a href="agents.html" class="active" aria-current="page">Agents</a>
       </span>
       <span class="nav-group">
         <a href="progress.html">Progress</a>
@@ -43,7 +52,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">Machine interface · integration spec</p>
@@ -59,26 +68,26 @@
   <section>
     <div class="wrap">
       <h2><span class="k">Surface</span>Three commands, stable semantics</h2>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>astra verify --error-format=json &lt;file&gt;</code></td>
-            <td>Parse + typecheck only. No codegen, no execution. ~100 ms.</td>
-            <td>0 = verified · non-zero = diagnostics emitted</td>
+            <td data-label="Command"><code>astra verify --error-format=json &lt;file&gt;</code></td>
+            <td data-label="What it does">Parse + typecheck only. No codegen, no execution. ~100 ms.</td>
+            <td data-label="Exit code">0 = verified · non-zero = diagnostics emitted</td>
           </tr>
           <tr>
-            <td><code>astra compile --error-format=json &lt;file&gt; --output &lt;bin&gt;</code></td>
-            <td>Full pipeline to a native executable.</td>
-            <td>0 = binary written · non-zero = failed</td>
+            <td data-label="Command"><code>astra compile --error-format=json &lt;file&gt; --output &lt;bin&gt;</code></td>
+            <td data-label="What it does">Full pipeline to a native executable.</td>
+            <td data-label="Exit code">0 = binary written · non-zero = failed</td>
           </tr>
           <tr>
-            <td><code>astra explain E0002</code></td>
-            <td>Expands any error code into a full explanation + guidance.</td>
-            <td>0</td>
+            <td data-label="Command"><code>astra explain E0002</code></td>
+            <td data-label="What it does">Expands any error code into a full explanation + guidance.</td>
+            <td data-label="Exit code">0</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       <p>Rust callers can skip the CLI entirely:</p>
 <pre><code><span class="kw">let</span> report = astra::compiler::<span class="fn">verify</span>(source);
 <span class="kw">let</span> result = astra::compiler::<span class="fn">compile_to_result</span>(source);</code></pre>
@@ -121,25 +130,25 @@
       <p>Codes are permanent identifiers — safe to branch on, cache repair
       strategies against, or fine-tune with. <code>astra explain E####</code>
       returns the long-form description for any of them.</p>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Code</th><th>Meaning</th><th>Typical agent repair</th></tr></thead>
         <tbody>
-          <tr><td><code>E0001</code></td><td>Syntax error</td><td>Re-emit the statement; check delimiters and semicolons</td></tr>
-          <tr><td><code>E0002</code></td><td>Undefined variable</td><td>Declare with <code>let</code>, or fix the identifier spelling</td></tr>
-          <tr><td><code>E0003</code></td><td>Undefined function</td><td>Define the function or correct the call target</td></tr>
-          <tr><td><code>E0004</code></td><td>Type mismatch</td><td>Align value type with the annotation / return type</td></tr>
-          <tr><td><code>E0005</code></td><td>Wrong number of arguments</td><td>Match the call to the function signature</td></tr>
-          <tr><td><code>E0006</code></td><td>Condition must be boolean</td><td>Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
-          <tr><td><code>E0007</code></td><td>Unknown method</td><td>Check the receiver type's supported methods</td></tr>
-          <tr><td><code>E0008</code></td><td>Cannot index non-array</td><td>Index arrays only; check the variable's type</td></tr>
-          <tr><td><code>E0009</code></td><td>Duplicate definition</td><td>Rename or remove the redefinition</td></tr>
-          <tr><td><code>E0010</code></td><td>Struct field error</td><td>Use fields declared on the struct; check literal completeness</td></tr>
-          <tr><td><code>E0011</code></td><td>Generic type error</td><td>Make type parameters consistent at the call site</td></tr>
-          <tr><td><code>E0012</code></td><td>IO error</td><td>Check the file path passed to the CLI</td></tr>
-          <tr><td><code>E0013</code></td><td>Module error (next release)</td><td>Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
-          <tr><td><code>E0099</code></td><td>Internal / uncategorized</td><td>Report upstream; do not retry blindly</td></tr>
+          <tr><td data-label="Code"><code>E0001</code></td><td data-label="Meaning">Syntax error</td><td data-label="Typical agent repair">Re-emit the statement; check delimiters and semicolons</td></tr>
+          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling</td></tr>
+          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target</td></tr>
+          <tr><td data-label="Code"><code>E0004</code></td><td data-label="Meaning">Type mismatch</td><td data-label="Typical agent repair">Align value type with the annotation / return type</td></tr>
+          <tr><td data-label="Code"><code>E0005</code></td><td data-label="Meaning">Wrong number of arguments</td><td data-label="Typical agent repair">Match the call to the function signature</td></tr>
+          <tr><td data-label="Code"><code>E0006</code></td><td data-label="Meaning">Condition must be boolean</td><td data-label="Typical agent repair">Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
+          <tr><td data-label="Code"><code>E0007</code></td><td data-label="Meaning">Unknown method</td><td data-label="Typical agent repair">Check the receiver type's supported methods</td></tr>
+          <tr><td data-label="Code"><code>E0008</code></td><td data-label="Meaning">Cannot index non-array</td><td data-label="Typical agent repair">Index arrays only; check the variable's type</td></tr>
+          <tr><td data-label="Code"><code>E0009</code></td><td data-label="Meaning">Duplicate definition</td><td data-label="Typical agent repair">Rename or remove the redefinition</td></tr>
+          <tr><td data-label="Code"><code>E0010</code></td><td data-label="Meaning">Struct field error</td><td data-label="Typical agent repair">Use fields declared on the struct; check literal completeness</td></tr>
+          <tr><td data-label="Code"><code>E0011</code></td><td data-label="Meaning">Generic type error</td><td data-label="Typical agent repair">Make type parameters consistent at the call site</td></tr>
+          <tr><td data-label="Code"><code>E0012</code></td><td data-label="Meaning">IO error</td><td data-label="Typical agent repair">Check the file path passed to the CLI</td></tr>
+          <tr><td data-label="Code"><code>E0013</code></td><td data-label="Meaning">Module error (next release)</td><td data-label="Typical agent repair">Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
+          <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </section>
 

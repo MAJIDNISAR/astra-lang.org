@@ -3,30 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Get started — Astra</title>
 <meta name="description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <link rel="canonical" href="https://astra-lang.org/start.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Get started — Astra">
 <meta property="og:description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <meta property="og:url" content="https://astra-lang.org/start.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Get started — Astra">
 <meta name="twitter:description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
     <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
     <nav class="main" aria-label="Main">
       <span class="nav-group">
-        <a href="start.html" class="active">Start</a>
+        <a href="start.html" class="active" aria-current="page">Start</a>
         <a href="language.html">Language</a>
         <a href="mifa.html">Mifa</a>
       </span>
@@ -43,11 +52,11 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">Getting started</p>
-      <h1>From download to native binary<br>in five minutes.</h1>
+      <h1>From download to native binary <br>in five minutes.</h1>
       <p class="lede">
         Since v0.9.1-alpha, prebuilt <code>astra</code> and <code>mifa</code>
         binaries ship for Linux, macOS (Intel and Apple Silicon), and

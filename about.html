@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>About — Astra, Mifa, and the person behind them</title>
 <meta name="description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
 <link rel="canonical" href="https://astra-lang.org/about.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="About — Astra, Mifa, and the person behind them">
 <meta property="og:description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
 <meta property="og:url" content="https://astra-lang.org/about.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="About — Astra, Mifa, and the person behind them">
 <meta name="twitter:description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -37,13 +46,13 @@
       </span>
       <span class="nav-group">
         <a href="progress.html">Progress</a>
-        <a href="about.html" class="active">About</a>
+        <a href="about.html" class="active" aria-current="page">About</a>
       </span>
     </nav>
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">About</p>
@@ -124,19 +133,19 @@
   <section>
     <div class="wrap">
       <h2><span class="k">Timeline</span>Milestones so far</h2>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>When</th><th>What</th></tr></thead>
         <tbody>
-          <tr><td>Oct 2025</td><td>v0.1 — university project: lexer, parser, first AST</td></tr>
-          <tr><td>Nov 2025</td><td>v0.5 — native compilation, Docker CI, first pre-built binaries</td></tr>
-          <tr><td>Jun 2026</td><td>v0.6 — honest alpha reset: JSON diagnostics, verify mode, AI-first thesis adopted</td></tr>
-          <tr><td>Jul 2026</td><td>v0.7 (released 2026-07-06) — source spans, structs/Result/closures native, REPL, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa lockfile + registry protocol + publish/auth + <code>--json</code></td></tr>
-          <tr><td>Jul 2026</td><td>v0.8.0-alpha (tagged 2026-07-07) — <strong>true LLVM-IR default backend</strong> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback), async/await (sync lowering), ignored-test burn-down complete (10 → 0), end-to-end regression suite; 285 tests green</td></tr>
-          <tr><td>Jul 2026</td><td>v0.9.0-alpha (tagged 2026-07-09) — <strong>soundness milestones</strong>: nominal structs, enums with payload variants, <code>?</code> operator, try/catch (function-local), tuples + destructuring, impl blocks, bitwise ops, Python-parity Tier 1–2 features</td></tr>
-          <tr><td>Jul 2026</td><td>v0.9.1-alpha (released 2026-07-15) — <strong>first cross-platform binary release</strong> (Linux x64, macOS Intel + Apple Silicon, Windows x64); closures callable (pipeline-order fix), ARC scope-based memory reclamation, compiler never panics on malformed input, CI gates (fmt / clippy / audit / llc corpus); 449 tests green</td></tr>
-          <tr><td>Oct 2026</td><td>On <code>main</code>, unreleased — <strong>interpreter with native parity</strong> (<code>astra run</code>, differential fuzzing), checked runtime traps on both engines, <strong>modules</strong> (<code>import</code>, <code>pub</code>, <code>util::f()</code>), and <code>mifa build</code>/<code>run</code> with importable path dependencies; 580 tests</td></tr>
+          <tr><td data-label="When">Oct 2025</td><td data-label="What">v0.1 — university project: lexer, parser, first AST</td></tr>
+          <tr><td data-label="When">Nov 2025</td><td data-label="What">v0.5 — native compilation, Docker CI, first pre-built binaries</td></tr>
+          <tr><td data-label="When">Jun 2026</td><td data-label="What">v0.6 — honest alpha reset: JSON diagnostics, verify mode, AI-first thesis adopted</td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.7 (released 2026-07-06) — source spans, structs/Result/closures native, REPL, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa lockfile + registry protocol + publish/auth + <code>--json</code></td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.8.0-alpha (tagged 2026-07-07) — <strong>true LLVM-IR default backend</strong> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback), async/await (sync lowering), ignored-test burn-down complete (10 → 0), end-to-end regression suite; 285 tests green</td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.9.0-alpha (tagged 2026-07-09) — <strong>soundness milestones</strong>: nominal structs, enums with payload variants, <code>?</code> operator, try/catch (function-local), tuples + destructuring, impl blocks, bitwise ops, Python-parity Tier 1–2 features</td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.9.1-alpha (released 2026-07-15) — <strong>first cross-platform binary release</strong> (Linux x64, macOS Intel + Apple Silicon, Windows x64); closures callable (pipeline-order fix), ARC scope-based memory reclamation, compiler never panics on malformed input, CI gates (fmt / clippy / audit / llc corpus); 449 tests green</td></tr>
+          <tr><td data-label="When">Oct 2026</td><td data-label="What">On <code>main</code>, unreleased — <strong>interpreter with native parity</strong> (<code>astra run</code>, differential fuzzing), checked runtime traps on both engines, <strong>modules</strong> (<code>import</code>, <code>pub</code>, <code>util::f()</code>), and <code>mifa build</code>/<code>run</code> with importable path dependencies; 580 tests</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="btn-row">
         <a class="btn primary" href="https://github.com/MAJIDNISAR/astra-releases">Follow the project on GitHub</a>
         <a class="btn ghost" href="https://majidnisar.com/projects/astra/">Read the full story</a>

@@ -25,8 +25,23 @@ python3 -m http.server 8080
 ```
 
 Plus: `404.html` (custom error page), `robots.txt`, `sitemap.xml`,
-`assets/favicon.svg`. All pages carry canonical URLs, Open Graph / Twitter
-meta, and the home page includes Schema.org JSON-LD.
+`assets/favicon.svg`, and `assets/og.png` (1200×630 social preview). All pages
+carry canonical URLs, Open Graph / Twitter large-card meta, and the home page
+includes Schema.org JSON-LD.
+
+## Design notes
+
+- `assets/style.css`: every value is a token in `:root`. The dark theme swaps
+  color tokens only, under `prefers-color-scheme` or `data-theme="dark"`.
+- `assets/site.js` (deferred) adds the theme toggle, the phone menu, copy
+  buttons and focusable scrolling code blocks. Every page works without it: the
+  nav collapses only after the script has built the menu button.
+- A tiny inline script in each `<head>` applies a stored theme before first
+  paint.
+- Tables: `.table-wrap.stack` (≤3 columns) become cards under 640px;
+  `.table-wrap.scroll` matrices scroll inside a labelled, focusable region.
+  Cells carry `data-label`; badge-only cells carry `badge-cell`.
+- `<pre data-copy="none">` opts a code block out of the copy button.
 
 ## Deployment
 
