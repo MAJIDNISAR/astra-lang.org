@@ -46,7 +46,7 @@
 <main>
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Ground truth · updated 2026-07-16</p>
+      <p class="kicker">Ground truth · updated 2026-10-29</p>
       <h1>Progress tracker</h1>
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
@@ -73,7 +73,8 @@
           <tr><td><strong>v0.7</strong></td><td>Source spans, semantic core native, REPL, closures, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa registry protocol + publish</td><td><span class="badge done">released 2026-07-06</span></td></tr>
           <tr><td><strong>v0.8</strong></td><td>True LLVM-IR default backend, async/await (sync lowering), end-to-end regression suite, ignored-test burn-down 10 → 0</td><td><span class="badge done">released 2026-07-07</span></td></tr>
           <tr><td><strong>v0.9</strong></td><td><em>Soundness &amp; hardening</em>: nominal structs, enums with payload variants, <code>?</code> operator + try/catch, tuples, impl blocks, bitwise ops, callable closures, ARC scope-based reclamation, compiler-never-panics on malformed input, CI gates (fmt / clippy / audit / llc corpus), <strong>cross-platform release binaries</strong> (Linux, macOS ×2, Windows)</td><td><span class="badge done">v0.9.1-alpha released 2026-07-15</span></td></tr>
-          <tr><td><strong>Next</strong></td><td>Traits, generic structs, typed collections, LSP alpha, <code>astra fmt</code>, stdlib core; then <code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td><strong>Unreleased</strong></td><td>On <code>main</code>: tree-walking interpreter behind <code>astra run</code> with parity tests and differential fuzzing against native; modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>, E0013); <code>mifa build</code>/<code>run</code> with path dependencies as modules; runtime traps for overflow, division by zero, bad shifts, out-of-bounds and runaway recursion on both engines; 580 tests</td><td><span class="badge wip">next release</span></td></tr>
+          <tr><td><strong>Next</strong></td><td>Program input/output (arguments, stdin, files), traits, generic structs, typed collections, LSP alpha, <code>astra fmt</code>, stdlib core; then <code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td><span class="badge planned">planned</span></td></tr>
           <tr><td><strong>v1.0</strong></td><td>GPU target (NVPTX), production tooling, hosted Mifa registry</td><td><span class="badge planned">planned</span></td></tr>
         </tbody>
       </table>
@@ -94,15 +95,19 @@
           <tr><td>1</td><td>Robustness: compiler never panics</td><td><span class="badge done">done 2026-07-13</span> — lexer/parser return diagnostics instead of crashing on malformed input; CI gates every commit on fmt, clippy <code>-D warnings</code>, cargo-audit, and an llc IR-validity corpus</td></tr>
           <tr><td>2</td><td>Callable closures</td><td><span class="badge done">done 2026-07-13</span> — root cause was pipeline order (closure-lift now runs before typecheck); v0 is int-typed closures on the default path</td></tr>
           <tr><td>3</td><td>ARC scope-based reclamation</td><td><span class="badge done">done 2026-07-15</span> — single-owner structs, strings, tuples, arrays freed at loop-body <em>and</em> function scope; retain-on-alias; 2M-iteration loops now run in ~1.3 MB (were 98–194 MB). String-aliased values still leak (bounded, safe)</td></tr>
-          <tr><td>4</td><td>Consolidate the two codegen paths</td><td>The legacy string-emission backend (<code>--llvm-native</code>) duplicates the default <code>ir.rs</code> path — a maintenance risk to retire</td></tr>
-          <tr><td>5</td><td>Traits, generic structs, typed collections</td><td>Currently gated with clear errors, not faked; <code>Vec&lt;int&gt;</code> is the minimal first slice</td></tr>
-          <tr><td>6</td><td>LSP alpha + <code>astra fmt</code> + stdlib core</td><td>Diagnostics-on-save first (reuses the JSON pipeline); formatter makes agent diffs reviewable; collections/string/fs surface</td></tr>
+          <tr><td>4</td><td>Interpreter with native parity</td><td><span class="badge done">done 2026-10-27</span> — <code>astra run</code> interprets (no LLVM needed, roughly CPython speed); every feature is tested for identical stdout and exit code against the native binary, and a fuzzer generates programs that must agree on both. Overflow, division by zero, bad shifts, out-of-bounds and runaway recursion now stop with a runtime error on both engines</td></tr>
+          <tr><td>5</td><td>Modules v0</td><td><span class="badge done">done 2026-10-28</span> — <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names; resolved before type checking so both engines get them; cycles, missing modules and private items are E0013 at the import line</td></tr>
+          <tr><td>6</td><td>Program input and output</td><td>Command-line arguments, stdin and files — programs can't take input yet, which blocks most real tools</td></tr>
+          <tr><td>7</td><td>Consolidate the two codegen paths</td><td>The legacy string-emission backend (<code>--llvm-native</code>) duplicates the default <code>ir.rs</code> path — a maintenance risk to retire</td></tr>
+          <tr><td>8</td><td>Traits, generic structs, typed collections</td><td>Currently gated with clear errors, not faked; <code>Vec&lt;int&gt;</code> is the minimal first slice</td></tr>
+          <tr><td>9</td><td>LSP alpha + <code>astra fmt</code> + stdlib core</td><td>Diagnostics-on-save first (reuses the JSON pipeline); formatter makes agent diffs reviewable; collections/string/fs surface</td></tr>
         </tbody>
       </table>
       <table>
         <thead><tr><th>#</th><th>Mifa</th><th>Why it's next</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>mifa build --json</code> + real <code>mifa test</code> discovery</td><td>The last gaps in the agent-native local story; JSON snapshot tests lock the envelope contract</td></tr>
+          <tr><td>✓</td><td><code>mifa build</code> / <code>run</code> with path dependencies</td><td><span class="badge done">done 2026-10-28</span> — builds <code>target/&lt;name&gt;</code>, dependency <code>src/</code> folders are module folders, <code>build --json</code> reports the binary path; <code>add --path</code> validates the package</td></tr>
+          <tr><td>1</td><td>Real <code>mifa test</code> discovery + project-wide <code>mifa verify</code></td><td>The last gaps in the agent-native local story: <code>verify</code> checks only the manifest and layout today</td></tr>
           <tr><td>2</td><td>HTTP registry client</td><td>Implements <code>RegistryApi</code> over HTTP — the trait means resolver code doesn't change</td></tr>
           <tr><td>3</td><td>Staging registry + real <code>mifa publish</code></td><td>Smallest deployable <code>/v1/packages</code> service; <code>--dry-run</code> stays as the local pre-flight</td></tr>
         </tbody>
@@ -165,7 +170,10 @@
           <tr><td>Enums + match</td><td><span class="badge done">v0.9</span></td><td>Unit variants + single-payload data variants (int, string, struct payloads via boxed repr), match in expression and statement position; multi-field variants gated with a clear error</td></tr>
           <tr><td><code>Result&lt;T,E&gt;</code> + match + <code>?</code></td><td><span class="badge done">working</span></td><td>Ok/Err paths, match binding; <code>?</code> unwraps Ok/Some or early-returns Err/None (v0.9); built-in Result payloads currently int-like — user enums for richer payloads</td></tr>
           <tr><td>try / catch</td><td><span class="badge done">v0.9 (local)</span></td><td>Lowered as function-local control flow — no unwinder, so a <code>throw</code> in a <em>called</em> function still aborts; use <code>Result</code> + <code>?</code> across functions</td></tr>
-          <tr><td>Closures (defined <em>and called</em>)</td><td><span class="badge done">v0.9</span></td><td>Lambda-lifting before typecheck (the v0.7 pipeline-order bug is fixed); v0 is int-typed closures on the default path</td></tr>
+          <tr><td>Closures (defined <em>and called</em>)</td><td><span class="badge done">v0.9</span></td><td>Lambda-lifting before typecheck (the v0.7 pipeline-order bug is fixed); v0 is int-typed closures on the default path. Next release: defined in any block, capture and return types inferred, captures copied at definition</td></tr>
+          <tr><td>Interpreter (<code>astra run</code>)</td><td><span class="badge wip">next release</span></td><td>Tree-walking, no LLVM needed; parity-tested and fuzzed against native — same stdout and exit code</td></tr>
+          <tr><td>Modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>)</td><td><span class="badge wip">next release</span></td><td>v0: enum variant names are global; programs from stdin/REPL cannot import</td></tr>
+          <tr><td>Runtime safety traps</td><td><span class="badge wip">next release</span></td><td>Overflow, division by zero, shifts outside 0..63, out-of-bounds and runaway recursion stop with <code>Runtime error</code>, exit 1, on both engines</td></tr>
           <tr><td>Tuples + destructuring</td><td><span class="badge done">v0.9</span></td><td><code>(a, b)</code>, <code>t.0</code>, <code>let (a, b) = e</code>, tuple types; arity mismatches rejected (E0017)</td></tr>
           <tr><td>impl blocks</td><td><span class="badge done">v0.9</span></td><td>Instance methods and associated functions (<code>Type::new()</code>)</td></tr>
           <tr><td>Generics (monomorphized fns)</td><td><span class="badge done">working</span></td><td>Generic <em>functions</em> specialize per concrete type; generic <em>structs</em> and traits are gated, not implemented</td></tr>
@@ -174,7 +182,7 @@
           <tr><td>Bitwise + compound operators</td><td><span class="badge done">v0.9</span></td><td><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code> with Python-parity precedence; <code>+=</code> family, <code>**</code>, radix literals</td></tr>
           <tr><td>Float arithmetic / compare</td><td><span class="badge done">v0.7</span></td><td>Native <code>fadd</code>/<code>fcmp</code> with int→double promotion</td></tr>
           <tr><td>JSON diagnostics with line + column</td><td><span class="badge done">working</span></td><td>Parse + named-symbol typecheck spans</td></tr>
-          <tr><td>Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td><span class="badge done">v0.7</span></td><td>Stable E0001–E0012 codes</td></tr>
+          <tr><td>Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td><span class="badge done">v0.7</span></td><td>Stable E0001–E0012 codes (E0013 module errors in the next release)</td></tr>
           <tr><td><code>astra repl</code></td><td><span class="badge done">alpha</span></td><td>Whole-program re-compile model</td></tr>
           <tr><td><code>dyn</code> gradual typing</td><td><span class="badge done">v0.7</span></td><td>First milestone: boundary typecheck + boxed lowering</td></tr>
           <tr><td>ARC memory reclamation</td><td><span class="badge wip">working, partial</span></td><td>Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB). String-aliased values and some non-loop scopes still leak — bounded and safe, never a double-free</td></tr>
@@ -215,8 +223,9 @@
         <thead><tr><th>Capability</th><th>Status</th><th>Evidence</th></tr></thead>
         <tbody>
           <tr><td><code>mifa init</code> — project scaffolding</td><td><span class="badge done">shipped</span></td><td>Integration-tested manifest + src layout</td></tr>
-          <tr><td><code>mifa add</code> — dependency management</td><td><span class="badge done">shipped</span></td><td>Manifest round-trip tests</td></tr>
-          <tr><td><code>mifa verify</code> — workspace typecheck</td><td><span class="badge done">shipped</span></td><td>7 failure modes + success path tested</td></tr>
+          <tr><td><code>mifa add</code> — dependency management</td><td><span class="badge done">shipped</span></td><td>Manifest round-trip tests; next release requires <code>--path</code> and validates the package</td></tr>
+          <tr><td><code>mifa verify</code> — manifest + layout validation</td><td><span class="badge done">shipped</span></td><td>7 failure modes + success path tested; type-checking the project is planned</td></tr>
+          <tr><td><code>mifa build</code> / <code>run</code> with importable path dependencies</td><td><span class="badge wip">next release</span></td><td>End-to-end test drives the real binary: init → add --path → build → run</td></tr>
           <tr><td><code>mifa lock</code> — reproducible lockfile</td><td><span class="badge done">shipped</span></td><td>sha256-stable across runs (validated)</td></tr>
           <tr><td>Path dependencies</td><td><span class="badge done">shipped</span></td><td>Resolve from local <code>astra.toml</code></td></tr>
           <tr><td>Cache (<code>~/.mifa/cache</code>)</td><td><span class="badge done">shipped</span></td><td><code>MIFA_CACHE_DIR</code> override supported</td></tr>

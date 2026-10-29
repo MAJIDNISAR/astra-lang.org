@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>For Agents — Astra's machine interface</title>
-<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0012, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="canonical" href="https://astra-lang.org/agents.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="theme-color" content="#faf6ef">
@@ -12,11 +12,11 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="For Agents — Astra's machine interface">
-<meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0012, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <meta property="og:url" content="https://astra-lang.org/agents.html">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="For Agents — Astra's machine interface">
-<meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0012, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -136,6 +136,7 @@
           <tr><td><code>E0010</code></td><td>Struct field error</td><td>Use fields declared on the struct; check literal completeness</td></tr>
           <tr><td><code>E0011</code></td><td>Generic type error</td><td>Make type parameters consistent at the call site</td></tr>
           <tr><td><code>E0012</code></td><td>IO error</td><td>Check the file path passed to the CLI</td></tr>
+          <tr><td><code>E0013</code></td><td>Module error (next release)</td><td>Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
           <tr><td><code>E0099</code></td><td>Internal / uncategorized</td><td>Report upstream; do not retry blindly</td></tr>
         </tbody>
       </table>
