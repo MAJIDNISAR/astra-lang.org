@@ -59,10 +59,9 @@
   <section>
     <div class="wrap">
       <h2><span class="k">Workflow</span>From zero to running project</h2>
-<pre><code><span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra</span>
-<span class="p">$</span> cd myapp
-<span class="p">$</span> mifa add utils@1.0.0     <span class="c"># record a dependency in the manifest</span>
-<span class="p">$</span> mifa verify              <span class="c"># typecheck the whole workspace, no codegen</span>
+<pre><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
+<span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra here</span>
+<span class="p">$</span> mifa verify              <span class="c"># validate astra.toml and the src/ layout</span>
 <span class="p">$</span> mifa lock                <span class="c"># write astra.lock (sha256-stable)</span>
 <span class="p">$</span> mifa run                 <span class="c"># compile + execute natively</span>
 <span class="p">$</span> mifa verify --json       <span class="c"># same result as a machine-readable envelope</span>
@@ -145,10 +144,40 @@ local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
         <p><strong>Honest note:</strong> the registry protocol is fully
         specified and tested against an in-memory implementation — checksums,
         yanked versions, auth, and publish validation all work — but there is
-        no hosted registry yet; real uploads are blocked on deployment. Local
-        workflows (init, add, verify, lock, run, path dependencies, JSON
-        output, login, dry-run publish) are real and covered by 90+ tests.</p>
+        no hosted registry yet; real uploads are blocked on deployment, and
+        a registry dependency like <code>utils@1.0.0</code> has nothing to
+        download from. Local workflows (init, verify, lock, run, path
+        dependencies, JSON output, login, dry-run publish) are real and
+        covered by 90+ tests.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="next">
+    <div class="wrap">
+      <h2><span class="k">Next release</span>Dependencies you can import</h2>
+      <p>On <code>main</code> and shipping in the next release: a local
+      package is a real dependency. <code>mifa build</code> compiles
+      <code>src/main.astra</code> to <code>target/&lt;name&gt;</code> and
+      searches each path dependency's <code>src/</code> folder for modules;
+      <code>mifa run</code> passes arguments through and exits with your
+      program's exit code.</p>
+<pre><code><span class="p">$</span> mifa init app              <span class="c"># creates app/</span>
+<span class="p">$</span> mifa init textutil
+<span class="p">$</span> cd app
+<span class="p">$</span> mifa add textutil --path ../textutil   <span class="c"># checks ../textutil/astra.toml</span>
+<span class="p">$</span> mifa run
+HI!</code></pre>
+      <div class="codeblock">
+        <span class="tab">textutil/src/textutil.astra · app/src/main.astra</span>
+<pre><code><span class="kw">pub fn</span> <span class="fn">shout</span>(s: <span class="kw">str</span>) -&gt; <span class="kw">str</span> { <span class="kw">return</span> s.<span class="fn">to_upper</span>() + <span class="s">"!"</span>; }
+
+<span class="kw">import</span> textutil;
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span> { <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">"hi"</span>)); <span class="kw">return</span> <span class="n">0</span>; }</code></pre>
+      </div>
+      <p><code>mifa add</code> without <code>--path</code> becomes an error
+      instead of recording a package nothing can fetch. This flow is covered
+      by an end-to-end test that drives the real <code>mifa</code> binary.</p>
     </div>
   </section>
 
@@ -156,16 +185,19 @@ local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
     <div class="wrap">
       <h2><span class="k">Design</span>Why not reuse an existing manager?</h2>
       <ul>
-        <li><strong>Verification-first resolution.</strong> <code>mifa verify</code>
-        typechecks the whole workspace — including dependencies — without
-        generating code, so an agent can validate a project graph in
-        milliseconds.</li>
+        <li><strong>Verification-first.</strong> <code>astra verify</code>
+        type-checks a program without generating code, so an agent can
+        validate a change in milliseconds. <code>mifa verify</code> today
+        checks only the manifest and layout; type-checking the whole project
+        graph from Mifa is planned.</li>
         <li><strong>Lockfile as a contract.</strong> The lock isn't advisory;
         future registry fetches will refuse checksum mismatches outright.</li>
         <li><strong>One tool, one mental model.</strong> Mifa wraps the same
         compiler library the <code>astra</code> CLI uses. Diagnostics, exit
-        codes, and JSON shapes stay identical between both tools — every
-        command supports <code>--json</code> and emits the same
+        codes, and JSON shapes stay identical between both tools —
+        <code>init</code>, <code>add</code>, <code>verify</code>,
+        <code>test</code>, <code>lock</code>, <code>login</code> and
+        <code>publish</code> support <code>--json</code> and emit the same
         <code>diagnostics[]</code> envelope.</li>
       </ul>
       <div class="btn-row">

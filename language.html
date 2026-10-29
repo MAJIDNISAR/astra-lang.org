@@ -167,6 +167,40 @@
     </div>
   </section>
 
+  <section id="modules">
+    <div class="wrap">
+      <h2><span class="k">Structure</span>Modules <span class="badge planned">next release</span></h2>
+      <p>On <code>main</code> and shipping in the next release: a program can
+      span several files. <code>import util;</code> loads
+      <code>util.astra</code> from the same folder (or from
+      <code>ASTRA_PATH</code>, or a Mifa path dependency). Only items marked
+      <code>pub</code> can be used from outside, and they are always named
+      with their module, so it is clear where each one comes from.</p>
+      <div class="codeblock">
+        <span class="tab">util.astra</span>
+<pre><code><span class="kw">pub const</span> LIMIT: <span class="kw">int</span> = <span class="n">100</span>;
+<span class="kw">pub struct</span> Point { x: <span class="kw">int</span>; y: <span class="kw">int</span>; }
+<span class="kw">fn</span> <span class="fn">helper</span>(n: <span class="kw">int</span>) -> <span class="kw">int</span> { <span class="kw">return</span> n * n; }   <span class="c">// private to util</span>
+<span class="kw">pub fn</span> <span class="fn">square</span>(n: <span class="kw">int</span>) -> <span class="kw">int</span> { <span class="kw">return</span> <span class="fn">helper</span>(n); }</code></pre>
+      </div>
+      <div class="codeblock">
+        <span class="tab">main.astra</span>
+<pre><code><span class="kw">import</span> util;
+
+<span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
+    <span class="kw">let</span> p = util::Point { x: <span class="n">3</span>, y: <span class="n">4</span> };
+    <span class="fn">print</span>(util::<span class="fn">square</span>(p.x) + util::LIMIT);   <span class="c">// 109</span>
+    <span class="kw">return</span> <span class="n">0</span>;
+}</code></pre>
+      </div>
+      <p>Import cycles, missing modules and private or unknown items are
+      compile errors with code <code>E0013</code>, pointing at the
+      <code>import</code> line — the same JSON diagnostics an agent already
+      handles. Modules are resolved into one program before type checking,
+      so the interpreter and the native compiler behave identically.</p>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2><span class="k">Under the hood</span>The compiler pipeline</h2>
@@ -175,12 +209,18 @@
 <pre><code>source.astra
   → <span class="fn">lexer</span>        tokens with line + column
   → <span class="fn">parser</span>       recursive-descent AST
+  → <span class="fn">modules</span>      resolve imports into one program (next release)
   → <span class="fn">closure lift</span> closures → top-level functions
   → <span class="fn">typechecker</span>  type inference + checking
   → <span class="fn">monomorphize</span> generic specialization
   → <span class="fn">IR</span>           LLVM IR generation
   → <span class="fn">llc + link</span>   object code + small C runtime
   → native executable</code></pre>
+      <p>In the next release, <code>astra run</code> takes a second path after
+      type checking: a tree-walking interpreter that starts instantly and
+      needs no LLVM. Every feature is tested for identical output and exit
+      code on both engines, and a fuzzer generates programs to keep them in
+      agreement.</p>
       <p>Diagnostics are emitted as structured JSON at every phase, which is
       what makes the agent repair loop possible. The direction is locked in
       five ratified architecture decisions: ARC memory management, gradual

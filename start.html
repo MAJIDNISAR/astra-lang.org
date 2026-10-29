@@ -139,13 +139,18 @@ astra&gt; :quit</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Step 5</span>Start a real project with Mifa</h2>
-<pre><code><span class="p">$</span> mifa init myapp
-<span class="p">$</span> cd myapp
+<pre><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
+<span class="p">$</span> mifa init myapp   <span class="c"># v0.9.1 writes into the current folder</span>
 <span class="p">$</span> mifa verify
-<span class="p">$</span> mifa lock     <span class="c"># reproducible astra.lock</span>
+<span class="p">$</span> mifa lock         <span class="c"># reproducible astra.lock</span>
 <span class="p">$</span> mifa run</code></pre>
       <p>See the <a href="mifa.html">Mifa page</a> for manifests, path
       dependencies, and the lockfile contract.</p>
+      <p><strong>Next release:</strong> <code>mifa init myapp</code> creates
+      the <code>myapp/</code> folder itself, <code>mifa add lib --path
+      ../lib</code> makes another local package importable, and a program
+      can span several files with <code>import</code> — see the
+      <a href="language.html#modules">language tour</a>.</p>
     </div>
   </section>
 
