@@ -47,6 +47,7 @@
       <span class="nav-group">
         <a href="progress.html">Progress</a>
         <a href="about.html">About</a>
+        <a href="download.html">Download</a>
       </span>
     </nav>
   </div>
@@ -230,9 +231,9 @@ RESULT: 12/12 checks passed</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Reproduce</span>Run it yourself</h2>
-      <p>The compiled-binary side reproduces today:
-      <a href="https://github.com/MAJIDNISAR/astra-releases/releases">download
-      a release</a>, write the loop, and time it —</p>
+      <p>Once public downloads open (<a href="download.html">coming
+      soon</a>), the compiled-binary side reproduces in a minute: write the
+      loop and time it —</p>
 <pre><code><span class="p">$</span> astra verify loop.astra               <span class="c"># the ~100 ms typecheck</span>
 <span class="p">$</span> time astra compile loop.astra --output loop &amp;&amp; ./loop
 <span class="p">$</span> time python3 loop.py                  <span class="c"># the comparison</span></code></pre>
@@ -241,8 +242,7 @@ RESULT: 12/12 checks passed</code></pre>
       scenario programs, and the 449-test suite) ships with the compiler
       source, which opens at v1.0-beta. If a number on this page doesn't
       reproduce on your machine, that's a bug —
-      <a href="https://github.com/MAJIDNISAR/astra-releases/issues">file
-      it</a>.</p>
+      <a href="https://majidnisar.com">tell us</a>.</p>
     </div>
   </section>
 </main>
@@ -250,7 +250,7 @@ RESULT: 12/12 checks passed</code></pre>
 <footer class="site">
   <div class="wrap">
     <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="https://github.com/MAJIDNISAR/astra-releases">Downloads</a> · MIT License</span>
+    <span><a href="download.html">Downloads</a> · MIT License</span>
   </div>
 </footer>
 

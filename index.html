@@ -40,7 +40,7 @@
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
       "softwareVersion": "0.9.1-alpha",
-      "downloadUrl": "https://github.com/MAJIDNISAR/astra-releases/releases"
+      "downloadUrl": "https://astra-lang.org/download.html"
     },
     {
       "@type": "WebSite",
@@ -73,6 +73,7 @@
       <span class="nav-group">
         <a href="progress.html">Progress</a>
         <a href="about.html">About</a>
+        <a href="download.html">Download</a>
       </span>
     </nav>
   </div>
@@ -81,7 +82,7 @@
 <main id="main">
   <section class="hero">
     <div class="wrap">
-      <p class="status-line"><span class="dot">●</span> v0.9.1-alpha · 449 tests passing · prebuilt binaries for Linux, macOS &amp; Windows</p>
+      <p class="status-line"><span class="dot">●</span> alpha · 598 tests passing · public downloads coming soon</p>
       <h1>A language built for the way <br>code is written now.</h1>
       <p class="lede">
         Astra is a statically checked, natively compiled programming
@@ -91,7 +92,7 @@
       </p>
 
       <div class="btn-row">
-        <a class="btn primary" href="https://github.com/MAJIDNISAR/astra-releases/releases">Download v0.9.1-alpha</a>
+        <a class="btn primary" href="download.html">Downloads — coming soon</a>
         <a class="btn ghost" href="language.html">Read the language tour</a>
       </div>
       <p class="new-line"><span class="badge wip">new on main</span>Modules, an interpreter for <code>astra run</code>, and Mifa builds with local dependencies — <a href="progress.html#next">coming in the next release</a>.</p>
@@ -282,7 +283,7 @@
         <li><b>In progress:</b> ARC memory reclamation — single-owner structs, strings, tuples, and arrays are freed at loop-body and function scope with retain-on-alias; string-aliased values still leak (bounded, safe)</li>
         <li><b>Next:</b> program input and output (arguments, stdin, files), consolidating the two codegen paths, traits, generic structs, typed collections beyond a minimal <code>Vec&lt;int&gt;</code>, LSP alpha, <code>astra fmt</code>, stdlib core — <a href="progress.html#next">full priority queue</a></li>
         <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, WASM + GPU targets, hosted Mifa registry (protocol done, deployment pending)</li>
-        <li><b>Source availability:</b> the compiler's source repository is private while the core hardens and <b>opens at v1.0-beta</b>. Binaries, examples, and the issue tracker are public at <a href="https://github.com/MAJIDNISAR/astra-releases">astra-releases</a>; for early source access, <a href="https://majidnisar.com">get in touch</a></li>
+        <li><b>Source availability:</b> the compiler's source repository is private while the core hardens and <b>opens at v1.0-beta</b>. Binaries and examples arrive with the first public release (<a href="download.html">coming soon</a>); for early access, <a href="https://majidnisar.com">get in touch</a></li>
       </ul>
     </div>
   </section>
@@ -292,8 +293,9 @@
       <h2><span class="k">Start</span>Run it in two minutes</h2>
       <p>Prebuilt <code>astra</code> + <code>mifa</code> binaries for
       <strong>Linux x64, macOS (Intel and Apple Silicon), and Windows x64</strong>
-      ship with each <a href="https://github.com/MAJIDNISAR/astra-releases/releases">release</a>,
-      alongside the runnable showcase examples:</p>
+      are coming with the first public release
+      (<a href="download.html">downloads</a>), alongside the runnable showcase
+      examples. Once installed:</p>
 <pre><code><span class="p">$</span> astra verify examples/showcase/01_hello_world.astra
 Verification passed
 <span class="p">$</span> astra compile examples/showcase/01_hello_world.astra --output hello
@@ -309,7 +311,7 @@ Hello, World!</code></pre>
 <footer class="site">
   <div class="wrap">
     <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="https://github.com/MAJIDNISAR/astra-releases">Downloads</a> · MIT License</span>
+    <span><a href="download.html">Downloads</a> · MIT License</span>
   </div>
 </footer>
 
