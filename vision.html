@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Vision — where Astra is going</title>
 <meta name="description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
 <link rel="canonical" href="https://astra-lang.org/vision.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Vision — where Astra is going">
 <meta property="og:description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
 <meta property="og:url" content="https://astra-lang.org/vision.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Vision — where Astra is going">
 <meta name="twitter:description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -31,7 +40,7 @@
         <a href="mifa.html">Mifa</a>
       </span>
       <span class="nav-group">
-        <a href="vision.html" class="active">Vision</a>
+        <a href="vision.html" class="active" aria-current="page">Vision</a>
         <a href="benchmarks.html">Benchmarks</a>
         <a href="agents.html">Agents</a>
       </span>
@@ -43,7 +52,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">Vision · v0.9 → v1.0</p>
@@ -65,28 +74,28 @@
         keyboard. The next one has three participants with different
         strengths:
       </p>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Participant</th><th>Contributes</th><th>Needs from the language</th></tr></thead>
         <tbody>
-          <tr><td><strong>The agent</strong></td><td>Tactical speed — code at machine pace</td><td>A generable surface + machine-readable feedback</td></tr>
-          <tr><td><strong>The compiler</strong></td><td>Strategic structure — enforced design</td><td>Types, contracts, deterministic builds baked in</td></tr>
-          <tr><td><strong>The human</strong></td><td>Judgment — intent and review</td><td>Code where the compiler already ruled out the mundane bugs</td></tr>
+          <tr><td data-label="Participant"><strong>The agent</strong></td><td data-label="Contributes">Tactical speed — code at machine pace</td><td data-label="Needs from the language">A generable surface + machine-readable feedback</td></tr>
+          <tr><td data-label="Participant"><strong>The compiler</strong></td><td data-label="Contributes">Strategic structure — enforced design</td><td data-label="Needs from the language">Types, contracts, deterministic builds baked in</td></tr>
+          <tr><td data-label="Participant"><strong>The human</strong></td><td data-label="Contributes">Judgment — intent and review</td><td data-label="Needs from the language">Code where the compiler already ruled out the mundane bugs</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p>
         Astra is designed around that triangle. Each release strengthens the
         strategic layer another notch:
       </p>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Release</th><th>Strategic guarantee it adds</th></tr></thead>
         <tbody>
-          <tr><td><strong>v0.6–0.7</strong> <span class="badge done">shipped</span></td><td>Types, <code>Result</code>, machine-readable diagnostics, explicit <code>dyn</code>, reproducible locks</td></tr>
-          <tr><td><strong>v0.8</strong> <span class="badge done">shipped</span></td><td>One true LLVM-IR backend — the foundation every future target builds on</td></tr>
-          <tr><td><strong>v0.9</strong> <span class="badge done">shipped</span></td><td>A sound core: nominal types, payload enums, <code>?</code> error handling, ARC memory reclamation, a compiler that never panics — delivered as cross-platform binaries</td></tr>
-          <tr><td><strong>Next</strong></td><td>Tool schemas, agent state, prompts, and delegation — all typechecked; generated code sandboxed in WASM</td></tr>
-          <tr><td><strong>v1.0</strong></td><td>One strategic layer across native, WASM, and GPU targets</td></tr>
+          <tr><td data-label="Release"><strong>v0.6–0.7</strong> <span class="badge done">shipped</span></td><td data-label="Strategic guarantee it adds">Types, <code>Result</code>, machine-readable diagnostics, explicit <code>dyn</code>, reproducible locks</td></tr>
+          <tr><td data-label="Release"><strong>v0.8</strong> <span class="badge done">shipped</span></td><td data-label="Strategic guarantee it adds">One true LLVM-IR backend — the foundation every future target builds on</td></tr>
+          <tr><td data-label="Release"><strong>v0.9</strong> <span class="badge done">shipped</span></td><td data-label="Strategic guarantee it adds">A sound core: nominal types, payload enums, <code>?</code> error handling, ARC memory reclamation, a compiler that never panics — delivered as cross-platform binaries</td></tr>
+          <tr><td data-label="Release"><strong>Next</strong></td><td data-label="Strategic guarantee it adds">Tool schemas, agent state, prompts, and delegation — all typechecked; generated code sandboxed in WASM</td></tr>
+          <tr><td data-label="Release"><strong>v1.0</strong></td><td data-label="Strategic guarantee it adds">One strategic layer across native, WASM, and GPU targets</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p>
         Delivery against each guarantee is scored on the
         <a href="progress.html#strategic">progress tracker</a> — currently
@@ -188,46 +197,46 @@
       <p>Every language in this table is excellent at what it was designed
       for. The comparison is scoped to one question: <em>what should an agent
       generate?</em></p>
-      <table>
+      <div class="table-wrap scroll" role="region" tabindex="0" aria-label="Astra vs. the alternatives for agent code (scrolls sideways)"><table>
         <thead><tr><th></th><th>Python</th><th>Rust</th><th>Go</th><th>Mojo</th><th>Astra</th></tr></thead>
         <tbody>
           <tr>
-            <td>Mistakes caught before run</td>
-            <td>Few (runtime)</td><td>Most</td><td>Many</td><td>Most</td>
-            <td><strong>Most — by design goal</strong></td>
+            <td data-label="">Mistakes caught before run</td>
+            <td data-label="Python">Few (runtime)</td><td data-label="Rust">Most</td><td data-label="Go">Many</td><td data-label="Mojo">Most</td>
+            <td data-label="Astra"><strong>Most — by design goal</strong></td>
           </tr>
           <tr>
-            <td>Diagnostics as machine-readable contract</td>
-            <td>No</td><td>Partial (<code>--message-format=json</code>, rich but complex)</td><td>Partial</td><td>No</td>
-            <td><strong>Yes — stable codes + suggestions, primary interface</strong></td>
+            <td data-label="">Diagnostics as machine-readable contract</td>
+            <td data-label="Python">No</td><td data-label="Rust">Partial (<code>--message-format=json</code>, rich but complex)</td><td data-label="Go">Partial</td><td data-label="Mojo">No</td>
+            <td data-label="Astra"><strong>Yes — stable codes + suggestions, primary interface</strong></td>
           </tr>
           <tr>
-            <td>Easy for an LLM to generate correctly</td>
-            <td><strong>Yes</strong></td><td>Hard (lifetimes)</td><td>Yes</td><td>Moderate</td>
-            <td><strong>Yes — Python-like surface, no borrow checker</strong></td>
+            <td data-label="">Easy for an LLM to generate correctly</td>
+            <td data-label="Python"><strong>Yes</strong></td><td data-label="Rust">Hard (lifetimes)</td><td data-label="Go">Yes</td><td data-label="Mojo">Moderate</td>
+            <td data-label="Astra"><strong>Yes — Python-like surface, no borrow checker</strong></td>
           </tr>
           <tr>
-            <td>Native performance</td>
-            <td>No</td><td><strong>Yes</strong></td><td>Yes</td><td>Yes</td>
-            <td><strong>Yes (LLVM)</strong></td>
+            <td data-label="">Native performance</td>
+            <td data-label="Python">No</td><td data-label="Rust"><strong>Yes</strong></td><td data-label="Go">Yes</td><td data-label="Mojo">Yes</td>
+            <td data-label="Astra"><strong>Yes (LLVM)</strong></td>
           </tr>
           <tr>
-            <td>Agent primitives in the language</td>
-            <td>Frameworks only</td><td>Frameworks only</td><td>Frameworks only</td><td>No</td>
-            <td><strong>Planned as keywords</strong></td>
+            <td data-label="">Agent primitives in the language</td>
+            <td data-label="Python">Frameworks only</td><td data-label="Rust">Frameworks only</td><td data-label="Go">Frameworks only</td><td data-label="Mojo">No</td>
+            <td data-label="Astra"><strong>Planned as keywords</strong></td>
           </tr>
           <tr>
-            <td>Memory model burden on the generator</td>
-            <td>None (GC)</td><td>High (ownership)</td><td>None (GC)</td><td>Low</td>
-            <td><strong>None visible (ARC)</strong></td>
+            <td data-label="">Memory model burden on the generator</td>
+            <td data-label="Python">None (GC)</td><td data-label="Rust">High (ownership)</td><td data-label="Go">None (GC)</td><td data-label="Mojo">Low</td>
+            <td data-label="Astra"><strong>None visible (ARC)</strong></td>
           </tr>
           <tr>
-            <td>Maturity today</td>
-            <td><strong>Production</strong></td><td><strong>Production</strong></td><td><strong>Production</strong></td><td>Early</td>
-            <td>Alpha — <a href="progress.html">tracked honestly</a></td>
+            <td data-label="">Maturity today</td>
+            <td data-label="Python"><strong>Production</strong></td><td data-label="Rust"><strong>Production</strong></td><td data-label="Go"><strong>Production</strong></td><td data-label="Mojo">Early</td>
+            <td data-label="Astra">Alpha — <a href="progress.html">tracked honestly</a></td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="callout">
         <p><strong>The bet in one sentence:</strong> Rust-grade verification
         with Python-grade generability, plus agent concepts the compiler
@@ -244,16 +253,16 @@
       decisions debated and ratified on 2026-07-02, each with recorded
       rationale, accepted costs, and first milestones (two of which have
       already shipped):</p>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Bet</th><th>Decision</th><th>First milestone</th></tr></thead>
         <tbody>
-          <tr><td>1 — Memory</td><td>ARC + escape analysis + <code>region</code></td><td><span class="badge wip">reclaiming since v0.9 (partial)</span></td></tr>
-          <tr><td>2 — Typing</td><td>Static by default, gradual via <code>dyn</code></td><td><span class="badge done">shipped v0.7</span></td></tr>
-          <tr><td>3 — Backend</td><td>One LLVM compiler → native / WASM / GPU</td><td><span class="badge done">native shipped v0.8 · WASM planned</span></td></tr>
-          <tr><td>4 — AI primitives</td><td><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> keywords</td><td><span class="badge planned">planned</span></td></tr>
-          <tr><td>5 — Interop</td><td>Embedded CPython in stdlib</td><td><span class="badge planned">planned</span></td></tr>
+          <tr><td data-label="Bet">1 — Memory</td><td data-label="Decision">ARC + escape analysis + <code>region</code></td><td class="badge-cell" data-label="First milestone"><span class="badge wip">reclaiming since v0.9 (partial)</span></td></tr>
+          <tr><td data-label="Bet">2 — Typing</td><td data-label="Decision">Static by default, gradual via <code>dyn</code></td><td class="badge-cell" data-label="First milestone"><span class="badge done">shipped v0.7</span></td></tr>
+          <tr><td data-label="Bet">3 — Backend</td><td data-label="Decision">One LLVM compiler → native / WASM / GPU</td><td class="badge-cell" data-label="First milestone"><span class="badge done">native shipped v0.8 · WASM planned</span></td></tr>
+          <tr><td data-label="Bet">4 — AI primitives</td><td data-label="Decision"><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> keywords</td><td class="badge-cell" data-label="First milestone"><span class="badge planned">planned</span></td></tr>
+          <tr><td data-label="Bet">5 — Interop</td><td data-label="Decision">Embedded CPython in stdlib</td><td class="badge-cell" data-label="First milestone"><span class="badge planned">planned</span></td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p style="font-size:.9em">The full decision records — rationale,
       accepted costs, amendment process — live in the repository and
       publish with the source at v1.0-beta.</p>

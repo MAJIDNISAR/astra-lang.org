@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Benchmarks — validated metrics, reproducible on your machine</title>
 <meta name="description" content="Astra's internally tested and verified metrics: verify latency, compile+run vs Python, agent-mistake rejection, lockfile determinism — every number reproducible from a script in the repo.">
 <link rel="canonical" href="https://astra-lang.org/benchmarks.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Benchmarks — validated metrics, reproducible on your machine">
 <meta property="og:description" content="Astra's internally tested and verified metrics: verify latency, compile+run vs Python, agent-mistake rejection, lockfile determinism — every number reproducible from a script in the repo.">
 <meta property="og:url" content="https://astra-lang.org/benchmarks.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Benchmarks — validated metrics, reproducible on your machine">
 <meta name="twitter:description" content="Astra's internally tested and verified metrics: verify latency, compile+run vs Python, agent-mistake rejection, lockfile determinism — every number reproducible from a script in the repo.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -32,7 +41,7 @@
       </span>
       <span class="nav-group">
         <a href="vision.html">Vision</a>
-        <a href="benchmarks.html" class="active">Benchmarks</a>
+        <a href="benchmarks.html" class="active" aria-current="page">Benchmarks</a>
         <a href="agents.html">Agents</a>
       </span>
       <span class="nav-group">
@@ -43,7 +52,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">Validated metrics</p>
@@ -85,15 +94,15 @@ RESULT: 12/12 checks passed</code></pre>
       <p><strong>Test:</strong> scenario 2 submits four canonical mistake
       programs; each must be rejected by <code>verify</code> with the right
       error class, and none may produce a binary.</p>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Mistake class</th><th>Example</th><th>Caught pre-run</th></tr></thead>
         <tbody>
-          <tr><td>Undefined variable</td><td><code>print(totl)</code> (typo)</td><td><span class="badge done">yes — E0002</span></td></tr>
-          <tr><td>Type mismatch</td><td><code>let n: int = "hello"</code></td><td><span class="badge done">yes — E0004</span></td></tr>
-          <tr><td>Wrong argument count</td><td><code>add(1)</code> for <code>add(a, b)</code></td><td><span class="badge done">yes — E0005</span></td></tr>
-          <tr><td>Invalid return type</td><td>returning <code>str</code> from <code>-> int</code></td><td><span class="badge done">yes — E0004</span></td></tr>
+          <tr><td data-label="Mistake class">Undefined variable</td><td data-label="Example"><code>print(totl)</code> (typo)</td><td class="badge-cell" data-label="Caught pre-run"><span class="badge done">yes — E0002</span></td></tr>
+          <tr><td data-label="Mistake class">Type mismatch</td><td data-label="Example"><code>let n: int = "hello"</code></td><td class="badge-cell" data-label="Caught pre-run"><span class="badge done">yes — E0004</span></td></tr>
+          <tr><td data-label="Mistake class">Wrong argument count</td><td data-label="Example"><code>add(1)</code> for <code>add(a, b)</code></td><td class="badge-cell" data-label="Caught pre-run"><span class="badge done">yes — E0005</span></td></tr>
+          <tr><td data-label="Mistake class">Invalid return type</td><td data-label="Example">returning <code>str</code> from <code>-> int</code></td><td class="badge-cell" data-label="Caught pre-run"><span class="badge done">yes — E0004</span></td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p><strong>Result:</strong> <span class="badge done">4/4 rejected</span>
       — in Python, all four would execute until the faulty line is reached
       (or silently succeed).</p>
@@ -165,14 +174,14 @@ RESULT: 12/12 checks passed</code></pre>
       Astra v0.8.0-alpha (default LLVM-IR pipeline) · Apple clang 17
       (<code>-O2</code>) · rustc 1.94 (<code>-O</code>) · go 1.26 · OpenJDK
       25 LTS · Node v22 · Python 3.9. Run-only unless noted.</p>
-      <table>
+      <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Astra vs C vs Rust vs Go vs Java vs Node.js vs Python 3 (scrolls sideways)"><table>
         <thead><tr><th>Benchmark</th><th>Astra</th><th>C <code>-O2</code></th><th>Rust <code>-O</code></th><th>Go</th><th>Java</th><th>Node.js</th><th>Python 3</th><th>Astra compile+run</th></tr></thead>
         <tbody>
-          <tr><td>Recursive fib(30)</td><td><strong>101 ms</strong></td><td>110 ms</td><td>103 ms</td><td>104 ms</td><td>135 ms</td><td>138 ms</td><td>449 ms</td><td>531 ms</td></tr>
-          <tr><td>10M-iteration arithmetic loop</td><td><strong>117 ms</strong></td><td>108 ms</td><td>111 ms</td><td>110 ms</td><td>146 ms</td><td>146 ms</td><td>2,088 ms</td><td>295 ms</td></tr>
-          <tr><td>Collatz steps for 1..100,000</td><td><strong>117 ms</strong></td><td>114 ms</td><td>117 ms</td><td>120 ms</td><td>152 ms</td><td>178 ms</td><td>1,812 ms</td><td>567 ms</td></tr>
+          <tr><td data-label="Benchmark">Recursive fib(30)</td><td data-label="Astra"><strong>101 ms</strong></td><td data-label="C -O2">110 ms</td><td data-label="Rust -O">103 ms</td><td data-label="Go">104 ms</td><td data-label="Java">135 ms</td><td data-label="Node.js">138 ms</td><td data-label="Python 3">449 ms</td><td data-label="Astra compile+run">531 ms</td></tr>
+          <tr><td data-label="Benchmark">10M-iteration arithmetic loop</td><td data-label="Astra"><strong>117 ms</strong></td><td data-label="C -O2">108 ms</td><td data-label="Rust -O">111 ms</td><td data-label="Go">110 ms</td><td data-label="Java">146 ms</td><td data-label="Node.js">146 ms</td><td data-label="Python 3">2,088 ms</td><td data-label="Astra compile+run">295 ms</td></tr>
+          <tr><td data-label="Benchmark">Collatz steps for 1..100,000</td><td data-label="Astra"><strong>117 ms</strong></td><td data-label="C -O2">114 ms</td><td data-label="Rust -O">117 ms</td><td data-label="Go">120 ms</td><td data-label="Java">152 ms</td><td data-label="Node.js">178 ms</td><td data-label="Python 3">1,812 ms</td><td data-label="Astra compile+run">567 ms</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="bar-row"><span>c -O2</span><div class="bar"><span style="width:5.2%"></span></div><span class="pct">108 ms</span></div>
       <div class="bar-row"><span>go</span><div class="bar"><span style="width:5.3%"></span></div><span class="pct">110 ms</span></div>
       <div class="bar-row"><span>rust</span><div class="bar"><span style="width:5.3%"></span></div><span class="pct">111 ms</span></div>
@@ -203,18 +212,18 @@ RESULT: 12/12 checks passed</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Suite</span>Correctness metrics</h2>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td>Test suite</td><td><strong>449 passed · 0 failed · 0 ignored</strong></td><td><code>cargo test --quiet</code> (v0.9.1-alpha)</td></tr>
-          <tr><td>Build warnings</td><td><strong>0</strong> — CI enforces <code>clippy -D warnings</code></td><td><code>cargo build --quiet</code></td></tr>
-          <tr><td>Ignored-test burn-down</td><td><strong>10 → 0 (complete)</strong></td><td>Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
-          <tr><td>End-to-end regression suite</td><td><strong>108 / 108</strong> — compile → IR → native run → stdout/exit-code asserted</td><td><code>tests/regression_tests.rs</code></td></tr>
-          <tr><td>Showcase examples runtime-verified</td><td>compile + execute + stdout asserted</td><td><code>tests/showcase_examples_tests.rs</code></td></tr>
-          <tr><td>IR validity gate</td><td>every corpus program's IR must pass <code>llc</code></td><td><code>tests/ir_validity_tests.rs</code> (in CI)</td></tr>
-          <tr><td>Validation checks</td><td><strong>12 / 12</strong></td><td><code>scripts/validate_metrics.sh</code></td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>449 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test --quiet</code> (v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong> — CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
+          <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
+          <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>108 / 108</strong> — compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
+          <tr><td data-label="Metric">Showcase examples runtime-verified</td><td data-label="Value">compile + execute + stdout asserted</td><td data-label="Source"><code>tests/showcase_examples_tests.rs</code></td></tr>
+          <tr><td data-label="Metric">IR validity gate</td><td data-label="Value">every corpus program's IR must pass <code>llc</code></td><td data-label="Source"><code>tests/ir_validity_tests.rs</code> (in CI)</td></tr>
+          <tr><td data-label="Metric">Validation checks</td><td data-label="Value"><strong>12 / 12</strong></td><td data-label="Source"><code>scripts/validate_metrics.sh</code></td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </section>
 

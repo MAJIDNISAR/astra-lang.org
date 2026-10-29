@@ -3,18 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Astra — an AI-first native programming language</title>
 <meta name="description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
 <link rel="canonical" href="https://astra-lang.org/">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Astra — an AI-first native programming language">
 <meta property="og:description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
 <meta property="og:url" content="https://astra-lang.org/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Astra — an AI-first native programming language">
 <meta name="twitter:description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
 <link rel="stylesheet" href="assets/style.css">
@@ -44,8 +51,10 @@
   ]
 }
 </script>
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -69,11 +78,11 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="hero">
     <div class="wrap">
       <p class="status-line"><span class="dot">●</span> v0.9.1-alpha · 449 tests passing · prebuilt binaries for Linux, macOS &amp; Windows</p>
-      <h1>A language built for the way<br>code is written now.</h1>
+      <h1>A language built for the way <br>code is written now.</h1>
       <p class="lede">
         Astra is a statically checked, natively compiled programming
         language designed for AI agents and the humans who supervise them.
@@ -85,6 +94,7 @@
         <a class="btn primary" href="https://github.com/MAJIDNISAR/astra-releases/releases">Download v0.9.1-alpha</a>
         <a class="btn ghost" href="language.html">Read the language tour</a>
       </div>
+      <p class="new-line"><span class="badge wip">new on main</span>Modules, an interpreter for <code>astra run</code>, and Mifa builds with local dependencies — <a href="progress.html#next">coming in the next release</a>.</p>
     </div>
   </section>
 

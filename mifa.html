@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Mifa — Astra's package manager</title>
 <meta name="description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
 <link rel="canonical" href="https://astra-lang.org/mifa.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" content="#faf6ef">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Mifa — Astra's package manager">
 <meta property="og:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
 <meta property="og:url" content="https://astra-lang.org/mifa.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Mifa — Astra's package manager">
 <meta name="twitter:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
@@ -28,7 +37,7 @@
       <span class="nav-group">
         <a href="start.html">Start</a>
         <a href="language.html">Language</a>
-        <a href="mifa.html" class="active">Mifa</a>
+        <a href="mifa.html" class="active" aria-current="page">Mifa</a>
       </span>
       <span class="nav-group">
         <a href="vision.html">Vision</a>
@@ -43,7 +52,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker">Package manager</p>
@@ -59,7 +68,7 @@
   <section>
     <div class="wrap">
       <h2><span class="k">Workflow</span>From zero to running project</h2>
-<pre><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
+<pre data-copy="none"><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
 <span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra here</span>
 <span class="p">$</span> mifa verify              <span class="c"># validate astra.toml and the src/ layout</span>
 <span class="p">$</span> mifa lock                <span class="c"># write astra.lock (sha256-stable)</span>
@@ -69,17 +78,27 @@
 <span class="p">$</span> mifa publish --dry-run   <span class="c"># validate + archive + checksum, no upload</span>
 <span class="p">$</span> mifa clean --cache       <span class="c"># drop target/ and ~/.mifa/cache</span></code></pre>
 
-      <p>The manifest is plain TOML:</p>
+      <p>The manifest is plain TOML. This is exactly what <code>mifa init</code>
+      writes; today every field shown is required:</p>
       <div class="codeblock">
         <span class="tab">astra.toml</span>
-<pre><code>[package]
-name = <span class="s">"myapp"</span>
+<pre><code>name = <span class="s">"myapp"</span>
 version = <span class="s">"0.1.0"</span>
+description = <span class="s">"A new Astra package"</span>
+authors = []
+keywords = []
+categories = []
 
 [dependencies]
-utils = <span class="s">"1.0.0"</span>
-local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
+
+[build_dependencies]
+
+[target_dependencies]</code></pre>
       </div>
+      <p>Add dependencies with <code>mifa add</code> rather than by hand:
+      the entry it writes is verbose today. A Cargo-style
+      <code>[package]</code> section and a short
+      <code>lib = { path = "../lib" }</code> form are planned.</p>
     </div>
   </section>
 
@@ -105,41 +124,41 @@ local_lib = { path = <span class="s">"../local_lib"</span> }</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Status</span>Mifa milestones</h2>
-      <table>
+      <div class="table-wrap stack"><table>
         <thead><tr><th>Milestone</th><th>Scope</th><th>Status</th></tr></thead>
         <tbody>
           <tr>
-            <td><strong>M1</strong> — Honest local workflow</td>
-            <td><code>init</code> / <code>add</code> / <code>build</code> / <code>run</code> / <code>verify</code>; 43-test integration suite</td>
-            <td><span class="badge done">shipped</span></td>
+            <td data-label="Milestone"><strong>M1</strong> — Honest local workflow</td>
+            <td data-label="Scope"><code>init</code> / <code>add</code> / <code>build</code> / <code>run</code> / <code>verify</code>; 43-test integration suite</td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td><strong>M2</strong> — Lockfile + cache</td>
-            <td><code>astra.lock</code>, <code>~/.mifa/cache</code>, path dependencies, <code>lock</code> / <code>clean</code></td>
-            <td><span class="badge done">shipped</span></td>
+            <td data-label="Milestone"><strong>M2</strong> — Lockfile + cache</td>
+            <td data-label="Scope"><code>astra.lock</code>, <code>~/.mifa/cache</code>, path dependencies, <code>lock</code> / <code>clean</code></td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td><strong>M5-basics</strong> — JSON output</td>
-            <td><code>--json</code> on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; stable envelope for agent consumption</td>
-            <td><span class="badge done">shipped</span></td>
+            <td data-label="Milestone"><strong>M5-basics</strong> — JSON output</td>
+            <td data-label="Scope"><code>--json</code> on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; stable envelope for agent consumption</td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td><strong>M3</strong> — Registry protocol</td>
-            <td><code>/v1/packages</code> v1 API, SHA-256 checksums, yanked-version handling, stable <code>REG4xx</code> error codes</td>
-            <td><span class="badge done">shipped</span></td>
+            <td data-label="Milestone"><strong>M3</strong> — Registry protocol</td>
+            <td data-label="Scope"><code>/v1/packages</code> v1 API, SHA-256 checksums, yanked-version handling, stable <code>REG4xx</code> error codes</td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td><strong>M4</strong> — Publish + auth</td>
-            <td><code>mifa login</code> (per-registry tokens), <code>publish --dry-run</code> (validation, deterministic archive, checksum)</td>
-            <td><span class="badge done">shipped</span></td>
+            <td data-label="Milestone"><strong>M4</strong> — Publish + auth</td>
+            <td data-label="Scope"><code>mifa login</code> (per-registry tokens), <code>publish --dry-run</code> (validation, deterministic archive, checksum)</td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td><strong>mifa.dev</strong> — Public registry</td>
-            <td>Hosted global registry with semantic versioning</td>
-            <td><span class="badge planned">v1.0</span></td>
+            <td data-label="Milestone"><strong>mifa.dev</strong> — Public registry</td>
+            <td data-label="Scope">Hosted global registry with semantic versioning</td>
+            <td class="badge-cell" data-label="Status"><span class="badge planned">v1.0</span></td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="callout">
         <p><strong>Honest note:</strong> the registry protocol is fully
         specified and tested against an in-memory implementation — checksums,
