@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
+<title>Downloads — Astra</title>
+<meta name="description" content="Download the Astra compiler and the Mifa package manager. Public downloads are coming soon.">
+<link rel="canonical" href="https://astra-lang.org/download.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="author" content="Majid Nisar">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="astra-lang.org">
+<meta property="og:title" content="Downloads — Astra">
+<meta property="og:description" content="Download the Astra compiler and the Mifa package manager. Public downloads are coming soon.">
+<meta property="og:url" content="https://astra-lang.org/download.html">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
+<meta name="twitter:title" content="Downloads — Astra">
+<meta name="twitter:description" content="Download the Astra compiler and the Mifa package manager. Public downloads are coming soon.">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <nav class="main" aria-label="Main">
+      <span class="nav-group">
+        <a href="start.html">Start</a>
+        <a href="language.html">Language</a>
+        <a href="mifa.html">Mifa</a>
+      </span>
+      <span class="nav-group">
+        <a href="vision.html">Vision</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="agents.html">Agents</a>
+      </span>
+      <span class="nav-group">
+        <a href="progress.html">Progress</a>
+        <a href="about.html">About</a>
+        <a href="download.html" class="active" aria-current="page">Download</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">Downloads</p>
+      <h1>Coming soon.</h1>
+      <p class="lede">
+        Public downloads of the <code>astra</code> compiler and the
+        <code>mifa</code> package manager are being prepared. They will be
+        published on this page with the next release.
+      </p>
+      <p class="new-line"><span class="badge wip">status</span>Not yet available to download — no date announced.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">The first public release</span>What you'll get</h2>
+      <div class="table-wrap stack"><table>
+        <thead><tr><th>Item</th><th>What it is</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Item"><code>astra</code></td><td data-label="What it is">The compiler: <code>astra build</code> makes a native executable through LLVM; <code>astra run</code> runs a program instantly with the interpreter; <code>astra verify</code> type-checks and reports JSON diagnostics for agents</td></tr>
+          <tr><td data-label="Item"><code>mifa</code></td><td data-label="What it is">The package manager: create a project, depend on local packages, build and run</td></tr>
+          <tr><td data-label="Item">Showcase examples</td><td data-label="What it is">Small runnable programs, each one compiled, run and output-checked by the test suite</td></tr>
+        </tbody>
+      </table></div>
+      <p>Planned platforms: Linux x64, macOS (Intel and Apple Silicon) and
+      Windows x64. Building native executables needs the LLVM tools
+      (<code>llc</code>) and a C compiler (<code>clang</code> or
+      <code>gcc</code>) on your PATH; <code>astra run</code> needs neither.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">What's coming</span>New since the last internal build</h2>
+      <ul>
+        <li><strong>Multi-file programs:</strong> <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names — <a href="language.html#modules">language tour</a></li>
+        <li><strong>An interpreter</strong> behind <code>astra run</code>, tested for identical output against the native compiler</li>
+        <li><strong>Program input and output:</strong> arguments, stdin, files and environment variables, with errors as values</li>
+        <li><strong>Capabilities:</strong> deny file, network or environment access at build time; the compiler names the call chain that breaks the rule</li>
+        <li><strong>Mifa</strong> builds and runs projects with local dependencies — <a href="mifa.html#next">Mifa page</a></li>
+        <li><strong>Runtime safety:</strong> overflow, division by zero and out-of-bounds indexing stop with a clear error</li>
+      </ul>
+      <p>The <a href="progress.html">progress page</a> tracks every feature
+      and the test that backs it.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Until then</span>Follow along</h2>
+      <div class="grid2">
+        <div class="def"><b><a href="language.html">Language tour</a></b>
+          <p>What Astra code looks like, with examples.</p></div>
+        <div class="def"><b><a href="start.html">Getting started</a></b>
+          <p>The five-minute path you'll follow once downloads are live.</p></div>
+        <div class="def"><b><a href="vision.html">Vision</a></b>
+          <p>Where the language is going and why.</p></div>
+        <div class="def"><b><a href="https://majidnisar.com">Get in touch</a></b>
+          <p>For early access or to hear when downloads open.</p></div>
+      </div>
+      <p>The compiler's source repository is private while the core
+      hardens and opens at v1.0-beta.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
+    <span><a href="download.html">Downloads</a> · MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>

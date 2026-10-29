@@ -16,6 +16,7 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 - `agents.html` — machine interface spec: JSON diagnostics contract + error-code catalog
 - `progress.html` — ground-truth progress tracker for Astra and Mifa
 - `about.html` — project story and creator
+- `download.html` — downloads (currently "coming soon": no public binaries yet)
 
 ## Local preview
 

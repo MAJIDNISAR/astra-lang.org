@@ -188,7 +188,7 @@ header.site .wrap {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--s-4) var(--s-11);
+  gap: var(--s-4) var(--s-8);
   padding-top: var(--s-8);
   padding-bottom: var(--s-7);
 }
@@ -207,10 +207,10 @@ header.site .wrap {
 .brand .tld { color: var(--accent); }
 
 nav.main { display: flex; gap: var(--s-5) 0; flex-wrap: wrap; align-items: baseline; margin-left: auto; }
-.nav-group { display: inline-flex; gap: var(--s-9); }
+.nav-group { display: inline-flex; gap: var(--s-7); }
 .nav-group + .nav-group {
-  margin-left: var(--s-9);
-  padding-left: var(--s-9);
+  margin-left: var(--s-6);
+  padding-left: var(--s-6);
   border-left: var(--line) solid var(--rule);
 }
 nav.main a {
