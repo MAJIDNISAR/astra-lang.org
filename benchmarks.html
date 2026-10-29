@@ -183,22 +183,26 @@ RESULT: all outputs verified.</code></pre>
   <section>
     <div class="wrap">
       <h2><span class="k">Cross-language</span>Astra against C, Rust, Go, Java, Node.js and Python</h2>
-      <p><strong>Test:</strong> six workloads, each written the normal way
-      in every language. <code>benchmarks/run.py</code> times each program
-      as one process run (one warm-up, then the median of 7 runs; 3 for
-      Python and the Astra interpreter) and <strong>fails if any output
-      differs</strong>. Apple clang 17 <code>-O2</code> · rustc 1.94
+      <p><strong>Test:</strong> seven workloads, each written the normal way
+      in every language, with the input size N passed on the command line
+      (as the <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html">Computer Language Benchmarks Game</a>
+      does), so no compiler can precompute a result. <code>benchmarks/run.py</code>
+      times each program as one process run (one warm-up, then the median of
+      7 runs; 2 for Python and the Astra interpreter) and <strong>fails if
+      any output differs</strong>. Spread between runs was typically a few
+      percent; the machine was not idle (load average 6–7 of 12 cores). Apple clang 17 <code>-O2</code> · rustc 1.94
       <code>-O</code> · Go 1.26 · OpenJDK 25 · Node 25 · Python 3.11 · Astra
       via LLVM <code>-O2</code>. Median milliseconds, lower is better.</p>
       <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Benchmark results in milliseconds (scrolls sideways)"><table>
         <thead><tr><th>Workload</th><th>Astra</th><th>Rust&nbsp;-O, checked</th><th>Rust&nbsp;-O</th><th>C&nbsp;-O2</th><th>Go</th><th>Java</th><th>Node.js</th><th>Python 3</th><th>Astra interpreter</th></tr></thead>
         <tbody>
-          <tr><td data-label="Workload">Recursive fib(35) — calls</td><td data-label="Astra"><strong>37</strong></td><td data-label="Rust -O, checked">35</td><td data-label="Rust -O">30</td><td data-label="C -O2">28</td><td data-label="Go">33</td><td data-label="Java">62</td><td data-label="Node.js">129</td><td data-label="Python 3">1,047</td><td data-label="Astra interpreter">2,506</td></tr>
-          <tr><td data-label="Workload">50M-iteration integer loop</td><td data-label="Astra"><strong>31</strong></td><td data-label="Rust -O, checked">29</td><td data-label="Rust -O">22</td><td data-label="C -O2">21</td><td data-label="Go">33</td><td data-label="Java">69</td><td data-label="Node.js">322</td><td data-label="Python 3">5,377</td><td data-label="Astra interpreter">3,947</td></tr>
-          <tr><td data-label="Workload">Collatz steps, 1..300,000</td><td data-label="Astra"><strong>48</strong></td><td data-label="Rust -O, checked">50</td><td data-label="Rust -O">37</td><td data-label="C -O2">35</td><td data-label="Go">47</td><td data-label="Java">90</td><td data-label="Node.js">234</td><td data-label="Python 3">2,396</td><td data-label="Astra interpreter">5,105</td></tr>
-          <tr><td data-label="Workload">Grow a 1M array + 10 indexed passes</td><td data-label="Astra"><strong>52</strong></td><td data-label="Rust -O, checked">12</td><td data-label="Rust -O">10</td><td data-label="C -O2">11</td><td data-label="Go">16</td><td data-label="Java">66</td><td data-label="Node.js">85</td><td data-label="Python 3">992</td><td data-label="Astra interpreter">880</td></tr>
-          <tr><td data-label="Workload">3M small structs in a loop</td><td data-label="Astra"><strong>5</strong></td><td data-label="Rust -O, checked">6</td><td data-label="Rust -O">6</td><td data-label="C -O2">5</td><td data-label="Go">8</td><td data-label="Java">46</td><td data-label="Node.js">64</td><td data-label="Python 3">587</td><td data-label="Astra interpreter">843</td></tr>
-          <tr><td data-label="Workload">1M short strings by concatenation</td><td data-label="Astra"><strong>120</strong></td><td data-label="Rust -O, checked">81</td><td data-label="Rust -O">80</td><td data-label="C -O2">84</td><td data-label="Go">31</td><td data-label="Java">79</td><td data-label="Node.js">82</td><td data-label="Python 3">204</td><td data-label="Astra interpreter">285</td></tr>
+          <tr><td data-label="Workload">Recursive fib(38) — calls</td><td data-label="Astra"><strong>139</strong></td><td data-label="Rust -O, checked">144</td><td data-label="Rust -O">106</td><td data-label="C -O2">111</td><td data-label="Go">128</td><td data-label="Java">133</td><td data-label="Node.js">343</td><td data-label="Python 3">4,428</td><td data-label="Astra interpreter">10,468</td></tr>
+          <tr><td data-label="Workload">200M-iteration integer loop</td><td data-label="Astra"><strong>112</strong></td><td data-label="Rust -O, checked">105</td><td data-label="Rust -O">45</td><td data-label="C -O2">44</td><td data-label="Go">104</td><td data-label="Java">163</td><td data-label="Node.js">1,151</td><td data-label="Python 3">20,552</td><td data-label="Astra interpreter">15,694</td></tr>
+          <tr><td data-label="Workload">Collatz steps, 1..1,000,000</td><td data-label="Astra"><strong>170</strong></td><td data-label="Rust -O, checked">164</td><td data-label="Rust -O">126</td><td data-label="C -O2">123</td><td data-label="Go">149</td><td data-label="Java">232</td><td data-label="Node.js">691</td><td data-label="Python 3">8,619</td><td data-label="Astra interpreter">18,596</td></tr>
+          <tr><td data-label="Workload">Mandelbrot 1000×1000 — floats</td><td data-label="Astra"><strong>54</strong></td><td data-label="Rust -O, checked">54</td><td data-label="Rust -O">63</td><td data-label="C -O2">63</td><td data-label="Go">58</td><td data-label="Java">89</td><td data-label="Node.js">114</td><td data-label="Python 3">5,328</td><td data-label="Astra interpreter">8,270</td></tr>
+          <tr><td data-label="Workload">Grow a 10M array + 10 indexed passes</td><td data-label="Astra"><strong>96</strong></td><td data-label="Rust -O, checked">86</td><td data-label="Rust -O">63</td><td data-label="C -O2">62</td><td data-label="Go">125</td><td data-label="Java">313</td><td data-label="Node.js">274</td><td data-label="Python 3">10,011</td><td data-label="Astra interpreter">8,647</td></tr>
+          <tr><td data-label="Workload">50M small structs in a loop</td><td data-label="Astra"><strong>41</strong></td><td data-label="Rust -O, checked">45</td><td data-label="Rust -O">29</td><td data-label="C -O2">34</td><td data-label="Go">48</td><td data-label="Java">78</td><td data-label="Node.js">116</td><td data-label="Python 3">9,291</td><td data-label="Astra interpreter">13,703</td></tr>
+          <tr><td data-label="Workload">3M short strings by concatenation</td><td data-label="Astra"><strong>304</strong></td><td data-label="Rust -O, checked">225</td><td data-label="Rust -O">224</td><td data-label="C -O2">208</td><td data-label="Go">82</td><td data-label="Java">97</td><td data-label="Node.js">101</td><td data-label="Python 3">562</td><td data-label="Astra interpreter">830</td></tr>
         </tbody>
       </table></div>
       <p style="font-size:.85em">"Rust <code>-O</code>, checked" is Rust with
@@ -209,33 +213,35 @@ RESULT: all outputs verified.</code></pre>
 
       <h3>What the numbers say</h3>
       <ul>
-        <li><strong>Plain computation:</strong> Astra is within about ±10% of
+        <li><strong>Floating point:</strong> in mandelbrot (from the
+        Benchmarks Game) Astra is faster than C and Rust: 54&nbsp;ms against
+        63&nbsp;ms.</li>
+        <li><strong>Plain computation:</strong> Astra is within about ±7% of
         Rust with overflow checks (fib, loop, collatz). Against unchecked Rust
-        and C it is 1.3–1.5× slower — the price of always-on overflow
-        checking, not of the code generator.</li>
-        <li><strong>Small structs:</strong> at parity with C and Rust. A
-        struct that doesn't outlive its scope now lives on the stack (this
-        workload took 85&nbsp;ms before that change).</li>
-        <li><strong>Arrays:</strong> <span class="badge wip">5× slower than Rust</span>
-        — elements are stored in generic 8-byte slots and reached through a
-        runtime call. Being fixed next.</li>
-        <li><strong>Strings:</strong> 1.5× Rust and C; Go is fastest here.</li>
-        <li><strong>Against Python:</strong> native Astra is 15–170× faster.</li>
+        and C it is 1.3–2.5× slower — the price of always-on overflow
+        checking (unchecked compilers can also vectorize the plain loop), not
+        of the code generator.</li>
+        <li><strong>Structs and arrays:</strong> within about 10% of checked
+        Rust. Two fixes from this round: a struct that doesn't outlive its
+        scope now lives on the stack, and array reads and bounds checks are
+        compiled inline (each workload was 5–18× slower than Rust before).</li>
+        <li><strong>Strings:</strong> <span class="badge wip">the remaining gap</span>
+        — 1.4× C and Rust, 3–4× Go, Java and Node.js. String allocation is
+        next.</li>
+        <li><strong>Against Python:</strong> native Astra is 2–230× faster.</li>
         <li><strong>The interpreter</strong> (<code>astra run</code>, no LLVM
         needed) beats CPython on the plain loop and on arrays, but is
-        1.4–2.4× slower on calls, branches, structs and strings. A redesign
-        (variables resolved to slots ahead of time) is planned to close
-        that.</li>
+        1.5–2.4× slower on calls, branches, floats, structs and strings. A
+        redesign (variables resolved to slots ahead of time) is planned to
+        close that.</li>
       </ul>
       <div class="callout">
-        <p><strong>Scope honesty:</strong> six small programs on one laptop
-        that wasn't isolated, not a language shoot-out. The input sizes are
-        written into the programs; reading them from the command line, as the
-        <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html">Computer Language Benchmarks Game</a>
-        does, comes next, along with that suite's standard programs. Several
-        of those (fannkuch-redux, n-body, binary-trees) need features Astra
-        doesn't have yet — assigning to array elements and recursive
-        structs — and will be added as those land.</p>
+        <p><strong>Scope honesty:</strong> seven small programs on one laptop
+        that wasn't isolated, not a language shoot-out. Of the Benchmarks
+        Game's standard programs only mandelbrot is included so far: the
+        others (fannkuch-redux, n-body, spectral-norm, binary-trees) need
+        features Astra doesn't have yet — assigning to array elements and
+        recursive structs — and will be added as those land.</p>
       </div>
     </div>
   </section>
@@ -246,7 +252,7 @@ RESULT: all outputs verified.</code></pre>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>599 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-10-29 (449 at v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>601 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-10-29 (449 at v0.9.1-alpha)</td></tr>
           <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong> — CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
           <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
           <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>116 / 116</strong> — compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
