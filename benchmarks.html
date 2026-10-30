@@ -190,19 +190,19 @@ RESULT: all outputs verified.</code></pre>
       times each program as one process run (one warm-up, then the median of
       7 runs; 2 for Python and the Astra interpreter) and <strong>fails if
       any output differs</strong>. Spread between runs was typically a few
-      percent; the machine was not idle (load average 6–7 of 12 cores). Apple clang 17 <code>-O2</code> · rustc 1.94
+      percent; the machine was not idle (load average 4–12 of 12 cores). Apple clang 17 <code>-O2</code> · rustc 1.94
       <code>-O</code> · Go 1.26 · OpenJDK 25 · Node 25 · Python 3.11 · Astra
       via LLVM <code>-O2</code>. Median milliseconds, lower is better.</p>
       <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Benchmark results in milliseconds (scrolls sideways)"><table>
         <thead><tr><th>Workload</th><th>Astra</th><th>Rust&nbsp;-O, checked</th><th>Rust&nbsp;-O</th><th>C&nbsp;-O2</th><th>Go</th><th>Java</th><th>Node.js</th><th>Python 3</th><th>Astra interpreter</th></tr></thead>
         <tbody>
-          <tr><td data-label="Workload">Recursive fib(38) — calls</td><td data-label="Astra"><strong>139</strong></td><td data-label="Rust -O, checked">144</td><td data-label="Rust -O">106</td><td data-label="C -O2">111</td><td data-label="Go">128</td><td data-label="Java">133</td><td data-label="Node.js">343</td><td data-label="Python 3">4,428</td><td data-label="Astra interpreter">10,468</td></tr>
-          <tr><td data-label="Workload">200M-iteration integer loop</td><td data-label="Astra"><strong>112</strong></td><td data-label="Rust -O, checked">105</td><td data-label="Rust -O">45</td><td data-label="C -O2">44</td><td data-label="Go">104</td><td data-label="Java">163</td><td data-label="Node.js">1,151</td><td data-label="Python 3">20,552</td><td data-label="Astra interpreter">15,694</td></tr>
-          <tr><td data-label="Workload">Collatz steps, 1..1,000,000</td><td data-label="Astra"><strong>170</strong></td><td data-label="Rust -O, checked">164</td><td data-label="Rust -O">126</td><td data-label="C -O2">123</td><td data-label="Go">149</td><td data-label="Java">232</td><td data-label="Node.js">691</td><td data-label="Python 3">8,619</td><td data-label="Astra interpreter">18,596</td></tr>
-          <tr><td data-label="Workload">Mandelbrot 1000×1000 — floats</td><td data-label="Astra"><strong>54</strong></td><td data-label="Rust -O, checked">54</td><td data-label="Rust -O">63</td><td data-label="C -O2">63</td><td data-label="Go">58</td><td data-label="Java">89</td><td data-label="Node.js">114</td><td data-label="Python 3">5,328</td><td data-label="Astra interpreter">8,270</td></tr>
-          <tr><td data-label="Workload">Grow a 10M array + 10 indexed passes</td><td data-label="Astra"><strong>96</strong></td><td data-label="Rust -O, checked">86</td><td data-label="Rust -O">63</td><td data-label="C -O2">62</td><td data-label="Go">125</td><td data-label="Java">313</td><td data-label="Node.js">274</td><td data-label="Python 3">10,011</td><td data-label="Astra interpreter">8,647</td></tr>
-          <tr><td data-label="Workload">50M small structs in a loop</td><td data-label="Astra"><strong>41</strong></td><td data-label="Rust -O, checked">45</td><td data-label="Rust -O">29</td><td data-label="C -O2">34</td><td data-label="Go">48</td><td data-label="Java">78</td><td data-label="Node.js">116</td><td data-label="Python 3">9,291</td><td data-label="Astra interpreter">13,703</td></tr>
-          <tr><td data-label="Workload">3M short strings by concatenation</td><td data-label="Astra"><strong>304</strong></td><td data-label="Rust -O, checked">225</td><td data-label="Rust -O">224</td><td data-label="C -O2">208</td><td data-label="Go">82</td><td data-label="Java">97</td><td data-label="Node.js">101</td><td data-label="Python 3">562</td><td data-label="Astra interpreter">830</td></tr>
+          <tr><td data-label="Workload">Recursive fib(38) — calls</td><td data-label="Astra"><strong>139</strong></td><td data-label="Rust -O, checked">138</td><td data-label="Rust -O">104</td><td data-label="C -O2">105</td><td data-label="Go">124</td><td data-label="Java">134</td><td data-label="Node.js">349</td><td data-label="Python 3">5,014</td><td data-label="Astra interpreter">10,657</td></tr>
+          <tr><td data-label="Workload">200M-iteration integer loop</td><td data-label="Astra"><strong>110</strong></td><td data-label="Rust -O, checked">104</td><td data-label="Rust -O">44</td><td data-label="C -O2">43</td><td data-label="Go">105</td><td data-label="Java">163</td><td data-label="Node.js">1,148</td><td data-label="Python 3">20,373</td><td data-label="Astra interpreter">15,619</td></tr>
+          <tr><td data-label="Workload">Collatz steps, 1..1,000,000</td><td data-label="Astra"><strong>173</strong></td><td data-label="Rust -O, checked">161</td><td data-label="Rust -O">123</td><td data-label="C -O2">121</td><td data-label="Go">145</td><td data-label="Java">225</td><td data-label="Node.js">690</td><td data-label="Python 3">8,429</td><td data-label="Astra interpreter">18,345</td></tr>
+          <tr><td data-label="Workload">Mandelbrot 1000×1000 — floats</td><td data-label="Astra"><strong>53</strong></td><td data-label="Rust -O, checked">54</td><td data-label="Rust -O">63</td><td data-label="C -O2">68</td><td data-label="Go">55</td><td data-label="Java">88</td><td data-label="Node.js">115</td><td data-label="Python 3">5,501</td><td data-label="Astra interpreter">8,205</td></tr>
+          <tr><td data-label="Workload">Grow a 10M array + 10 indexed passes</td><td data-label="Astra"><strong>98</strong></td><td data-label="Rust -O, checked">86</td><td data-label="Rust -O">63</td><td data-label="C -O2">66</td><td data-label="Go">130</td><td data-label="Java">328</td><td data-label="Node.js">276</td><td data-label="Python 3">9,694</td><td data-label="Astra interpreter">8,792</td></tr>
+          <tr><td data-label="Workload">50M small structs in a loop</td><td data-label="Astra"><strong>42</strong></td><td data-label="Rust -O, checked">42</td><td data-label="Rust -O">31</td><td data-label="C -O2">38</td><td data-label="Go">52</td><td data-label="Java">78</td><td data-label="Node.js">114</td><td data-label="Python 3">9,126</td><td data-label="Astra interpreter">13,922</td></tr>
+          <tr><td data-label="Workload">3M short strings by concatenation</td><td data-label="Astra"><strong>121</strong></td><td data-label="Rust -O, checked">226</td><td data-label="Rust -O">228</td><td data-label="C -O2">210</td><td data-label="Go">82</td><td data-label="Java">101</td><td data-label="Node.js">103</td><td data-label="Python 3">529</td><td data-label="Astra interpreter">884</td></tr>
         </tbody>
       </table></div>
       <p style="font-size:.85em">"Rust <code>-O</code>, checked" is Rust with
@@ -214,21 +214,22 @@ RESULT: all outputs verified.</code></pre>
       <h3>What the numbers say</h3>
       <ul>
         <li><strong>Floating point:</strong> in mandelbrot (from the
-        Benchmarks Game) Astra is faster than C and Rust: 54&nbsp;ms against
-        63&nbsp;ms.</li>
-        <li><strong>Plain computation:</strong> Astra is within about ±7% of
+        Benchmarks Game) Astra is faster than C and Rust: 53&nbsp;ms against
+        63–68&nbsp;ms.</li>
+        <li><strong>Plain computation:</strong> Astra is within about 7% of
         Rust with overflow checks (fib, loop, collatz). Against unchecked Rust
         and C it is 1.3–2.5× slower — the price of always-on overflow
         checking (unchecked compilers can also vectorize the plain loop), not
         of the code generator.</li>
-        <li><strong>Structs and arrays:</strong> within about 10% of checked
-        Rust. Two fixes from this round: a struct that doesn't outlive its
+        <li><strong>Structs and arrays:</strong> structs match checked Rust;
+        arrays are within about 15%. Two fixes from this round: a struct that doesn't outlive its
         scope now lives on the stack, and array reads and bounds checks are
         compiled inline (each workload was 5–18× slower than Rust before).</li>
-        <li><strong>Strings:</strong> <span class="badge wip">the remaining gap</span>
-        — 1.4× C and Rust, 3–4× Go, Java and Node.js. String allocation is
-        next.</li>
-        <li><strong>Against Python:</strong> native Astra is 2–230× faster.</li>
+        <li><strong>Strings:</strong> faster than C and Rust in this workload
+        (121&nbsp;ms against 210–228): <code>"item-" + i.to_string()</code>
+        formats the number straight into the result, with no temporary
+        string and no <code>printf</code>. Go is faster still (82&nbsp;ms).</li>
+        <li><strong>Against Python:</strong> native Astra is 4–230× faster.</li>
         <li><strong>The interpreter</strong> (<code>astra run</code>, no LLVM
         needed) beats CPython on the plain loop and on arrays, but is
         1.5–2.4× slower on calls, branches, floats, structs and strings. A
