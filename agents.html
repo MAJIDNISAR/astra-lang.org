@@ -146,7 +146,12 @@
           <tr><td data-label="Code"><code>E0010</code></td><td data-label="Meaning">Struct field error</td><td data-label="Typical agent repair">Use fields declared on the struct; check literal completeness</td></tr>
           <tr><td data-label="Code"><code>E0011</code></td><td data-label="Meaning">Generic type error</td><td data-label="Typical agent repair">Make type parameters consistent at the call site</td></tr>
           <tr><td data-label="Code"><code>E0012</code></td><td data-label="Meaning">IO error</td><td data-label="Typical agent repair">Check the file path passed to the CLI</td></tr>
-          <tr><td data-label="Code"><code>E0013</code></td><td data-label="Meaning">Module error (next release)</td><td data-label="Typical agent repair">Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
+          <tr><td data-label="Code"><code>E0013</code></td><td data-label="Meaning">Module error</td><td data-label="Typical agent repair">Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
+          <tr><td data-label="Code"><code>E0014</code></td><td data-label="Meaning">Capability denied</td><td data-label="Typical agent repair">Remove the call at the end of the reported chain, or allow the effect in the build policy</td></tr>
+          <tr><td data-label="Code"><code>E0016</code></td><td data-label="Meaning">Assignment to immutable binding</td><td data-label="Typical agent repair">Declare it with <code>let mut</code>, or assign a different binding</td></tr>
+          <tr><td data-label="Code"><code>E0017</code></td><td data-label="Meaning">Tuple destructuring error</td><td data-label="Typical agent repair">Bind as many names as the tuple has elements</td></tr>
+          <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
+          <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
         </tbody>
       </table></div>

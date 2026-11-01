@@ -190,10 +190,13 @@ categories = []
 HI!</code></pre>
       <div class="codeblock">
         <span class="tab">textutil/src/textutil.astra · app/src/main.astra</span>
-<pre><code><span class="kw">pub fn</span> <span class="fn">shout</span>(s: <span class="kw">str</span>) -&gt; <span class="kw">str</span> { <span class="kw">return</span> s.<span class="fn">to_upper</span>() + <span class="s">"!"</span>; }
+<pre><code><span class="kw">pub</span> <span class="kw">fn</span> <span class="fn">shout</span>(s: <span class="kw">str</span>) -&gt; <span class="kw">str</span>:
+    <span class="kw">return</span> s.<span class="fn">to_upper</span>() + <span class="s">&quot;!&quot;</span>
 
-<span class="kw">import</span> textutil;
-<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span> { <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">"hi"</span>)); <span class="kw">return</span> <span class="n">0</span>; }</code></pre>
+<span class="kw">import</span> textutil
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">&quot;hi&quot;</span>))
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
       <p><code>mifa add</code> without <code>--path</code> becomes an error
       instead of recording a package nothing can fetch. This flow is covered
