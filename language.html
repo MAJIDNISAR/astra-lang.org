@@ -83,17 +83,15 @@
   <section>
     <div class="wrap">
       <h2><span class="k">Functions</span>Recursion, control flow, loops</h2>
-<pre><code><span class="kw">fn</span> <span class="fn">fib</span>(n: <span class="kw">int</span>) -> <span class="kw">int</span> {
-    <span class="kw">if</span> n &lt; <span class="n">2</span> { <span class="kw">return</span> n; }
-    <span class="kw">return</span> <span class="fn">fib</span>(n - <span class="n">1</span>) + <span class="fn">fib</span>(n - <span class="n">2</span>);
-}
+<pre><code><span class="kw">fn</span> <span class="fn">fib</span>(n: <span class="kw">int</span>) -&gt; <span class="kw">int</span>:
+    <span class="kw">if</span> n &lt; <span class="n">2</span>:
+        <span class="kw">return</span> n
+    <span class="kw">return</span> <span class="fn">fib</span>(n - <span class="n">1</span>) + <span class="fn">fib</span>(n - <span class="n">2</span>)
 
-<span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
-    <span class="kw">for</span> i <span class="kw">in</span> <span class="n">0</span>..<span class="n">10</span> {
-        <span class="fn">print</span>(<span class="s">"fib(${i}) = ${fib(i)}"</span>);
-    }
-    <span class="kw">return</span> <span class="n">0</span>;
-}</code></pre>
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="n">0</span>..<span class="n">10</span>:
+        <span class="fn">print</span>(<span class="s">&quot;fib(${i}) = ${fib(i)}&quot;</span>)
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
       <p><code>while</code>, <code>do/while</code>, <code>switch</code>,
       <code>break</code>/<code>continue</code>, and for-range loops all
       compile to native code today.</p>
@@ -103,22 +101,23 @@
   <section>
     <div class="wrap">
       <h2><span class="k">Data</span>Structs, enums, and pattern matching</h2>
-<pre><code><span class="kw">struct</span> User {
-    name: <span class="kw">str</span>,
-    age: <span class="kw">int</span>,
+<pre><code><span class="kw">struct</span> User:
+    name: <span class="kw">str</span>
+    age: <span class="kw">int</span>
     active: <span class="kw">bool</span>
-}
 
-<span class="kw">let</span> u = User { name: <span class="s">"Ada"</span>, age: <span class="n">36</span>, active: <span class="kw">true</span> };
-<span class="fn">print</span>(u.name);              <span class="c">// typed field access, native GEP loads</span>
+<span class="kw">let</span> u = User { name: <span class="s">&quot;Ada&quot;</span>, age: <span class="n">36</span>, active: <span class="kw">true</span> }
+<span class="fn">print</span>(u.name)  <span class="c">// typed field access, native GEP loads</span>
 
-<span class="kw">enum</span> Status { Active, Suspended, Deleted }
+<span class="kw">enum</span> Status:
+    Active
+    Suspended
+    Deleted
 
-<span class="kw">let</span> label = <span class="kw">match</span> status {
-    Status::Active    => <span class="s">"ok"</span>,
-    Status::Suspended => <span class="s">"paused"</span>,
-    Status::Deleted   => <span class="s">"gone"</span>
-};</code></pre>
+<span class="kw">let</span> label = <span class="kw">match</span> status:
+    Status::Active    =&gt; <span class="s">&quot;ok&quot;</span>
+    Status::Suspended =&gt; <span class="s">&quot;paused&quot;</span>
+    Status::Deleted   =&gt; <span class="s">&quot;gone&quot;</span></code></pre>
     </div>
   </section>
 
@@ -127,17 +126,14 @@
       <h2><span class="k">Errors</span>Result&lt;T,E&gt; — no exceptions</h2>
       <p>Fallible operations return <code>Result</code>. The compiler forces
       the caller to handle both arms; there is no invisible control flow.</p>
-<pre><code><span class="kw">fn</span> <span class="fn">divide</span>(a: <span class="kw">int</span>, b: <span class="kw">int</span>) -> Result&lt;<span class="kw">int</span>, <span class="kw">str</span>&gt; {
-    <span class="kw">if</span> b == <span class="n">0</span> {
-        <span class="kw">return</span> <span class="fn">Err</span>(<span class="s">"division by zero"</span>);
-    }
-    <span class="kw">return</span> <span class="fn">Ok</span>(a / b);
-}
+<pre><code><span class="kw">fn</span> <span class="fn">divide</span>(a: <span class="kw">int</span>, b: <span class="kw">int</span>) -&gt; Result&lt;<span class="kw">int</span>, <span class="kw">str</span>&gt;:
+    <span class="kw">if</span> b == <span class="n">0</span>:
+        <span class="kw">return</span> <span class="fn">Err</span>(<span class="s">&quot;division by zero&quot;</span>)
+    <span class="kw">return</span> <span class="fn">Ok</span>(a / b)
 
-<span class="kw">match</span> <span class="fn">divide</span>(<span class="n">10</span>, <span class="n">2</span>) {
-    Ok(value)  => <span class="fn">print</span>(<span class="s">"result: ${value}"</span>),
-    Err(cause) => <span class="fn">print</span>(<span class="s">"failed: ${cause}"</span>)
-}</code></pre>
+<span class="kw">match</span> <span class="fn">divide</span>(<span class="n">10</span>, <span class="n">2</span>):
+    <span class="fn">Ok</span>(value)  =&gt; <span class="fn">print</span>(<span class="s">&quot;result: ${value}&quot;</span>)
+    <span class="fn">Err</span>(cause) =&gt; <span class="fn">print</span>(<span class="s">&quot;failed: ${cause}&quot;</span>)</code></pre>
     </div>
   </section>
 
@@ -147,12 +143,11 @@
       <p>Closures capture from the enclosing scope. The compiler lifts them
       into standalone functions at compile time (lambda lifting), so a
       closure call is exactly as fast as a plain function call.</p>
-<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
-    <span class="kw">let</span> factor = <span class="n">3</span>;
-    <span class="kw">let</span> scale = |x: <span class="kw">int</span>| { x * factor };   <span class="c">// captures factor</span>
-    <span class="fn">print</span>(<span class="fn">scale</span>(<span class="n">5</span>));                       <span class="c">// 15 — native call</span>
-    <span class="kw">return</span> <span class="n">0</span>;
-}</code></pre>
+<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="kw">let</span> factor = <span class="n">3</span>
+    <span class="kw">let</span> scale = |x: <span class="kw">int</span>| { x * factor }  <span class="c">// captures factor</span>
+    <span class="fn">print</span>(<span class="fn">scale</span>(<span class="n">5</span>))  <span class="c">// 15 — native call</span>
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
     </div>
   </section>
 
@@ -162,18 +157,17 @@
       <p>Generic functions are monomorphized — specialized per concrete type
       at compile time, like Rust and C++ — so generics carry zero runtime
       cost.</p>
-<pre><code><span class="kw">fn</span> <span class="fn">max</span>&lt;T&gt;(a: T, b: T) -> T {
-    <span class="kw">if</span> a &gt; b { <span class="kw">return</span> a; }
-    <span class="kw">return</span> b;
-}</code></pre>
+<pre><code><span class="kw">fn</span> <span class="fn">max</span>&lt;T&gt;(a: T, b: T) -&gt; T:
+    <span class="kw">if</span> a &gt; b:
+        <span class="kw">return</span> a
+    <span class="kw">return</span> b</code></pre>
       <p>When a boundary genuinely can't be typed statically — data from an
       LLM, a dynamic config — <code>dyn</code> marks it explicitly. Checks
       defer to runtime at that boundary and nowhere else.</p>
-<pre><code><span class="kw">fn</span> <span class="fn">handle</span>(payload: <span class="kw">dyn</span>) -> <span class="kw">dyn</span> {
+<pre><code><span class="kw">fn</span> <span class="fn">handle</span>(payload: <span class="kw">dyn</span>) -&gt; <span class="kw">dyn</span>:
     <span class="c">// statically compatible with every type;</span>
     <span class="c">// the escape hatch is visible in the signature</span>
-    <span class="kw">return</span> payload;
-}</code></pre>
+    <span class="kw">return</span> payload</code></pre>
     </div>
   </section>
 
@@ -188,20 +182,23 @@
       with their module, so it is clear where each one comes from.</p>
       <div class="codeblock">
         <span class="tab">util.astra</span>
-<pre><code><span class="kw">pub const</span> LIMIT: <span class="kw">int</span> = <span class="n">100</span>;
-<span class="kw">pub struct</span> Point { x: <span class="kw">int</span>; y: <span class="kw">int</span>; }
-<span class="kw">fn</span> <span class="fn">helper</span>(n: <span class="kw">int</span>) -> <span class="kw">int</span> { <span class="kw">return</span> n * n; }   <span class="c">// private to util</span>
-<span class="kw">pub fn</span> <span class="fn">square</span>(n: <span class="kw">int</span>) -> <span class="kw">int</span> { <span class="kw">return</span> <span class="fn">helper</span>(n); }</code></pre>
+<pre><code><span class="kw">pub</span> <span class="kw">const</span> LIMIT: <span class="kw">int</span> = <span class="n">100</span>
+<span class="kw">pub</span> <span class="kw">struct</span> Point:
+    x: <span class="kw">int</span>
+    y: <span class="kw">int</span>
+<span class="kw">fn</span> <span class="fn">helper</span>(n: <span class="kw">int</span>) -&gt; <span class="kw">int</span>:  <span class="c">// private to util</span>
+    <span class="kw">return</span> n * n
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="fn">square</span>(n: <span class="kw">int</span>) -&gt; <span class="kw">int</span>:
+    <span class="kw">return</span> <span class="fn">helper</span>(n)</code></pre>
       </div>
       <div class="codeblock">
         <span class="tab">main.astra</span>
-<pre><code><span class="kw">import</span> util;
+<pre><code><span class="kw">import</span> util
 
-<span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
-    <span class="kw">let</span> p = util::Point { x: <span class="n">3</span>, y: <span class="n">4</span> };
-    <span class="fn">print</span>(util::<span class="fn">square</span>(p.x) + util::LIMIT);   <span class="c">// 109</span>
-    <span class="kw">return</span> <span class="n">0</span>;
-}</code></pre>
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="kw">let</span> p = util::Point { x: <span class="n">3</span>, y: <span class="n">4</span> }
+    <span class="fn">print</span>(util::<span class="fn">square</span>(p.x) + util::LIMIT)  <span class="c">// 109</span>
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
       <p>Import cycles, missing modules and private or unknown items are
       compile errors with code <code>E0013</code>, pointing at the

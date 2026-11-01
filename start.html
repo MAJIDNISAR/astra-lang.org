@@ -103,11 +103,10 @@
       <h2><span class="k">Step 2</span>Write and verify a program</h2>
       <div class="codeblock">
         <span class="tab">hello.astra</span>
-<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -> <span class="kw">int</span> {
-    <span class="kw">let</span> name = <span class="s">"world"</span>;
-    <span class="fn">print</span>(<span class="s">"Hello, ${name}!"</span>);
-    <span class="kw">return</span> <span class="n">0</span>;
-}</code></pre>
+<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="kw">let</span> name = <span class="s">&quot;world&quot;</span>
+    <span class="fn">print</span>(<span class="s">&quot;Hello, ${name}!&quot;</span>)
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
       <p><code>verify</code> typechecks without generating code — it's the
       fast feedback path, for humans and agents alike:</p>
