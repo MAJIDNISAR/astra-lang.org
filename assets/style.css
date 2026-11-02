@@ -82,6 +82,9 @@
   --bar-label: 90px;
   --bar-label-sm: 76px;
   --bar-pct: 64px;
+  --tl-axis: 7px;
+  --tl-dot: 14px;
+  --tl-indent: 34px;
   --matrix-min: 560px;
   --dur-fast: 0.12s;
 
@@ -551,6 +554,85 @@ td:first-child, th:first-child { padding-left: 0; }
   print-color-adjust: exact;
 }
 .bar-row .pct { text-align: right; color: var(--ink-soft); white-space: nowrap; }
+
+/* ---------- timeline ---------- */
+
+/* A vertical rule with a dot per milestone. Shipped dots are filled with the
+   accent, the current release is ringed, planned dots are hollow. Uses only
+   theme tokens, so dark mode and print follow automatically. */
+.timeline {
+  list-style: none;
+  margin: var(--s-11) 0 var(--s-8);
+  padding: 0;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: var(--s-3);
+  bottom: var(--s-3);
+  left: var(--tl-axis);
+  width: var(--line-btn);
+  background: var(--rule);
+}
+.timeline > li {
+  position: relative;
+  padding: 0 0 var(--s-11) var(--tl-indent);
+  max-width: 72ch;
+}
+.timeline > li:last-child { padding-bottom: 0; }
+.timeline > li::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-axis) - (var(--tl-dot) - var(--line-btn)) / 2);
+  top: var(--s-2);
+  width: var(--tl-dot);
+  height: var(--tl-dot);
+  border-radius: 50%;
+  background: var(--accent);
+  border: var(--line-btn) solid var(--accent);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.timeline > li.now::before {
+  background: var(--paper);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px var(--warn-bg);
+}
+.timeline > li.planned::before {
+  background: var(--paper);
+  border-color: var(--rule);
+}
+.timeline > li.planned { color: var(--ink-soft); }
+.timeline .tl-when {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s-1);
+}
+.timeline > li.planned .tl-when { color: var(--ink-soft); }
+.timeline .tl-title {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-ui);
+  font-weight: 700;
+  margin-bottom: var(--s-2);
+}
+.timeline .tl-title .badge { margin-left: var(--s-4); font-weight: 400; vertical-align: 1px; }
+.timeline p {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  margin: 0;
+}
+.timeline .tl-tests {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
 
 /* ---------- misc components ---------- */
 

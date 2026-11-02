@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>For Agents — Astra's machine interface</title>
-<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="canonical" href="https://astra-lang.org/agents.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="For Agents — Astra's machine interface">
-<meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <meta property="og:url" content="https://astra-lang.org/agents.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="For Agents — Astra's machine interface">
-<meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0013, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
 </head>
@@ -151,7 +151,7 @@
           <tr><td data-label="Code"><code>E0016</code></td><td data-label="Meaning">Assignment to immutable binding</td><td data-label="Typical agent repair">Declare it with <code>let mut</code>, or assign a different binding</td></tr>
           <tr><td data-label="Code"><code>E0017</code></td><td data-label="Meaning">Tuple destructuring error</td><td data-label="Typical agent repair">Bind as many names as the tuple has elements</td></tr>
           <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
-          <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method named in the message to the <code>impl Trait for Type</code> block</td></tr>
+          <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method (or fix its signature) named in the message in the <code>impl Trait for Type</code> block; for a bound, pass a type that implements the trait</td></tr>
           <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
           <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy</td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
@@ -195,7 +195,7 @@ execute(binary)                              <span class="c"># native, already t
         major version bump and a migration note on this page.</p>
       </div>
       <div class="btn-row">
-        <a class="btn primary" href="download.html">Downloads — coming soon</a>
+        <a class="btn primary" href="download.html">Downloads — v0.11.2-alpha</a>
         <a class="btn ghost" href="benchmarks.html">See the loop validated end-to-end</a>
       </div>
     </div>

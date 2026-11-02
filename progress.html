@@ -56,17 +56,117 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Ground truth · updated 2026-10-29</p>
+      <p class="kicker">Ground truth · updated 2026-11-02</p>
       <h1>Progress tracker</h1>
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        stands at <strong>449 passed, 0 failed, 0 ignored</strong> for the v0.9.1-alpha release and <strong>580 passed</strong> on <code>main</code>.
+        stands at <strong>712 passed, 0 failed, 0 ignored</strong> for the
+        v0.11.2-alpha release.
       </p>
     </div>
   </section>
 
-  <section>
+  <section id="timeline">
+    <div class="wrap">
+      <h2><span class="k">Timeline</span>From university project to v0.11</h2>
+      <p>Each release on one line, oldest first. Test counts are the suite
+      at the time of the release.</p>
+      <ol class="timeline">
+        <li>
+          <span class="tl-when">Oct 2025</span>
+          <span class="tl-title">v0.1</span>
+          <p>University project: lexer, parser and the first AST.</p>
+        </li>
+        <li>
+          <span class="tl-when">Nov 2025</span>
+          <span class="tl-title">v0.5</span>
+          <p>Native compilation, Docker CI, first pre-built binaries.</p>
+        </li>
+        <li>
+          <span class="tl-when">Jun 2026</span>
+          <span class="tl-title">v0.6 alpha</span>
+          <p>Honest alpha reset: JSON diagnostics, verify mode, the AI-first
+          verify-repair-compile loop.</p>
+        </li>
+        <li>
+          <span class="tl-when">Jul 6, 2026</span>
+          <span class="tl-title">v0.7</span>
+          <p>Source spans, structs / <code>Result</code> / closures native,
+          REPL, <code>dyn</code>, ARC scaffolding, rich diagnostics with
+          <code>astra explain</code>; Mifa lockfile and registry protocol.</p>
+        </li>
+        <li>
+          <span class="tl-when">Jul 7, 2026</span>
+          <span class="tl-title">v0.8.0-alpha</span>
+          <p>The true LLVM-IR backend becomes the default; async/await
+          (synchronous lowering); ignored tests 10 → 0.
+          <span class="tl-tests">285 tests</span></p>
+        </li>
+        <li>
+          <span class="tl-when">Jul 9, 2026</span>
+          <span class="tl-title">v0.9.0-alpha</span>
+          <p>Soundness: nominal structs, enums with payloads, <code>?</code>
+          and try/catch, tuples, impl blocks, bitwise operators.</p>
+        </li>
+        <li>
+          <span class="tl-when">Jul 15, 2026</span>
+          <span class="tl-title">v0.9.1-alpha</span>
+          <p>First cross-platform binary release (Linux, macOS ×2, Windows);
+          callable closures; ARC memory reclamation; the compiler never
+          panics on malformed input. <span class="tl-tests">449 tests</span></p>
+        </li>
+        <li>
+          <span class="tl-when">Oct 30, 2026</span>
+          <span class="tl-title">v0.10.0-alpha</span>
+          <p>Interpreter behind <code>astra run</code> with native parity and
+          differential fuzzing; modules; program I/O with capabilities;
+          runtime traps on both engines; <code>mifa build</code> /
+          <code>run</code>. <span class="tl-tests">609 tests</span></p>
+        </li>
+        <li>
+          <span class="tl-when">Nov 2, 2026</span>
+          <span class="tl-title">v0.11.0-alpha</span>
+          <p>Value semantics (structs and lists are values, <code>mut</code>
+          parameters, E0022, <code>a[i] = v</code>), Python-style indentation
+          and <code>astra fmt</code>, type inference, nominal traits and trait
+          bounds with static dispatch. <span class="tl-tests">695 tests</span></p>
+        </li>
+        <li>
+          <span class="tl-when">Nov 2, 2026</span>
+          <span class="tl-title">v0.11.1-alpha</span>
+          <p>Released binaries compile natively: the C runtime is embedded in
+          the compiler, and macOS links for the compiler's own architecture.
+          <span class="tl-tests">699 tests</span></p>
+        </li>
+        <li class="now">
+          <span class="tl-when">Nov 2, 2026</span>
+          <span class="tl-title">v0.11.2-alpha <span class="badge wip">current</span></span>
+          <p>Trait bounds checked at the call site and impl signatures checked
+          against the trait (E0020); loops no longer leak memory
+          (<code>while</code> bodies, list copies, struct list fields); every
+          release binary is smoke-tested before publishing.
+          <span class="tl-tests">712 tests</span></p>
+        </li>
+        <li class="planned">
+          <span class="tl-when">Next</span>
+          <span class="tl-title">@derive and standard traits <span class="badge planned">planned</span></span>
+          <p><code>Eq</code> / <code>Show</code> / <code>Hash</code> /
+          <code>Iterable</code>; string memory; <code>Map</code> /
+          <code>Set</code> and comprehensions; a WASI runtime build.</p>
+        </li>
+        <li class="planned">
+          <span class="tl-when">v1.0</span>
+          <span class="tl-title">v1.0 <span class="badge planned">planned</span></span>
+          <p>GPU target, production tooling, hosted Mifa registry; the source
+          opens at v1.0-beta.</p>
+        </li>
+      </ol>
+      <p><a href="#releases">Release scope table ↓</a> · <a href="about.html">Project story</a></p>
+    </div>
+  </section>
+
+  <section id="releases">
     <div class="wrap">
       <h2><span class="k">Releases</span>Where each version stands</h2>
 
@@ -74,6 +174,8 @@
       <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>v0.10</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>v0.11</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
 
       <div class="table-wrap stack"><table>
@@ -83,8 +185,9 @@
           <tr><td data-label="Release"><strong>v0.7</strong></td><td data-label="Scope">Source spans, semantic core native, REPL, closures, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa registry protocol + publish</td><td class="badge-cell" data-label="Status"><span class="badge done">released 2026-07-06</span></td></tr>
           <tr><td data-label="Release"><strong>v0.8</strong></td><td data-label="Scope">True LLVM-IR default backend, async/await (sync lowering), end-to-end regression suite, ignored-test burn-down 10 → 0</td><td class="badge-cell" data-label="Status"><span class="badge done">released 2026-07-07</span></td></tr>
           <tr><td data-label="Release"><strong>v0.9</strong></td><td data-label="Scope"><em>Soundness &amp; hardening</em>: nominal structs, enums with payload variants, <code>?</code> operator + try/catch, tuples, impl blocks, bitwise ops, callable closures, ARC scope-based reclamation, compiler-never-panics on malformed input, CI gates (fmt / clippy / audit / llc corpus), <strong>cross-platform release binaries</strong> (Linux, macOS ×2, Windows)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9.1-alpha released 2026-07-15</span></td></tr>
-          <tr><td data-label="Release"><strong>Unreleased</strong></td><td data-label="Scope">On <code>main</code>: tree-walking interpreter behind <code>astra run</code> with parity tests and differential fuzzing against native; modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>, E0013); <code>mifa build</code>/<code>run</code> with path dependencies as modules; runtime traps for overflow, division by zero, bad shifts, out-of-bounds and runaway recursion on both engines; <code>def</code> alias (A4); type inference for omitted parameter/return types (A3); Python-style indentation is the canonical syntax (braces still accepted) and <code>astra fmt</code> converts to it; functions may be called before they are defined; a <code>match</code> that misses an enum variant is a compile error (E0021); <code>s.split()</code>; Cargo-style <code>astra.toml</code> and <code>mifa test</code>; structs/lists are values, <code>mut</code> parameters + E0022, read-only bindings (A8); <code>a[i] = v</code>; headered string literals (E0); nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>, E0020); 692 tests</td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td></tr>
-          <tr><td data-label="Release"><strong>Next</strong></td><td data-label="Scope">Trait bounds + static dispatch, <code>@derive</code> + standard traits, generic structs, typed collections (<code>Vec&lt;T&gt;</code>, <code>Map</code>, <code>Set</code>) with iterators, LSP alpha, stdlib core; then <code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
+          <tr><td data-label="Release"><strong>v0.10 – v0.11</strong></td><td data-label="Scope">Tree-walking interpreter behind <code>astra run</code> with parity tests and differential fuzzing against native; modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>, E0013); <code>mifa build</code>/<code>run</code> with path dependencies as modules; runtime traps for overflow, division by zero, bad shifts, out-of-bounds and runaway recursion on both engines; <code>def</code> alias (A4); type inference for omitted parameter/return types (A3); Python-style indentation is the canonical syntax (braces still accepted) and <code>astra fmt</code> converts to it; functions may be called before they are defined; a <code>match</code> that misses an enum variant is a compile error (E0021); <code>s.split()</code>; Cargo-style <code>astra.toml</code> and <code>mifa test</code>; structs/lists are values, <code>mut</code> parameters + E0022, read-only bindings (A8); <code>a[i] = v</code>; headered string literals (E0); nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>, E0020) and trait bounds <code>fn f&lt;T: Shape&gt;</code> with static dispatch; v0.11.1: released binaries compile natively (C runtime embedded)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.11.1-alpha released 2026-11-02</span></td></tr>
+          <tr><td data-label="Release"><strong>v0.11.2</strong></td><td data-label="Scope">Trait bounds checked at the call site and impl signatures checked against the trait (E0020); <code>while</code>-loop locals, list copies and struct list fields freed (loops stay ~1.3 MB); tuples holding structs compile; 712 tests</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.11.2-alpha released 2026-11-02</span></td></tr>
+          <tr><td data-label="Release"><strong>Next</strong></td><td data-label="Scope"><code>@derive</code> + standard traits, generic structs, typed collections (<code>Vec&lt;T&gt;</code>, <code>Map</code>, <code>Set</code>) with iterators, LSP alpha, stdlib core; then <code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Release"><strong>v1.0</strong></td><td data-label="Scope">GPU target (NVPTX), production tooling, hosted Mifa registry</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
         </tbody>
       </table></div>
@@ -192,13 +295,13 @@
           <tr><td data-label="Feature">Bitwise + compound operators</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes"><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code> with Python-parity precedence; <code>+=</code> family, <code>**</code>, radix literals</td></tr>
           <tr><td data-label="Feature">Float arithmetic / compare</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Native <code>fadd</code>/<code>fcmp</code> with int→double promotion</td></tr>
           <tr><td data-label="Feature">JSON diagnostics with line + column</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Parse + named-symbol typecheck spans</td></tr>
-          <tr><td data-label="Feature">Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Stable E0001–E0012 codes (E0013 module errors in the next release)</td></tr>
+          <tr><td data-label="Feature">Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Stable E0001–E0022 codes</td></tr>
           <tr><td data-label="Feature"><code>astra repl</code></td><td class="badge-cell" data-label="Status"><span class="badge done">alpha</span></td><td data-label="Notes">Whole-program re-compile model</td></tr>
           <tr><td data-label="Feature"><code>dyn</code> gradual typing</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">First milestone: boundary typecheck + boxed lowering</td></tr>
-          <tr><td data-label="Feature">ARC memory reclamation</td><td class="badge-cell" data-label="Status"><span class="badge wip">working, partial</span></td><td data-label="Notes">Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB). String-aliased values and some non-loop scopes still leak — bounded and safe, never a double-free</td></tr>
+          <tr><td data-label="Feature">ARC memory reclamation</td><td class="badge-cell" data-label="Status"><span class="badge wip">working, partial</span></td><td data-label="Notes">Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB), in <code>for</code> and <code>while</code> loops, including list copies and struct list fields. String-aliased values, lists of heap values and some non-loop scopes still leak — bounded and safe, never a double-free</td></tr>
           <tr><td data-label="Feature">async / await</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.8</span></td><td data-label="Notes">Parses + compiles natively; synchronous lowering — real task runtime still ahead</td></tr>
-          <tr><td data-label="Feature">Traits + generic structs</td><td class="badge-cell" data-label="Status"><span class="badge wip">partial</span></td><td data-label="Notes">Nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>) with E0020 conformance; static dispatch. Bounds <code>fn f&lt;T: Shape&gt;</code>, <code>@derive</code> and generic structs are next</td></tr>
-          <tr><td data-label="Feature">WASM target</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes">Also unlocks a browser playground</td></tr>
+          <tr><td data-label="Feature">Traits + generic structs</td><td class="badge-cell" data-label="Status"><span class="badge wip">partial</span></td><td data-label="Notes">Nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>) with E0020 conformance (full signatures); trait bounds <code>fn f&lt;T: Shape&gt;</code> checked at the call site; static dispatch. <code>@derive</code>, standard traits and generic structs are next</td></tr>
+          <tr><td data-label="Feature">WASM target</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>--target=wasm32-wasi</code> emits a wasm object today; a WASI runtime build (for runnable <code>.wasm</code>) and a browser playground are next</td></tr>
           <tr><td data-label="Feature">Python interop</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes">Embedded CPython, ratified decision</td></tr>
           <tr><td data-label="Feature"><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code></td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes">Agent-native keywords</td></tr>
           <tr><td data-label="Feature">GPU kernels (NVPTX)</td><td class="badge-cell" data-label="Status"><span class="badge planned">v1.0</span></td><td data-label="Notes"></td></tr>
@@ -284,7 +387,7 @@
         <li><strong>sha256-stable</strong> — <code>astra.lock</code> byte-identical across repeated resolutions</li>
       </ul>
       <div class="btn-row">
-        <a class="btn ghost" href="download.html">Downloads — coming soon</a>
+        <a class="btn ghost" href="download.html">Downloads — v0.11.2-alpha</a>
       </div>
     </div>
   </section>
