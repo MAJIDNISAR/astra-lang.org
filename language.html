@@ -171,6 +171,25 @@
     </div>
   </section>
 
+  <section>
+    <div class="wrap">
+      <h2><span class="k">Interfaces</span>Nominal traits</h2>
+      <p>A <code>trait</code> declares method signatures; an
+      <code>impl … for …</code> block implements them for a concrete type. An
+      impl that misses a method is the compile error <code>E0020</code>, which
+      names it.</p>
+<pre><code><span class="kw">trait</span> Shape:
+    <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>
+
+<span class="kw">impl</span> Shape <span class="kw">for</span> Circle:
+    <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>:
+        <span class="kw">return</span> self.r * self.r</code></pre>
+      <p>Dispatch is static: <code>impl Shape for Circle</code> lowers to
+      <code>Circle__area</code>, exactly like an inherent method. Trait bounds
+      (<code>fn f&lt;T: Shape&gt;</code>) and <code>@derive</code> are next.</p>
+    </div>
+  </section>
+
   <section id="modules">
     <div class="wrap">
       <h2><span class="k">Structure</span>Modules <span class="badge planned">next release</span></h2>
