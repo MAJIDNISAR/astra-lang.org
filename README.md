@@ -7,7 +7,7 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 
 ## Pages
 
-- `index.html` — home: the AI-first verify-repair-compile loop
+- `index.html` — home: the AI-first verify-repair-compile loop, and the status globe (`assets/orb.js`: features as points on a turning sphere, coloured by status; the status list is the no-JS fallback)
 - `start.html` — getting started: download or clone → verify → compile → REPL → Mifa
 - `language.html` — language tour: syntax, types, Result, closures, `dyn`, pipeline
 - `mifa.html` — Mifa package manager: workflow, lockfile, milestones
