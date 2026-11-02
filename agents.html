@@ -151,7 +151,9 @@
           <tr><td data-label="Code"><code>E0016</code></td><td data-label="Meaning">Assignment to immutable binding</td><td data-label="Typical agent repair">Declare it with <code>let mut</code>, or assign a different binding</td></tr>
           <tr><td data-label="Code"><code>E0017</code></td><td data-label="Meaning">Tuple destructuring error</td><td data-label="Typical agent repair">Bind as many names as the tuple has elements</td></tr>
           <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
+          <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method named in the message to the <code>impl Trait for Type</code> block</td></tr>
           <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
+          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy</td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
         </tbody>
       </table></div>
