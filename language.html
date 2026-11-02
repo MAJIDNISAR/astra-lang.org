@@ -176,8 +176,8 @@
       <h2><span class="k">Interfaces</span>Nominal traits</h2>
       <p>A <code>trait</code> declares method signatures; an
       <code>impl … for …</code> block implements them for a concrete type. An
-      impl that misses a method is the compile error <code>E0020</code>, which
-      names it.</p>
+      impl that misses a method, or whose method signature differs from the
+      trait, is the compile error <code>E0020</code>, which names it.</p>
 <pre><code><span class="kw">trait</span> Shape:
     <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>
 
@@ -185,8 +185,10 @@
     <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>:
         <span class="kw">return</span> self.r * self.r</code></pre>
       <p>Dispatch is static: <code>impl Shape for Circle</code> lowers to
-      <code>Circle__area</code>, exactly like an inherent method. Trait bounds
-      (<code>fn f&lt;T: Shape&gt;</code>) and <code>@derive</code> are next.</p>
+      <code>Circle__area</code>, exactly like an inherent method. A trait bound
+      (<code>fn total&lt;T: Shape&gt;(s: T)</code>) calls the trait's methods
+      and accepts only types that implement it (E0020 at the call site);
+      <code>@derive</code> and standard traits are next.</p>
     </div>
   </section>
 
@@ -254,7 +256,7 @@
       WASM / GPU, AI primitives as keywords, and Python interop via embedded
       CPython.</p>
       <div class="btn-row">
-        <a class="btn ghost" href="download.html">Downloads — coming soon</a>
+        <a class="btn ghost" href="download.html">Downloads — v0.11.2-alpha</a>
         <a class="btn ghost" href="progress.html">See what's implemented</a>
       </div>
     </div>
