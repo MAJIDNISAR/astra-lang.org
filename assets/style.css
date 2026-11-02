@@ -634,6 +634,112 @@ td:first-child, th:first-child { padding-left: 0; }
   white-space: nowrap;
 }
 
+/* ---------- status globe (home page, assets/orb.js) ---------- */
+
+/* The globe shows only when orb.js has run (the figure starts `hidden`);
+   the status list below it is the content either way. */
+.orb { margin: var(--s-11) 0 var(--s-8); }
+.orb-frame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  max-height: 560px;
+  border: var(--line) solid var(--rule);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 50% 50%, var(--paper-dim) 0, var(--paper) 70%);
+  overflow: hidden;
+}
+@media (max-width: 600px) { .orb-frame { aspect-ratio: 1 / 1; } }
+.orb-frame canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.orb-frame canvas:active { cursor: grabbing; }
+.orb-frame canvas:focus-visible {
+  outline: var(--line-btn) solid var(--accent);
+  outline-offset: -4px;
+}
+.orb-tip {
+  position: absolute;
+  transform: translate(14px, -50%);
+  pointer-events: none;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  max-width: 60vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.orb-tip.left { transform: translate(calc(-100% - 14px), -50%); }
+.orb-tip small { display: block; opacity: 0.7; font-size: var(--fs-2xs); }
+.orb figcaption { margin-top: var(--s-7); }
+.orb-hint { font-size: var(--fs-small); color: var(--ink-soft); }
+.orb-chips { display: flex; flex-wrap: wrap; gap: var(--s-4); }
+.orb-chip {
+  --chip-c: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-height: var(--control);
+  padding: 0 var(--s-6);
+  border: var(--line) solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+.orb-chip:hover { border-color: var(--chip-c); }
+.orb-chip:focus-visible { outline: var(--line-btn) solid var(--accent); outline-offset: 2px; }
+.orb-chip[aria-pressed="true"] { border-color: var(--chip-c); box-shadow: inset 0 0 0 1px var(--chip-c); }
+.orb-chip .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--chip-c);
+  border: 1.5px solid var(--chip-c);
+}
+.orb-chip.hollow .dot { background: transparent; }
+.orb-chip.dashed .dot { border-style: dashed; }
+.orb-chip .n { color: var(--ink-soft); font-size: var(--fs-xs); }
+@media (max-width: 480px) { .orb-chip { min-height: var(--tap); } }
+
+/* The list doubles as the legend: each status leads with its dot. */
+.status-list li[data-status] { position: relative; padding-left: var(--s-9); }
+.status-list li[data-status]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--st-c);
+  background: var(--st-c);
+}
+.status-list li[data-status="works"]    { --st-c: var(--ok); }
+.status-list li[data-status="shipped"]  { --st-c: var(--accent); }
+.status-list li[data-status="progress"] { --st-c: var(--warn); }
+.status-list li[data-status="next"],
+.status-list li[data-status="planned"]  { --st-c: var(--ink-soft); }
+.status-list li[data-status="next"]::before,
+.status-list li[data-status="planned"]::before { background: transparent; }
+.status-list li[data-status="planned"]::before { border-style: dashed; }
+.status-list.filtered li[data-status]:not(.on) { opacity: 0.45; }
+.status-list li.on b { color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .status-list li[data-status] { transition: opacity var(--dur-fast) ease; }
+}
+
 /* ---------- misc components ---------- */
 
 .grid2 {

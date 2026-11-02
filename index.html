@@ -52,6 +52,7 @@
 }
 </script>
 <script src="assets/site.js" defer></script>
+<script src="assets/orb.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -95,7 +96,7 @@
         <a class="btn primary" href="download.html">Downloads — v0.11.2-alpha</a>
         <a class="btn ghost" href="language.html">Read the language tour</a>
       </div>
-      <p class="new-line"><span class="badge wip">new on main</span>Modules, an interpreter for <code>astra run</code>, and Mifa builds with local dependencies — <a href="progress.html#next">coming in the next release</a>.</p>
+      <p class="new-line"><span class="badge done">v0.11.2-alpha</span>Traits and trait bounds, value semantics, and loops that no longer leak memory — <a href="progress.html#timeline">see the timeline</a>.</p>
     </div>
   </section>
 
@@ -263,24 +264,37 @@
     </div>
   </section>
 
-  <section>
+  <section class="honesty" id="status">
     <div class="wrap">
       <h2><span class="k">Honesty</span>What Astra is — and isn't — today</h2>
       <div class="callout">
         <p>Astra is a <strong>public alpha compiler project</strong>. The
-        core language compiles and runs natively with 449 tests green
+        core language compiles and runs natively with 712 tests green
         (0 ignored), but it is not yet a production language, a package
         ecosystem, or a memory-safe systems language. The
         <a href="progress.html">progress page</a> tracks exactly what works,
         what's partial, and what's planned — the same ground truth used
         inside the repo.</p>
       </div>
-      <ul class="meta-list">
-        <li><b>Works today:</b> variables, functions, recursion, control flow, arrays, nominal structs, enums with payload variants + match, tuples + destructuring, Result&lt;T,E&gt; + the <code>?</code> operator, try/catch (function-local), closures (defined <em>and called</em>), generic functions (monomorphized), impl blocks, bitwise ops, string interpolation, floats, async/await (sync lowering), REPL — all through the <b>default LLVM-IR pipeline</b> (<code>--emit-ir</code>, <code>--target</code> cross-compile), now the only code generator. The compiler returns diagnostics instead of panicking on malformed input, and CI gates every commit on fmt, clippy, audit, and an llc IR-validity corpus</li>
-        <li><b>Shipped in v0.10 – v0.11:</b> <code>astra run</code> is a tree-walking interpreter (no LLVM needed; faster than CPython on loops, floats and arrays, close on branches) tested for identical output against the native compiler and fuzzed against it; multi-file programs with <code>import util;</code>, <code>pub</code> items and <code>util::f()</code> names; <code>mifa build</code>/<code>mifa run</code> with local path dependencies importable as modules; overflow, division by zero, bad shifts, out-of-bounds indexing and runaway recursion stop with a clear runtime error on both engines; <code>def</code> is a spelling of <code>fn</code>, and private functions may omit parameter and return types (inferred from call sites and body operators); Python-style indentation is the canonical syntax (braces still accepted) and <code>astra fmt</code> converts to it; functions may be called before they are defined; a <code>match</code> that misses an enum variant is a compile error (E0021); <code>s.split()</code>; Cargo-style <code>astra.toml</code> and <code>mifa test</code>; structs and lists are values (A8) — assignment and storage copy, and a function changes its caller's value only through <code>mut</code> parameters (E0022); <code>a[i] = v</code>; headered string literals (E0); nominal traits — <code>trait Shape:</code> + <code>impl Shape for Circle:</code> and trait bounds <code>fn f&lt;T: Shape&gt;</code> with static dispatch (E0020 checks bounds at the call site and impl signatures against the trait). Latest release: <b>v0.11.2-alpha</b> (2026-11-02) for Linux x64, macOS (Intel + Apple Silicon) and Windows x64; 712 tests green</li>
-        <li><b>In progress:</b> ARC memory reclamation — single-owner structs, strings, tuples, arrays, list copies and struct list fields are freed at loop-body (<code>for</code> and <code>while</code>) and function scope with retain-on-alias; string-aliased values still leak (bounded, safe)</li>
-        <li><b>Next:</b> <code>@derive</code> + standard traits, generic structs, typed collections beyond a minimal <code>Vec&lt;int&gt;</code>, LSP alpha, stdlib core — <a href="progress.html#next">full priority queue</a> · <a href="progress.html#timeline">release timeline</a></li>
-        <li><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, WASM + GPU targets, hosted Mifa registry (protocol done, deployment pending)</li>
+
+      <figure class="orb" data-orb hidden>
+        <div class="orb-frame">
+          <canvas tabindex="0" role="img" aria-label="A turning globe of 57 Astra features, coloured by status; drag or use the arrow keys to turn it. The same features are listed below."></canvas>
+          <div class="orb-tip" role="presentation" hidden></div>
+        </div>
+        <figcaption>
+          <p class="orb-hint">Every point is a feature. Top of the globe is what works; the bottom is what's planned. Drag to turn it, hover a point for its name, pick a status to light it up.</p>
+          <div class="orb-chips" role="group" aria-label="Highlight a status"></div>
+        </figcaption>
+      </figure>
+      <script type="application/json" id="orb-data">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4"]},{"id":"progress","name":"In progress","items":["ARC memory reclamation","Loop memory freed","String aliasing","Lists of heap values","Windows native verify"]},{"id":"next","name":"Next","items":["@derive","Standard traits","Generic structs","Map / Set","Comprehensions","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Hosted Mifa registry"]}]}</script>
+
+      <ul class="meta-list status-list">
+        <li data-status="works"><b>Works today:</b> variables, functions, recursion, control flow, arrays, nominal structs, enums with payload variants + match, tuples + destructuring, Result&lt;T,E&gt; + the <code>?</code> operator, try/catch (function-local), closures (defined <em>and called</em>), generic functions (monomorphized), impl blocks, bitwise ops, string interpolation, floats, async/await (sync lowering), REPL — all through the default LLVM-IR pipeline (<code>--emit-ir</code>, <code>--target</code> cross-compile). The compiler returns diagnostics instead of panicking on malformed input, and CI gates every commit on fmt, clippy, audit and an llc IR-validity corpus</li>
+        <li data-status="shipped"><b>New in v0.10–v0.11:</b> <code>astra run</code> is a tree-walking interpreter (no LLVM needed) tested for identical output against the native compiler and fuzzed against it; modules (<code>import util</code>, <code>pub</code>, <code>util::f()</code>); <code>mifa build</code>/<code>run</code> with path dependencies; overflow, division by zero, bad shifts, out-of-bounds indexing and runaway recursion stop with a clear error on both engines; type inference for omitted types; Python-style indentation and <code>astra fmt</code>; exhaustive <code>match</code> (E0021); structs and lists are values, <code>mut</code> parameters (E0022), <code>a[i] = v</code>; nominal traits and trait bounds <code>fn f&lt;T: Shape&gt;</code> with impl signatures checked (E0020); release binaries for Linux, macOS ×2 and Windows that compile natively. 712 tests green</li>
+        <li data-status="progress"><b>In progress:</b> ARC memory reclamation — structs, strings, tuples, lists, list copies and struct list fields are freed at loop-body (<code>for</code> and <code>while</code>) and function scope; string-aliased values and lists of heap values still leak (bounded, safe); native compile on Windows is being verified</li>
+        <li data-status="next"><b>Next:</b> <code>@derive</code> + standard traits, generic structs, <code>Map</code>/<code>Set</code> and comprehensions, LSP alpha, stdlib core — <a href="progress.html#next">full priority queue</a> · <a href="progress.html#timeline">release timeline</a></li>
+        <li data-status="planned"><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, WASM + GPU targets, hosted Mifa registry (protocol done, deployment pending)</li>
         <li><b>Source availability:</b> the compiler's source repository is private while the core hardens and <b>opens at v1.0-beta</b>. v0.11.2-alpha binaries are available to early-access testers now (<a href="download.html">platforms</a>); public downloads follow; for early access, <a href="https://majidnisar.com">get in touch</a></li>
       </ul>
     </div>
