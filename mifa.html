@@ -53,7 +53,7 @@
 
 <main id="main">
   <section class="page-head">
-    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="961" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
+    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="957" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>Mifa</h1>
       <p class="lede">
@@ -82,6 +82,7 @@
   <section>
     <div class="wrap">
       <h2 id="from-zero-to-running-project">From zero to running project</h2>
+      <p class="lead-in">Five commands take an empty folder to a running native program.</p>
 <pre data-copy="none"><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
 <span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra here</span>
 <span class="p">$</span> mifa verify              <span class="c"># validate astra.toml and the src/ layout</span>
@@ -190,6 +191,7 @@ HI!</code></pre>
   <section>
     <div class="wrap">
       <h2 id="mifa-milestones">Mifa milestones</h2>
+      <p class="lead-in">Every local milestone has shipped; the hosted registry is what remains.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Milestone</th><th>Scope</th><th>Status</th></tr></thead>
         <tbody>
@@ -256,6 +258,7 @@ HI!</code></pre>
   <section>
     <div class="wrap">
       <h2 id="why-not-reuse-an-existing-manager">Why not reuse an existing manager?</h2>
+      <p class="lead-in">Mifa is built around two things agents need most: fast verification and builds that never drift.</p>
       <ul>
         <li><strong>Verification-first.</strong> <code>astra verify</code>
         type-checks a program without generating code, so an agent can

@@ -52,7 +52,7 @@
 
 <main id="main">
   <section class="page-head">
-    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="961" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
+    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="957" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>From download to native binary <br>in five minutes.</h1>
       <p class="lede">
@@ -67,9 +67,9 @@
   <nav class="toc" aria-label="On this page">
     <h2>On this page</h2>
     <ol>
-      <li><a href="#prerequisites">Prerequisites</a></li>
       <li><a href="#download-a-release">Download a release</a></li>
       <li><a href="#write-and-verify-a-program">Write and verify a program</a></li>
+      <li><a href="#prerequisites">Prerequisites</a></li>
       <li><a href="#compile-and-run-natively">Compile and run natively</a></li>
       <li><a href="#explore-interactively">Explore interactively</a></li>
       <li><a href="#start-a-real-project-with-mifa">Start a real project with Mifa</a></li>
@@ -77,19 +77,6 @@
     </ol>
   </nav>
   <div class="doc-body">
-
-  <section>
-    <div class="wrap">
-      <h2 id="prerequisites">Prerequisites</h2>
-      <ul>
-        <li><strong>LLVM tools</strong>: <code>llc</code> on your PATH (<code>brew install llvm</code> on macOS)</li>
-        <li><strong>A C compiler</strong>: <code>clang</code> or <code>gcc</code>, for linking the small runtime</li>
-      </ul>
-      <p>The compiler invokes <code>llc</code> and <code>clang</code> to
-      turn LLVM IR into your native executable. Primary tested platform is
-      macOS ARM64; the Linux, Windows and Intel-macOS builds come from CI.</p>
-    </div>
-  </section>
 
   <section>
     <div class="wrap">
@@ -111,6 +98,7 @@
   <section>
     <div class="wrap">
       <h2 id="write-and-verify-a-program">Write and verify a program</h2>
+      <p class="lead-in">Write a program and check it in milliseconds, before anything is built.</p>
       <div class="codeblock">
         <span class="tab">hello.astra</span>
 <pre><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
@@ -130,7 +118,22 @@ Verification passed
 
   <section>
     <div class="wrap">
+      <h2 id="prerequisites">Prerequisites</h2>
+      <p class="lead-in">Only native builds need these. <code>astra run</code> and <code>astra verify</code> work without them.</p>
+      <ul>
+        <li><strong>LLVM tools</strong>: <code>llc</code> on your PATH (<code>brew install llvm</code> on macOS)</li>
+        <li><strong>A C compiler</strong>: <code>clang</code> or <code>gcc</code>, for linking the small runtime</li>
+      </ul>
+      <p>The compiler invokes <code>llc</code> and <code>clang</code> to
+      turn LLVM IR into your native executable. Primary tested platform is
+      macOS ARM64; the Linux, Windows and Intel-macOS builds come from CI.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
       <h2 id="compile-and-run-natively">Compile and run natively</h2>
+      <p class="lead-in">Once it verifies, one command turns it into a real executable.</p>
 <pre><code><span class="p">$</span> astra compile hello.astra --output hello
 <span class="p">$</span> ./hello
 Hello, world!</code></pre>
@@ -142,6 +145,7 @@ Hello, world!</code></pre>
   <section>
     <div class="wrap">
       <h2 id="explore-interactively">Explore interactively</h2>
+      <p class="lead-in">The REPL lets you try the language a line at a time.</p>
 <pre><code><span class="p">$</span> astra repl
 astra&gt; let x = 21;
 astra&gt; print(x * 2);
@@ -156,8 +160,9 @@ astra&gt; :quit</code></pre>
   <section>
     <div class="wrap">
       <h2 id="start-a-real-project-with-mifa">Start a real project with Mifa</h2>
-<pre><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
-<span class="p">$</span> mifa init myapp   <span class="c"># v0.9.1 writes into the current folder</span>
+      <p class="lead-in">Mifa turns a folder into a project with a manifest and a reproducible lockfile.</p>
+<pre><code><span class="p">$</span> mifa init myapp   <span class="c"># creates myapp/ with astra.toml and src/</span>
+<span class="p">$</span> cd myapp
 <span class="p">$</span> mifa verify
 <span class="p">$</span> mifa lock         <span class="c"># reproducible astra.lock</span>
 <span class="p">$</span> mifa run</code></pre>
@@ -174,6 +179,7 @@ astra&gt; :quit</code></pre>
   <section>
     <div class="wrap">
       <h2 id="where-to-go-from-here">Where to go from here</h2>
+      <p class="lead-in">Pick your next page by what you want to do.</p>
       <div class="grid2">
         <div class="def"><b><a href="language.html">Language tour</a></b>
           <p>Structs, enums, Result, closures, generics, dyn, with runnable snippets.</p></div>
