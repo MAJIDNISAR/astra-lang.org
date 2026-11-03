@@ -53,7 +53,7 @@
 
 <main id="main">
   <section class="page-head">
-    <img class="head-plate" src="assets/celestial-globe-1579.jpg" width="844" height="1100" alt="A gilded celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
+    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="961" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>Mifa</h1>
       <p class="lede">
@@ -67,38 +67,16 @@
   <nav class="toc" aria-label="On this page">
     <h2>On this page</h2>
     <ol>
-      <li><a href="#globe">Mifa, as a globe</a></li>
       <li><a href="#from-zero-to-running-project">From zero to running project</a></li>
-      <li><a href="#the-lockfile">The lockfile</a></li>
-      <li><a href="#mifa-milestones">Mifa milestones</a></li>
       <li><a href="#next">Dependencies you can import</a></li>
+      <li><a href="#the-lockfile">The lockfile</a></li>
+      <li><a href="#globe">Mifa, as a globe</a></li>
+      <li><a href="#mifa-milestones">Mifa milestones</a></li>
       <li><a href="#next-release">Honest about the registry</a></li>
       <li><a href="#why-not-reuse-an-existing-manager">Why not reuse an existing manager?</a></li>
     </ol>
   </nav>
   <div class="doc-body">
-
-  <section id="globe">
-    <div class="wrap">
-      <h2>Mifa, as a globe</h2>
-      <p>Every Mifa feature is a star: the brightest work today, faint dotted ones are planned. Drag to turn it, or pick a magnitude.</p>
-      <figure class="orb orb-plain" data-orb="mifa" hidden>
-        <div class="orb-frame">
-          <canvas tabindex="0" role="img" aria-label="A turning globe of Mifa's features, coloured by status. The same features are listed below."></canvas>
-          <div class="orb-tip" role="presentation" hidden></div>
-        </div>
-        <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
-      </figure>
-      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target"]},{"id":"progress","name":"On main, next release","items":["mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
-      <!-- status:mifa-list --><ul class="status-list">
-  <li data-status="works"><b>Works today:</b> mifa init, mifa add --path, mifa verify, mifa lock, Path dependencies, Package cache, mifa clean, --json on local commands, Registry protocol (34 tests), login + publish --dry-run</li>
-  <li data-status="shipped"><b>New in v0.10–v0.11:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target</li>
-  <li data-status="progress"><b>On main, next release:</b> mifa --version, Honest mifa search</li>
-  <li data-status="next"><b>Next:</b> Project-wide mifa verify, HTTP registry client, Staging registry, Real mifa publish</li>
-  <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Global lockfile contract</li>
-</ul><!-- /status:mifa-list -->
-    </div>
-  </section>
 
 
   <section>
@@ -138,6 +116,36 @@ categories = []
     </div>
   </section>
 
+  <section id="next">
+    <div class="wrap">
+      <h2>Dependencies you can import</h2>
+      <p>A local package is a real dependency. <code>mifa build</code> compiles
+      <code>src/main.astra</code> to <code>target/&lt;name&gt;</code> and
+      searches each path dependency's <code>src/</code> folder for modules;
+      <code>mifa run</code> passes arguments through and exits with your
+      program's exit code.</p>
+<pre><code><span class="p">$</span> mifa init app              <span class="c"># creates app/</span>
+<span class="p">$</span> mifa init textutil
+<span class="p">$</span> cd app
+<span class="p">$</span> mifa add textutil --path ../textutil   <span class="c"># checks ../textutil/astra.toml</span>
+<span class="p">$</span> mifa run
+HI!</code></pre>
+      <div class="codeblock">
+        <span class="tab">textutil/src/textutil.astra · app/src/main.astra</span>
+<pre><code><span class="kw">pub</span> <span class="kw">fn</span> <span class="fn">shout</span>(s: <span class="kw">str</span>) -&gt; <span class="kw">str</span>:
+    <span class="kw">return</span> s.<span class="fn">to_upper</span>() + <span class="s">&quot;!&quot;</span>
+
+<span class="kw">import</span> textutil
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">&quot;hi&quot;</span>))
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
+      </div>
+      <p><code>mifa add</code> without <code>--path</code> is an error
+      instead of recording a package nothing can fetch. This flow is covered
+      by an end-to-end test that drives the real <code>mifa</code> binary.</p>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2 id="the-lockfile">The lockfile</h2>
@@ -154,6 +162,28 @@ categories = []
         will verify the same way again, no drifting dependencies invalidating
         an earlier repair loop.
       </p>
+    </div>
+  </section>
+
+  <section id="globe">
+    <div class="wrap">
+      <h2>Mifa, as a globe</h2>
+      <p>Every Mifa feature is a star: the brightest work today, faint dotted ones are planned. Drag to turn it, or pick a magnitude.</p>
+      <figure class="orb orb-plain" data-orb="mifa" hidden>
+        <div class="orb-frame">
+          <canvas tabindex="0" role="img" aria-label="A turning globe of Mifa's features, coloured by status. The same features are listed below."></canvas>
+          <div class="orb-tip" role="presentation" hidden></div>
+        </div>
+        <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
+      </figure>
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target"]},{"id":"progress","name":"On main, next release","items":["mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:mifa-list --><ul class="status-list">
+  <li data-status="works"><b>Works today:</b> mifa init, mifa add --path, mifa verify, mifa lock, Path dependencies, Package cache, mifa clean, --json on local commands, Registry protocol (34 tests), login + publish --dry-run</li>
+  <li data-status="shipped"><b>New in v0.10–v0.11:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target</li>
+  <li data-status="progress"><b>On main, next release:</b> mifa --version, Honest mifa search</li>
+  <li data-status="next"><b>Next:</b> Project-wide mifa verify, HTTP registry client, Staging registry, Real mifa publish</li>
+  <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Global lockfile contract</li>
+</ul><!-- /status:mifa-list -->
     </div>
   </section>
 
@@ -205,36 +235,6 @@ categories = []
         dependencies, JSON output, login, dry-run publish) are real and
         covered by 90+ tests.</p>
       </div>
-    </div>
-  </section>
-
-  <section id="next">
-    <div class="wrap">
-      <h2>Dependencies you can import</h2>
-      <p>A local package is a real dependency. <code>mifa build</code> compiles
-      <code>src/main.astra</code> to <code>target/&lt;name&gt;</code> and
-      searches each path dependency's <code>src/</code> folder for modules;
-      <code>mifa run</code> passes arguments through and exits with your
-      program's exit code.</p>
-<pre><code><span class="p">$</span> mifa init app              <span class="c"># creates app/</span>
-<span class="p">$</span> mifa init textutil
-<span class="p">$</span> cd app
-<span class="p">$</span> mifa add textutil --path ../textutil   <span class="c"># checks ../textutil/astra.toml</span>
-<span class="p">$</span> mifa run
-HI!</code></pre>
-      <div class="codeblock">
-        <span class="tab">textutil/src/textutil.astra · app/src/main.astra</span>
-<pre><code><span class="kw">pub</span> <span class="kw">fn</span> <span class="fn">shout</span>(s: <span class="kw">str</span>) -&gt; <span class="kw">str</span>:
-    <span class="kw">return</span> s.<span class="fn">to_upper</span>() + <span class="s">&quot;!&quot;</span>
-
-<span class="kw">import</span> textutil
-<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
-    <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">&quot;hi&quot;</span>))
-    <span class="kw">return</span> <span class="n">0</span></code></pre>
-      </div>
-      <p><code>mifa add</code> without <code>--path</code> is an error
-      instead of recording a package nothing can fetch. This flow is covered
-      by an end-to-end test that drives the real <code>mifa</code> binary.</p>
     </div>
   </section>
 
