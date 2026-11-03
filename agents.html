@@ -68,7 +68,7 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Surface</span>Three commands, stable semantics</h2>
+      <h2><span class="k">Surface</span>Three commands, stable semantics, and a fourth next release</h2>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
         <tbody>
@@ -86,6 +86,11 @@
             <td data-label="Command"><code>astra explain E0002</code></td>
             <td data-label="What it does">Expands any error code into a full explanation + guidance.</td>
             <td data-label="Exit code">0</td>
+          </tr>
+          <tr>
+            <td data-label="Command"><code>astra fix &lt;file&gt;</code> <span class="badge wip">next release</span></td>
+            <td data-label="What it does">Applies every machine-applicable fix, re-verifies, repeats, and writes the file. Accepts <code>--error-format=json</code>.</td>
+            <td data-label="Exit code">0 = verified after fixing · non-zero = errors remain</td>
           </tr>
         </tbody>
       </table></div>
@@ -118,9 +123,43 @@
 }</code></pre>
       <ul>
         <li><strong>Parse errors</strong> always carry <code>line</code> and <code>column</code> of the offending token.</li>
-        <li><strong>Typecheck errors</strong> carry them when the error names a symbol; otherwise <code>null</code> (never <code>0</code>).</li>
+        <li><strong>Typecheck errors</strong> carry them when the error names a symbol; otherwise <code>null</code> (never <code>0</code>).
+        <span class="badge wip">next release</span> Every type error in the
+        main file carries the line and column of the statement that raised it
+        (human output ends with <code>(line N, column M)</code>); a function
+        reports all of its independent errors in one run, not just the first;
+        capability errors (E0014) point at the offending built-in call. Errors
+        in imported modules and in function signatures still have no line.</li>
         <li><strong><code>suggestion</code></strong> is a human/LLM-readable repair hint, name-aware where possible.</li>
         <li>Success shape: <code>{"success": true, "diagnostics": []}</code>.</li>
+      </ul>
+
+      <h3 id="fix">Machine-applicable fixes <span class="badge wip">next release</span></h3>
+      <p>When the repair is unambiguous, a diagnostic also carries a
+      <code>fix</code>: text edits that repair the error without an LLM call.
+      Each edit replaces the text from <code>line</code>/<code>column</code> up
+      to, not including, <code>end_line</code>/<code>end_column</code> (1-based)
+      with <code>text</code>. This is real output from <code>main</code>:</p>
+<pre><code>{
+  <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,
+  <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,
+  <span class="s">"message"</span>: <span class="s">"Type error: Undefined variable 'totl'; did you mean 'total'?"</span>,
+  <span class="s">"line"</span>: <span class="n">4</span>,
+  <span class="s">"column"</span>: <span class="n">17</span>,
+  <span class="s">"fix"</span>: {
+    <span class="s">"edits"</span>: [
+      { <span class="s">"line"</span>: <span class="n">4</span>, <span class="s">"column"</span>: <span class="n">17</span>, <span class="s">"end_line"</span>: <span class="n">4</span>, <span class="s">"end_column"</span>: <span class="n">21</span>, <span class="s">"text"</span>: <span class="s">"total"</span> }
+    ]
+  }
+}</code></pre>
+      <ul>
+        <li><strong>Fixed on <code>main</code>:</strong> misspelt variable and function names
+        (E0002, E0003) and a missing or extra <code>mut</code> at a call
+        (E0022).</li>
+        <li><strong>Next:</strong> a missing match arm (E0021) and a missing
+        trait method (E0020).</li>
+        <li>No <code>fix</code> field means no unambiguous repair is known; hand
+        the diagnostic to the model as before.</li>
       </ul>
     </div>
   </section>
@@ -135,8 +174,8 @@
         <thead><tr><th>Code</th><th>Meaning</th><th>Typical agent repair</th></tr></thead>
         <tbody>
           <tr><td data-label="Code"><code>E0001</code></td><td data-label="Meaning">Syntax error</td><td data-label="Typical agent repair">Re-emit the statement; check delimiters and semicolons</td></tr>
-          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling</td></tr>
-          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target</td></tr>
+          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling (next release: a near-miss name carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target (next release: a near-miss name carries a <code>fix</code>)</td></tr>
           <tr><td data-label="Code"><code>E0004</code></td><td data-label="Meaning">Type mismatch</td><td data-label="Typical agent repair">Align value type with the annotation / return type</td></tr>
           <tr><td data-label="Code"><code>E0005</code></td><td data-label="Meaning">Wrong number of arguments</td><td data-label="Typical agent repair">Match the call to the function signature</td></tr>
           <tr><td data-label="Code"><code>E0006</code></td><td data-label="Meaning">Condition must be boolean</td><td data-label="Typical agent repair">Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
@@ -153,7 +192,7 @@
           <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
           <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method (or fix its signature) named in the message in the <code>impl Trait for Type</code> block; for a bound, pass a type that implements the trait</td></tr>
           <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
-          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy</td></tr>
+          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (next release: a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
         </tbody>
       </table></div>
@@ -176,12 +215,23 @@
 
 binary = run(<span class="s">"astra compile --error-format=json"</span>, source)
 execute(binary)                              <span class="c"># native, already typechecked</span></code></pre>
+      <p><span class="badge wip">next release</span> Apply the compiler's own
+      fixes first, and spend a model call only on what remains:</p>
+<pre><code><span class="kw">for</span> attempt <span class="kw">in</span> 1..MAX_REPAIRS:
+    report = run(<span class="s">"astra verify --error-format=json"</span>, source)
+    <span class="kw">if</span> report.success:
+        <span class="kw">break</span>
+    <span class="kw">if</span> any(d.fix <span class="kw">for</span> d <span class="kw">in</span> report.diagnostics):
+        run(<span class="s">"astra fix"</span>, source)          <span class="c"># apply edits, re-verify, repeat</span>
+        <span class="kw">continue</span>                             <span class="c"># no LLM call for these errors</span>
+    <span class="kw">source</span> = llm.repair(source, report.diagnostics)</code></pre>
       <p>Why this converges better than a Python retry loop:</p>
       <ul>
         <li>Diagnostics are <strong>positional</strong> — the model repairs one
         pinpointed line instead of regenerating the file.</li>
         <li>Codes are <strong>categorical</strong> — frameworks can route
-        E0002 to a cheap local fix and reserve the LLM for E0004/E0011.</li>
+        E0002 to a cheap local fix and reserve the LLM for E0004/E0011
+        (next release: the compiler supplies that fix itself).</li>
         <li>Verification is <strong>~100 ms</strong> — cheaper than any token
         round-trip, so verify after every single edit.</li>
         <li>Whole error classes <strong>cannot escape to runtime</strong>, so
