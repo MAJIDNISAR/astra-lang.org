@@ -175,9 +175,8 @@ categories = []
 
   <section id="next">
     <div class="wrap">
-      <h2><span class="k">Next release</span>Dependencies you can import</h2>
-      <p>On <code>main</code> and shipping in the next release: a local
-      package is a real dependency. <code>mifa build</code> compiles
+      <h2><span class="k">Since v0.10</span>Dependencies you can import</h2>
+      <p>A local package is a real dependency. <code>mifa build</code> compiles
       <code>src/main.astra</code> to <code>target/&lt;name&gt;</code> and
       searches each path dependency's <code>src/</code> folder for modules;
       <code>mifa run</code> passes arguments through and exits with your
@@ -198,9 +197,24 @@ HI!</code></pre>
     <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">&quot;hi&quot;</span>))
     <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
-      <p><code>mifa add</code> without <code>--path</code> becomes an error
+      <p><code>mifa add</code> without <code>--path</code> is an error
       instead of recording a package nothing can fetch. This flow is covered
       by an end-to-end test that drives the real <code>mifa</code> binary.</p>
+    </div>
+  </section>
+
+  <section id="next-release">
+    <div class="wrap">
+      <h2><span class="k">Next release</span>Honest about the registry <span class="badge wip">next release</span></h2>
+      <p>On <code>main</code>, not in a release yet:</p>
+      <ul>
+        <li><code>mifa --version</code> prints the Mifa version.</li>
+        <li><code>mifa search</code> says the registry is not deployed instead
+        of listing packages. In v0.11.2-alpha, <code>mifa search</code> lists
+        packages that do not exist; that is a known bug in that release.</li>
+        <li>The Mifa flow is part of the black-box release suite that runs on
+        every platform before a release publishes.</li>
+      </ul>
     </div>
   </section>
 
