@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>Get started — Astra</title>
+<title>Get started: Astra</title>
 <meta name="description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <link rel="canonical" href="https://astra-lang.org/start.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="Get started — Astra">
+<meta property="og:title" content="Get started: Astra">
 <meta property="og:description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
 <meta property="og:url" content="https://astra-lang.org/start.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
@@ -22,8 +22,11 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="Get started — Astra">
+<meta name="twitter:title" content="Get started: Astra">
 <meta name="twitter:description" content="Install and run Astra in minutes: download a release, verify a program, compile to native, use the REPL, and start a Mifa project.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
 </head>
@@ -32,23 +35,17 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html" class="active" aria-current="page">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html">Progress</a>
-        <a href="about.html">About</a>
-        <a href="download.html">Download</a>
-      </span>
+      <a href="start.html" aria-current="page">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
     </nav>
   </div>
 </header>
@@ -56,7 +53,6 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Getting started</p>
       <h1>From download to native binary <br>in five minutes.</h1>
       <p class="lede">
         Prebuilt <code>astra</code> and <code>mifa</code> binaries for Linux,
@@ -66,13 +62,27 @@
       </p>
     </div>
   </section>
+<div class="doc">
+  <nav class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#download-a-release">Download a release</a></li>
+      <li><a href="#write-and-verify-a-program">Write and verify a program</a></li>
+      <li><a href="#compile-and-run-natively">Compile and run natively</a></li>
+      <li><a href="#explore-interactively">Explore interactively</a></li>
+      <li><a href="#start-a-real-project-with-mifa">Start a real project with Mifa</a></li>
+      <li><a href="#where-to-go-from-here">Where to go from here</a></li>
+    </ol>
+  </nav>
+  <div class="doc-body">
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 0</span>Prerequisites</h2>
+      <h2 id="prerequisites">Prerequisites</h2>
       <ul>
-        <li><strong>LLVM tools</strong> — <code>llc</code> on your PATH (<code>brew install llvm</code> on macOS)</li>
-        <li><strong>A C compiler</strong> — <code>clang</code> or <code>gcc</code>, for linking the small runtime</li>
+        <li><strong>LLVM tools</strong>: <code>llc</code> on your PATH (<code>brew install llvm</code> on macOS)</li>
+        <li><strong>A C compiler</strong>: <code>clang</code> or <code>gcc</code>, for linking the small runtime</li>
       </ul>
       <p>The compiler invokes <code>llc</code> and <code>clang</code> to
       turn LLVM IR into your native executable. Primary tested platform is
@@ -82,10 +92,9 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 1</span>Download a release</h2>
-      <p><strong>v0.11.2-alpha is available to early-access testers</strong>
-      — see the <a href="download.html">downloads page</a>. Grab the archive for
-      your platform — <code>linux-x64</code>, <code>macos-x64</code>,
+      <h2 id="download-a-release">Download a release</h2>
+      <p><strong>v0.11.2-alpha is available to early-access testers</strong>: see the <a href="download.html">downloads page</a>. Grab the archive for
+      your platform, <code>linux-x64</code>, <code>macos-x64</code>,
       <code>macos-arm64</code>, or <code>windows-x64</code>. Each contains
       the <code>astra</code> compiler and the <code>mifa</code> package
       manager. Unpack, put them on your PATH, done.</p>
@@ -100,7 +109,7 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 2</span>Write and verify a program</h2>
+      <h2 id="write-and-verify-a-program">Write and verify a program</h2>
       <div class="codeblock">
         <span class="tab">hello.astra</span>
 <pre><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
@@ -108,7 +117,7 @@
     <span class="fn">print</span>(<span class="s">&quot;Hello, ${name}!&quot;</span>)
     <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
-      <p><code>verify</code> typechecks without generating code — it's the
+      <p><code>verify</code> typechecks without generating code, it's the
       fast feedback path, for humans and agents alike:</p>
 <pre><code><span class="p">$</span> astra verify hello.astra
 Verification passed
@@ -120,32 +129,32 @@ Verification passed
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 3</span>Compile and run natively</h2>
+      <h2 id="compile-and-run-natively">Compile and run natively</h2>
 <pre><code><span class="p">$</span> astra compile hello.astra --output hello
 <span class="p">$</span> ./hello
 Hello, world!</code></pre>
-      <p>The output is a real machine-code executable — no interpreter, no VM,
+      <p>The output is a real machine-code executable, no interpreter, no VM,
       no Python on the target machine.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 4</span>Explore interactively</h2>
+      <h2 id="explore-interactively">Explore interactively</h2>
 <pre><code><span class="p">$</span> astra repl
 astra&gt; let x = 21;
 astra&gt; print(x * 2);
 42
 astra&gt; :quit</code></pre>
       <p>The REPL (alpha) accumulates your session and re-compiles the whole
-      program on each entry — errors roll back cleanly. <code>:help</code>,
+      program on each entry, errors roll back cleanly. <code>:help</code>,
       <code>:show</code>, <code>:reset</code>, <code>:quit</code>.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Step 5</span>Start a real project with Mifa</h2>
+      <h2 id="start-a-real-project-with-mifa">Start a real project with Mifa</h2>
 <pre><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
 <span class="p">$</span> mifa init myapp   <span class="c"># v0.9.1 writes into the current folder</span>
 <span class="p">$</span> mifa verify
@@ -156,33 +165,55 @@ astra&gt; :quit</code></pre>
       <p><strong>Since v0.10:</strong> <code>mifa init myapp</code> creates
       the <code>myapp/</code> folder itself, <code>mifa add lib --path
       ../lib</code> makes another local package importable, and a program
-      can span several files with <code>import</code> — see the
+      can span several files with <code>import</code>: see the
       <a href="language.html#modules">language tour</a>.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Next</span>Where to go from here</h2>
+      <h2 id="where-to-go-from-here">Where to go from here</h2>
       <div class="grid2">
         <div class="def"><b><a href="language.html">Language tour</a></b>
-          <p>Structs, enums, Result, closures, generics, dyn — with runnable snippets.</p></div>
+          <p>Structs, enums, Result, closures, generics, dyn, with runnable snippets.</p></div>
         <div class="def"><b><a href="agents.html">For agents</a></b>
           <p>The JSON diagnostics contract and error-code catalog for integrating Astra into an agent loop.</p></div>
         <div class="def"><b>Showcase examples</b>
-          <p><code>examples/showcase/</code> ships with the <a href="download.html">first public release</a> — every one is compiled, executed, and output-asserted in the compiler's CI.</p></div>
+          <p><code>examples/showcase/</code> ships with the <a href="download.html">first public release</a>, every one is compiled, executed, and output-asserted in the compiler's CI.</p></div>
         <div class="def"><b><a href="progress.html">What works today</a></b>
           <p>The honest feature matrix, so you know what to rely on.</p></div>
       </div>
     </div>
   </section>
+  </div>
+</div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>Downloads — Astra</title>
+<title>Downloads: Astra</title>
 <meta name="description" content="Download the Astra compiler and the Mifa package manager. v0.11.2-alpha for Linux, macOS and Windows (early access).">
 <link rel="canonical" href="https://astra-lang.org/download.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="Downloads — Astra">
+<meta property="og:title" content="Downloads: Astra">
 <meta property="og:description" content="Download the Astra compiler and the Mifa package manager. v0.11.2-alpha for Linux, macOS and Windows (early access).">
 <meta property="og:url" content="https://astra-lang.org/download.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
@@ -22,8 +22,11 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="Downloads — Astra">
+<meta name="twitter:title" content="Downloads: Astra">
 <meta name="twitter:description" content="Download the Astra compiler and the Mifa package manager. v0.11.2-alpha for Linux, macOS and Windows (early access).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
 </head>
@@ -32,23 +35,17 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html">Progress</a>
-        <a href="about.html">About</a>
-        <a href="download.html" class="active" aria-current="page">Download</a>
-      </span>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html" aria-current="page">Download</a>
     </nav>
   </div>
 </header>
@@ -56,7 +53,6 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Downloads</p>
       <h1>v0.11.2-alpha is out.</h1>
       <p class="lede">
         Astra <strong>v0.11.2-alpha</strong> (2026-11-02) ships the
@@ -68,10 +64,20 @@
       <p class="new-line"><span class="badge wip">early access</span>Want a build? <a href="https://majidnisar.com">Get in touch</a> for tester access.</p>
     </div>
   </section>
+<div class="doc">
+  <nav class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#what-s-in-the-release">What&#x27;s in the release</a></li>
+      <li><a href="#since-v0-9-1">Since v0.9.1</a></li>
+      <li><a href="#follow-along">Follow along</a></li>
+    </ol>
+  </nav>
+  <div class="doc-body">
 
   <section>
     <div class="wrap">
-      <h2><span class="k">v0.11.2-alpha</span>What's in the release</h2>
+      <h2 id="what-s-in-the-release">What's in the release</h2>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Item</th><th>What it is</th></tr></thead>
         <tbody>
@@ -104,16 +110,16 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">What's new</span>Since v0.9.1</h2>
+      <h2 id="since-v0-9-1">Since v0.9.1</h2>
       <ul>
-        <li><strong>Nominal traits and trait bounds:</strong> <code>trait Shape:</code>, <code>impl Shape for Circle:</code>, <code>fn total&lt;T: Shape&gt;(s: T)</code> with static dispatch; E0020 names a missing or mismatched method — <a href="language.html">language tour</a></li>
+        <li><strong>Nominal traits and trait bounds:</strong> <code>trait Shape:</code>, <code>impl Shape for Circle:</code>, <code>fn total&lt;T: Shape&gt;(s: T)</code> with static dispatch; E0020 names a missing or mismatched method, <a href="language.html">language tour</a></li>
         <li><strong>Loops no longer leak memory</strong> (v0.11.2): structs and lists allocated in <code>for</code> and <code>while</code> loops are freed every iteration</li>
         <li><strong>Value semantics:</strong> structs and lists are values; a function changes its caller's value only through <code>mut</code> parameters (E0022); <code>a[i] = v</code></li>
-        <li><strong>Multi-file programs:</strong> <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names — <a href="language.html#modules">language tour</a></li>
+        <li><strong>Multi-file programs:</strong> <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names, <a href="language.html#modules">language tour</a></li>
         <li><strong>An interpreter</strong> behind <code>astra run</code>, tested for identical output against the native compiler</li>
         <li><strong>Program input and output:</strong> arguments, stdin, files and environment variables, with errors as values</li>
         <li><strong>Capabilities:</strong> deny file, network or environment access at build time; the compiler names the call chain that breaks the rule</li>
-        <li><strong>Mifa</strong> builds and runs projects with local dependencies — <a href="mifa.html#next">Mifa page</a></li>
+        <li><strong>Mifa</strong> builds and runs projects with local dependencies, <a href="mifa.html#next">Mifa page</a></li>
         <li><strong>Runtime safety:</strong> overflow, division by zero and out-of-bounds indexing stop with a clear error</li>
       </ul>
       <p>The <a href="progress.html">progress page</a> tracks every feature
@@ -123,7 +129,7 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Learn more</span>Follow along</h2>
+      <h2 id="follow-along">Follow along</h2>
       <div class="grid2">
         <div class="def"><b><a href="language.html">Language tour</a></b>
           <p>What Astra code looks like, with examples.</p></div>
@@ -138,13 +144,35 @@
       hardens and opens at v1.0-beta.</p>
     </div>
   </section>
+  </div>
+</div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

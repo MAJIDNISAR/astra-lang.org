@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>About — Astra, Mifa, and the person behind them</title>
-<meta name="description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
+<title>About: Astra, Mifa, and the person behind them</title>
+<meta name="description" content="The story behind Astra: Majid Nisar wanted a language as easy as Python, as safe and fast as Rust, and built for the agents that will write most code.">
 <link rel="canonical" href="https://astra-lang.org/about.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="About — Astra, Mifa, and the person behind them">
-<meta property="og:description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
+<meta property="og:title" content="About: Astra, Mifa, and the person behind them">
+<meta property="og:description" content="The story behind Astra: Majid Nisar wanted a language as easy as Python, as safe and fast as Rust, and built for the agents that will write most code.">
 <meta property="og:url" content="https://astra-lang.org/about.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -22,8 +22,11 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="About — Astra, Mifa, and the person behind them">
-<meta name="twitter:description" content="The story behind Astra: created by Majid Nisar, from a university compiler project to an AI-first native language.">
+<meta name="twitter:title" content="About: Astra, Mifa, and the person behind them">
+<meta name="twitter:description" content="The story behind Astra: Majid Nisar wanted a language as easy as Python, as safe and fast as Rust, and built for the agents that will write most code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
 </head>
@@ -32,23 +35,17 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html">Progress</a>
-        <a href="about.html" class="active" aria-current="page">About</a>
-        <a href="download.html">Download</a>
-      </span>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
     </nav>
   </div>
 </header>
@@ -56,57 +53,71 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">About</p>
-      <h1>From a compiler assignment<br>to a language with a thesis.</h1>
+      <h1>No language sat where the work is going.</h1>
       <p class="lede">
-        Astra started as a university compiler-construction project in
-        October 2025. It kept going because a question wouldn't let go:
-        <em>if most new code will be written by machines, what should the
-        language they write look like?</em>
+        Astra began in October 2025 from Majid Nisar's experience with
+        today's languages. The established ones were designed around humans.
+        The newer easy ones, like Python, are not efficient. Rust is fast and
+        safe, but the learning curve is steep. None of them is structured
+        around agentic coding.
+      </p>
+      <p class="lede">
+        Astra aims for the intersection: as easy to read and write as Python,
+        as safe, secure and fast as Rust, with features built in for the
+        agents that will write much of the code from now on.
       </p>
     </div>
   </section>
+<div class="doc">
+  <nav class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#majid-nisar">Majid Nisar</a></li>
+      <li><a href="#why-build-a-language-in-2026">Why build a language in 2026?</a></li>
+      <li><a href="#how-the-project-is-run">How the project is run</a></li>
+      <li><a href="#milestones-so-far">Milestones so far</a></li>
+    </ol>
+  </nav>
+  <div class="doc-body">
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Creator</span>Majid Nisar</h2>
+      <h2 id="majid-nisar">Majid Nisar</h2>
       <p>
         Astra and Mifa are created and maintained by
-        <a href="https://majidnisar.com"><strong>Majid Nisar</strong></a> —
-        the compiler, the runtime, the package manager, the test suite, and
+        <a href="https://majidnisar.com"><strong>Majid Nisar</strong></a>, the compiler, the runtime, the package manager, the test suite, and
         this site. The project's detailed write-up, design notes, and
         development history live on his site:
       </p>
       <ul class="meta-list">
         <li><b>Project page:</b> <a href="https://majidnisar.com/projects/astra/">majidnisar.com/projects/astra</a></li>
         <li><b>Personal site:</b> <a href="https://majidnisar.com">majidnisar.com</a></li>
-        <li><b>Downloads:</b> <a href="download.html">v0.11.2-alpha</a> — early-access binaries for Linux, macOS and Windows; public downloads follow; the source repository is private and opens at v1.0-beta (early access <a href="https://majidnisar.com">on request</a>)</li>
+        <li><b>Downloads:</b> <a href="download.html">v0.11.2-alpha</a>, early-access binaries for Linux, macOS and Windows; public downloads follow; the source repository is private and opens at v1.0-beta (early access <a href="https://majidnisar.com">on request</a>)</li>
       </ul>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Thesis</span>Why build a language in 2026?</h2>
+      <h2 id="why-build-a-language-in-2026">Why build a language in 2026?</h2>
       <p>
         Because the economics of code changed. When agents generate most of
         the code, the bottleneck moves from <em>writing</em> to
-        <em>verifying</em>. Dynamic languages push verification to runtime —
-        the most expensive possible place. Astra's bet is that the language
+        <em>verifying</em>. Dynamic languages push verification to runtime, the most expensive possible place. Astra's bet is that the language
         itself should be the verification layer:
       </p>
       <ul>
         <li>Diagnostics that are a <strong>stable machine interface</strong> (JSON, error codes, suggestions), not prose on stderr.</li>
         <li>A type system strict enough to <strong>reject whole classes of generated mistakes</strong> before execution.</li>
         <li><strong>Native compilation</strong>, so a verified program is also a fast program.</li>
-        <li>Eventually, <strong>agent concepts in the grammar itself</strong> — <code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code> — so multi-agent systems typecheck like ordinary code.</li>
+        <li>Eventually, <strong>agent concepts in the grammar itself</strong>: <code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>: so multi-agent systems typecheck like ordinary code.</li>
       </ul>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Principles</span>How the project is run</h2>
+      <h2 id="how-the-project-is-run">How the project is run</h2>
       <div class="def">
         <b>Ground truth over hype</b>
         <p>A feature is "working" only when a test compiles it, runs the
@@ -134,35 +145,57 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Timeline</span>Milestones so far</h2>
+      <h2 id="milestones-so-far">Milestones so far</h2>
       <div class="table-wrap stack"><table>
         <thead><tr><th>When</th><th>What</th></tr></thead>
         <tbody>
-          <tr><td data-label="When">Oct 2025</td><td data-label="What">v0.1 — university project: lexer, parser, first AST</td></tr>
-          <tr><td data-label="When">Nov 2025</td><td data-label="What">v0.5 — native compilation, Docker CI, first pre-built binaries</td></tr>
-          <tr><td data-label="When">Jun 2026</td><td data-label="What">v0.6 — honest alpha reset: JSON diagnostics, verify mode, AI-first thesis adopted</td></tr>
-          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.7 (released 2026-07-06) — source spans, structs/Result/closures native, REPL, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa lockfile + registry protocol + publish/auth + <code>--json</code></td></tr>
-          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.8.0-alpha (tagged 2026-07-07) — <strong>true LLVM-IR default backend</strong> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback), async/await (sync lowering), ignored-test burn-down complete (10 → 0), end-to-end regression suite; 285 tests green</td></tr>
-          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.9.0-alpha (tagged 2026-07-09) — <strong>soundness milestones</strong>: nominal structs, enums with payload variants, <code>?</code> operator, try/catch (function-local), tuples + destructuring, impl blocks, bitwise ops, Python-parity Tier 1–2 features</td></tr>
-          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.9.1-alpha (released 2026-07-15) — <strong>first cross-platform binary release</strong> (Linux x64, macOS Intel + Apple Silicon, Windows x64); closures callable (pipeline-order fix), ARC scope-based memory reclamation, compiler never panics on malformed input, CI gates (fmt / clippy / audit / llc corpus); 449 tests green</td></tr>
-          <tr><td data-label="When">Oct 2026</td><td data-label="What">v0.10.0-alpha (2026-10-30) — <strong>interpreter with native parity</strong> (<code>astra run</code>, differential fuzzing), checked runtime traps on both engines, <strong>modules</strong> (<code>import</code>, <code>pub</code>, <code>util::f()</code>), and <code>mifa build</code>/<code>run</code> with importable path dependencies; <code>def</code> alias and type inference for omitted parameter/return types; Python-style indentation is the canonical syntax (braces still accepted) and <code>astra fmt</code> converts to it; functions may be called before they are defined; a <code>match</code> that misses an enum variant is a compile error (E0021); <code>s.split()</code>; Cargo-style <code>astra.toml</code> and <code>mifa test</code>; value semantics (A8) — structs/lists are values, <code>mut</code> parameters + E0022, <code>a[i] = v</code>; headered string literals (E0); nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>, E0020)</td></tr>
-          <tr><td data-label="When">Nov 2026</td><td data-label="What">v0.11.0 – <strong>v0.11.2-alpha</strong> (2026-11-02) — value semantics, <strong>nominal traits + trait bounds</strong> with static dispatch, headered string literals; v0.11.1 embeds the C runtime so the released binaries compile natively; v0.11.2 checks trait bounds and impl signatures and stops loop memory leaks; 712 tests</td></tr>
+          <tr><td data-label="When">Oct 2025</td><td data-label="What">v0.1, the idea becomes code: lexer, parser, first AST</td></tr>
+          <tr><td data-label="When">Nov 2025</td><td data-label="What">v0.5, native compilation, Docker CI, first pre-built binaries</td></tr>
+          <tr><td data-label="When">Jun 2026</td><td data-label="What">v0.6, honest alpha reset: JSON diagnostics, verify mode, AI-first thesis adopted</td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.7 (released 2026-07-06), source spans, structs/Result/closures native, REPL, <code>dyn</code>, ARC scaffolding, rich diagnostics, Mifa lockfile + registry protocol + publish/auth + <code>--json</code></td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.8.0-alpha (tagged 2026-07-07), <strong>true LLVM-IR default backend</strong> (<code>--emit-ir</code>, <code>--target</code> cross-compile, <code>--legacy-c</code> fallback), async/await (sync lowering), ignored-test burn-down complete (10 → 0), end-to-end regression suite; 285 tests green</td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.9.0-alpha (tagged 2026-07-09), <strong>soundness milestones</strong>: nominal structs, enums with payload variants, <code>?</code> operator, try/catch (function-local), tuples + destructuring, impl blocks, bitwise ops, Python-parity Tier 1–2 features</td></tr>
+          <tr><td data-label="When">Jul 2026</td><td data-label="What">v0.9.1-alpha (released 2026-07-15), <strong>first cross-platform binary release</strong> (Linux x64, macOS Intel + Apple Silicon, Windows x64); closures callable (pipeline-order fix), ARC scope-based memory reclamation, compiler never panics on malformed input, CI gates (fmt / clippy / audit / llc corpus); 449 tests green</td></tr>
+          <tr><td data-label="When">Oct 2026</td><td data-label="What">v0.10.0-alpha (2026-10-30), <strong>interpreter with native parity</strong> (<code>astra run</code>, differential fuzzing), checked runtime traps on both engines, <strong>modules</strong> (<code>import</code>, <code>pub</code>, <code>util::f()</code>), and <code>mifa build</code>/<code>run</code> with importable path dependencies; <code>def</code> alias and type inference for omitted parameter/return types; Python-style indentation is the canonical syntax (braces still accepted) and <code>astra fmt</code> converts to it; functions may be called before they are defined; a <code>match</code> that misses an enum variant is a compile error (E0021); <code>s.split()</code>; Cargo-style <code>astra.toml</code> and <code>mifa test</code>; value semantics (A8), structs/lists are values, <code>mut</code> parameters + E0022, <code>a[i] = v</code>; headered string literals (E0); nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>, E0020)</td></tr>
+          <tr><td data-label="When">Nov 2026</td><td data-label="What">v0.11.0 – <strong>v0.11.2-alpha</strong> (2026-11-02), value semantics, <strong>nominal traits + trait bounds</strong> with static dispatch, headered string literals; v0.11.1 embeds the C runtime so the released binaries compile natively; v0.11.2 checks trait bounds and impl signatures and stops loop memory leaks; 712 tests</td></tr>
         </tbody>
       </table></div>
       <p>The same history as a visual timeline, with test counts, is on the <a href="progress.html#timeline">progress page</a>.</p>
       <div class="btn-row">
-        <a class="btn primary" href="download.html">Downloads — v0.11.2-alpha</a>
+        <a class="btn primary" href="download.html">Download v0.11.2-alpha</a>
         <a class="btn ghost" href="https://majidnisar.com/projects/astra/">Read the full story</a>
       </div>
     </div>
   </section>
+  </div>
+</div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

@@ -7,16 +7,21 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 
 ## Pages
 
-- `index.html` — home: the AI-first verify-repair-compile loop, and the status globe (`assets/orb.js`: features as points on a turning sphere, coloured by status; the status list is the no-JS fallback)
-- `start.html` — getting started: download or clone → verify → compile → REPL → Mifa
-- `language.html` — language tour: syntax, types, Result, closures, `dyn`, pipeline
-- `mifa.html` — Mifa package manager: workflow, lockfile, milestones
-- `vision.html` — v0.9→v1.0 roadmap, agent-native keywords, comparison table
-- `benchmarks.html` — validated metrics (D1–D5) with reproduce-it-yourself commands
-- `agents.html` — machine interface spec: JSON diagnostics contract + error-code catalog
-- `progress.html` — ground-truth progress tracker for Astra and Mifa
-- `about.html` — project story and creator
-- `download.html` — v0.11.1-alpha release: platforms, requirements, what's new (binaries are early-access via the private release page)
+- `index.html`: home. Night hero with the status globe (`assets/orb.js`: Astra's features as stars on a turning sphere, Mifa as its moon, status shown as star magnitude), the verify/fix panels, the loop, the command list, measured figures, and the status sheet on a 1750 star-atlas plate
+- `start.html`: getting started
+- `language.html`: language tour
+- `agents.html`: the machine interface: JSON diagnostics, fix edits, error-code catalog
+- `mifa.html`: the package manager, with its own globe
+- `progress.html`: the tracker, plus 3D charts of every release and of memory before/after (`assets/viz.js`)
+- `benchmarks.html`, `vision.html`, `about.html`, `download.html` (early access; no public links yet)
+
+## Updating the site for a release
+
+1. Edit `assets/status.json`: the release, test counts, feature statuses for Astra and Mifa, the release list, memory figures.
+2. Run `node tools/sync-status.mjs`. It rewrites every fragment between `<!-- status:NAME -->` markers (version, test counts, the globe data, the fallback lists and tables) and leaves the rest of each page untouched. `--check` exits 1 if a page is out of date.
+3. Update any prose that names the release (download page, release notes on the progress page), then `sitemap.xml` dates.
+
+The globe (`orb.js`) reads the generated `script.orb-data` blocks; the 3D charts (`viz.js`) fetch `assets/status.json` directly. Without JavaScript every page still shows the same data as lists and tables.
 
 ## Local preview
 
@@ -31,6 +36,9 @@ carry canonical URLs, Open Graph / Twitter large-card meta, and the home page
 includes Schema.org JSON-LD.
 
 ## Design notes
+
+- Direction: a star atlas (Astra means "the stars"). One typeface, Epilogue, for everything except code; night (#050f16), white and one orange; fields instead of rules; no gradients, shadows or eyebrow labels. Checked with the taste lint/inspector and the ux-ui hardcode gate (every value in `assets/style.css` is a token).
+- Pictures: John Bevis's 1750 star chart and Johann Bayer's Uranometria (1603), both public domain via Wikimedia Commons, credited in every footer (`assets/credits.json`).
 
 - `assets/style.css`: every value is a token in `:root`. The dark theme swaps
   color tokens only, under `prefers-color-scheme` or `data-theme="dark"`.

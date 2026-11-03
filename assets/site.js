@@ -101,7 +101,7 @@
         }
       });
       // Leaving the phone layout closes the menu, so it never reopens stale.
-      window.matchMedia("(max-width: 860px)").addEventListener("change", function (e) {
+      window.matchMedia("(max-width: 1080px)").addEventListener("change", function (e) {
         if (!e.matches) setOpen(false);
       });
       actions.appendChild(menuBtn);
@@ -226,7 +226,126 @@
     document.body.appendChild(live);
   }
 
+  // ---- motion: sections rise in once as they enter (never hides content
+  // unless this script runs and the visitor allows motion) ----
+  function setupMotion() {
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var auto = document.querySelectorAll(
+      ".page-head .wrap, .doc-body > section > .wrap, .loop .wrap > div:first-child, .orb-caption"
+    );
+    Array.prototype.forEach.call(auto, function (el) { el.setAttribute("data-reveal", ""); });
+    var targets = document.querySelectorAll("[data-reveal]");
+    Array.prototype.forEach.call(targets, function (el) {
+      Array.prototype.forEach.call(el.children, function (child, i) {
+        child.style.setProperty("--i", Math.min(i, 8));
+      });
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+    root.classList.add("motion");
+  }
+
+  // ---- "On this page": mark the section being read ----
+  function setupToc() {
+    var toc = document.querySelector(".toc");
+    if (!toc || !("IntersectionObserver" in window)) return;
+    var links = toc.querySelectorAll("a[href^='#']");
+    var byId = {};
+    var targets = [];
+    Array.prototype.forEach.call(links, function (a) {
+      var el = document.getElementById(a.getAttribute("href").slice(1));
+      if (el) {
+        byId[el.id] = a;
+        targets.push(el);
+      }
+    });
+    var current = null;
+    function mark(id) {
+      if (current === id) return;
+      current = id;
+      Array.prototype.forEach.call(links, function (a) { a.removeAttribute("aria-current"); });
+      var a = byId[id];
+      if (!a) return;
+      a.setAttribute("aria-current", "true");
+      var list = a.closest("ol");
+      if (list && list.scrollWidth > list.clientWidth) {
+        list.scrollTo({ left: a.offsetLeft - 16, behavior: "smooth" });
+      }
+    }
+    var seen = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
+      for (var i = 0; i < targets.length; i++) {
+        if (seen[targets[i].id]) { mark(targets[i].id); break; }
+      }
+    }, { rootMargin: "-10% 0px -55% 0px" });
+    targets.forEach(function (el) { io.observe(el); });
+  }
+
+  // ---- the home page's command list: type to filter, arrows to move ----
+  function setupCommands() {
+    var input = document.getElementById("cmd-search");
+    var rows = document.querySelectorAll(".cmd-row");
+    if (!input || !rows.length) return;
+    input.hidden = false;
+    function select(row) {
+      Array.prototype.forEach.call(rows, function (r) {
+        r.setAttribute("aria-selected", r === row ? "true" : "false");
+      });
+    }
+    function visible() {
+      return Array.prototype.filter.call(rows, function (r) { return !r.hidden; });
+    }
+    Array.prototype.forEach.call(rows, function (row) {
+      row.addEventListener("click", function () { select(row); });
+      row.addEventListener("mouseenter", function () {
+        if (window.matchMedia("(hover: hover)").matches) select(row);
+      });
+    });
+    input.addEventListener("input", function () {
+      var q = input.value.trim().toLowerCase();
+      Array.prototype.forEach.call(rows, function (r) {
+        r.hidden = q !== "" && r.textContent.toLowerCase().indexOf(q) === -1;
+      });
+      var first = visible()[0];
+      if (first) select(first);
+      announce(visible().length + " commands");
+    });
+    function move(dir, from) {
+      var list = visible();
+      var i = list.indexOf(from);
+      var next = list[Math.max(0, Math.min(list.length - 1, i + dir))];
+      if (next) {
+        select(next);
+        next.focus();
+      }
+    }
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        move(1, null);
+      }
+    });
+    Array.prototype.forEach.call(rows, function (row) {
+      row.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown") { e.preventDefault(); move(1, row); }
+        if (e.key === "ArrowUp") { e.preventDefault(); move(-1, row); }
+      });
+    });
+  }
+
   setupLive();
   setupHeader();
   setupCode();
+  setupToc();
+  setupCommands();
+  setupMotion();
 })();
