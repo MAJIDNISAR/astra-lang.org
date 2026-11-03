@@ -194,8 +194,8 @@
 
   <section id="modules">
     <div class="wrap">
-      <h2><span class="k">Structure</span>Modules <span class="badge planned">next release</span></h2>
-      <p>On <code>main</code> and shipping in the next release: a program can
+      <h2><span class="k">Structure</span>Modules <span class="badge done">v0.10</span></h2>
+      <p>Since v0.10, a program can
       span several files. <code>import util;</code> loads
       <code>util.astra</code> from the same folder (or from
       <code>ASTRA_PATH</code>, or a Mifa path dependency). Only items marked
@@ -237,14 +237,14 @@
 <pre><code>source.astra
   → <span class="fn">lexer</span>        tokens with line + column
   → <span class="fn">parser</span>       recursive-descent AST
-  → <span class="fn">modules</span>      resolve imports into one program (next release)
+  → <span class="fn">modules</span>      resolve imports into one program
   → <span class="fn">closure lift</span> closures → top-level functions
   → <span class="fn">typechecker</span>  type inference + checking
   → <span class="fn">monomorphize</span> generic specialization
   → <span class="fn">IR</span>           LLVM IR generation
   → <span class="fn">llc + link</span>   object code + small C runtime
   → native executable</code></pre>
-      <p>In the next release, <code>astra run</code> takes a second path after
+      <p>Since v0.10, <code>astra run</code> takes a second path after
       type checking: a tree-walking interpreter that starts instantly and
       needs no LLVM. Every feature is tested for identical output and exit
       code on both engines, and a fuzzer generates programs to keep them in
