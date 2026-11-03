@@ -53,7 +53,7 @@
 
 <main id="main">
   <section class="page-head">
-    <img class="head-plate" src="assets/celestial-globe-1579.jpg" width="844" height="1100" alt="A gilded celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
+    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="961" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>What if agents were<br>a language feature?</h1>
       <p class="lede">
@@ -69,11 +69,11 @@
     <h2>On this page</h2>
     <ol>
       <li><a href="#the-division-of-labor-is-changing">The division of labor is changing</a></li>
+      <li><a href="#who-astra-is-for">Who Astra is for</a></li>
+      <li><a href="#astra-vs-the-alternatives-for-agent-code">Astra vs. the alternatives for agent code</a></li>
       <li><a href="#agent-native-keywords">Agent-native keywords</a></li>
       <li><a href="#what-has-to-land-first">What has to land first</a></li>
-      <li><a href="#astra-vs-the-alternatives-for-agent-code">Astra vs. the alternatives for agent code</a></li>
       <li><a href="#the-five-bets-underneath">The five bets underneath</a></li>
-      <li><a href="#who-astra-is-for">Who Astra is for</a></li>
       <li><a href="#strategic-language-tactical-speed">Strategic language, tactical speed</a></li>
     </ol>
   </nav>
@@ -114,6 +114,102 @@
         <a href="progress.html#strategic">progress tracker</a>, currently
         5 of 11 shipped, each backed by a passing test.
       </p>
+    </div>
+  </section>
+<section>
+    <div class="wrap">
+      <h2 id="who-astra-is-for">Who Astra is for</h2>
+      <div class="grid2">
+        <div class="def">
+          <b>Agent &amp; framework builders</b>
+          <p>You orchestrate LLMs that write code. You want generated code
+          rejected <em>before</em> it runs, and compiler feedback your loop
+          can parse mechanically. Start at
+          <a href="agents.html">the machine interface</a>.</p>
+        </div>
+        <div class="def">
+          <b>Engineers supervising AI output</b>
+          <p>You review more code than you write. A strict type system and
+          explicit <code>dyn</code> boundaries mean the compiler has already
+          audited what you're reading, you review intent, not typos.</p>
+        </div>
+        <div class="def">
+          <b>Python developers hitting the ceiling</b>
+          <p>You like Python's surface but pay for it in runtime failures
+          and slow loops. Astra keeps the terseness, inference, string
+          interpolation, no lifetimes, and compiles to native.</p>
+        </div>
+        <div class="def">
+          <b>Language &amp; compiler enthusiasts</b>
+          <p>A readable Rust codebase (712 tests at v0.11.2-alpha; source opens at
+          v1.0-beta, early access on request) implementing a full
+          pipeline: lexer → parser → type inference → LLVM IR →
+          native. Every architecture decision is
+          <a href="vision.html">written down and ratified</a>.</p>
+        </div>
+      </div>
+      <p>Astra is <em>not</em> aimed (yet) at kernel developers, hard
+      real-time systems, or teams needing a mature ecosystem today, see the
+      honest status below.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 id="astra-vs-the-alternatives-for-agent-code">Astra vs. the alternatives for agent code</h2>
+      <p>Every language in this table is excellent at what it was designed
+      for. The comparison is scoped to one question: <em>what should an agent
+      generate?</em></p>
+      <figure class="viz" data-viz="levels" data-source="#parity-table" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D grid comparing Python, Rust, Go, Mojo and Astra on seven needs of agent coding; taller tiles meet the need better. The wording is in the table below."></canvas></div>
+        <figcaption>Each tile is one cell of the table below, raised by how well that language meets the need: 3 strong, 0 absent (flat outline). The ratings are our reading of the table's own words; hover a tile for the exact wording. Astra is orange.</figcaption>
+      </figure>
+      <div class="table-wrap scroll" role="region" tabindex="0" aria-label="Astra vs. the alternatives for agent code (scrolls sideways)"><table id="parity-table">
+        <thead><tr><th></th><th>Python</th><th>Rust</th><th>Go</th><th>Mojo</th><th>Astra</th></tr></thead>
+        <tbody>
+          <tr>
+            <td data-label="">Mistakes caught before run</td>
+            <td data-label="Python" data-level="1">Few (runtime)</td><td data-label="Rust" data-level="3">Most</td><td data-label="Go" data-level="2">Many</td><td data-label="Mojo" data-level="3">Most</td>
+            <td data-label="Astra" data-level="2"><strong>Most, by design goal</strong></td>
+          </tr>
+          <tr>
+            <td data-label="">Diagnostics as machine-readable contract</td>
+            <td data-label="Python" data-level="0">No</td><td data-label="Rust" data-level="2">Partial (<code>--message-format=json</code>, rich but complex)</td><td data-label="Go" data-level="2">Partial</td><td data-label="Mojo" data-level="0">No</td>
+            <td data-label="Astra" data-level="3"><strong>Yes, stable codes + suggestions, primary interface</strong></td>
+          </tr>
+          <tr>
+            <td data-label="">Easy for an LLM to generate correctly</td>
+            <td data-label="Python" data-level="3"><strong>Yes</strong></td><td data-label="Rust" data-level="1">Hard (lifetimes)</td><td data-label="Go" data-level="3">Yes</td><td data-label="Mojo" data-level="2">Moderate</td>
+            <td data-label="Astra" data-level="3"><strong>Yes, Python-like surface, no borrow checker</strong></td>
+          </tr>
+          <tr>
+            <td data-label="">Native performance</td>
+            <td data-label="Python" data-level="0">No</td><td data-label="Rust" data-level="3"><strong>Yes</strong></td><td data-label="Go" data-level="3">Yes</td><td data-label="Mojo" data-level="3">Yes</td>
+            <td data-label="Astra" data-level="3"><strong>Yes (LLVM)</strong></td>
+          </tr>
+          <tr>
+            <td data-label="">Agent primitives in the language</td>
+            <td data-label="Python" data-level="1">Frameworks only</td><td data-label="Rust" data-level="1">Frameworks only</td><td data-label="Go" data-level="1">Frameworks only</td><td data-label="Mojo" data-level="0">No</td>
+            <td data-label="Astra" data-level="1"><strong>Planned as keywords</strong></td>
+          </tr>
+          <tr>
+            <td data-label="">Memory model burden on the generator</td>
+            <td data-label="Python" data-level="3">None (GC)</td><td data-label="Rust" data-level="1">High (ownership)</td><td data-label="Go" data-level="3">None (GC)</td><td data-label="Mojo" data-level="2">Low</td>
+            <td data-label="Astra" data-level="3"><strong>None visible (ARC)</strong></td>
+          </tr>
+          <tr>
+            <td data-label="">Maturity today</td>
+            <td data-label="Python" data-level="3"><strong>Production</strong></td><td data-label="Rust" data-level="3"><strong>Production</strong></td><td data-label="Go" data-level="3"><strong>Production</strong></td><td data-label="Mojo" data-level="1">Early</td>
+            <td data-label="Astra" data-level="1">Alpha, <a href="progress.html">tracked honestly</a></td>
+          </tr>
+        </tbody>
+      </table></div>
+      <div class="callout">
+        <p><strong>The bet in one sentence:</strong> Rust-grade verification
+        with Python-grade generability, plus agent concepts the compiler
+        itself understands. No incumbent occupies that intersection, and the
+        maturity row is exactly why this roadmap exists.</p>
+      </div>
     </div>
   </section>
 
@@ -205,65 +301,6 @@
 
   <section>
     <div class="wrap">
-      <h2 id="astra-vs-the-alternatives-for-agent-code">Astra vs. the alternatives for agent code</h2>
-      <p>Every language in this table is excellent at what it was designed
-      for. The comparison is scoped to one question: <em>what should an agent
-      generate?</em></p>
-      <figure class="viz" data-viz="levels" data-source="#parity-table" hidden>
-        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D grid comparing Python, Rust, Go, Mojo and Astra on seven needs of agent coding; taller tiles meet the need better. The wording is in the table below."></canvas></div>
-        <figcaption>Each tile is one cell of the table below, raised by how well that language meets the need: 3 strong, 0 absent (flat outline). The ratings are our reading of the table's own words; hover a tile for the exact wording. Astra is orange.</figcaption>
-      </figure>
-      <div class="table-wrap scroll" role="region" tabindex="0" aria-label="Astra vs. the alternatives for agent code (scrolls sideways)"><table id="parity-table">
-        <thead><tr><th></th><th>Python</th><th>Rust</th><th>Go</th><th>Mojo</th><th>Astra</th></tr></thead>
-        <tbody>
-          <tr>
-            <td data-label="">Mistakes caught before run</td>
-            <td data-label="Python" data-level="1">Few (runtime)</td><td data-label="Rust" data-level="3">Most</td><td data-label="Go" data-level="2">Many</td><td data-label="Mojo" data-level="3">Most</td>
-            <td data-label="Astra" data-level="2"><strong>Most, by design goal</strong></td>
-          </tr>
-          <tr>
-            <td data-label="">Diagnostics as machine-readable contract</td>
-            <td data-label="Python" data-level="0">No</td><td data-label="Rust" data-level="2">Partial (<code>--message-format=json</code>, rich but complex)</td><td data-label="Go" data-level="2">Partial</td><td data-label="Mojo" data-level="0">No</td>
-            <td data-label="Astra" data-level="3"><strong>Yes, stable codes + suggestions, primary interface</strong></td>
-          </tr>
-          <tr>
-            <td data-label="">Easy for an LLM to generate correctly</td>
-            <td data-label="Python" data-level="3"><strong>Yes</strong></td><td data-label="Rust" data-level="1">Hard (lifetimes)</td><td data-label="Go" data-level="3">Yes</td><td data-label="Mojo" data-level="2">Moderate</td>
-            <td data-label="Astra" data-level="3"><strong>Yes, Python-like surface, no borrow checker</strong></td>
-          </tr>
-          <tr>
-            <td data-label="">Native performance</td>
-            <td data-label="Python" data-level="0">No</td><td data-label="Rust" data-level="3"><strong>Yes</strong></td><td data-label="Go" data-level="3">Yes</td><td data-label="Mojo" data-level="3">Yes</td>
-            <td data-label="Astra" data-level="3"><strong>Yes (LLVM)</strong></td>
-          </tr>
-          <tr>
-            <td data-label="">Agent primitives in the language</td>
-            <td data-label="Python" data-level="1">Frameworks only</td><td data-label="Rust" data-level="1">Frameworks only</td><td data-label="Go" data-level="1">Frameworks only</td><td data-label="Mojo" data-level="0">No</td>
-            <td data-label="Astra" data-level="1"><strong>Planned as keywords</strong></td>
-          </tr>
-          <tr>
-            <td data-label="">Memory model burden on the generator</td>
-            <td data-label="Python" data-level="3">None (GC)</td><td data-label="Rust" data-level="1">High (ownership)</td><td data-label="Go" data-level="3">None (GC)</td><td data-label="Mojo" data-level="2">Low</td>
-            <td data-label="Astra" data-level="3"><strong>None visible (ARC)</strong></td>
-          </tr>
-          <tr>
-            <td data-label="">Maturity today</td>
-            <td data-label="Python" data-level="3"><strong>Production</strong></td><td data-label="Rust" data-level="3"><strong>Production</strong></td><td data-label="Go" data-level="3"><strong>Production</strong></td><td data-label="Mojo" data-level="1">Early</td>
-            <td data-label="Astra" data-level="1">Alpha, <a href="progress.html">tracked honestly</a></td>
-          </tr>
-        </tbody>
-      </table></div>
-      <div class="callout">
-        <p><strong>The bet in one sentence:</strong> Rust-grade verification
-        with Python-grade generability, plus agent concepts the compiler
-        itself understands. No incumbent occupies that intersection, and the
-        maturity row is exactly why this roadmap exists.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
       <h2 id="the-five-bets-underneath">The five bets underneath</h2>
       <p>The vision isn't a mood board, it rests on five architecture
       decisions debated and ratified on 2026-07-02, each with recorded
@@ -285,43 +322,6 @@
       <div class="btn-row">
         <a class="btn ghost" href="progress.html">Track delivery</a>
       </div>
-    </div>
-  </section>
-<section>
-    <div class="wrap">
-      <h2 id="who-astra-is-for">Who Astra is for</h2>
-      <div class="grid2">
-        <div class="def">
-          <b>Agent &amp; framework builders</b>
-          <p>You orchestrate LLMs that write code. You want generated code
-          rejected <em>before</em> it runs, and compiler feedback your loop
-          can parse mechanically. Start at
-          <a href="agents.html">the machine interface</a>.</p>
-        </div>
-        <div class="def">
-          <b>Engineers supervising AI output</b>
-          <p>You review more code than you write. A strict type system and
-          explicit <code>dyn</code> boundaries mean the compiler has already
-          audited what you're reading, you review intent, not typos.</p>
-        </div>
-        <div class="def">
-          <b>Python developers hitting the ceiling</b>
-          <p>You like Python's surface but pay for it in runtime failures
-          and slow loops. Astra keeps the terseness, inference, string
-          interpolation, no lifetimes, and compiles to native.</p>
-        </div>
-        <div class="def">
-          <b>Language &amp; compiler enthusiasts</b>
-          <p>A readable Rust codebase (712 tests at v0.11.2-alpha; source opens at
-          v1.0-beta, early access on request) implementing a full
-          pipeline: lexer → parser → type inference → LLVM IR →
-          native. Every architecture decision is
-          <a href="vision.html">written down and ratified</a>.</p>
-        </div>
-      </div>
-      <p>Astra is <em>not</em> aimed (yet) at kernel developers, hard
-      real-time systems, or teams needing a mature ecosystem today, see the
-      honest status below.</p>
     </div>
   </section>
 <section>

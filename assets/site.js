@@ -342,9 +342,110 @@
     });
   }
 
+  // ---- tables: sort any column; search and filter long tables by status ----
+  // Works on the page's own markup; without this script every table is
+  // still complete and readable.
+  var STATUS = { done: "Shipped", wip: "Next release", planned: "Planned" };
+
+  function setupTables() {
+    var tables = document.querySelectorAll("main .table-wrap > table");
+    Array.prototype.forEach.call(tables, function (table, ti) {
+      var body = table.tBodies[0];
+      if (!body) return;
+      var rows = Array.prototype.slice.call(body.rows);
+      if (rows.length < 5) return;
+      var heads = table.querySelectorAll("thead th");
+      var original = rows.slice();
+
+      function cellKey(row, col) {
+        var c = row.cells[col];
+        var t = c ? c.textContent.replace(/\s+/g, " ").trim() : "";
+        var n = parseFloat(t.replace(/,/g, "").replace(/^[^0-9.-]+/, ""));
+        return isNaN(n) ? t.toLowerCase() : n;
+      }
+
+      Array.prototype.forEach.call(heads, function (th, col) {
+        var label = th.textContent.trim();
+        if (!label) return;
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "th-sort";
+        btn.textContent = label;
+        th.textContent = "";
+        th.appendChild(btn);
+        th.setAttribute("aria-sort", "none");
+        btn.addEventListener("click", function () {
+          var next = th.getAttribute("aria-sort") === "ascending" ? "descending" : "ascending";
+          Array.prototype.forEach.call(heads, function (h) { h.setAttribute("aria-sort", "none"); });
+          th.setAttribute("aria-sort", next);
+          var sorted = original.slice().sort(function (a, b) {
+            var x = cellKey(a, col), y = cellKey(b, col);
+            var r = typeof x === "number" && typeof y === "number" ? x - y : String(x).localeCompare(String(y));
+            return next === "ascending" ? r : -r;
+          });
+          sorted.forEach(function (r) { body.appendChild(r); });
+          announce("Sorted by " + label + ", " + next);
+        });
+      });
+
+      if (rows.length < 8) return;
+      var present = {};
+      rows.forEach(function (r) {
+        Array.prototype.forEach.call(r.querySelectorAll(".badge"), function (b) {
+          Object.keys(STATUS).forEach(function (k) { if (b.classList.contains(k)) present[k] = true; });
+        });
+      });
+      var tools = document.createElement("div");
+      tools.className = "table-tools";
+      var id = "table-filter-" + ti;
+      tools.innerHTML = '<label class="sr-only" for="' + id + '">Filter this table</label>' +
+        '<input class="table-search" id="' + id + '" type="search" placeholder="Filter ' + rows.length + ' rows" autocomplete="off">';
+      var chosen = null;
+      var chips = {};
+      Object.keys(STATUS).forEach(function (k) {
+        if (!present[k]) return;
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "table-chip";
+        b.dataset.status = k;
+        b.setAttribute("aria-pressed", "false");
+        b.textContent = STATUS[k];
+        b.addEventListener("click", function () {
+          chosen = chosen === k ? null : k;
+          Object.keys(chips).forEach(function (c) { chips[c].setAttribute("aria-pressed", String(c === chosen)); });
+          apply();
+        });
+        chips[k] = b;
+        tools.appendChild(b);
+      });
+      var count = document.createElement("span");
+      count.className = "table-count";
+      count.setAttribute("aria-live", "polite");
+      tools.appendChild(count);
+      var wrap = table.parentNode;
+      wrap.parentNode.insertBefore(tools, wrap);
+      var input = tools.querySelector("input");
+
+      function apply() {
+        var q = input.value.trim().toLowerCase();
+        var shown = 0;
+        rows.forEach(function (r) {
+          var okText = !q || r.textContent.toLowerCase().indexOf(q) !== -1;
+          var okStatus = !chosen || !!r.querySelector(".badge." + chosen);
+          r.hidden = !(okText && okStatus);
+          if (!r.hidden) shown += 1;
+        });
+        count.textContent = shown === rows.length ? rows.length + " rows" : "Showing " + shown + " of " + rows.length;
+      }
+      input.addEventListener("input", apply);
+      apply();
+    });
+  }
+
   setupLive();
   setupHeader();
   setupCode();
+  setupTables();
   setupToc();
   setupCommands();
   setupMotion();

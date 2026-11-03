@@ -13,6 +13,7 @@
   --orange: #ff7a1f;
   --white: #ffffff;
   --print-ink: #000000;
+  --mask-on: #000; /* in a mask, opaque = visible */
   --print-ink-soft: #333333;
   --print-rule: #bbbbbb;
   --print-tone: #f4f4f4;
@@ -28,6 +29,7 @@
   --accent: var(--orange);
   --accent-ink: #050f16;
   --btn-bg: var(--night);
+  --row-alt: #f7f6f2;
   --btn-ink: var(--orange);
   --on-night: #f3f1ec;
   --on-night-soft: #a9b3bb;
@@ -140,6 +142,7 @@
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: var(--dark-paper);
+    --row-alt: #132433;
     --btn-bg: var(--orange);
     --btn-ink: var(--night);
     --paper-2: var(--dark-paper-2);
@@ -155,6 +158,7 @@
 @media screen {
   :root[data-theme="dark"] {
     --paper: var(--dark-paper);
+    --row-alt: #132433;
     --btn-bg: var(--orange);
     --btn-ink: var(--night);
     --paper-2: var(--dark-paper-2);
@@ -396,21 +400,47 @@ hr { border: 0; height: var(--sec); }
   overflow: hidden;
 }
 .page-head > .wrap { position: relative; z-index: 1; }
-/* A photograph of the 1579 clockwork celestial globe (The Met), set as a
-   plate at the right of every page head. */
+/* Page heads: the 1579 clockwork celestial globe (The Met), cut out of its
+   museum backdrop, rises on the right and dissolves at its base; behind it
+   the 1750 star chart drifts in at low opacity and fades out radially.
+   Printed on paper in the light theme, inverted to pale lines on the night
+   in the dark theme. (Soft masks here are the client's explicit request.) */
 .head-plate {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(34%, 30rem);
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 30%;
+  right: max(var(--gutter), calc((100% - var(--page)) / 2 + var(--gutter)));
+  bottom: -14%;
+  height: 128%;
+  width: auto;
+  max-width: 40%;
+  object-fit: contain;
+  object-position: bottom right;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, var(--mask-on) 62%, transparent 96%); /* taste-skill-ignore: requested soft fade */
+  mask-image: linear-gradient(to bottom, var(--mask-on) 62%, transparent 96%); /* taste-skill-ignore: requested soft fade */
+  pointer-events: none;
 }
-@media (max-width: 860px) { .head-plate { display: none; } }
-.page-head .wrap > * { max-width: min(100%, 62%); }
+.page-head::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("1750-star-chart-of-the-constellations-libra.jpg") 70% 30% / cover no-repeat;
+  filter: grayscale(1) contrast(1.1);
+  mix-blend-mode: multiply;
+  opacity: 0.16;
+  -webkit-mask-image: radial-gradient(ellipse 70% 90% at 78% 40%, var(--mask-on) 0%, transparent 72%); /* taste-skill-ignore: requested soft fade */
+  mask-image: radial-gradient(ellipse 70% 90% at 78% 40%, var(--mask-on) 0%, transparent 72%); /* taste-skill-ignore: requested soft fade */
+  pointer-events: none;
+}
+@media screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .page-head::before { filter: invert(1) grayscale(1) contrast(1.3); mix-blend-mode: screen; opacity: 0.2; }
+}
+@media screen {
+  :root[data-theme="dark"] .page-head::before { filter: invert(1) grayscale(1) contrast(1.3); mix-blend-mode: screen; opacity: 0.2; }
+}
+@media (max-width: 860px) {
+  .head-plate { max-width: 46%; height: 70%; bottom: -6%; opacity: 0.45; }
+}
+.page-head .wrap > * { max-width: min(100%, 60%); }
 @media (max-width: 860px) { .page-head .wrap > * { max-width: none; } }
 .page-head h1 { max-width: 22ch; font-size: clamp(2.375rem, 1rem + 4.2vw, 4.75rem); }
 .page-head .lede { color: var(--ink-soft); }
@@ -582,8 +612,18 @@ td {
   line-height: 1.45;
 }
 tbody tr { transition: background-color var(--dur) ease; }
+tbody tr:nth-child(even) { background: var(--row-alt); }
 tbody tr:hover { background: var(--paper-2); }
 td:first-child { font-weight: 500; }
+/* Column balance: the label column never collapses, a status column stays
+   compact and its badges wrap, the descriptive column takes the rest. */
+th:first-child, td:first-child { min-width: 9rem; width: 22%; }
+td.badge-cell, td[data-label="Status"], td:has(> .badge:only-child) { width: 13rem; min-width: 9rem; }
+th:has(+ th) { white-space: nowrap; }
+td, th { padding-left: var(--px-12); }
+td:first-child, th:first-child { padding-left: var(--px-12); }
+.table-wrap.numeric td + td, .table-wrap.numeric th + th { text-align: right; font-variant-numeric: tabular-nums; }
+.table-wrap.numeric th + th .th-sort { justify-content: flex-end; width: 100%; }
 
 @media (max-width: 680px) {
   .table-wrap.scroll table { min-width: var(--px-560); }
@@ -633,15 +673,91 @@ td:first-child { font-weight: 500; }
   .table-wrap.stack.numbered td::before { content: none !important; }
 }
 
+/* interactive tables (site.js) */
+td code, th code { overflow-wrap: anywhere; }
+td { overflow-wrap: break-word; }
+.th-sort {
+  font: inherit;
+  font-weight: 700;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--px-6);
+}
+.th-sort::after { content: "↕"; color: var(--ink-soft); font-weight: 400; }
+th[aria-sort="ascending"] .th-sort::after { content: "↑"; color: var(--accent); }
+th[aria-sort="descending"] .th-sort::after { content: "↓"; color: var(--accent); }
+.th-sort:hover { color: var(--link); }
+.table-tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--px-8); margin: 0 0 var(--px-12); }
+.table-search {
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--paper-2);
+  border: 0;
+  min-height: var(--control);
+  padding: 0 var(--px-14);
+  flex: 1 1 14rem;
+  max-width: 24rem;
+}
+.table-chip {
+  font: inherit;
+  font-size: var(--step-small);
+  font-weight: 500;
+  min-height: var(--control);
+  padding: 0 var(--px-14);
+  border: 0;
+  background: var(--paper-2);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color var(--dur) ease, color var(--dur) ease;
+}
+.table-chip:hover { background: var(--ink); color: var(--paper); }
+.table-chip[aria-pressed="true"] { background: var(--orange); color: var(--night); }
+.table-count { font-size: var(--step-small); color: var(--ink-soft); margin-left: auto; }
+tr[hidden] { display: none !important; }
+@media (max-width: 680px) {
+  /* wide comparison tables: the first column stays put while you swipe */
+  .table-wrap.scroll th:first-child, .table-wrap.scroll td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--paper);
+    z-index: 1;
+    width: 8.5rem;
+    min-width: 8.5rem;
+    max-width: 8.5rem;
+    white-space: normal !important;
+    font-size: var(--step-small);
+  }
+  .table-wrap.scroll tbody tr:nth-child(even) td:first-child { background: var(--row-alt); }
+  .table-wrap.scroll::before {
+    content: "Swipe for more columns →";
+    display: block;
+    position: sticky;
+    left: 0;
+    font-size: var(--step-small);
+    color: var(--ink-soft);
+    margin-bottom: var(--px-6);
+  }
+  .table-count { margin-left: 0; flex-basis: 100%; }
+}
+
 .badge {
   display: inline-block;
   font-size: var(--step-small);
   font-weight: 500;
   line-height: 1.3;
   padding: var(--px-2) var(--px-8);
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
   vertical-align: 0.08em;
 }
+.badge code { background: transparent; color: inherit; padding: 0; font-size: 0.95em; }
 .badge.done    { background: var(--ink); color: var(--paper); }
 .badge.wip     { background: var(--orange); color: var(--night); }
 .badge.planned { background: var(--paper-2); color: var(--ink-soft); }
@@ -849,6 +965,25 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
 /* ---------- home: hero (night) with the rising globe ---------- */
 
 .hero { position: relative; overflow: hidden; padding-top: clamp(var(--px-40), 6vw, var(--px-88)); }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("1750-star-chart-of-the-constellations-libra.jpg") 50% 60% / cover no-repeat;
+  filter: grayscale(1) contrast(1.1);
+  mix-blend-mode: multiply;
+  opacity: 0.12;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 72%, var(--mask-on) 0%, transparent 70%); /* taste-skill-ignore: requested soft fade */
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 72%, var(--mask-on) 0%, transparent 70%); /* taste-skill-ignore: requested soft fade */
+  pointer-events: none;
+}
+.hero > * { position: relative; }
+@media screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero::before { filter: invert(1) grayscale(1) contrast(1.3); mix-blend-mode: screen; opacity: 0.16; }
+}
+@media screen {
+  :root[data-theme="dark"] .hero::before { filter: invert(1) grayscale(1) contrast(1.3); mix-blend-mode: screen; opacity: 0.16; }
+}
 .hero-title {
   font-size: var(--hero-title);
   font-weight: 900;
@@ -1109,6 +1244,8 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, var(--mask-on) 18%, var(--mask-on) 82%, transparent); /* taste-skill-ignore: requested soft fade */
+  mask-image: linear-gradient(to bottom, transparent, var(--mask-on) 18%, var(--mask-on) 82%, transparent); /* taste-skill-ignore: requested soft fade */
 }
 .sheet {
   position: relative;

@@ -52,7 +52,7 @@
 
 <main id="main">
   <section class="page-head">
-    <img class="head-plate" src="assets/celestial-globe-1579.jpg" width="844" height="1100" alt="A gilded celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
+    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="961" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>The compiler is an API.<br>This page is its documentation.</h1>
       <p class="lede">
@@ -68,8 +68,8 @@
     <ol>
       <li><a href="#three-commands-stable-semantics-and-a-fourth-nex">Three commands, stable semantics, and a fourth next release</a></li>
       <li><a href="#the-diagnostic-json-shape">The diagnostic JSON shape</a></li>
-      <li><a href="#stable-error-codes">Stable error codes</a></li>
       <li><a href="#canonical-integration-pattern">Canonical integration pattern</a></li>
+      <li><a href="#stable-error-codes">Stable error codes</a></li>
     </ol>
   </nav>
   <div class="doc-body">
@@ -174,41 +174,6 @@
 
   <section>
     <div class="wrap">
-      <h2 id="stable-error-codes">Stable error codes</h2>
-      <p>Codes are permanent identifiers, safe to branch on, cache repair
-      strategies against, or fine-tune with. <code>astra explain E####</code>
-      returns the long-form description for any of them.</p>
-      <div class="table-wrap stack"><table>
-        <thead><tr><th>Code</th><th>Meaning</th><th>Typical agent repair</th></tr></thead>
-        <tbody>
-          <tr><td data-label="Code"><code>E0001</code></td><td data-label="Meaning">Syntax error</td><td data-label="Typical agent repair">Re-emit the statement; check delimiters and semicolons</td></tr>
-          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling (next release: a near-miss name carries a <code>fix</code>)</td></tr>
-          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target (next release: a near-miss name carries a <code>fix</code>)</td></tr>
-          <tr><td data-label="Code"><code>E0004</code></td><td data-label="Meaning">Type mismatch</td><td data-label="Typical agent repair">Align value type with the annotation / return type</td></tr>
-          <tr><td data-label="Code"><code>E0005</code></td><td data-label="Meaning">Wrong number of arguments</td><td data-label="Typical agent repair">Match the call to the function signature</td></tr>
-          <tr><td data-label="Code"><code>E0006</code></td><td data-label="Meaning">Condition must be boolean</td><td data-label="Typical agent repair">Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
-          <tr><td data-label="Code"><code>E0007</code></td><td data-label="Meaning">Unknown method</td><td data-label="Typical agent repair">Check the receiver type's supported methods</td></tr>
-          <tr><td data-label="Code"><code>E0008</code></td><td data-label="Meaning">Cannot index non-array</td><td data-label="Typical agent repair">Index arrays only; check the variable's type</td></tr>
-          <tr><td data-label="Code"><code>E0009</code></td><td data-label="Meaning">Duplicate definition</td><td data-label="Typical agent repair">Rename or remove the redefinition</td></tr>
-          <tr><td data-label="Code"><code>E0010</code></td><td data-label="Meaning">Struct field error</td><td data-label="Typical agent repair">Use fields declared on the struct; check literal completeness</td></tr>
-          <tr><td data-label="Code"><code>E0011</code></td><td data-label="Meaning">Generic type error</td><td data-label="Typical agent repair">Make type parameters consistent at the call site</td></tr>
-          <tr><td data-label="Code"><code>E0012</code></td><td data-label="Meaning">IO error</td><td data-label="Typical agent repair">Check the file path passed to the CLI</td></tr>
-          <tr><td data-label="Code"><code>E0013</code></td><td data-label="Meaning">Module error</td><td data-label="Typical agent repair">Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
-          <tr><td data-label="Code"><code>E0014</code></td><td data-label="Meaning">Capability denied</td><td data-label="Typical agent repair">Remove the call at the end of the reported chain, or allow the effect in the build policy</td></tr>
-          <tr><td data-label="Code"><code>E0016</code></td><td data-label="Meaning">Assignment to immutable binding</td><td data-label="Typical agent repair">Declare it with <code>let mut</code>, or assign a different binding</td></tr>
-          <tr><td data-label="Code"><code>E0017</code></td><td data-label="Meaning">Tuple destructuring error</td><td data-label="Typical agent repair">Bind as many names as the tuple has elements</td></tr>
-          <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
-          <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method (or fix its signature) named in the message in the <code>impl Trait for Type</code> block; for a bound, pass a type that implements the trait</td></tr>
-          <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
-          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (next release: a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
-          <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
       <h2 id="canonical-integration-pattern">Canonical integration pattern</h2>
 <pre><code><span class="c"># pseudocode for any agent framework</span>
 <span class="kw">source</span> = llm.generate(task)
@@ -256,6 +221,41 @@ execute(binary)                              <span class="c"># native, already t
         <a class="btn primary" href="download.html">Download v0.11.2-alpha</a>
         <a class="btn ghost" href="benchmarks.html">See the loop validated end-to-end</a>
       </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 id="stable-error-codes">Stable error codes</h2>
+      <p>Codes are permanent identifiers, safe to branch on, cache repair
+      strategies against, or fine-tune with. <code>astra explain E####</code>
+      returns the long-form description for any of them.</p>
+      <div class="table-wrap stack"><table>
+        <thead><tr><th>Code</th><th>Meaning</th><th>Typical agent repair</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Code"><code>E0001</code></td><td data-label="Meaning">Syntax error</td><td data-label="Typical agent repair">Re-emit the statement; check delimiters and semicolons</td></tr>
+          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling (next release: a near-miss name carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target (next release: a near-miss name carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0004</code></td><td data-label="Meaning">Type mismatch</td><td data-label="Typical agent repair">Align value type with the annotation / return type</td></tr>
+          <tr><td data-label="Code"><code>E0005</code></td><td data-label="Meaning">Wrong number of arguments</td><td data-label="Typical agent repair">Match the call to the function signature</td></tr>
+          <tr><td data-label="Code"><code>E0006</code></td><td data-label="Meaning">Condition must be boolean</td><td data-label="Typical agent repair">Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
+          <tr><td data-label="Code"><code>E0007</code></td><td data-label="Meaning">Unknown method</td><td data-label="Typical agent repair">Check the receiver type's supported methods</td></tr>
+          <tr><td data-label="Code"><code>E0008</code></td><td data-label="Meaning">Cannot index non-array</td><td data-label="Typical agent repair">Index arrays only; check the variable's type</td></tr>
+          <tr><td data-label="Code"><code>E0009</code></td><td data-label="Meaning">Duplicate definition</td><td data-label="Typical agent repair">Rename or remove the redefinition</td></tr>
+          <tr><td data-label="Code"><code>E0010</code></td><td data-label="Meaning">Struct field error</td><td data-label="Typical agent repair">Use fields declared on the struct; check literal completeness</td></tr>
+          <tr><td data-label="Code"><code>E0011</code></td><td data-label="Meaning">Generic type error</td><td data-label="Typical agent repair">Make type parameters consistent at the call site</td></tr>
+          <tr><td data-label="Code"><code>E0012</code></td><td data-label="Meaning">IO error</td><td data-label="Typical agent repair">Check the file path passed to the CLI</td></tr>
+          <tr><td data-label="Code"><code>E0013</code></td><td data-label="Meaning">Module error</td><td data-label="Typical agent repair">Check the module file exists (next to the importer or on <code>ASTRA_PATH</code>), the item is <code>pub</code>, and there is no import cycle</td></tr>
+          <tr><td data-label="Code"><code>E0014</code></td><td data-label="Meaning">Capability denied</td><td data-label="Typical agent repair">Remove the call at the end of the reported chain, or allow the effect in the build policy</td></tr>
+          <tr><td data-label="Code"><code>E0016</code></td><td data-label="Meaning">Assignment to immutable binding</td><td data-label="Typical agent repair">Declare it with <code>let mut</code>, or assign a different binding</td></tr>
+          <tr><td data-label="Code"><code>E0017</code></td><td data-label="Meaning">Tuple destructuring error</td><td data-label="Typical agent repair">Bind as many names as the tuple has elements</td></tr>
+          <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
+          <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method (or fix its signature) named in the message in the <code>impl Trait for Type</code> block; for a bound, pass a type that implements the trait</td></tr>
+          <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
+          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (next release: a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
+        </tbody>
+      </table></div>
     </div>
   </section>
   </div>
