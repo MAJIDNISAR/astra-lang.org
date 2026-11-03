@@ -1,7 +1,16 @@
-// astra-lang.org: 3D charts read from assets/status.json.
+// astra-lang.org: 3D charts.
 //
-//   <figure data-viz="releases">  every release as a column, as tall as its tests
+// From assets/status.json:
+//   <figure data-viz="releases">  every release as a column, as tall as its tests;
+//                                 linked both ways with the page's .timeline
 //   <figure data-viz="memory">    peak memory before and after, per program
+// From an HTML table or bar list on the page (data-source="#id"), so the
+// chart always shows exactly what the table says:
+//   <figure data-viz="grid">      rows × numeric columns (benchmarks); taller
+//                                 is faster, log scale, fastest per row tallest
+//   <figure data-viz="levels">    rows × columns rated by each cell's data-level
+//                                 (0–3), e.g. a comparison table
+//   <figure data-viz="bars">      a .bar-row list (label, bar width %)
 //
 // Solid boxes on a ground plane, drawn with a perspective projection on a 2D
 // canvas (painter's algorithm, three shaded faces). Drag or Shift+arrows to
@@ -11,18 +20,118 @@
   "use strict";
 
   var figures = document.querySelectorAll("figure[data-viz]");
-  if (!figures.length || !window.fetch) return;
+  if (!figures.length) return;
 
-  fetch("assets/status.json")
-    .then(function (r) { return r.json(); })
-    .then(function (status) {
-      Array.prototype.forEach.call(figures, function (fig) {
-        var kind = fig.getAttribute("data-viz");
-        var cols = kind === "releases" ? releaseColumns(status) : kind === "memory" ? memoryColumns(status) : null;
-        if (cols && cols.length) chart(fig, cols, kind);
+  var needsStatus = [];
+  Array.prototype.forEach.call(figures, function (fig) {
+    var kind = fig.getAttribute("data-viz");
+    var src = fig.getAttribute("data-source");
+    var el = src && document.querySelector(src);
+    var cols = null;
+    if (kind === "grid" && el) cols = gridColumns(el);
+    else if (kind === "levels" && el) cols = levelColumns(el);
+    else if (kind === "bars" && el) cols = barColumns(el);
+    else if (kind === "releases" || kind === "memory") needsStatus.push(fig);
+    if (cols && cols.length) chart(fig, cols, kind);
+  });
+
+  if (needsStatus.length && window.fetch) {
+    fetch("assets/status.json")
+      .then(function (r) { return r.json(); })
+      .then(function (status) {
+        needsStatus.forEach(function (fig) {
+          var kind = fig.getAttribute("data-viz");
+          var cols = kind === "releases" ? releaseColumns(status) : memoryColumns(status);
+          if (cols.length) chart(fig, cols, kind);
+        });
+      })
+      .catch(function () { /* the tables stay; nothing to draw */ });
+  }
+
+  function cellText(td) { return (td.textContent || "").replace(/\s+/g, " ").trim(); }
+  function headers(table) {
+    return Array.prototype.map.call(table.querySelectorAll("thead th"), cellText);
+  }
+  function bodyRows(table) {
+    return Array.prototype.map.call(table.querySelectorAll("tbody tr"), function (tr) {
+      return Array.prototype.slice.call(tr.children);
+    });
+  }
+  function shortLabel(text) {
+    var words = text.replace(/[,(].*$/, "").split(" ");
+    return words.slice(0, 3).join(" ");
+  }
+
+  // Benchmarks: rows are workloads, columns are runtimes, cells are ms.
+  function gridColumns(table) {
+    var heads = headers(table).slice(1);
+    var out = [];
+    var rows = bodyRows(table);
+    rows.forEach(function (cells, r) {
+      var vals = cells.slice(1).map(function (td) { return parseFloat(cellText(td).replace(/[^0-9.]/g, "")); });
+      var finite = vals.filter(function (v) { return v > 0; });
+      var best = Math.min.apply(null, finite), worst = Math.max.apply(null, finite);
+      var span = Math.log(worst / best) || 1;
+      var name = cellText(cells[0]);
+      vals.forEach(function (v, c) {
+        if (!(v > 0)) return;
+        var ratio = v / best;
+        var fastest = heads[vals.indexOf(best)];
+        out.push({
+          x: c * 1.35, z: (rows.length - 1 - r) * 1.7, w: 1, h: 0.35 + 5.4 * (1 - Math.log(ratio) / span),
+          tone: /^Astra$/i.test(heads[c]) ? "orange" : /Astra/i.test(heads[c]) ? "ink" : "soft",
+          label: r === rows.length - 1 ? heads[c] : "",
+          side: c === 0 ? shortLabel(name) : "",
+          value: "",
+          title: heads[c] + " · " + name,
+          detail: v.toLocaleString("en") + " ms. " + (ratio < 1.005 ? "Fastest in this row." : ratio.toFixed(2) + "× the fastest (" + fastest + ", " + best.toLocaleString("en") + " ms).")
+        });
       });
-    })
-    .catch(function () { /* the tables stay; nothing to draw */ });
+    });
+    return out;
+  }
+
+  // A comparison table: each cell carries data-level 0–3.
+  function levelColumns(table) {
+    var heads = headers(table).slice(1);
+    var rows = bodyRows(table);
+    var out = [];
+    rows.forEach(function (cells, r) {
+      var name = cellText(cells[0]);
+      cells.slice(1).forEach(function (td, c) {
+        var lvl = parseInt(td.getAttribute("data-level"), 10);
+        if (isNaN(lvl)) return;
+        out.push({
+          x: c * 1.5, z: (rows.length - 1 - r) * 1.45, w: 1.2, h: 0.25 + lvl * 1.15,
+          tone: /Astra/i.test(heads[c]) ? "orange" : "soft",
+          ghost: lvl === 0,
+          label: r === rows.length - 1 ? heads[c] : "",
+          side: c === 0 ? shortLabel(name) : "",
+          value: "",
+          title: heads[c] + " · " + name,
+          detail: cellText(td) + " (rated " + lvl + " of 3)"
+        });
+      });
+    });
+    return out;
+  }
+
+  // A .bar-row list: label, a bar whose width is the value, a caption.
+  function barColumns(list) {
+    var rows = list.querySelectorAll(".bar-row");
+    return Array.prototype.map.call(rows, function (row, i) {
+      var label = cellText(row.children[0]);
+      var bar = row.querySelector(".bar > span");
+      var pct = bar ? parseFloat(bar.style.width) || 0 : 0;
+      var cap = row.querySelector(".pct");
+      var value = cap ? cellText(cap) : pct + "%";
+      return {
+        x: i * 1.5, z: 0, w: 1.05, h: 0.2 + (pct / 100) * 5,
+        tone: pct >= 100 ? "ink" : i === rows.length - 1 ? "orange" : "soft",
+        label: label, value: value, title: label, detail: value
+      };
+    });
+  }
 
   // ---- data → columns ----
   function releaseColumns(status) {
@@ -91,9 +200,15 @@
       minZ = Math.min(minZ, c.z); maxZ = Math.max(maxZ, c.z + c.w);
     });
     var cx = (minX + maxX) / 2, cz = (minZ + maxZ) / 2;
-    var span = Math.max(maxX - minX, maxZ - minZ, 6);
+    var tallest = 0;
+    cols.forEach(function (c) { if (c.h > tallest) tallest = c.h; });
+    // A bounding sphere frames the scene the same way at every angle.
+    var radius = Math.sqrt(Math.pow((maxX - minX) / 2, 2) + Math.pow((maxZ - minZ) / 2, 2) + Math.pow(tallest / 2, 2));
+    var span = radius * 2;
+    var hasSide = cols.some(function (c) { return c.side; });
 
-    var yaw = -0.42, pitch = 0.42, vel = 0;
+    var grid = kind === "grid" || kind === "levels";
+    var yaw = grid ? -0.5 : -0.42, pitch = grid ? 0.62 : 0.42, vel = 0;
     var W = 0, H = 0, dpr = 1, scale = 1;
     var selected = -1, hovered = -1;
     var dragging = false, lastX = 0, lastY = 0, moved = 0;
@@ -126,9 +241,8 @@
       W = r.width; H = r.height;
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
-      var tallest = 0;
-      cols.forEach(function (c) { if (c.h > tallest) tallest = c.h; });
-      scale = Math.min(Math.min(W, H * 1.6) / (span * 1.25), (H * 0.52) / tallest);
+      var room = hasSide && W >= 600 ? 0.82 : 0.95;
+      scale = Math.min((W * room) / (2 * radius), H / (2 * radius)) * (W < 600 ? 1.05 : 0.98) * (grid ? 0.9 : 1);
     }
 
     // world → screen
@@ -137,9 +251,11 @@
       var c = Math.cos(yaw), s = Math.sin(yaw);
       var rx = x * c - z * s, rz = x * s + z * c;
       var cp = Math.cos(pitch), sp = Math.sin(pitch);
-      var ry = y * cp - rz * sp, rz2 = y * sp + rz * cp;
+      var ry = y * cp + rz * sp, rz2 = rz * cp - y * sp;
       var f = 1 / (1 + rz2 / (span * 2.2));
-      return { x: W / 2 + rx * scale * f, y: H * (W < 600 ? 0.6 : 0.68) - ry * scale * f, d: rz2 };
+      var lift = (tallest / 2) * cp;
+      var shift = hasSide && W >= 600 ? W * 0.08 : 0;
+      return { x: W / 2 + shift + rx * scale * f, y: H / 2 - (ry - lift) * scale * f, d: rz2 };
     }
 
     function heightOf(c) {
@@ -160,9 +276,8 @@
         { idx: [0, 1, 5, 4], k: 1 }, { idx: [1, 2, 6, 5], k: 0.78 },
         { idx: [2, 3, 7, 6], k: 1 }, { idx: [3, 0, 4, 7], k: 0.78 }
       ];
-      var depth = 0;
-      P.forEach(function (p) { depth += p.d; });
-      return { i: i, P: P, faces: faces, depth: depth / 8, col: c };
+      var base = project(c.x + c.w / 2, 0, c.z + c.w / 2);
+      return { i: i, P: P, faces: faces, depth: base.d, col: c };
     }
 
     function facing(P, idx) {
@@ -222,18 +337,33 @@
       cols.forEach(function (c) {
         var h = heightOf(c);
         var top = project(c.x + c.w / 2, h, c.z + c.w / 2);
-        var foot = project(c.x + c.w / 2, 0, c.z + c.w + 0.35);
+        var foot = project(c.x + c.w / 2, 0, c.z - 0.5);
         if (c.value && grown > 0.6) {
           ctx.font = "700 " + (W < 600 ? 11 : 13) + "px " + font;
           ctx.textBaseline = "bottom";
           ctx.fillStyle = css(colors.ink, 0.95);
           ctx.fillText(c.value, top.x, top.y - 6);
         }
-        if (c.label && !(W < 600 && c.ghost)) {
+        if (c.side && W >= 600) {
+          // Row names sit on a small paper backing so the columns in front
+          // never make them unreadable.
+          var sidePt = project(c.x - 1.1, 0, c.z + c.w / 2);
+          ctx.font = "500 12px " + font;
+          var tw = ctx.measureText(c.side).width;
+          ctx.fillStyle = css(colors["paper-2"], 0.92);
+          ctx.fillRect(sidePt.x - tw - 6, sidePt.y - 9, tw + 12, 18);
+          ctx.fillStyle = css(colors.ink, 0.9);
+          ctx.textAlign = "right";
+          ctx.textBaseline = "middle";
+          ctx.fillText(c.side, sidePt.x, sidePt.y);
+          ctx.textAlign = "center";
+        }
+        if (c.label && !(W < 600 && c.ghost && !grid)) {
           ctx.font = "500 " + (W < 600 ? 11 : 12) + "px " + font;
           ctx.fillStyle = css(colors["ink-soft"], 1);
-          if (W < 600) {
-            // Narrow screens: labels run at an angle so neighbours never collide.
+          if (W < 600 || grid) {
+            // Narrow screens and dense grids: labels run at an angle so
+            // neighbours never collide.
             ctx.save();
             ctx.translate(foot.x, foot.y);
             ctx.rotate(-0.9);
@@ -248,6 +378,31 @@
           }
         }
       });
+    }
+
+    // Releases ↔ timeline: each column knows its .timeline entry.
+    var entries = [];
+    if (kind === "releases") {
+      var items = document.querySelectorAll(".timeline > li");
+      cols.forEach(function (c, i) {
+        var want = c.label === "main" ? "next release" : c.label.replace(/\.0$/, "");
+        Array.prototype.forEach.call(items, function (li) {
+          var t = li.querySelector(".tl-title");
+          var text = t ? t.textContent.toLowerCase() : "";
+          if (!entries[i] && text.indexOf(want.toLowerCase()) === 0) entries[i] = li;
+        });
+        if (entries[i]) {
+          entries[i].addEventListener("mouseenter", function () { hovered = i; showPanel(i); request(); });
+          entries[i].addEventListener("mouseleave", function () { hovered = -1; showPanel(selected); request(); });
+        }
+      });
+    }
+    function lightEntry(i, scroll) {
+      entries.forEach(function (li) { if (li) li.classList.remove("lit"); });
+      var li = entries[i];
+      if (!li) return;
+      li.classList.add("lit");
+      if (scroll) li.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "center" });
     }
 
     function showPanel(i) {
@@ -322,6 +477,7 @@
         var i = pick(e.clientX - r.left, e.clientY - r.top);
         selected = i === selected ? -1 : i;
         showPanel(selected);
+        if (selected >= 0) lightEntry(selected, true);
       }
       request();
     }
@@ -340,7 +496,10 @@
         var n = cols.length;
         selected = selected < 0 ? (e.key === "ArrowLeft" ? n - 1 : 0) : (selected + (e.key === "ArrowLeft" ? -1 : 1) + n) % n;
         showPanel(selected);
+        lightEntry(selected, false);
         live.textContent = cols[selected].title + ". " + cols[selected].detail;
+      } else if (e.key === "Enter" && selected >= 0) {
+        lightEntry(selected, true);
       } else if (e.key === "Escape") {
         selected = -1; showPanel(-1);
       } else {

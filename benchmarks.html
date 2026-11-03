@@ -8,7 +8,7 @@
 <meta name="description" content="Astra's internally tested and verified metrics: verify latency, compile+run vs Python, agent-mistake rejection, lockfile determinism: every number reproducible from a script in the repo.">
 <link rel="canonical" href="https://astra-lang.org/benchmarks.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
@@ -29,6 +29,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
+<script src="assets/viz.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,6 +53,7 @@
 
 <main id="main">
   <section class="page-head">
+    <img class="head-plate" src="assets/celestial-globe-1579.jpg" width="844" height="1100" alt="A gilded celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>Every number on this page<br>comes from a script you can run.</h1>
       <p class="lede">
@@ -142,8 +144,11 @@ RESULT: all outputs verified.</code></pre>
       arithmetic loop in both languages; each command is timed as one
       process run.</p>
 
-      <div class="bar-row"><span>astra</span><div class="bar"><span style="width:45%"></span></div><span class="pct">72 ms</span></div>
-      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">158 ms</span></div>
+      <figure class="viz" data-viz="bars" data-source="#speed-bars" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="Two 3D columns: Astra compile plus run against Python's run alone. The numbers are in the bars below."></canvas></div>
+      </figure>
+      <div id="speed-bars" class="bar-list"><div class="bar-row"><span>astra</span><div class="bar"><span style="width:45%"></span></div><span class="pct">72 ms</span></div>
+      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">158 ms</span></div></div>
 
       <p><strong>Result:</strong> <span class="badge done">~2.2× faster, compile included</span>, 68&nbsp;ms to compile (parse, type-check, LLVM IR, <code>llc</code>,
       link) plus 4&nbsp;ms to run, against 158&nbsp;ms for Python to run the
@@ -200,7 +205,11 @@ RESULT: all outputs verified.</code></pre>
       percent; the machine was not idle (load average 4–12 of 12 cores). Apple clang 17 <code>-O2</code> · rustc 1.94
       <code>-O</code> · Go 1.26 · OpenJDK 25 · Node 25 · Python 3.11 · Astra
       via LLVM <code>-O2</code>. Median milliseconds, lower is better.</p>
-      <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Benchmark results in milliseconds (scrolls sideways)"><table>
+      <figure class="viz" data-viz="grid" data-source="#bench-table" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D field of benchmark results: each column is a runtime, each row a workload; taller is faster. The timings are in the table below."></canvas></div>
+        <figcaption>Taller is faster, on a log scale: in each row the fastest runtime is the tallest column. Astra is orange, its interpreter dark. Drag to turn the field; hover a column or use the arrow keys for its timing.</figcaption>
+      </figure>
+      <div class="table-wrap scroll numeric" role="region" tabindex="0" aria-label="Benchmark results in milliseconds (scrolls sideways)"><table id="bench-table">
         <thead><tr><th>Workload</th><th>Astra</th><th>Rust&nbsp;-O, checked</th><th>Rust&nbsp;-O</th><th>C&nbsp;-O2</th><th>Go</th><th>Java</th><th>Node.js</th><th>Python 3</th><th>Astra interpreter</th></tr></thead>
         <tbody>
           <tr><td data-label="Workload">Recursive fib(38), calls</td><td data-label="Astra"><strong>144</strong></td><td data-label="Rust -O, checked">155</td><td data-label="Rust -O">113</td><td data-label="C -O2">112</td><td data-label="Go">128</td><td data-label="Java">140</td><td data-label="Node.js">360</td><td data-label="Python 3">3,558</td><td data-label="Astra interpreter">4,673</td></tr>
@@ -316,7 +325,7 @@ RESULT: all outputs verified.</code></pre>
     </div>
     <div class="foot-legal">
       <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
-      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+      <p class="credits">Pictures: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and Gerhard Emmoser's celestial globe with clockwork, 1579, <a href="https://www.metmuseum.org/art/collection/search/193606">The Metropolitan Museum of Art</a>, CC0.</p>
     </div>
   </div>
   <span class="foot-name" aria-hidden="true">Astra</span>
