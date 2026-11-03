@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>404 — page not found · astra-lang.org</title>
+<title>404: page not found · astra-lang.org</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/assets/style.css">
 <script src="/assets/site.js" defer></script>
@@ -14,14 +14,24 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="/">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
+    <nav class="main" aria-label="Main">
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
+    </nav>
   </div>
 </header>
 
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">E0404</p>
       <h1>Page not found.</h1>
       <p class="lede">Even our 404 has an error code and a suggestion.</p>
 <pre><code>{
@@ -34,7 +44,7 @@
 }</code></pre>
       <div class="btn-row">
         <a class="btn primary" href="/">Back to home</a>
-        <a class="btn ghost" href="/start.html">Get started</a>
+        <a class="btn ghost" href="/start.html">Install the alpha</a>
       </div>
     </div>
   </section>
@@ -42,9 +52,29 @@
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a></span>
-    <span><a href="/download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

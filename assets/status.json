@@ -1,0 +1,56 @@
+{
+  "updated": "2026-11-03",
+  "release": {
+    "version": "v0.11.2-alpha",
+    "date": "2026-11-02",
+    "tests": 712,
+    "platforms": ["Linux x64", "macOS Apple Silicon", "macOS Intel", "Windows x64"]
+  },
+  "main": {
+    "tests": 750,
+    "releaseChecks": "55 of 55",
+    "note": "On main, not released yet"
+  },
+  "astra": {
+    "statuses": [
+      {"id": "works", "name": "Works today", "items": ["Variables", "Functions", "Recursion", "Control flow", "Arrays", "Nominal structs", "Enums + match", "Tuples", "Result + ?", "try / catch", "Closures", "Generic functions", "impl blocks", "Bitwise ops", "String interpolation", "Floats", "async / await", "REPL", "LLVM-IR backend", "--emit-ir / --target", "Never panics on bad input", "CI gates"]},
+      {"id": "shipped", "name": "New in v0.10–v0.11", "items": ["Interpreter (astra run)", "Native parity + fuzzing", "Modules + pub", "mifa build / run", "Runtime traps", "Type inference", "Indentation syntax", "astra fmt", "Forward references", "Exhaustive match (E0021)", "Value semantics (E0022)", "a[i] = v", "Nominal traits", "Trait bounds", "Signature checks (E0020)", "Embedded runtime", "Release binaries ×4"]},
+      {"id": "progress", "name": "On main, next release", "items": ["Error lines everywhere", "All errors per function", "Fix edits", "astra fix", "Every-exit memory release", "Owned strings freed", "Template literals freed", "true / false printing", "== by value only", "Release test suite", "String copy crash fixed", "Windows native verify"]},
+      {"id": "next", "name": "Next", "items": ["E0021 / E0020 fixes", "@derive(Eq)", "Default methods", "Standard traits", "Map / Set", "Comprehensions", "Generic structs", "Branch / call locals freed", "LSP alpha", "stdlib core"]},
+      {"id": "planned", "name": "Planned", "items": ["tool / agent keywords", "prompt / memory", "Python interop", "WASM target", "GPU target", "Source opens at v1.0-beta"]}
+    ]
+  },
+  "mifa": {
+    "statuses": [
+      {"id": "works", "name": "Works today", "items": ["mifa init", "mifa add --path", "mifa verify", "mifa lock", "Path dependencies", "Package cache", "mifa clean", "--json on local commands", "Registry protocol (34 tests)", "login + publish --dry-run"]},
+      {"id": "shipped", "name": "New in v0.10–v0.11", "items": ["mifa build", "mifa run", "Importable dependencies", "mifa test", "Cargo-style manifests", "build --release / --target"]},
+      {"id": "progress", "name": "On main, next release", "items": ["mifa --version", "Honest mifa search"]},
+      {"id": "next", "name": "Next", "items": ["Project-wide mifa verify", "HTTP registry client", "Staging registry", "Real mifa publish"]},
+      {"id": "planned", "name": "Planned", "items": ["Hosted registry (mifa.dev)", "Global lockfile contract"]}
+    ]
+  },
+  "releases": [
+    {"version": "v0.1", "date": "2025-10", "tests": null, "summary": "The idea becomes code: easy like Python, safe and fast like Rust, built for agents. Lexer, parser, first AST."},
+    {"version": "v0.5", "date": "2025-11", "tests": null, "summary": "Native compilation, Docker CI, first pre-built binaries."},
+    {"version": "v0.6", "date": "2026-06", "tests": null, "summary": "Honest alpha reset: JSON diagnostics, verify mode, the verify-repair-compile loop."},
+    {"version": "v0.7", "date": "2026-07-06", "tests": null, "summary": "Source spans, structs, Result and closures native, REPL, dyn, astra explain; Mifa lockfile and registry protocol."},
+    {"version": "v0.8.0", "date": "2026-07-07", "tests": 285, "summary": "The LLVM-IR backend becomes the default; async/await; ignored tests 10 to 0."},
+    {"version": "v0.9.0", "date": "2026-07-09", "tests": null, "summary": "Nominal structs, enums with payloads, ? and try/catch, tuples, impl blocks, bitwise operators."},
+    {"version": "v0.9.1", "date": "2026-07-15", "tests": 449, "summary": "First binaries for four platforms; callable closures; ARC memory reclamation; the compiler never panics on bad input."},
+    {"version": "v0.10.0", "date": "2026-10-30", "tests": 609, "summary": "Interpreter with native parity and fuzzing; modules; program I/O with capabilities; runtime traps; mifa build and run."},
+    {"version": "v0.11.0", "date": "2026-11-02", "tests": 695, "summary": "Value semantics, indentation syntax and astra fmt, type inference, nominal traits and trait bounds."},
+    {"version": "v0.11.1", "date": "2026-11-02", "tests": 699, "summary": "Released binaries compile natively: the C runtime is embedded in the compiler."},
+    {"version": "v0.11.2", "date": "2026-11-02", "tests": 712, "summary": "Trait bounds checked at call sites, impl signatures checked (E0020); loops no longer leak."},
+    {"version": "main", "date": "2026-11-03", "tests": 750, "unreleased": true, "summary": "Every type error has a line; machine fixes and astra fix; memory freed on every exit; a 55-check release suite."}
+  ],
+  "memory": {
+    "unit": "MB peak",
+    "note": "Native build, peak resident memory, measured 2026-11-03 on main",
+    "cases": [
+      {"name": "Helper called 1M times building a struct, list and tuple", "before": 231, "after": 1.3},
+      {"name": "A function returning a new string, 1M calls", "before": 47, "after": 1.3},
+      {"name": "A list of fresh strings per iteration, 200k", "before": 20, "after": 1.3},
+      {"name": "A template literal per iteration, 200k", "before": 20, "after": 1.3}
+    ]
+  }
+}

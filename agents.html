@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>For Agents — Astra's machine interface</title>
+<title>For Agents: Astra's machine interface</title>
 <meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="canonical" href="https://astra-lang.org/agents.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="For Agents — Astra's machine interface">
+<meta property="og:title" content="For Agents: Astra's machine interface">
 <meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <meta property="og:url" content="https://astra-lang.org/agents.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
@@ -22,8 +22,11 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="For Agents — Astra's machine interface">
+<meta name="twitter:title" content="For Agents: Astra's machine interface">
 <meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
 </head>
@@ -32,23 +35,17 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html" class="active" aria-current="page">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html">Progress</a>
-        <a href="about.html">About</a>
-        <a href="download.html">Download</a>
-      </span>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html" aria-current="page">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
     </nav>
   </div>
 </header>
@@ -56,7 +53,6 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Machine interface · integration spec</p>
       <h1>The compiler is an API.<br>This page is its documentation.</h1>
       <p class="lede">
         If you're building an agent, a coding assistant, or a framework that
@@ -65,10 +61,21 @@
       </p>
     </div>
   </section>
+<div class="doc">
+  <nav class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#three-commands-stable-semantics-and-a-fourth-nex">Three commands, stable semantics, and a fourth next release</a></li>
+      <li><a href="#the-diagnostic-json-shape">The diagnostic JSON shape</a></li>
+      <li><a href="#stable-error-codes">Stable error codes</a></li>
+      <li><a href="#canonical-integration-pattern">Canonical integration pattern</a></li>
+    </ol>
+  </nav>
+  <div class="doc-body">
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Surface</span>Three commands, stable semantics, and a fourth next release</h2>
+      <h2 id="three-commands-stable-semantics-and-a-fourth-nex">Three commands, stable semantics, and a fourth next release</h2>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
         <tbody>
@@ -102,7 +109,7 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Contract</span>The diagnostic JSON shape</h2>
+      <h2 id="the-diagnostic-json-shape">The diagnostic JSON shape</h2>
       <p>One object per invocation. Fields are stable; new fields may be
       added, existing ones are never repurposed.</p>
 <pre><code>{
@@ -166,8 +173,8 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Catalog</span>Stable error codes</h2>
-      <p>Codes are permanent identifiers — safe to branch on, cache repair
+      <h2 id="stable-error-codes">Stable error codes</h2>
+      <p>Codes are permanent identifiers, safe to branch on, cache repair
       strategies against, or fine-tune with. <code>astra explain E####</code>
       returns the long-form description for any of them.</p>
       <div class="table-wrap stack"><table>
@@ -201,14 +208,14 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">The loop</span>Canonical integration pattern</h2>
+      <h2 id="canonical-integration-pattern">Canonical integration pattern</h2>
 <pre><code><span class="c"># pseudocode for any agent framework</span>
 <span class="kw">source</span> = llm.generate(task)
 
 <span class="kw">for</span> attempt <span class="kw">in</span> 1..MAX_REPAIRS:
     report = run(<span class="s">"astra verify --error-format=json"</span>, source)
     <span class="kw">if</span> report.success:
-        <span class="kw">break</span>                                <span class="c"># verified — safe to compile</span>
+        <span class="kw">break</span>                                <span class="c"># verified, safe to compile</span>
     <span class="kw">source</span> = llm.repair(source, report.diagnostics)
                                              <span class="c"># feed error_code + line +</span>
                                              <span class="c"># column + suggestion back in</span>
@@ -227,12 +234,12 @@ execute(binary)                              <span class="c"># native, already t
     <span class="kw">source</span> = llm.repair(source, report.diagnostics)</code></pre>
       <p>Why this converges better than a Python retry loop:</p>
       <ul>
-        <li>Diagnostics are <strong>positional</strong> — the model repairs one
+        <li>Diagnostics are <strong>positional</strong>: the model repairs one
         pinpointed line instead of regenerating the file.</li>
-        <li>Codes are <strong>categorical</strong> — frameworks can route
+        <li>Codes are <strong>categorical</strong>: frameworks can route
         E0002 to a cheap local fix and reserve the LLM for E0004/E0011
         (next release: the compiler supplies that fix itself).</li>
-        <li>Verification is <strong>~100 ms</strong> — cheaper than any token
+        <li>Verification is <strong>~100 ms</strong>: cheaper than any token
         round-trip, so verify after every single edit.</li>
         <li>Whole error classes <strong>cannot escape to runtime</strong>, so
         the expensive failure mode (bad code executing) is structurally
@@ -240,23 +247,45 @@ execute(binary)                              <span class="c"># native, already t
       </ul>
       <div class="callout">
         <p><strong>Versioning promise:</strong> the JSON field set and the
-        E-code catalog only grow — existing codes and fields are never
+        E-code catalog only grow, existing codes and fields are never
         renamed or repurposed. Breaking changes to this contract would get a
         major version bump and a migration note on this page.</p>
       </div>
       <div class="btn-row">
-        <a class="btn primary" href="download.html">Downloads — v0.11.2-alpha</a>
+        <a class="btn primary" href="download.html">Download v0.11.2-alpha</a>
         <a class="btn ghost" href="benchmarks.html">See the loop validated end-to-end</a>
       </div>
     </div>
   </section>
+  </div>
+</div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

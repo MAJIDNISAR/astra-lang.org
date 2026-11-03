@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>Mifa — Astra's package manager</title>
+<title>Mifa: Astra's package manager</title>
 <meta name="description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
 <link rel="canonical" href="https://astra-lang.org/mifa.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="Mifa — Astra's package manager">
+<meta property="og:title" content="Mifa: Astra's package manager">
 <meta property="og:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
 <meta property="og:url" content="https://astra-lang.org/mifa.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
@@ -22,33 +22,31 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="Mifa — Astra's package manager">
+<meta name="twitter:title" content="Mifa: Astra's package manager">
 <meta name="twitter:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
+<script src="assets/orb.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html" class="active" aria-current="page">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html">Progress</a>
-        <a href="about.html">About</a>
-        <a href="download.html">Download</a>
-      </span>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html" aria-current="page">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
     </nav>
   </div>
 </header>
@@ -56,19 +54,55 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Package manager</p>
       <h1>Mifa</h1>
       <p class="lede">
-        Mifa is Astra's package manager — Cargo-shaped, agent-friendly,
+        Mifa is Astra's package manager, Cargo-shaped, agent-friendly,
         and built around one non-negotiable: the same inputs must always
         produce the same build.
       </p>
     </div>
   </section>
+<div class="doc">
+  <nav class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#globe">Mifa, as a globe</a></li>
+      <li><a href="#from-zero-to-running-project">From zero to running project</a></li>
+      <li><a href="#the-lockfile">The lockfile</a></li>
+      <li><a href="#mifa-milestones">Mifa milestones</a></li>
+      <li><a href="#next">Dependencies you can import</a></li>
+      <li><a href="#next-release">Honest about the registry</a></li>
+      <li><a href="#why-not-reuse-an-existing-manager">Why not reuse an existing manager?</a></li>
+    </ol>
+  </nav>
+  <div class="doc-body">
+
+  <section id="globe">
+    <div class="wrap">
+      <h2>Mifa, as a globe</h2>
+      <p>Every Mifa feature is a star: the brightest work today, faint dotted ones are planned. Drag to turn it, or pick a magnitude.</p>
+      <figure class="orb orb-plain" data-orb="mifa" hidden>
+        <div class="orb-frame">
+          <canvas tabindex="0" role="img" aria-label="A turning globe of Mifa's features, coloured by status. The same features are listed below."></canvas>
+          <div class="orb-tip" role="presentation" hidden></div>
+        </div>
+        <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
+      </figure>
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target"]},{"id":"progress","name":"On main, next release","items":["mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:mifa-list --><ul class="status-list">
+  <li data-status="works"><b>Works today:</b> mifa init, mifa add --path, mifa verify, mifa lock, Path dependencies, Package cache, mifa clean, --json on local commands, Registry protocol (34 tests), login + publish --dry-run</li>
+  <li data-status="shipped"><b>New in v0.10–v0.11:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target</li>
+  <li data-status="progress"><b>On main, next release:</b> mifa --version, Honest mifa search</li>
+  <li data-status="next"><b>Next:</b> Project-wide mifa verify, HTTP registry client, Staging registry, Real mifa publish</li>
+  <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Global lockfile contract</li>
+</ul><!-- /status:mifa-list -->
+    </div>
+  </section>
+
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Workflow</span>From zero to running project</h2>
+      <h2 id="from-zero-to-running-project">From zero to running project</h2>
 <pre data-copy="none"><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
 <span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra here</span>
 <span class="p">$</span> mifa verify              <span class="c"># validate astra.toml and the src/ layout</span>
@@ -105,10 +139,10 @@ categories = []
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Determinism</span>The lockfile</h2>
+      <h2 id="the-lockfile">The lockfile</h2>
       <p>
         <code>mifa lock</code> resolves the full dependency graph and writes
-        <code>astra.lock</code> — versioned, sorted, and content-hashed. Two
+        <code>astra.lock</code>: versioned, sorted, and content-hashed. Two
         machines with the same manifest resolve identical graphs, byte for
         byte. This was validated as differentiator D5: repeated locks of the
         same workspace produce sha256-identical files.
@@ -116,7 +150,7 @@ categories = []
       <p>
         Reproducibility matters twice over for Astra's mission. Humans get
         reliable CI; agents get a guarantee that a build that verified once
-        will verify the same way again — no drifting dependencies invalidating
+        will verify the same way again, no drifting dependencies invalidating
         an earlier repair loop.
       </p>
     </div>
@@ -124,37 +158,37 @@ categories = []
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Status</span>Mifa milestones</h2>
+      <h2 id="mifa-milestones">Mifa milestones</h2>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Milestone</th><th>Scope</th><th>Status</th></tr></thead>
         <tbody>
           <tr>
-            <td data-label="Milestone"><strong>M1</strong> — Honest local workflow</td>
+            <td data-label="Milestone"><strong>M1</strong>: Honest local workflow</td>
             <td data-label="Scope"><code>init</code> / <code>add</code> / <code>build</code> / <code>run</code> / <code>verify</code>; 43-test integration suite</td>
             <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td data-label="Milestone"><strong>M2</strong> — Lockfile + cache</td>
+            <td data-label="Milestone"><strong>M2</strong>: Lockfile + cache</td>
             <td data-label="Scope"><code>astra.lock</code>, <code>~/.mifa/cache</code>, path dependencies, <code>lock</code> / <code>clean</code></td>
             <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td data-label="Milestone"><strong>M5-basics</strong> — JSON output</td>
+            <td data-label="Milestone"><strong>M5-basics</strong>: JSON output</td>
             <td data-label="Scope"><code>--json</code> on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; stable envelope for agent consumption</td>
             <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td data-label="Milestone"><strong>M3</strong> — Registry protocol</td>
+            <td data-label="Milestone"><strong>M3</strong>: Registry protocol</td>
             <td data-label="Scope"><code>/v1/packages</code> v1 API, SHA-256 checksums, yanked-version handling, stable <code>REG4xx</code> error codes</td>
             <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td data-label="Milestone"><strong>M4</strong> — Publish + auth</td>
+            <td data-label="Milestone"><strong>M4</strong>: Publish + auth</td>
             <td data-label="Scope"><code>mifa login</code> (per-registry tokens), <code>publish --dry-run</code> (validation, deterministic archive, checksum)</td>
             <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
           </tr>
           <tr>
-            <td data-label="Milestone"><strong>mifa.dev</strong> — Public registry</td>
+            <td data-label="Milestone"><strong>mifa.dev</strong>: Public registry</td>
             <td data-label="Scope">Hosted global registry with semantic versioning</td>
             <td class="badge-cell" data-label="Status"><span class="badge planned">v1.0</span></td>
           </tr>
@@ -162,8 +196,8 @@ categories = []
       </table></div>
       <div class="callout">
         <p><strong>Honest note:</strong> the registry protocol is fully
-        specified and tested against an in-memory implementation — checksums,
-        yanked versions, auth, and publish validation all work — but there is
+        specified and tested against an in-memory implementation, checksums,
+        yanked versions, auth, and publish validation all work, but there is
         no hosted registry yet; real uploads are blocked on deployment, and
         a registry dependency like <code>utils@1.0.0</code> has nothing to
         download from. Local workflows (init, verify, lock, run, path
@@ -175,7 +209,7 @@ categories = []
 
   <section id="next">
     <div class="wrap">
-      <h2><span class="k">Since v0.10</span>Dependencies you can import</h2>
+      <h2>Dependencies you can import</h2>
       <p>A local package is a real dependency. <code>mifa build</code> compiles
       <code>src/main.astra</code> to <code>target/&lt;name&gt;</code> and
       searches each path dependency's <code>src/</code> folder for modules;
@@ -205,7 +239,7 @@ HI!</code></pre>
 
   <section id="next-release">
     <div class="wrap">
-      <h2><span class="k">Next release</span>Honest about the registry <span class="badge wip">next release</span></h2>
+      <h2>Honest about the registry <span class="badge wip">next release</span></h2>
       <p>On <code>main</code>, not in a release yet:</p>
       <ul>
         <li><code>mifa --version</code> prints the Mifa version.</li>
@@ -220,7 +254,7 @@ HI!</code></pre>
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Design</span>Why not reuse an existing manager?</h2>
+      <h2 id="why-not-reuse-an-existing-manager">Why not reuse an existing manager?</h2>
       <ul>
         <li><strong>Verification-first.</strong> <code>astra verify</code>
         type-checks a program without generating code, so an agent can
@@ -231,25 +265,46 @@ HI!</code></pre>
         future registry fetches will refuse checksum mismatches outright.</li>
         <li><strong>One tool, one mental model.</strong> Mifa wraps the same
         compiler library the <code>astra</code> CLI uses. Diagnostics, exit
-        codes, and JSON shapes stay identical between both tools —
-        <code>init</code>, <code>add</code>, <code>verify</code>,
+        codes, and JSON shapes stay identical between both tools, <code>init</code>, <code>add</code>, <code>verify</code>,
         <code>test</code>, <code>lock</code>, <code>login</code> and
         <code>publish</code> support <code>--json</code> and emit the same
         <code>diagnostics[]</code> envelope.</li>
       </ul>
       <div class="btn-row">
         <a class="btn ghost" href="progress.html#mifa">Detailed Mifa progress</a>
-        <a class="btn ghost" href="download.html">Downloads — v0.11.2-alpha</a>
+        <a class="btn ghost" href="download.html">Download v0.11.2-alpha</a>
       </div>
     </div>
   </section>
+  </div>
+</div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

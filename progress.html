@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>Progress — Astra &amp; Mifa ground-truth status</title>
+<title>Progress: Astra &amp; Mifa ground-truth status</title>
 <meta name="description" content="Live ground-truth status of the Astra compiler and Mifa package manager: release progress, feature matrix, ratified architecture decisions, and roadmap.">
 <link rel="canonical" href="https://astra-lang.org/progress.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="Progress — Astra &amp; Mifa ground-truth status">
+<meta property="og:title" content="Progress: Astra &amp; Mifa ground-truth status">
 <meta property="og:description" content="Live ground-truth status of the Astra compiler and Mifa package manager: release progress, feature matrix, ratified architecture decisions, and roadmap.">
 <meta property="og:url" content="https://astra-lang.org/progress.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
@@ -22,33 +22,31 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="Progress — Astra &amp; Mifa ground-truth status">
+<meta name="twitter:title" content="Progress: Astra &amp; Mifa ground-truth status">
 <meta name="twitter:description" content="Live ground-truth status of the Astra compiler and Mifa package manager: release progress, feature matrix, ratified architecture decisions, and roadmap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
+<script src="assets/viz.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html" class="active" aria-current="page">Progress</a>
-        <a href="about.html">About</a>
-        <a href="download.html">Download</a>
-      </span>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html" aria-current="page">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
     </nav>
   </div>
 </header>
@@ -56,7 +54,6 @@
 <main id="main">
   <section class="page-head">
     <div class="wrap">
-      <p class="kicker">Ground truth · updated 2026-11-03</p>
       <h1>Progress tracker</h1>
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
@@ -68,17 +65,33 @@
       </p>
     </div>
   </section>
+<div class="doc">
+  <nav class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#timeline">From the first lexer to v0.11</a></li>
+      <li><a href="#releases">Where each version stands</a></li>
+      <li><a href="#next">The work queue, in priority order</a></li>
+      <li><a href="#strategic">Design investment, tracked like a feature</a></li>
+      <li><a href="#language-feature-matrix">Language feature matrix</a></li>
+      <li><a href="#mifa">Package manager progress</a></li>
+      <li><a href="#ratified-architecture-decisions">Ratified architecture decisions</a></li>
+      <li><a href="#validated-performance-claims">Validated performance claims</a></li>
+      <li><a href="#history">Every release, in three dimensions</a></li>
+    </ol>
+  </nav>
+  <div class="doc-body">
 
   <section id="timeline">
     <div class="wrap">
-      <h2><span class="k">Timeline</span>From university project to v0.11</h2>
+      <h2>From the first lexer to v0.11</h2>
       <p>Each release on one line, oldest first. Test counts are the suite
       at the time of the release.</p>
       <ol class="timeline">
         <li>
           <span class="tl-when">Oct 2025</span>
           <span class="tl-title">v0.1</span>
-          <p>University project: lexer, parser and the first AST.</p>
+          <p>The idea becomes code: a language as easy as Python, as safe and fast as Rust, built for agentic coding. Lexer, parser and the first AST.</p>
         </li>
         <li>
           <span class="tl-when">Nov 2025</span>
@@ -183,7 +196,7 @@
 
   <section id="releases">
     <div class="wrap">
-      <h2><span class="k">Releases</span>Where each version stands</h2>
+      <h2>Where each version stands</h2>
 
       <div class="bar-row"><span>v0.6</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
@@ -212,7 +225,7 @@
 
   <section id="next">
     <div class="wrap">
-      <h2><span class="k">What's next</span>The work queue, in priority order</h2>
+      <h2>The work queue, in priority order</h2>
       <p>
         v0.8 and v0.9 are closed. The current phase is
         <em>narrow &amp; harden</em>: make what exists sound and honest
@@ -221,11 +234,11 @@
       <div class="table-wrap stack numbered"><table>
         <thead><tr><th>#</th><th>Astra</th><th>Status / why it's next</th></tr></thead>
         <tbody>
-          <tr><td data-label="#">1</td><td data-label="Astra">Robustness: compiler never panics</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-07-13</span> — lexer/parser return diagnostics instead of crashing on malformed input; CI gates every commit on fmt, clippy <code>-D warnings</code>, cargo-audit, and an llc IR-validity corpus</td></tr>
-          <tr><td data-label="#">2</td><td data-label="Astra">Callable closures</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-07-13</span> — root cause was pipeline order (closure-lift now runs before typecheck); v0 is int-typed closures on the default path</td></tr>
-          <tr><td data-label="#">3</td><td data-label="Astra">ARC scope-based reclamation</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-07-15</span> — single-owner structs, strings, tuples, arrays freed at loop-body <em>and</em> function scope; retain-on-alias; 2M-iteration loops now run in ~1.3 MB (were 98–194 MB). String-aliased values still leak (bounded, safe)</td></tr>
-          <tr><td data-label="#">4</td><td data-label="Astra">Interpreter with native parity</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-10-27</span> — <code>astra run</code> interprets (no LLVM needed; the slot-resolving redesign landed 2026-10-30, so it now beats CPython on loops, floats and arrays and is close on branches); every feature is tested for identical stdout and exit code against the native binary, and a fuzzer generates programs that must agree on both. Overflow, division by zero, bad shifts, out-of-bounds and runaway recursion now stop with a runtime error on both engines</td></tr>
-          <tr><td data-label="#">5</td><td data-label="Astra">Modules v0</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-10-28</span> — <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names; resolved before type checking so both engines get them; cycles, missing modules and private items are E0013 at the import line</td></tr>
+          <tr><td data-label="#">1</td><td data-label="Astra">Robustness: compiler never panics</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-07-13</span>, lexer/parser return diagnostics instead of crashing on malformed input; CI gates every commit on fmt, clippy <code>-D warnings</code>, cargo-audit, and an llc IR-validity corpus</td></tr>
+          <tr><td data-label="#">2</td><td data-label="Astra">Callable closures</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-07-13</span>, root cause was pipeline order (closure-lift now runs before typecheck); v0 is int-typed closures on the default path</td></tr>
+          <tr><td data-label="#">3</td><td data-label="Astra">ARC scope-based reclamation</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-07-15</span>, single-owner structs, strings, tuples, arrays freed at loop-body <em>and</em> function scope; retain-on-alias; 2M-iteration loops now run in ~1.3 MB (were 98–194 MB). String-aliased values still leak (bounded, safe)</td></tr>
+          <tr><td data-label="#">4</td><td data-label="Astra">Interpreter with native parity</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-10-27</span>, <code>astra run</code> interprets (no LLVM needed; the slot-resolving redesign landed 2026-10-30, so it now beats CPython on loops, floats and arrays and is close on branches); every feature is tested for identical stdout and exit code against the native binary, and a fuzzer generates programs that must agree on both. Overflow, division by zero, bad shifts, out-of-bounds and runaway recursion now stop with a runtime error on both engines</td></tr>
+          <tr><td data-label="#">5</td><td data-label="Astra">Modules v0</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-10-28</span>, <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names; resolved before type checking so both engines get them; cycles, missing modules and private items are E0013 at the import line</td></tr>
           <tr><td data-label="#">6</td><td data-label="Astra">Program input and output</td><td data-label="Status / why it&#x27;s next"><span class="badge done">v0.10</span> Command-line arguments, stdin, files and environment variables, with capabilities</td></tr>
           <tr><td data-label="#">7</td><td data-label="Astra">Consolidate the two codegen paths</td><td data-label="Status / why it&#x27;s next">Done 2026-11-01: the legacy backends (<code>--llvm-native</code>, <code>--legacy-c</code>) were removed; <code>ir.rs</code> is the only code generator</td></tr>
           <tr><td data-label="#">8</td><td data-label="Astra">Machine-applicable fixes</td><td data-label="Status / why it&#x27;s next"><span class="badge wip">next release</span> Diagnostics carry <code>fix</code> edits for misspelt names (E0002/E0003) and a missing or extra <code>mut</code> (E0022), and <code>astra fix</code> applies them; fixes for a missing match arm (E0021) and a missing trait method (E0020) are next</td></tr>
@@ -237,25 +250,25 @@
       <div class="table-wrap stack numbered"><table>
         <thead><tr><th>#</th><th>Mifa</th><th>Why it's next</th></tr></thead>
         <tbody>
-          <tr><td data-label="#">✓</td><td data-label="Mifa"><code>mifa build</code> / <code>run</code> with path dependencies</td><td data-label="Why it&#x27;s next"><span class="badge done">done 2026-10-28</span> — builds <code>target/&lt;name&gt;</code>, dependency <code>src/</code> folders are module folders, <code>build --json</code> reports the binary path; <code>add --path</code> validates the package</td></tr>
+          <tr><td data-label="#">Done</td><td data-label="Mifa"><code>mifa build</code> / <code>run</code> with path dependencies</td><td data-label="Why it&#x27;s next"><span class="badge done">done 2026-10-28</span>, builds <code>target/&lt;name&gt;</code>, dependency <code>src/</code> folders are module folders, <code>build --json</code> reports the binary path; <code>add --path</code> validates the package</td></tr>
           <tr><td data-label="#">1</td><td data-label="Mifa">Real <code>mifa test</code> discovery + project-wide <code>mifa verify</code></td><td data-label="Why it&#x27;s next">The last gaps in the agent-native local story: <code>verify</code> checks only the manifest and layout today</td></tr>
-          <tr><td data-label="#">2</td><td data-label="Mifa">HTTP registry client</td><td data-label="Why it&#x27;s next">Implements <code>RegistryApi</code> over HTTP — the trait means resolver code doesn't change</td></tr>
+          <tr><td data-label="#">2</td><td data-label="Mifa">HTTP registry client</td><td data-label="Why it&#x27;s next">Implements <code>RegistryApi</code> over HTTP, the trait means resolver code doesn't change</td></tr>
           <tr><td data-label="#">3</td><td data-label="Mifa">Staging registry + real <code>mifa publish</code></td><td data-label="Why it&#x27;s next">Smallest deployable <code>/v1/packages</code> service; <code>--dry-run</code> stays as the local pre-flight</td></tr>
         </tbody>
       </table></div>
       <p>Guiding rule: no hosted registry before the local <code>--json</code>
-      story is complete. Stretch items — WASM target, Python-interop alpha,
-      real async runtime — follow the big rocks.</p>
+      story is complete. Stretch items, WASM target, Python-interop alpha,
+      real async runtime, follow the big rocks.</p>
     </div>
   </section>
 
   <section id="strategic">
     <div class="wrap">
-      <h2><span class="k">The strategic layer</span>Design investment, tracked like a feature</h2>
+      <h2>Design investment, tracked like a feature</h2>
       <p>
         Astra's thesis is that when code generation is free, the
-        <em>strategic</em> layer — the design investment Ousterhout says
-        tactical programming skips — must live in the language and be
+        <em>strategic</em> layer, the design investment Ousterhout says
+        tactical programming skips, must live in the language and be
         enforced by the compiler. That claim is only honest if each piece of
         the strategic layer is tracked and tested like any other feature.
         This table is that commitment:
@@ -268,9 +281,9 @@
           <tr><td data-label="Strategic guarantee">Feedback is a machine contract</td><td data-label="Mechanism">JSON diagnostics, stable E-codes, <code>suggestion</code>, <code>astra explain</code>; machine-applicable <code>fix</code> edits and <code>astra fix</code> in the next release</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped v0.7</span></td></tr>
           <tr><td data-label="Strategic guarantee">Flexibility is explicit, never accidental</td><td data-label="Mechanism"><code>dyn</code> gradual-typing boundary</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped v0.7</span></td></tr>
           <tr><td data-label="Strategic guarantee">Builds are reproducible</td><td data-label="Mechanism">Mifa sha256-stable <code>astra.lock</code></td><td class="badge-cell" data-label="Status"><span class="badge done">shipped M2</span></td></tr>
-          <tr><td data-label="Strategic guarantee">Memory correctness without generator burden</td><td data-label="Mechanism">ARC + escape analysis (no GC, no lifetimes)</td><td class="badge-cell" data-label="Status"><span class="badge wip">reclaiming since v0.9 — loop + function scope; every-exit release and owned strings next release</span></td></tr>
+          <tr><td data-label="Strategic guarantee">Memory correctness without generator burden</td><td data-label="Mechanism">ARC + escape analysis (no GC, no lifetimes)</td><td class="badge-cell" data-label="Status"><span class="badge wip">reclaiming since v0.9, loop + function scope; every-exit release and owned strings next release</span></td></tr>
           <tr><td data-label="Strategic guarantee">Generated code runs in a cage</td><td data-label="Mechanism">WASM sandbox target</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
-          <tr><td data-label="Strategic guarantee">Tool schemas can't lie</td><td data-label="Mechanism"><code>tool</code> keyword — signature <em>is</em> the schema</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
+          <tr><td data-label="Strategic guarantee">Tool schemas can't lie</td><td data-label="Mechanism"><code>tool</code> keyword, signature <em>is</em> the schema</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Strategic guarantee">Agent state is typed, prompts are checked</td><td data-label="Mechanism"><code>agent</code> / <code>memory</code> / <code>prompt</code> keywords</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Strategic guarantee">Delegation graphs typecheck end-to-end</td><td data-label="Mechanism">Agent-to-agent contracts, verified at compile time</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Strategic guarantee">One strategic layer, every target</td><td data-label="Mechanism">Single compiler → native / WASM / GPU</td><td class="badge-cell" data-label="Status"><span class="badge planned">v1.0</span></td></tr>
@@ -287,7 +300,7 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Astra</span>Language feature matrix</h2>
+      <h2 id="language-feature-matrix">Language feature matrix</h2>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -297,12 +310,12 @@
           <tr><td data-label="Feature"><code>--emit-ir</code> / <code>--target</code> cross-compile</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.8</span></td><td data-label="Notes">Prints LLVM IR; <code>--target</code> emits target object files (<code>llc -mtriple</code>); <code>astra build -O</code> and <code>mifa build --release</code> optimise at -O3</td></tr>
           <tr><td data-label="Feature">Functions, recursion, control flow</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">if/else, while, do/while, for-range, switch, ternary</td></tr>
           <tr><td data-label="Feature">Arrays + <code>.push()</code></td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Bounds-checked; iteration, membership (<code>in</code>), honest <code>.length()</code>; push-then-read in statement position fixed v0.9</td></tr>
-          <tr><td data-label="Feature">Structs (nominal, typed field access)</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Named literals typed nominally — same-shape structs are distinct types; mutable fields; native GEP loads, nested access</td></tr>
+          <tr><td data-label="Feature">Structs (nominal, typed field access)</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Named literals typed nominally, same-shape structs are distinct types; mutable fields; native GEP loads, nested access</td></tr>
           <tr><td data-label="Feature">Enums + match</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes">Unit variants + single-payload data variants (int, string, struct payloads via boxed repr), match in expression and statement position; multi-field variants gated with a clear error</td></tr>
-          <tr><td data-label="Feature"><code>Result&lt;T,E&gt;</code> + match + <code>?</code></td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Ok/Err paths, match binding; <code>?</code> unwraps Ok/Some or early-returns Err/None (v0.9); built-in Result payloads currently int-like — user enums for richer payloads</td></tr>
-          <tr><td data-label="Feature">try / catch</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9 (local)</span></td><td data-label="Notes">Lowered as function-local control flow — no unwinder, so a <code>throw</code> in a <em>called</em> function still aborts; use <code>Result</code> + <code>?</code> across functions</td></tr>
+          <tr><td data-label="Feature"><code>Result&lt;T,E&gt;</code> + match + <code>?</code></td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Ok/Err paths, match binding; <code>?</code> unwraps Ok/Some or early-returns Err/None (v0.9); built-in Result payloads currently int-like, user enums for richer payloads</td></tr>
+          <tr><td data-label="Feature">try / catch</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9 (local)</span></td><td data-label="Notes">Lowered as function-local control flow, no unwinder, so a <code>throw</code> in a <em>called</em> function still aborts; use <code>Result</code> + <code>?</code> across functions</td></tr>
           <tr><td data-label="Feature">Closures (defined <em>and called</em>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes">Lambda-lifting before typecheck (the v0.7 pipeline-order bug is fixed); v0 is int-typed closures on the default path. Next release: defined in any block, capture and return types inferred, captures copied at definition</td></tr>
-          <tr><td data-label="Feature">Interpreter (<code>astra run</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">Tree-walking, no LLVM needed; parity-tested and fuzzed against native — same stdout and exit code</td></tr>
+          <tr><td data-label="Feature">Interpreter (<code>astra run</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">Tree-walking, no LLVM needed; parity-tested and fuzzed against native, same stdout and exit code</td></tr>
           <tr><td data-label="Feature">Modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">v0: enum variant names are global; programs from stdin/REPL cannot import</td></tr>
           <tr><td data-label="Feature">Runtime safety traps</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">Overflow, division by zero, shifts outside 0..63, out-of-bounds and runaway recursion stop with <code>Runtime error</code>, exit 1, on both engines</td></tr>
           <tr><td data-label="Feature">Tuples + destructuring</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes"><code>(a, b)</code>, <code>t.0</code>, <code>let (a, b) = e</code>, tuple types; arity mismatches rejected (E0017)</td></tr>
@@ -317,8 +330,8 @@
           <tr><td data-label="Feature">Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Stable E0001–E0022 codes</td></tr>
           <tr><td data-label="Feature"><code>astra repl</code></td><td class="badge-cell" data-label="Status"><span class="badge done">alpha</span></td><td data-label="Notes">Whole-program re-compile model</td></tr>
           <tr><td data-label="Feature"><code>dyn</code> gradual typing</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">First milestone: boundary typecheck + boxed lowering</td></tr>
-          <tr><td data-label="Feature">ARC memory reclamation</td><td class="badge-cell" data-label="Status"><span class="badge wip">working, partial</span></td><td data-label="Notes">Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB), in <code>for</code> and <code>while</code> loops, including list copies and struct list fields. String-aliased values, lists of heap values and some non-loop scopes still leak — bounded and safe, never a double-free. Next release: single-owner locals are freed on every exit (fall-through, <code>return</code>, <code>break</code>, <code>continue</code>), strings returned from functions, lists of fresh strings and template-literal intermediates are freed; peak RSS 231&nbsp;MB → 1.3&nbsp;MB for a helper building a struct/list/tuple called 1M times, 47&nbsp;MB → 1.3&nbsp;MB for a returned <code>str</code> bound in a loop ×1M, 20&nbsp;MB → 1.3&nbsp;MB for a list of fresh strings or a template literal ×200k, with identical output on both engines. Still leaking: locals inside <code>if</code>/<code>match</code> branches, locals passed to calls, stored or reassigned, exits via <code>?</code>/<code>throw</code>, <code>str</code> fields of structs</td></tr>
-          <tr><td data-label="Feature">async / await</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.8</span></td><td data-label="Notes">Parses + compiles natively; synchronous lowering — real task runtime still ahead</td></tr>
+          <tr><td data-label="Feature">ARC memory reclamation</td><td class="badge-cell" data-label="Status"><span class="badge wip">working, partial</span></td><td data-label="Notes">Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB), in <code>for</code> and <code>while</code> loops, including list copies and struct list fields. String-aliased values, lists of heap values and some non-loop scopes still leak, bounded and safe, never a double-free. Next release: single-owner locals are freed on every exit (fall-through, <code>return</code>, <code>break</code>, <code>continue</code>), strings returned from functions, lists of fresh strings and template-literal intermediates are freed; peak RSS 231&nbsp;MB → 1.3&nbsp;MB for a helper building a struct/list/tuple called 1M times, 47&nbsp;MB → 1.3&nbsp;MB for a returned <code>str</code> bound in a loop ×1M, 20&nbsp;MB → 1.3&nbsp;MB for a list of fresh strings or a template literal ×200k, with identical output on both engines. Still leaking: locals inside <code>if</code>/<code>match</code> branches, locals passed to calls, stored or reassigned, exits via <code>?</code>/<code>throw</code>, <code>str</code> fields of structs</td></tr>
+          <tr><td data-label="Feature">async / await</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.8</span></td><td data-label="Notes">Parses + compiles natively; synchronous lowering, real task runtime still ahead</td></tr>
           <tr><td data-label="Feature">Printing and equality</td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Notes">Bools print <code>true</code>/<code>false</code> on both engines (were <code>1</code>/<code>0</code>); <code>==</code>/<code>!=</code> only on int/float/bool/str, because on structs, enums, tuples and lists the native path compared pointers, so those are a type error until <code>@derive(Eq)</code>; a native crash on <code>let b = a</code> for strings is fixed</td></tr>
           <tr><td data-label="Feature">Traits + generic structs</td><td class="badge-cell" data-label="Status"><span class="badge wip">partial</span></td><td data-label="Notes">Nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>) with E0020 conformance (full signatures); trait bounds <code>fn f&lt;T: Shape&gt;</code> checked at the call site; static dispatch. <code>@derive</code>, standard traits, trait default methods and generic structs are next</td></tr>
           <tr><td data-label="Feature">Not implemented yet</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>@derive(Eq, Show, Hash)</code> and standard traits, trait default methods, <code>Map</code>/<code>Set</code> and <code>{k: v}</code> literals, comprehensions, slicing, closures as values, multi-field enum variants, generic structs, <code>spawn</code>, <code>tool</code>/<code>agent</code> keywords</td></tr>
@@ -356,7 +369,7 @@
 
   <section id="mifa">
     <div class="wrap">
-      <h2><span class="k">Mifa</span>Package manager progress</h2>
+      <h2>Package manager progress</h2>
 
       <div class="bar-row"><span>M1 local</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>M2 lock</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
@@ -367,19 +380,19 @@
       <div class="table-wrap stack"><table>
         <thead><tr><th>Capability</th><th>Status</th><th>Evidence</th></tr></thead>
         <tbody>
-          <tr><td data-label="Capability"><code>mifa init</code> — project scaffolding</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Integration-tested manifest + src layout</td></tr>
-          <tr><td data-label="Capability"><code>mifa add</code> — dependency management</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Manifest round-trip tests; since v0.10 requires <code>--path</code> and validates the package</td></tr>
-          <tr><td data-label="Capability"><code>mifa verify</code> — manifest + layout validation</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">7 failure modes + success path tested; type-checking the project is planned</td></tr>
+          <tr><td data-label="Capability"><code>mifa init</code>: project scaffolding</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Integration-tested manifest + src layout</td></tr>
+          <tr><td data-label="Capability"><code>mifa add</code>: dependency management</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Manifest round-trip tests; since v0.10 requires <code>--path</code> and validates the package</td></tr>
+          <tr><td data-label="Capability"><code>mifa verify</code>: manifest + layout validation</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">7 failure modes + success path tested; type-checking the project is planned</td></tr>
           <tr><td data-label="Capability"><code>mifa build</code> / <code>run</code> with importable path dependencies</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Evidence">End-to-end test drives the real binary: init → add --path → build → run</td></tr>
-          <tr><td data-label="Capability"><code>mifa lock</code> — reproducible lockfile</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">sha256-stable across runs (validated)</td></tr>
+          <tr><td data-label="Capability"><code>mifa lock</code>: reproducible lockfile</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">sha256-stable across runs (validated)</td></tr>
           <tr><td data-label="Capability">Path dependencies</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Resolve from local <code>astra.toml</code></td></tr>
           <tr><td data-label="Capability">Cache (<code>~/.mifa/cache</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>MIFA_CACHE_DIR</code> override supported</td></tr>
           <tr><td data-label="Capability"><code>mifa clean [--cache]</code></td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"></td></tr>
           <tr><td data-label="Capability"><code>mifa --version</code></td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Evidence">Prints the Mifa version</td></tr>
           <tr><td data-label="Capability"><code>mifa search</code></td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Evidence">Says the registry is not deployed instead of listing packages. Known bug in v0.11.2-alpha: its <code>search</code> lists packages that do not exist</td></tr>
-          <tr><td data-label="Capability"><strong>M5-basics</strong> — <code>--json</code> on local commands</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Stable JSON envelope (<code>command</code>, <code>success</code>, <code>diagnostics[]</code>) on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; JSON error envelope on failure</td></tr>
-          <tr><td data-label="Capability"><strong>M3</strong> — Registry protocol</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>/v1/packages</code> v1 API (<code>RegistryApi</code> trait), SHA-256 checksums with verification, yanked-version handling, stable <code>REG4xx</code> error codes; 34 tests</td></tr>
-          <tr><td data-label="Capability"><strong>M4</strong> — Publish + auth</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>mifa login</code> (per-registry tokens, 0600 credentials file), <code>publish --dry-run</code> (semver/license validation, deterministic archive, 10&nbsp;MiB limit, checksum report)</td></tr>
+          <tr><td data-label="Capability"><strong>M5-basics</strong>: <code>--json</code> on local commands</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Stable JSON envelope (<code>command</code>, <code>success</code>, <code>diagnostics[]</code>) on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; JSON error envelope on failure</td></tr>
+          <tr><td data-label="Capability"><strong>M3</strong>: Registry protocol</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>/v1/packages</code> v1 API (<code>RegistryApi</code> trait), SHA-256 checksums with verification, yanked-version handling, stable <code>REG4xx</code> error codes; 34 tests</td></tr>
+          <tr><td data-label="Capability"><strong>M4</strong>: Publish + auth</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>mifa login</code> (per-registry tokens, 0600 credentials file), <code>publish --dry-run</code> (semver/license validation, deterministic archive, 10&nbsp;MiB limit, checksum report)</td></tr>
           <tr><td data-label="Capability">mifa.dev hosted registry</td><td class="badge-cell" data-label="Status"><span class="badge planned">v1.0</span></td><td data-label="Evidence">Protocol done; HTTP client + hosted deployment pending. Checksummed packages; lockfile contract goes global</td></tr>
         </tbody>
       </table></div>
@@ -391,18 +404,18 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Direction</span>Ratified architecture decisions</h2>
+      <h2 id="ratified-architecture-decisions">Ratified architecture decisions</h2>
       <p>Five foundational bets were debated and locked on 2026-07-02.
       They set the direction through v1.0 and can only change through a
       documented amendment process.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Bet</th><th>Decision</th></tr></thead>
         <tbody>
-          <tr><td data-label="Bet">1 — Memory model</td><td data-label="Decision">ARC + escape analysis + <code>region</code> (no GC, no borrow checker)</td></tr>
-          <tr><td data-label="Bet">2 — Typing discipline</td><td data-label="Decision">Static by default; gradual via explicit <code>dyn</code> boundaries</td></tr>
-          <tr><td data-label="Bet">3 — Backend</td><td data-label="Decision">One LLVM compiler, three targets: native, WASM, GPU</td></tr>
-          <tr><td data-label="Bet">4 — AI primitives</td><td data-label="Decision"><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> as language keywords</td></tr>
-          <tr><td data-label="Bet">5 — Python interop</td><td data-label="Decision">Embedded CPython in the standard library</td></tr>
+          <tr><td data-label="Bet">1, Memory model</td><td data-label="Decision">ARC + escape analysis + <code>region</code> (no GC, no borrow checker)</td></tr>
+          <tr><td data-label="Bet">2, Typing discipline</td><td data-label="Decision">Static by default; gradual via explicit <code>dyn</code> boundaries</td></tr>
+          <tr><td data-label="Bet">3, Backend</td><td data-label="Decision">One LLVM compiler, three targets: native, WASM, GPU</td></tr>
+          <tr><td data-label="Bet">4, AI primitives</td><td data-label="Decision"><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> as language keywords</td></tr>
+          <tr><td data-label="Bet">5, Python interop</td><td data-label="Decision">Embedded CPython in the standard library</td></tr>
         </tbody>
       </table></div>
     </div>
@@ -410,28 +423,93 @@
 
   <section>
     <div class="wrap">
-      <h2><span class="k">Measured</span>Validated performance claims</h2>
+      <h2 id="validated-performance-claims">Validated performance claims</h2>
       <p>Numbers on this site come from a scripted validation harness in the
       repo (<code>scripts/validate_metrics.sh</code>, 12/12 checks passing),
       not from marketing copy:</p>
       <ul>
-        <li><strong>115 ms</strong> — Astra compile <em>and</em> run of a 5M-iteration loop (Python: 959 ms run-only)</li>
-        <li><strong>113 ms</strong> — <code>astra verify</code> full typecheck of a program, no codegen</li>
-        <li><strong>4/4</strong> — classes of agent mistakes (undefined vars, type errors, arity, bad returns) rejected before execution</li>
-        <li><strong>sha256-stable</strong> — <code>astra.lock</code> byte-identical across repeated resolutions</li>
+        <li><strong>115 ms</strong>: Astra compile <em>and</em> run of a 5M-iteration loop (Python: 959 ms run-only)</li>
+        <li><strong>113 ms</strong>: <code>astra verify</code> full typecheck of a program, no codegen</li>
+        <li><strong>4/4</strong>: classes of agent mistakes (undefined vars, type errors, arity, bad returns) rejected before execution</li>
+        <li><strong>sha256-stable</strong>: <code>astra.lock</code> byte-identical across repeated resolutions</li>
       </ul>
       <div class="btn-row">
-        <a class="btn ghost" href="download.html">Downloads — v0.11.2-alpha</a>
+        <a class="btn ghost" href="download.html">Download v0.11.2-alpha</a>
       </div>
     </div>
   </section>
+
+  <section id="history">
+    <div class="wrap">
+      <h2>Every release, in three dimensions</h2>
+      <p>Each column is a release, as tall as its test suite; the orange one is <code>main</code>. Drag to turn it, or use the arrow keys to step through the releases.</p>
+      <figure class="viz" data-viz="releases" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D chart of Astra releases and their test counts. The same numbers are in the table below."></canvas></div>
+        <figcaption>Columns drawn as outlines had no test count recorded at the time.</figcaption>
+      </figure>
+      <!-- status:releases-table --><div class="table-wrap stack"><table>
+    <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
+    <tbody>
+      <tr><td data-label="Version">main (not released)</td><td data-label="Date">2026-11-03</td><td data-label="Tests">750</td><td data-label="What changed">Every type error has a line; machine fixes and astra fix; memory freed on every exit; a 55-check release suite.</td></tr>
+      <tr><td data-label="Version">v0.11.2</td><td data-label="Date">2026-11-02</td><td data-label="Tests">712</td><td data-label="What changed">Trait bounds checked at call sites, impl signatures checked (E0020); loops no longer leak.</td></tr>
+      <tr><td data-label="Version">v0.11.1</td><td data-label="Date">2026-11-02</td><td data-label="Tests">699</td><td data-label="What changed">Released binaries compile natively: the C runtime is embedded in the compiler.</td></tr>
+      <tr><td data-label="Version">v0.11.0</td><td data-label="Date">2026-11-02</td><td data-label="Tests">695</td><td data-label="What changed">Value semantics, indentation syntax and astra fmt, type inference, nominal traits and trait bounds.</td></tr>
+      <tr><td data-label="Version">v0.10.0</td><td data-label="Date">2026-10-30</td><td data-label="Tests">609</td><td data-label="What changed">Interpreter with native parity and fuzzing; modules; program I/O with capabilities; runtime traps; mifa build and run.</td></tr>
+      <tr><td data-label="Version">v0.9.1</td><td data-label="Date">2026-07-15</td><td data-label="Tests">449</td><td data-label="What changed">First binaries for four platforms; callable closures; ARC memory reclamation; the compiler never panics on bad input.</td></tr>
+      <tr><td data-label="Version">v0.9.0</td><td data-label="Date">2026-07-09</td><td data-label="Tests">—</td><td data-label="What changed">Nominal structs, enums with payloads, ? and try/catch, tuples, impl blocks, bitwise operators.</td></tr>
+      <tr><td data-label="Version">v0.8.0</td><td data-label="Date">2026-07-07</td><td data-label="Tests">285</td><td data-label="What changed">The LLVM-IR backend becomes the default; async/await; ignored tests 10 to 0.</td></tr>
+      <tr><td data-label="Version">v0.7</td><td data-label="Date">2026-07-06</td><td data-label="Tests">—</td><td data-label="What changed">Source spans, structs, Result and closures native, REPL, dyn, astra explain; Mifa lockfile and registry protocol.</td></tr>
+      <tr><td data-label="Version">v0.6</td><td data-label="Date">2026-06</td><td data-label="Tests">—</td><td data-label="What changed">Honest alpha reset: JSON diagnostics, verify mode, the verify-repair-compile loop.</td></tr>
+      <tr><td data-label="Version">v0.5</td><td data-label="Date">2025-11</td><td data-label="Tests">—</td><td data-label="What changed">Native compilation, Docker CI, first pre-built binaries.</td></tr>
+      <tr><td data-label="Version">v0.1</td><td data-label="Date">2025-10</td><td data-label="Tests">—</td><td data-label="What changed">The idea becomes code: easy like Python, safe and fast like Rust, built for agents. Lexer, parser, first AST.</td></tr>
+    </tbody>
+  </table></div><!-- /status:releases-table -->
+      <h3>Memory, before and after</h3>
+      <p>Peak memory of four programs that used to leak, built natively. The tall columns are before; the short ones are after memory was freed on every exit (on main).</p>
+      <figure class="viz" data-viz="memory" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D chart of peak memory before and after, for four programs. The same numbers are in the table below."></canvas></div>
+        <figcaption>Grey columns are before, orange after, for each program in the table. Hover or step through them for the names.</figcaption>
+      </figure>
+      <!-- status:memory-table --><div class="table-wrap stack"><table>
+    <thead><tr><th>Case</th><th>Before</th><th>After</th></tr></thead>
+    <tbody>
+      <tr><td data-label="Case">Helper called 1M times building a struct, list and tuple</td><td data-label="Before">231 MB peak</td><td data-label="After">1.3 MB peak</td></tr>
+      <tr><td data-label="Case">A function returning a new string, 1M calls</td><td data-label="Before">47 MB peak</td><td data-label="After">1.3 MB peak</td></tr>
+      <tr><td data-label="Case">A list of fresh strings per iteration, 200k</td><td data-label="Before">20 MB peak</td><td data-label="After">1.3 MB peak</td></tr>
+      <tr><td data-label="Case">A template literal per iteration, 200k</td><td data-label="Before">20 MB peak</td><td data-label="After">1.3 MB peak</td></tr>
+    </tbody>
+  </table></div><!-- /status:memory-table -->
+    </div>
+  </section>
+  </div>
+</div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>

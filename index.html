@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
-<title>Astra — an AI-first native programming language</title>
+<title>Astra: an AI-first native programming language</title>
 <meta name="description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
 <link rel="canonical" href="https://astra-lang.org/">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13120e"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
-<meta property="og:title" content="Astra — an AI-first native programming language">
+<meta property="og:title" content="Astra: an AI-first native programming language">
 <meta property="og:description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
 <meta property="og:url" content="https://astra-lang.org/">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
@@ -22,8 +22,11 @@
 <meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
-<meta name="twitter:title" content="Astra — an AI-first native programming language">
+<meta name="twitter:title" content="Astra: an AI-first native programming language">
 <meta name="twitter:description" content="Astra is a statically checked, natively compiled programming language designed for AI agents: generate, verify with machine-readable diagnostics, repair, and run.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script type="application/ld+json">
 {
@@ -39,7 +42,7 @@
       "license": "https://opensource.org/licenses/MIT",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
-      "softwareVersion": "0.9.1-alpha",
+      "softwareVersion": "0.11.2-alpha",
       "downloadUrl": "https://astra-lang.org/download.html"
     },
     {
@@ -59,272 +62,220 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="index.html">astra-lang<span class="tld">.org</span></a>
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
     <nav class="main" aria-label="Main">
-      <span class="nav-group">
-        <a href="start.html">Start</a>
-        <a href="language.html">Language</a>
-        <a href="mifa.html">Mifa</a>
-      </span>
-      <span class="nav-group">
-        <a href="vision.html">Vision</a>
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="agents.html">Agents</a>
-      </span>
-      <span class="nav-group">
-        <a href="progress.html">Progress</a>
-        <a href="about.html">About</a>
-        <a href="download.html">Download</a>
-      </span>
+      <a href="start.html">Start</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="hero">
-    <div class="wrap">
-      <p class="status-line"><span class="dot">●</span> alpha · v0.11.2 released (early access) · 712 tests passing</p>
-      <h1>A language built for the way <br>code is written now.</h1>
-      <p class="lede">
-        Astra is a statically checked, natively compiled programming
-        language designed for AI agents and the humans who supervise them.
-        Code is generated, verified against machine-readable diagnostics,
-        repaired, and compiled to a real executable — before it ever runs.
-      </p>
-
-      <div class="btn-row">
-        <a class="btn primary" href="download.html">Downloads — v0.11.2-alpha</a>
-        <a class="btn ghost" href="language.html">Read the language tour</a>
+  <section class="hero field-night" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="hero-title"><span class="line"><span>Verify,</span></span><span class="line"><span>then run.</span></span></h1>
+    <div class="hero-stage">
+      <figure class="orb" data-orb="astra" data-moon="mifa" data-rise hidden>
+        <div class="orb-frame">
+          <canvas tabindex="0" role="img" aria-label="A turning globe of Astra's features with Mifa as its moon. Each star is a feature; the brightest work today and faint dotted ones are planned. Drag or use the arrow keys to turn it. The same features are listed further down the page."></canvas>
+          <div class="orb-tip" role="presentation" hidden></div>
+        </div>
+      </figure>
+      <p class="hero-side hero-sentence">Astra is a compiled language for code that AI agents write: as easy to read as Python, as safe and fast as Rust. The compiler answers in JSON and repairs what it can before anything runs.</p>
+      <div class="hero-side hero-fact">
+        <p><b><!-- status:release-version -->v0.11.2-alpha<!-- /status:release-version --></b> for Linux, macOS and Windows. <!-- status:release-tests -->712<!-- /status:release-tests --> tests; <!-- status:main-tests -->750<!-- /status:main-tests --> on main.</p>
+        <div class="btn-row"><a class="btn primary" href="download.html">Get the alpha</a></div>
       </div>
-      <p class="new-line"><span class="badge done">v0.11.2-alpha</span>Traits and trait bounds, value semantics, and loops that no longer leak memory — <a href="progress.html#timeline">see the timeline</a>.</p>
     </div>
+    <div class="wrap orb-caption">
+      <p class="orb-hint">Every star is a feature: Astra on the globe, Mifa on its moon. Drag to turn it. Pick a magnitude to light up its stars.</p>
+      <div class="orb-keys" role="group" aria-label="Highlight a status"></div>
+    </div>
+    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4"]},{"id":"progress","name":"On main, next release","items":["Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native verify"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+    <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target"]},{"id":"progress","name":"On main, next release","items":["mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2><span class="k">The loop</span>Verify before you run</h2>
-      <p>
-        Most agent frameworks generate Python and discover mistakes at
-        runtime — in production, in a sandbox, or in a retry loop that burns
-        tokens. Astra moves that discovery to compile time and speaks to the
-        agent in JSON.
-      </p>
-
-      <div class="hero-grid">
-        <div class="codeblock">
-          <span class="tab">agent → astra verify</span>
-<pre><code><span class="p">$</span> astra verify --error-format=json bad.astra
+  <section class="split" aria-labelledby="s-errors">
+    <div class="panel" data-reveal>
+      <h2 id="s-errors">Errors are data.</h2>
+      <div class="panel-object" data-ui>
+<pre data-copy="none"><code><span class="p">$</span> astra verify --error-format=json bad.astra
 {
   <span class="s">"success"</span>: <span class="kw">false</span>,
   <span class="s">"diagnostics"</span>: [{
-    <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,
     <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,
-    <span class="s">"message"</span>: <span class="s">"Undefined variable 'total'"</span>,
-    <span class="s">"line"</span>: <span class="n">4</span>, <span class="s">"column"</span>: <span class="n">12</span>,
-    <span class="s">"suggestion"</span>:
-      <span class="s">"Declare 'total' with let before use"</span>
+    <span class="s">"message"</span>: <span class="s">"Undefined variable 'totl';
+                did you mean 'total'?"</span>,
+    <span class="s">"line"</span>: <span class="n">4</span>, <span class="s">"column"</span>: <span class="n">9</span>,
+    <span class="s">"fix"</span>: { <span class="s">"edits"</span>: [{
+      <span class="s">"line"</span>: <span class="n">4</span>, <span class="s">"column"</span>: <span class="n">9</span>,
+      <span class="s">"end_line"</span>: <span class="n">4</span>, <span class="s">"end_column"</span>: <span class="n">13</span>,
+      <span class="s">"text"</span>: <span class="s">"total"</span>
+    }] }
   }]
 }</code></pre>
-        </div>
+      </div>
+      <div class="panel-foot">
+        <p><b>astra verify</b> Every error has a stable code, a line and a column, and a fix when the repair is certain.</p>
+        <a class="btn primary" href="agents.html">Read the agent interface</a>
+      </div>
+    </div>
+    <div class="panel field-orange" data-reveal>
+      <div class="panel-object" data-ui>
+<pre data-copy="none"><code><span class="p">$</span> astra fix bad.astra
+Applied 1 fix(es) to bad.astra
+Verification passed
 
-        <div class="codeblock">
-          <span class="tab">fixed.astra → native binary</span>
-<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
     <span class="kw">let</span> total = <span class="n">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> <span class="n">1</span>..<span class="n">10</span>:
         total = total + i
-    <span class="fn">print</span>(<span class="s">&quot;sum = ${total}&quot;</span>)
+    <span class="fn">print</span>(<span class="s">"sum = ${total}"</span>)
     <span class="kw">return</span> <span class="n">0</span>
 
-<span class="c">$ astra compile fixed.astra -o sum</span>
-<span class="c">$ ./sum</span>
-<span class="c">sum = 45</span></code></pre>
-        </div>
+<span class="p">$</span> astra build bad.astra -o sum &amp;&amp; ./sum
+sum = 45</code></pre>
       </div>
-
-      <p>
-        The full cycle — <em>generate → verify → read diagnostics → repair →
-        compile → native executable</em> — is the design center of the
-        language, not a bolt-on.
-      </p>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <h2><span class="k">Why it matters</span>Five things Astra does differently</h2>
-
-      <div class="def">
-        <b>D1 — Structured diagnostics as the agent interface</b>
-        <p>Every compiler error carries a stable <code>error_code</code>,
-        source line/column, and a repair <code>suggestion</code> — in JSON.
-        <code>astra explain E0002</code> expands any code into a full
-        explanation. Agents parse it; they don't scrape stderr.</p>
-      </div>
-
-      <div class="def">
-        <b>D2 — Mistakes rejected before execution</b>
-        <p>Undefined names, type mismatches, arity errors, and bad returns
-        are all caught by <code>astra verify</code> in ~100&nbsp;ms — no code
-        is generated, nothing runs.</p>
-      </div>
-
-      <div class="def">
-        <b>D3 — Native speed through LLVM</b>
-        <p>Verified programs compile through LLVM IR to real machine code
-        linked against a small C runtime. In a measured 5M-iteration loop,
-        Astra's <em>compile + run</em> finished in 115&nbsp;ms where Python's
-        run alone took 959&nbsp;ms.</p>
-      </div>
-
-      <div class="def">
-        <b>D4 — Static by default, gradual where needed</b>
-        <p>The type system is strict, with inference so code stays terse.
-        The <code>dyn</code> keyword opens a deliberate, marked boundary
-        where checks defer to runtime — gradual typing on your terms.</p>
-      </div>
-
-      <div class="def">
-        <b>D5 — Reproducible builds with Mifa</b>
-        <p><a href="mifa.html">Mifa</a>, Astra's package manager, writes a
-        content-hashed <code>astra.lock</code> so the same inputs always
-        produce the same dependency graph — and speaks JSON
-        (<code>--json</code>) so agents can consume every command's result
-        mechanically.</p>
+      <div class="panel-foot">
+        <p><b>astra fix</b> Applies the edits and checks again. No model call for these errors. On main, in the next release.</p>
+        <a class="btn primary" href="progress.html#next">What ships next</a>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="loop field-stone" aria-labelledby="s-loop">
     <div class="wrap">
-      <h2><span class="k">Audience</span>Who Astra is for</h2>
-      <div class="grid2">
-        <div class="def">
-          <b>Agent &amp; framework builders</b>
-          <p>You orchestrate LLMs that write code. You want generated code
-          rejected <em>before</em> it runs, and compiler feedback your loop
-          can parse mechanically. Start at
-          <a href="agents.html">the machine interface</a>.</p>
-        </div>
-        <div class="def">
-          <b>Engineers supervising AI output</b>
-          <p>You review more code than you write. A strict type system and
-          explicit <code>dyn</code> boundaries mean the compiler has already
-          audited what you're reading — you review intent, not typos.</p>
-        </div>
-        <div class="def">
-          <b>Python developers hitting the ceiling</b>
-          <p>You like Python's surface but pay for it in runtime failures
-          and slow loops. Astra keeps the terseness — inference, string
-          interpolation, no lifetimes — and compiles to native.</p>
-        </div>
-        <div class="def">
-          <b>Language &amp; compiler enthusiasts</b>
-          <p>A readable Rust codebase (712 tests at v0.11.2-alpha; source opens at
-          v1.0-beta, early access on request) implementing a full
-          pipeline: lexer → parser → type inference → LLVM IR →
-          native. Every architecture decision is
-          <a href="vision.html">written down and ratified</a>.</p>
-        </div>
+      <div data-reveal>
+        <h2 id="s-loop">One loop, no retries.</h2>
+        <p class="intro">An agent writes code. Astra checks it, fixes what it can, and only then builds a native binary. The model is asked again only about what the compiler could not repair.</p>
+        <div class="btn-row"><a class="btn ghost" href="agents.html">How agents use it</a></div>
       </div>
-      <p>Astra is <em>not</em> aimed (yet) at kernel developers, hard
-      real-time systems, or teams needing a mature ecosystem today — see the
-      honest status below.</p>
+      <div class="slip" data-ui aria-label="The loop, step by step">
+        <h3>Write</h3>
+        <p class="slip-row"><span>The agent writes bad.astra</span><span class="lead"></span><b>your model</b></p>
+        <h3>Check</h3>
+        <p class="slip-row"><span>astra verify, answered in JSON</span><span class="lead"></span><b>under 100 ms</b></p>
+        <p class="slip-row"><span>Every error: code, line, column</span><span class="lead"></span><b>E0001 to E0022</b></p>
+        <h3>Repair</h3>
+        <p class="slip-row"><span>astra fix applies certain edits</span><span class="lead"></span><b>no model call</b></p>
+        <p class="slip-row"><span>The model repairs the rest</span><span class="lead"></span><b>only if needed</b></p>
+        <h3>Build and run</h3>
+        <p class="slip-row"><span>LLVM IR to a native binary</span><span class="lead"></span><b>62 to 74 ms</b></p>
+        <p class="slip-row"><span>A 5M-iteration loop runs</span><span class="lead"></span><b>7 to 9 ms</b></p>
+        <p class="slip-total"><span>Compile and run: at most 83 ms</span><span>Python alone: about 475 ms</span></p>
+      </div>
     </div>
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2><span class="k">Paradigm</span>Strategic language, tactical speed</h2>
-      <p>
-        In <em>A Philosophy of Software Design</em>, John Ousterhout draws
-        the line between <strong>tactical programming</strong> — getting
-        something working as fast as possible — and <strong>strategic
-        programming</strong> — investing in design so the system stays
-        changeable. LLMs are the ultimate tactical programmers: they produce
-        working-looking code at machine speed, with no stake in the design
-        surviving next week.
-      </p>
-      <p>
-        Astra's position: when generation is free, <strong>the strategic
-        layer must move into the language</strong>. Types, contracts,
-        <code>Result</code>-based errors, deterministic builds, and (soon)
-        typed agent primitives are the design investment — enforced by the
-        compiler, not by discipline. The agent supplies tactical speed; the
-        language supplies strategic structure; the human supervises intent.
-        That's the modern programming paradigm Astra is built for.
-      </p>
-      <p>
-        This isn't just positioning — each strategic guarantee is
-        <a href="progress.html#strategic">tracked and tested like a
-        feature</a> (5 of 11 shipped), and the
-        <a href="vision.html">release plan</a> maps every version to the
-        guarantee it adds.
-      </p>
-    </div>
-  </section>
-
-  <section class="honesty" id="status">
-    <div class="wrap">
-      <h2><span class="k">Honesty</span>What Astra is — and isn't — today</h2>
-      <div class="callout">
-        <p>Astra is a <strong>public alpha compiler project</strong>. The
-        core language compiles and runs natively with 712 tests green
-        (0 ignored), but it is not yet a production language, a package
-        ecosystem, or a memory-safe systems language. The
-        <a href="progress.html">progress page</a> tracks exactly what works,
-        what's partial, and what's planned — the same ground truth used
-        inside the repo.</p>
-      </div>
-
-      <figure class="orb" data-orb hidden>
-        <div class="orb-frame">
-          <canvas tabindex="0" role="img" aria-label="A turning globe of 68 Astra features, coloured by status; drag or use the arrow keys to turn it. The same features are listed below."></canvas>
-          <div class="orb-tip" role="presentation" hidden></div>
-        </div>
-        <figcaption>
-          <p class="orb-hint">Every point is a feature. Top of the globe is what works; the bottom is what's planned. Drag to turn it, hover a point for its name, pick a status to light it up.</p>
-          <div class="orb-chips" role="group" aria-label="Highlight a status"></div>
-        </figcaption>
-      </figure>
-      <script type="application/json" id="orb-data">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4"]},{"id":"progress","name":"In progress · on main","items":["ARC memory reclamation","Loop memory freed","Every-exit release","Owned strings freed","Branch / call locals","Error lines everywhere","Fix edits","astra fix","true / false printing","== by value only","Release test suite","mifa --version","Honest mifa search","Windows native verify"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Hosted Mifa registry"]}]}</script>
-
-      <ul class="meta-list status-list">
-        <li data-status="works"><b>Works today:</b> variables, functions, recursion, control flow, arrays, nominal structs, enums with payload variants + match, tuples + destructuring, Result&lt;T,E&gt; + the <code>?</code> operator, try/catch (function-local), closures (defined <em>and called</em>), generic functions (monomorphized), impl blocks, bitwise ops, string interpolation, floats, async/await (sync lowering), REPL — all through the default LLVM-IR pipeline (<code>--emit-ir</code>, <code>--target</code> cross-compile). The compiler returns diagnostics instead of panicking on malformed input, and CI gates every commit on fmt, clippy, audit and an llc IR-validity corpus</li>
-        <li data-status="shipped"><b>New in v0.10–v0.11:</b> <code>astra run</code> is a tree-walking interpreter (no LLVM needed) tested for identical output against the native compiler and fuzzed against it; modules (<code>import util</code>, <code>pub</code>, <code>util::f()</code>); <code>mifa build</code>/<code>run</code> with path dependencies; overflow, division by zero, bad shifts, out-of-bounds indexing and runaway recursion stop with a clear error on both engines; type inference for omitted types; Python-style indentation and <code>astra fmt</code>; exhaustive <code>match</code> (E0021); structs and lists are values, <code>mut</code> parameters (E0022), <code>a[i] = v</code>; nominal traits and trait bounds <code>fn f&lt;T: Shape&gt;</code> with impl signatures checked (E0020); release binaries for Linux, macOS ×2 and Windows that compile natively. 712 tests green</li>
-        <li data-status="progress"><b>In progress · on main:</b> ARC memory reclamation — structs, strings, tuples, lists, list copies and struct list fields are freed at loop-body (<code>for</code> and <code>while</code>) and function scope. On <code>main</code> for the next release: single-owner locals freed on every exit, strings returned from functions and lists of fresh strings freed (a helper building a struct/list/tuple called 1M times: 231&nbsp;MB → 1.3&nbsp;MB); every type error in the main file carries its line and column; machine-applicable <code>fix</code> edits and <code>astra fix</code>; bools print <code>true</code>/<code>false</code>; <code>==</code> only on int/float/bool/str; <code>mifa --version</code> and an honest <code>mifa search</code>; a 55-check black-box release suite; 750 tests. Locals in branches, locals passed to calls or stored, and <code>str</code> fields of structs still leak (bounded, safe); native compile on Windows has not been verified yet (first real run at the next release)</li>
-        <li data-status="next"><b>Next:</b> fixes for E0021 and E0020, <code>@derive(Eq)</code> + trait default methods and the other standard traits, <code>Map</code>/<code>Set</code> and comprehensions, generic structs, LSP alpha, stdlib core — <a href="progress.html#next">full priority queue</a> · <a href="progress.html#timeline">release timeline</a></li>
-        <li data-status="planned"><b>Planned:</b> agent-native keywords (<code>tool</code>, <code>agent</code>, <code>prompt</code>, <code>memory</code>), Python interop, WASM + GPU targets, hosted Mifa registry (protocol done, deployment pending)</li>
-        <li><b>Source availability:</b> the compiler's source repository is private while the core hardens and <b>opens at v1.0-beta</b>. v0.11.2-alpha binaries are available to early-access testers now (<a href="download.html">platforms</a>); public downloads follow; for early access, <a href="https://majidnisar.com">get in touch</a></li>
+  <section class="commands" aria-labelledby="s-commands">
+    <div class="wrap" data-ui>
+      <h2 id="s-commands" class="sr-only">What Astra and Mifa do</h2>
+      <label class="sr-only" for="cmd-search">Find a command</label>
+      <input id="cmd-search" class="cmd-search" type="search" placeholder="Find a command" autocomplete="off" hidden>
+      <ul class="cmd-list" role="listbox" aria-label="Commands">
+        <li><button class="cmd-row" type="button" role="option" aria-selected="true"><code>astra verify</code><span class="what">Checks a program without building it and answers in JSON: a stable error code, a line and column, a suggestion, and a fix when one is certain. Agents parse it; nobody scrapes stderr.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra fix</code><span class="what">Applies every certain fix, checks again and repeats until nothing is left. Misspelt names and a missing or extra <code>mut</code> today; next release.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra run</code><span class="what">Runs a program in the interpreter, with no LLVM needed. Its output and exit code match the native binary, and a fuzzer keeps the two engines in step.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra build</code><span class="what">Compiles through LLVM IR to a native executable linked with a small C runtime. Overflow, division by zero and out-of-bounds stop with a clear error.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra fmt</code><span class="what">Rewrites a file into the canonical indented style and proves the program did not change.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra explain E0022</code><span class="what">Explains any error code in full, for a person or a model.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>--deny fs,env</code><span class="what">Effects are inferred: a build can forbid file, environment or input access, and a function marked <code>@pure</code> cannot reach any of them (E0014).</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>mifa add --path</code><span class="what">Mifa, the package manager: a local package becomes an importable module, and <code>astra.lock</code> pins the graph by content hash.</span></button></li>
       </ul>
     </div>
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2><span class="k">Start</span>Run it in two minutes</h2>
-      <p>Prebuilt <code>astra</code> + <code>mifa</code> binaries for
-      <strong>Linux x64, macOS (Intel and Apple Silicon), and Windows x64</strong>
-      are coming with the first public release
-      (<a href="download.html">downloads</a>), alongside the runnable showcase
-      examples. Once installed:</p>
-<pre><code><span class="p">$</span> astra verify examples/showcase/01_hello_world.astra
-Verification passed
-<span class="p">$</span> astra compile examples/showcase/01_hello_world.astra --output hello
-<span class="p">$</span> ./hello
-Hello, World!</code></pre>
-      <p>Requirements: LLVM tools (<code>llc</code>) and a C compiler
-      (<code>clang</code>) on your PATH — the compiler calls them to produce
-      native executables.</p>
+  <section class="figures" aria-labelledby="s-figures">
+    <div class="wrap tiles">
+      <h2 id="s-figures" class="tiles-head">Measured, not promised.</h2>
+      <div class="tile tile-a field-orange" data-reveal>
+        <p class="fig">1.3 MB</p>
+        <p>Peak memory for a helper called a million times that builds a struct, a list and a tuple. It was 231 MB before memory was freed on every exit (on main).</p>
+      </div>
+      <div class="tile tile-b field-night" data-reveal>
+        <p class="fig"><!-- status:main-tests -->750<!-- /status:main-tests --></p>
+        <p>tests pass on main, none ignored. v0.11.2 shipped with <!-- status:release-tests -->712<!-- /status:release-tests -->.</p>
+      </div>
+      <div class="tile tile-c field-stone" data-reveal>
+        <p class="fig"><!-- status:release-checks -->55 of 55<!-- /status:release-checks --></p>
+        <p>release checks pass on main, on both engines. <a href="progress.html#history">The record</a></p>
+      </div>
     </div>
   </section>
+
+  <section class="sheet-band" id="status" aria-labelledby="s-status">
+    <img src="assets/1750-star-chart-of-the-constellations-libra.jpg" width="1600" height="1361" alt="A hand-coloured 1750 star chart from John Bevis's celestial atlas: the constellations Libra and Scorpius drawn over a grid of stars." loading="lazy">
+    <div class="sheet" data-reveal>
+      <h2 id="s-status">Where Astra stands</h2>
+      <p>What is released, what is on main for the next release, and what comes after. The same stars light up on the globe above.</p>
+      <h3>On main, next release</h3>
+      <ul class="status-list">
+        <li data-status="progress"><span class="t">Every type error has a line</span> <span class="v">main</span></li>
+        <li data-status="progress"><span class="t">Machine fixes and <code>astra fix</code></span> <span class="v">main</span></li>
+        <li data-status="progress"><span class="t">Memory freed on every exit</span> <span class="v">main</span></li>
+        <li data-status="progress"><span class="t">A 55-check release suite</span> <span class="v">main</span></li>
+      </ul>
+      <h3>Released</h3>
+      <ul class="status-list">
+        <li data-status="shipped"><span class="t">Trait bounds checked at the call</span> <span class="v">v0.11.2</span></li>
+        <li data-status="shipped"><span class="t">Loops no longer leak memory</span> <span class="v">v0.11.2</span></li>
+        <li data-status="shipped"><span class="t">Binaries compile on their own</span> <span class="v">v0.11.1</span></li>
+        <li data-status="shipped"><span class="t">Value semantics and <code>mut</code> parameters</span> <span class="v">v0.11.0</span></li>
+        <li data-status="shipped"><span class="t">Nominal traits and trait bounds</span> <span class="v">v0.11.0</span></li>
+        <li data-status="shipped"><span class="t">Indentation syntax and <code>astra fmt</code></span> <span class="v">v0.11.0</span></li>
+        <li data-status="shipped"><span class="t">The interpreter, at native parity</span> <span class="v">v0.10.0</span></li>
+        <li data-status="shipped"><span class="t">Modules, I/O and capabilities</span> <span class="v">v0.10.0</span></li>
+        <li data-status="works"><span class="t">The LLVM-IR backend</span> <span class="v">v0.8.0</span></li>
+      </ul>
+      <h3>Next</h3>
+      <ul class="status-list">
+        <li data-status="next"><span class="t">Fixes for match arms and traits</span> <span class="v">next</span></li>
+        <li data-status="next"><span class="t"><code>@derive(Eq)</code> and default methods</span> <span class="v">next</span></li>
+        <li data-status="next"><span class="t"><code>Map</code>, <code>Set</code> and comprehensions</span> <span class="v">next</span></li>
+        <li data-status="next"><span class="t">Generic structs</span> <span class="v">next</span></li>
+      </ul>
+      <p class="hours">Planned: <code>tool</code> and <code>agent</code> keywords, Python interop, WASM and GPU targets, a hosted Mifa registry.<br>The source opens at v1.0-beta. <a href="progress.html">The full tracker</a></p>
+    </div>
+  </section>
+
+  <a class="cta-band" href="start.html">
+    <p class="say">Install the alpha, verify a program and build it in about two minutes.</p>
+    <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M12 36 36 12M16 12h20v20" fill="none" stroke="currentColor" stroke-width="4"/></svg>
+    <span class="word">Start</span>
+  </a>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>Astra &amp; Mifa — created by <a href="https://majidnisar.com">Majid Nisar</a> · <a href="https://majidnisar.com/projects/astra/">project page</a></span>
-    <span><a href="download.html">Downloads</a> · MIT License</span>
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+    </div>
   </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
 </footer>
 
 </body>
