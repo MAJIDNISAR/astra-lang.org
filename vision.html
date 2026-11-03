@@ -8,7 +8,7 @@
 <meta name="description" content="Astra's roadmap and thesis: agent-native language keywords (tool, agent, prompt, memory), WASM sandbox, Python interop, GPU targets, and how Astra compares to Python, Rust, Go, and Mojo for agent-generated code.">
 <link rel="canonical" href="https://astra-lang.org/vision.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
@@ -29,6 +29,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
+<script src="assets/viz.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,6 +53,7 @@
 
 <main id="main">
   <section class="page-head">
+    <img class="head-plate" src="assets/celestial-globe-1579.jpg" width="844" height="1100" alt="A gilded celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>What if agents were<br>a language feature?</h1>
       <p class="lede">
@@ -207,43 +209,47 @@
       <p>Every language in this table is excellent at what it was designed
       for. The comparison is scoped to one question: <em>what should an agent
       generate?</em></p>
-      <div class="table-wrap scroll" role="region" tabindex="0" aria-label="Astra vs. the alternatives for agent code (scrolls sideways)"><table>
+      <figure class="viz" data-viz="levels" data-source="#parity-table" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D grid comparing Python, Rust, Go, Mojo and Astra on seven needs of agent coding; taller tiles meet the need better. The wording is in the table below."></canvas></div>
+        <figcaption>Each tile is one cell of the table below, raised by how well that language meets the need: 3 strong, 0 absent (flat outline). The ratings are our reading of the table's own words; hover a tile for the exact wording. Astra is orange.</figcaption>
+      </figure>
+      <div class="table-wrap scroll" role="region" tabindex="0" aria-label="Astra vs. the alternatives for agent code (scrolls sideways)"><table id="parity-table">
         <thead><tr><th></th><th>Python</th><th>Rust</th><th>Go</th><th>Mojo</th><th>Astra</th></tr></thead>
         <tbody>
           <tr>
             <td data-label="">Mistakes caught before run</td>
-            <td data-label="Python">Few (runtime)</td><td data-label="Rust">Most</td><td data-label="Go">Many</td><td data-label="Mojo">Most</td>
-            <td data-label="Astra"><strong>Most, by design goal</strong></td>
+            <td data-label="Python" data-level="1">Few (runtime)</td><td data-label="Rust" data-level="3">Most</td><td data-label="Go" data-level="2">Many</td><td data-label="Mojo" data-level="3">Most</td>
+            <td data-label="Astra" data-level="2"><strong>Most, by design goal</strong></td>
           </tr>
           <tr>
             <td data-label="">Diagnostics as machine-readable contract</td>
-            <td data-label="Python">No</td><td data-label="Rust">Partial (<code>--message-format=json</code>, rich but complex)</td><td data-label="Go">Partial</td><td data-label="Mojo">No</td>
-            <td data-label="Astra"><strong>Yes, stable codes + suggestions, primary interface</strong></td>
+            <td data-label="Python" data-level="0">No</td><td data-label="Rust" data-level="2">Partial (<code>--message-format=json</code>, rich but complex)</td><td data-label="Go" data-level="2">Partial</td><td data-label="Mojo" data-level="0">No</td>
+            <td data-label="Astra" data-level="3"><strong>Yes, stable codes + suggestions, primary interface</strong></td>
           </tr>
           <tr>
             <td data-label="">Easy for an LLM to generate correctly</td>
-            <td data-label="Python"><strong>Yes</strong></td><td data-label="Rust">Hard (lifetimes)</td><td data-label="Go">Yes</td><td data-label="Mojo">Moderate</td>
-            <td data-label="Astra"><strong>Yes, Python-like surface, no borrow checker</strong></td>
+            <td data-label="Python" data-level="3"><strong>Yes</strong></td><td data-label="Rust" data-level="1">Hard (lifetimes)</td><td data-label="Go" data-level="3">Yes</td><td data-label="Mojo" data-level="2">Moderate</td>
+            <td data-label="Astra" data-level="3"><strong>Yes, Python-like surface, no borrow checker</strong></td>
           </tr>
           <tr>
             <td data-label="">Native performance</td>
-            <td data-label="Python">No</td><td data-label="Rust"><strong>Yes</strong></td><td data-label="Go">Yes</td><td data-label="Mojo">Yes</td>
-            <td data-label="Astra"><strong>Yes (LLVM)</strong></td>
+            <td data-label="Python" data-level="0">No</td><td data-label="Rust" data-level="3"><strong>Yes</strong></td><td data-label="Go" data-level="3">Yes</td><td data-label="Mojo" data-level="3">Yes</td>
+            <td data-label="Astra" data-level="3"><strong>Yes (LLVM)</strong></td>
           </tr>
           <tr>
             <td data-label="">Agent primitives in the language</td>
-            <td data-label="Python">Frameworks only</td><td data-label="Rust">Frameworks only</td><td data-label="Go">Frameworks only</td><td data-label="Mojo">No</td>
-            <td data-label="Astra"><strong>Planned as keywords</strong></td>
+            <td data-label="Python" data-level="1">Frameworks only</td><td data-label="Rust" data-level="1">Frameworks only</td><td data-label="Go" data-level="1">Frameworks only</td><td data-label="Mojo" data-level="0">No</td>
+            <td data-label="Astra" data-level="1"><strong>Planned as keywords</strong></td>
           </tr>
           <tr>
             <td data-label="">Memory model burden on the generator</td>
-            <td data-label="Python">None (GC)</td><td data-label="Rust">High (ownership)</td><td data-label="Go">None (GC)</td><td data-label="Mojo">Low</td>
-            <td data-label="Astra"><strong>None visible (ARC)</strong></td>
+            <td data-label="Python" data-level="3">None (GC)</td><td data-label="Rust" data-level="1">High (ownership)</td><td data-label="Go" data-level="3">None (GC)</td><td data-label="Mojo" data-level="2">Low</td>
+            <td data-label="Astra" data-level="3"><strong>None visible (ARC)</strong></td>
           </tr>
           <tr>
             <td data-label="">Maturity today</td>
-            <td data-label="Python"><strong>Production</strong></td><td data-label="Rust"><strong>Production</strong></td><td data-label="Go"><strong>Production</strong></td><td data-label="Mojo">Early</td>
-            <td data-label="Astra">Alpha, <a href="progress.html">tracked honestly</a></td>
+            <td data-label="Python" data-level="3"><strong>Production</strong></td><td data-label="Rust" data-level="3"><strong>Production</strong></td><td data-label="Go" data-level="3"><strong>Production</strong></td><td data-label="Mojo" data-level="1">Early</td>
+            <td data-label="Astra" data-level="1">Alpha, <a href="progress.html">tracked honestly</a></td>
           </tr>
         </tbody>
       </table></div>
@@ -373,7 +379,7 @@
     </div>
     <div class="foot-legal">
       <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
-      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+      <p class="credits">Pictures: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and Gerhard Emmoser's celestial globe with clockwork, 1579, <a href="https://www.metmuseum.org/art/collection/search/193606">The Metropolitan Museum of Art</a>, CC0.</p>
     </div>
   </div>
   <span class="foot-name" aria-hidden="true">Astra</span>

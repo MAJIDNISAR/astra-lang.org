@@ -79,11 +79,11 @@
   --night-rule: #24343f;
   --code-bg-deep: #02090e;
   --progress-c: #ffb27a;
-  --dark-paper: #071520;
-  --dark-paper-2: #0f2231;
+  --dark-paper: #0f1d29;
+  --dark-paper-2: #182b3a;
   --dark-ink: #eef0ec;
   --dark-ink-soft: #a9b3bb;
-  --dark-rule: #233442;
+  --dark-rule: #2b3e4d;
   --dark-link: #ff9a52;
   --dark-ok: #7cc792;
 
@@ -181,6 +181,33 @@
   color: var(--on-night);
   color-scheme: dark;
 }
+
+/* Sky fields (header, home hero, page heads): a printed atlas plate in the
+   light theme, the night sky in the dark theme, so the theme switch changes
+   the first screen too. */
+header.site, .page-head, .field-sky {
+  --paper: var(--stone);
+  --paper-2: var(--white);
+  background: var(--paper);
+  color: var(--ink);
+}
+@media screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) :is(header.site, .page-head, .field-sky) {
+    --paper: var(--night);
+    --paper-2: var(--night-2);
+    --ink-soft: var(--on-night-soft);
+    --rule: var(--night-rule);
+  }
+}
+@media screen {
+  :root[data-theme="dark"] :is(header.site, .page-head, .field-sky) {
+    --paper: var(--night);
+    --paper-2: var(--night-2);
+    --ink-soft: var(--on-night-soft);
+    --rule: var(--night-rule);
+  }
+}
+
 .field-orange {
   --paper: var(--orange);
   --paper-2: var(--orange-2);
@@ -245,11 +272,6 @@ body {
 /* ---------- header ---------- */
 
 header.site {
-  --paper: var(--night);
-  --ink: var(--on-night);
-  --ink-soft: var(--on-night-soft);
-  background: var(--night);
-  color: var(--on-night);
   position: relative;
   z-index: 20;
 }
@@ -267,7 +289,7 @@ header.site .wrap {
   font-size: 1.5rem;
   letter-spacing: -0.04em;
   line-height: 1;
-  color: var(--on-night);
+  color: var(--ink);
   text-decoration: none;
   display: inline-flex;
   align-items: baseline;
@@ -283,7 +305,7 @@ nav.main {
 }
 .nav-group { display: contents; }
 nav.main a {
-  color: var(--on-night-soft);
+  color: var(--ink-soft);
   text-decoration: none;
   font-size: 0.9375rem;
   font-weight: 500;
@@ -292,9 +314,9 @@ nav.main a {
   text-underline-offset: var(--px-8);
   transition: color var(--dur) ease, text-decoration-color var(--dur) ease;
 }
-nav.main a:hover { color: var(--on-night); text-decoration-color: var(--orange); }
+nav.main a:hover { color: var(--ink); text-decoration-color: var(--orange); }
 nav.main a[aria-current="page"],
-nav.main a.active { color: var(--on-night); text-decoration-color: var(--orange); }
+nav.main a.active { color: var(--ink); text-decoration-color: var(--orange); }
 nav.main a.nav-cta {
   background: var(--orange);
   color: var(--night);
@@ -302,7 +324,7 @@ nav.main a.nav-cta {
   margin-left: var(--px-6);
   transition: background-color var(--dur) ease, transform var(--dur) var(--ease-out);
 }
-nav.main a.nav-cta:hover { background: var(--on-night); }
+nav.main a.nav-cta:hover { background: var(--ink); color: var(--paper); }
 nav.main a.nav-cta:active { transform: translateY(var(--px-1)); }
 
 .header-actions { display: inline-flex; gap: var(--px-4); align-items: center; }
@@ -310,7 +332,7 @@ nav.main a.nav-cta:active { transform: translateY(var(--px-1)); }
   font: inherit;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--on-night-soft);
+  color: var(--ink-soft);
   background: transparent;
   border: 0;
   min-height: var(--control);
@@ -369,31 +391,29 @@ hr { border: 0; height: var(--sec); }
 /* ---------- page head (doc pages) ---------- */
 
 .page-head {
-  --paper: var(--night);
-  --ink: var(--on-night);
-  --ink-soft: var(--on-night-soft);
-  --link: var(--orange);
-  background: var(--night);
-  color: var(--on-night);
   padding: clamp(var(--px-48), 7vw, var(--px-112)) 0 clamp(var(--px-56), 7vw, var(--px-120));
   position: relative;
   overflow: hidden;
 }
 .page-head > .wrap { position: relative; z-index: 1; }
-/* The Bayer plate (1603), inverted into pale lines on the night field. */
-.page-head::after {
-  content: "";
+/* A photograph of the 1579 clockwork celestial globe (The Met), set as a
+   plate at the right of every page head. */
+.head-plate {
   position: absolute;
-  inset: 0 0 0 48%;
-  background: url("uranometria-lupus.jpg") 30% 40% / cover no-repeat;
-  filter: invert(1) grayscale(1) contrast(1.4);
-  mix-blend-mode: screen;
-  opacity: 0.3;
-  pointer-events: none;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(34%, 30rem);
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  z-index: 0;
 }
-@media (max-width: 760px) { .page-head::after { inset: 0; opacity: 0.12; } }
+@media (max-width: 860px) { .head-plate { display: none; } }
+.page-head .wrap > * { max-width: min(100%, 62%); }
+@media (max-width: 860px) { .page-head .wrap > * { max-width: none; } }
 .page-head h1 { max-width: 22ch; font-size: clamp(2.375rem, 1rem + 4.2vw, 4.75rem); }
-.page-head .lede { color: var(--on-night-soft); }
+.page-head .lede { color: var(--ink-soft); }
 .page-head .btn-row { margin-top: var(--px-28); }
 
 /* ---------- doc layout: contents column + body ---------- */
@@ -664,6 +684,8 @@ td:first-child { font-weight: 500; }
 .timeline .tl-tests { font-weight: 700; color: var(--ink); white-space: nowrap; }
 .timeline > li.now { background: var(--orange); color: var(--night); }
 .timeline > li.now p, .timeline > li.now .tl-when { color: var(--night); }
+.timeline > li.lit { outline: var(--px-3) solid var(--accent); outline-offset: calc(-1 * var(--px-3)); }
+.bar-list { margin: 0 0 var(--px-24); }
 .timeline > li.planned .tl-title { color: var(--ink-soft); }
 @media (max-width: 640px) {
   .timeline > li { grid-template-columns: 1fr; }
@@ -710,8 +732,8 @@ td:first-child { font-weight: 500; }
 .btn:active { transform: translateY(var(--px-1)) scale(0.99); }
 .btn.primary { background: var(--btn-bg); color: var(--btn-ink); }
 .btn.primary:hover { background: var(--orange); color: var(--night); }
-.field-night .btn.primary, .page-head .btn.primary { background: var(--orange); color: var(--night); }
-.field-night .btn.primary:hover, .page-head .btn.primary:hover { background: var(--on-night); }
+.field-night .btn.primary { background: var(--orange); color: var(--night); }
+.field-night .btn.primary:hover { background: var(--on-night); }
 .field-orange .btn.primary { background: var(--night); color: var(--orange); }
 .field-orange .btn.primary:hover { background: var(--white); color: var(--night); }
 .btn.ghost {
@@ -846,9 +868,9 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
   z-index: 2;
 }
 .hero-side p { margin: 0 0 var(--px-16); }
-.hero-sentence { left: var(--gutter); font-size: var(--step-body); color: var(--on-night); }
-.hero-fact { right: var(--gutter); text-align: right; color: var(--on-night-soft); }
-.hero-fact b { color: var(--on-night); font-weight: 700; }
+.hero-sentence { left: var(--gutter); font-size: var(--step-body); color: var(--ink); }
+.hero-fact { right: var(--gutter); text-align: right; color: var(--ink-soft); }
+.hero-fact b { color: var(--ink); font-weight: 700; }
 .hero-fact .btn-row { justify-content: flex-end; margin: 0; }
 @media (max-width: 860px) {
   .hero-stage { display: flex; flex-direction: column; }
@@ -1108,7 +1130,7 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
 .sheet .status-list li { display: flex; justify-content: space-between; align-items: baseline; gap: var(--px-16); margin-bottom: var(--px-12); }
 .sheet .status-list li .t { flex: 1 1 auto; }
 .sheet .status-list li .v { flex: none; color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.sheet .hours { margin-top: var(--px-48); font-size: var(--step-small); color: var(--ink-soft); }
+.sheet .hours { margin-top: var(--px-40); font-size: var(--step-body); color: var(--ink-soft); }
 @media (max-width: 600px) {
   .sheet-band { padding: var(--px-48) var(--px-10); }
   .sheet { padding: var(--px-32) var(--px-20); }

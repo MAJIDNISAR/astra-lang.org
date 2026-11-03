@@ -8,7 +8,7 @@
 <meta name="description" content="Live ground-truth status of the Astra compiler and Mifa package manager: release progress, feature matrix, ratified architecture decisions, and roadmap.">
 <link rel="canonical" href="https://astra-lang.org/progress.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
 <meta name="author" content="Majid Nisar">
 <meta property="og:type" content="website">
@@ -29,6 +29,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js" defer></script>
+<script src="assets/orb.js" defer></script>
 <script src="assets/viz.js" defer></script>
 </head>
 <body>
@@ -53,6 +54,7 @@
 
 <main id="main">
   <section class="page-head">
+    <img class="head-plate" src="assets/celestial-globe-1579.jpg" width="844" height="1100" alt="A gilded celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>Progress tracker</h1>
       <p class="lede">
@@ -87,6 +89,10 @@
       <h2>From the first lexer to v0.11</h2>
       <p>Each release on one line, oldest first. Test counts are the suite
       at the time of the release.</p>
+      <figure class="viz" data-viz="releases" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D chart of Astra releases and their test counts. The same numbers are in the table below."></canvas></div>
+        <figcaption>Each column is a release, as tall as its test suite; outlines had no count recorded. Click a column to jump to its entry below, or hover an entry to light its column.</figcaption>
+      </figure>
       <ol class="timeline">
         <li>
           <span class="tl-when">Oct 2025</span>
@@ -198,13 +204,16 @@
     <div class="wrap">
       <h2>Where each version stands</h2>
 
-      <div class="bar-row"><span>v0.6</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <figure class="viz" data-viz="bars" data-source="#version-bars" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="3D columns for each version's progress. The percentages are in the bars below."></canvas></div>
+      </figure>
+      <div id="version-bars" class="bar-list"><div class="bar-row"><span>v0.6</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.7</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.8</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.10</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.11</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
-      <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div>
+      <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div></div>
 
       <div class="table-wrap stack"><table>
         <thead><tr><th>Release</th><th>Scope</th><th>Status</th></tr></thead>
@@ -301,6 +310,14 @@
   <section>
     <div class="wrap">
       <h2 id="language-feature-matrix">Language feature matrix</h2>
+      <figure class="orb orb-plain" data-orb="astra" hidden>
+        <div class="orb-frame">
+          <canvas tabindex="0" role="img" aria-label="A turning globe of Astra's features coloured by status. The same features are in the matrix below."></canvas>
+          <div class="orb-tip" role="presentation" hidden></div>
+        </div>
+        <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
+      </figure>
+      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4"]},{"id":"progress","name":"On main, next release","items":["Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native verify"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -371,11 +388,14 @@
     <div class="wrap">
       <h2>Package manager progress</h2>
 
-      <div class="bar-row"><span>M1 local</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <figure class="viz" data-viz="bars" data-source="#mifa-bars" hidden>
+        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="3D columns for each Mifa milestone's progress. The percentages are in the bars below."></canvas></div>
+      </figure>
+      <div id="mifa-bars" class="bar-list"><div class="bar-row"><span>M1 local</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>M2 lock</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>M5 json</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>M3 registry</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
-      <div class="bar-row"><span>M4 publish</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>M4 publish</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div></div>
 
       <div class="table-wrap stack"><table>
         <thead><tr><th>Capability</th><th>Status</th><th>Evidence</th></tr></thead>
@@ -443,10 +463,6 @@
     <div class="wrap">
       <h2>Every release, in three dimensions</h2>
       <p>Each column is a release, as tall as its test suite; the orange one is <code>main</code>. Drag to turn it, or use the arrow keys to step through the releases.</p>
-      <figure class="viz" data-viz="releases" hidden>
-        <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D chart of Astra releases and their test counts. The same numbers are in the table below."></canvas></div>
-        <figcaption>Columns drawn as outlines had no test count recorded at the time.</figcaption>
-      </figure>
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
@@ -506,7 +522,7 @@
     </div>
     <div class="foot-legal">
       <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
-      <p class="credits">Star charts: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and <a href="https://commons.wikimedia.org/wiki/File:Uranometria_Lupus.jpg">Johann Bayer, Uranometria, 1603</a>, public domain, via Wikimedia Commons.</p>
+      <p class="credits">Pictures: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and Gerhard Emmoser's celestial globe with clockwork, 1579, <a href="https://www.metmuseum.org/art/collection/search/193606">The Metropolitan Museum of Art</a>, CC0.</p>
     </div>
   </div>
   <span class="foot-name" aria-hidden="true">Astra</span>

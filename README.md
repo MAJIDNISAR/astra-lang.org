@@ -21,7 +21,17 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 2. Run `node tools/sync-status.mjs`. It rewrites every fragment between `<!-- status:NAME -->` markers (version, test counts, the globe data, the fallback lists and tables) and leaves the rest of each page untouched. `--check` exits 1 if a page is out of date.
 3. Update any prose that names the release (download page, release notes on the progress page), then `sitemap.xml` dates.
 
-The globe (`orb.js`) reads the generated `script.orb-data` blocks; the 3D charts (`viz.js`) fetch `assets/status.json` directly. Without JavaScript every page still shows the same data as lists and tables.
+The globe (`orb.js`) reads the generated `script.orb-data` blocks. The 3D charts (`viz.js`) come in five kinds, each a `<figure data-viz="…">`:
+
+| Kind | Data | Where |
+|---|---|---|
+| `releases` | `assets/status.json` releases; linked both ways with the page's `.timeline` | progress (timeline), about |
+| `memory` | `assets/status.json` memory | progress |
+| `grid` | the HTML table named by `data-source` (rows × numeric columns; taller is faster, log scale) | benchmarks |
+| `levels` | the table named by `data-source`, each cell's `data-level` 0 to 3 | vision (comparison) |
+| `bars` | the `.bar-row` list named by `data-source` | benchmarks, progress |
+
+Table-driven charts read the table at runtime, so editing a table updates its chart. Without JavaScript every page still shows the same data as lists and tables.
 
 ## Local preview
 
@@ -38,7 +48,7 @@ includes Schema.org JSON-LD.
 ## Design notes
 
 - Direction: a star atlas (Astra means "the stars"). One typeface, Epilogue, for everything except code; night (#050f16), white and one orange; fields instead of rules; no gradients, shadows or eyebrow labels. Checked with the taste lint/inspector and the ux-ui hardcode gate (every value in `assets/style.css` is a token).
-- Pictures: John Bevis's 1750 star chart and Johann Bayer's Uranometria (1603), both public domain via Wikimedia Commons, credited in every footer (`assets/credits.json`).
+- Pictures: John Bevis's 1750 star chart (public domain, Wikimedia Commons) and Gerhard Emmoser's 1579 celestial globe with clockwork (The Met, CC0), credited in every footer (`assets/credits.json`).
 
 - `assets/style.css`: every value is a token in `:root`. The dark theme swaps
   color tokens only, under `prefers-color-scheme` or `data-theme="dark"`.
