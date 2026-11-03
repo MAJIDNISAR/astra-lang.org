@@ -52,7 +52,7 @@
 
 <main id="main">
   <section class="page-head">
-    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="961" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
+    <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="957" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
       <h1>The compiler is an API.<br>This page is its documentation.</h1>
       <p class="lede">
@@ -60,6 +60,7 @@
         generates Astra, everything you need is here: the CLI surface, the
         JSON contract, the error-code catalog, and the canonical loop.
       </p>
+      <dl class="glance"><div><dt>JSON</dt><dd>every diagnostic: a stable code, a line, a column, a suggestion</dd></div><div><dt>21 codes</dt><dd>never renumbered, so an agent can branch on them</dd></div><div><dt>4–5 ms</dt><dd>per <code>astra verify</code>: cheaper than one model call</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -77,6 +78,7 @@
   <section>
     <div class="wrap">
       <h2 id="three-commands-stable-semantics-and-a-fourth-nex">Three commands, stable semantics, and a fourth next release</h2>
+      <p class="lead-in">An agent needs only these commands, each with a stable exit code; <code>astra fix</code> joins them in the next release.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
         <tbody>
@@ -175,6 +177,7 @@
   <section>
     <div class="wrap">
       <h2 id="canonical-integration-pattern">Canonical integration pattern</h2>
+      <p class="lead-in">The whole integration is one loop: generate, verify, repair from the JSON, then compile.</p>
 <pre><code><span class="c"># pseudocode for any agent framework</span>
 <span class="kw">source</span> = llm.generate(task)
 
@@ -258,6 +261,7 @@ execute(binary)                              <span class="c"># native, already t
       </table></div>
     </div>
   </section>
+  <nav class="next-steps" aria-label="Where next"><h2>Where next</h2><div><a href="start.html"><b>Try the loop</b><span>Install the alpha and verify a program.</span></a><a href="benchmarks.html"><b>See the numbers</b><span>Verify speed, native speed, correctness.</span></a><a href="language.html"><b>Read the language</b><span>What the code an agent writes looks like.</span></a></div></nav>
   </div>
 </div>
 </main>
