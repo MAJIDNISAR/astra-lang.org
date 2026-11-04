@@ -543,6 +543,7 @@
     else window.addEventListener("resize", resized);
 
     stage.hidden = false;
+    stage.setAttribute("data-ui", "");
     size();
     request();
   }

@@ -54,9 +54,9 @@
   <section class="page-head">
     <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="957" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
-      <h1>The compiler is an API.<br>This page is its documentation.</h1>
+      <h1>The compiler is an API.</h1>
       <p class="lede">
-        If you're building an agent, a coding assistant, or a framework that
+        This page is its documentation. If you're building an agent, a coding assistant, or a framework that
         generates Astra, everything you need is here: the CLI surface, the
         JSON contract, the error-code catalog, and the canonical loop.
       </p>
@@ -67,7 +67,7 @@
   <nav class="toc" aria-label="On this page">
     <h2>On this page</h2>
     <ol>
-      <li><a href="#three-commands-stable-semantics-and-a-fourth-nex">Three commands, stable semantics, and a fourth next release</a></li>
+      <li><a href="#three-commands-stable-semantics-and-a-fourth-nex">The commands an agent calls</a></li>
       <li><a href="#the-diagnostic-json-shape">The diagnostic JSON shape</a></li>
       <li><a href="#canonical-integration-pattern">Canonical integration pattern</a></li>
       <li><a href="#stable-error-codes">Stable error codes</a></li>
@@ -77,7 +77,7 @@
 
   <section>
     <div class="wrap">
-      <h2 id="three-commands-stable-semantics-and-a-fourth-nex">Three commands, stable semantics, and a fourth next release</h2>
+      <h2 id="three-commands-stable-semantics-and-a-fourth-nex">The commands an agent calls</h2>
       <p class="lead-in">An agent needs only these commands, each with a stable exit code; <code>astra fix</code> joins them in the next release.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
@@ -219,10 +219,6 @@ execute(binary)                              <span class="c"># native, already t
         E-code catalog only grow, existing codes and fields are never
         renamed or repurposed. Breaking changes to this contract would get a
         major version bump and a migration note on this page.</p>
-      </div>
-      <div class="btn-row">
-        <a class="btn primary" href="download.html">Download v0.11.2-alpha</a>
-        <a class="btn ghost" href="benchmarks.html">See the loop validated end-to-end</a>
       </div>
     </div>
   </section>
