@@ -42,7 +42,7 @@
       "license": "https://opensource.org/licenses/MIT",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
-      "softwareVersion": "0.11.2-alpha",
+      "softwareVersion": "0.12.0-alpha",
       "downloadUrl": "https://astra-lang.org/download.html"
     },
     {
@@ -89,7 +89,7 @@
       </figure>
       <p class="hero-side hero-sentence">Astra is a compiled language for code that AI agents write: as easy to read as Python, as safe and fast as Rust. The compiler answers in JSON and repairs what it can before anything runs.</p>
       <div class="hero-side hero-fact">
-        <p><b><!-- status:release-version -->v0.11.2-alpha<!-- /status:release-version --></b> for Linux, macOS and Windows. <!-- status:release-tests -->712<!-- /status:release-tests --> tests; <!-- status:main-tests -->750<!-- /status:main-tests --> on main.</p>
+        <p><b><!-- status:release-version -->v0.12.0-alpha<!-- /status:release-version --></b> for Linux, macOS and Windows. <!-- status:release-tests -->754<!-- /status:release-tests --> tests, none ignored.</p>
         <div class="btn-row"><a class="btn primary" href="download.html">Get the alpha</a></div>
       </div>
     </div>
@@ -97,8 +97,8 @@
       <p class="orb-hint">Every star is a feature: Astra on the globe, Mifa on its moon. Drag to turn it. Pick a magnitude to light up its stars.</p>
       <div class="orb-keys" role="group" aria-label="Highlight a status"></div>
     </div>
-    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4"]},{"id":"progress","name":"On main, next release","items":["Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native verify"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
-    <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target"]},{"id":"progress","name":"On main, next release","items":["mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
+    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.12","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed"]},{"id":"progress","name":"In progress","items":["Windows native builds"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+    <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.12","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target","mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
   </section>
 
   <section class="split" aria-labelledby="s-errors">
@@ -143,7 +143,7 @@ Verification passed
 sum = 45</code></pre>
       </div>
       <div class="panel-foot">
-        <p><b>astra fix</b> Applies the edits and checks again. No model call for these errors. On main, in the next release.</p>
+        <p><b>astra fix</b> Applies the edits and checks again. No model call for these errors. New in v0.12.</p>
         <a class="btn primary" href="progress.html#next">What ships next</a>
       </div>
     </div>
@@ -180,7 +180,7 @@ sum = 45</code></pre>
       <input id="cmd-search" class="cmd-search" type="search" placeholder="Find a command" autocomplete="off" hidden>
       <ul class="cmd-list" role="listbox" aria-label="Commands">
         <li><button class="cmd-row" type="button" role="option" aria-selected="true"><code>astra verify</code><span class="what">Checks a program without building it and answers in JSON: a stable error code, a line and column, a suggestion, and a fix when one is certain. Agents parse it; nobody scrapes stderr.</span></button></li>
-        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra fix</code><span class="what">Applies every certain fix, checks again and repeats until nothing is left. Misspelt names and a missing or extra <code>mut</code> today; next release.</span></button></li>
+        <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra fix</code><span class="what">Applies every certain fix, checks again and repeats until nothing is left. Misspelt names and a missing or extra <code>mut</code> today.</span></button></li>
         <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra run</code><span class="what">Runs a program in the interpreter, with no LLVM needed. Its output and exit code match the native binary, and a fuzzer keeps the two engines in step.</span></button></li>
         <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra build</code><span class="what">Compiles through LLVM IR to a native executable linked with a small C runtime. Overflow, division by zero and out-of-bounds stop with a clear error.</span></button></li>
         <li><button class="cmd-row" type="button" role="option" aria-selected="false"><code>astra fmt</code><span class="what">Rewrites a file into the canonical indented style and proves the program did not change.</span></button></li>
@@ -196,15 +196,15 @@ sum = 45</code></pre>
       <h2 id="s-figures" class="tiles-head">Measured, not promised.</h2>
       <div class="tile tile-a field-orange" data-reveal>
         <p class="fig">1.3 MB</p>
-        <p>Peak memory for a helper called a million times that builds a struct, a list and a tuple. It was 231 MB before memory was freed on every exit (on main).</p>
+        <p>Peak memory for a helper called a million times that builds a struct, a list and a tuple. It was 231 MB before memory was freed on every exit (v0.12).</p>
       </div>
       <div class="tile tile-b field-night" data-reveal>
-        <p class="fig"><!-- status:main-tests -->750<!-- /status:main-tests --></p>
-        <p>tests pass on main, none ignored. v0.11.2 shipped with <!-- status:release-tests -->712<!-- /status:release-tests -->.</p>
+        <p class="fig"><!-- status:main-tests -->754<!-- /status:main-tests --></p>
+        <p>tests pass in v0.12, none ignored.</p>
       </div>
       <div class="tile tile-c field-stone" data-reveal>
         <p class="fig"><!-- status:release-checks -->55 of 55<!-- /status:release-checks --></p>
-        <p>release checks pass on main, on both engines. <a href="progress.html#history">The record</a></p>
+        <p>release checks pass in v0.12, on both engines. <a href="progress.html#history">The record</a></p>
       </div>
     </div>
   </section>
@@ -213,19 +213,14 @@ sum = 45</code></pre>
     <img src="assets/1750-star-chart-of-the-constellations-libra.jpg" width="1600" height="1361" alt="A hand-coloured 1750 star chart from John Bevis's celestial atlas: the constellations Libra and Scorpius drawn over a grid of stars." loading="lazy">
     <div class="sheet" data-reveal>
       <h2 id="s-status">Where Astra stands</h2>
-      <p>What is released, what is on main for the next release, and what comes after. The same stars light up on the globe above.</p>
-      <h3>On main, next release</h3>
-      <ul class="status-list">
-        <li data-status="progress"><span class="t">Every type error has a line</span> <span class="v">main</span></li>
-        <li data-status="progress"><span class="t">Machine fixes and <code>astra fix</code></span> <span class="v">main</span></li>
-        <li data-status="progress"><span class="t">Memory freed on every exit</span> <span class="v">main</span></li>
-        <li data-status="progress"><span class="t">A 55-check release suite</span> <span class="v">main</span></li>
-      </ul>
+      <p>What is released and what comes after. The same stars light up on the globe above.</p>
       <h3>Released</h3>
       <ul class="status-list">
-        <li data-status="shipped"><span class="t">Trait bounds checked at the call</span> <span class="v">v0.11.2</span></li>
+        <li data-status="shipped"><span class="t">Every type error has a line</span> <span class="v">v0.12.0</span></li>
+        <li data-status="shipped"><span class="t">Machine fixes and <code>astra fix</code></span> <span class="v">v0.12.0</span></li>
+        <li data-status="shipped"><span class="t">Memory freed on every exit</span> <span class="v">v0.12.0</span></li>
+        <li data-status="shipped"><span class="t">A 55-check release suite</span> <span class="v">v0.12.0</span></li>
         <li data-status="shipped"><span class="t">Loops no longer leak memory</span> <span class="v">v0.11.2</span></li>
-        <li data-status="shipped"><span class="t">Binaries compile on their own</span> <span class="v">v0.11.1</span></li>
         <li data-status="shipped"><span class="t">Value semantics and <code>mut</code> parameters</span> <span class="v">v0.11.0</span></li>
         <li data-status="shipped"><span class="t">Nominal traits and trait bounds</span> <span class="v">v0.11.0</span></li>
         <li data-status="shipped"><span class="t">Indentation syntax and <code>astra fmt</code></span> <span class="v">v0.11.0</span></li>

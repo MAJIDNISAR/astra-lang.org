@@ -177,11 +177,10 @@ HI!</code></pre>
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target"]},{"id":"progress","name":"On main, next release","items":["mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.12","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target","mifa --version","Honest mifa search"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
       <!-- status:mifa-list --><ul class="status-list">
   <li data-status="works"><b>Works today:</b> mifa init, mifa add --path, mifa verify, mifa lock, Path dependencies, Package cache, mifa clean, --json on local commands, Registry protocol (34 tests), login + publish --dry-run</li>
-  <li data-status="shipped"><b>New in v0.10–v0.11:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target</li>
-  <li data-status="progress"><b>On main, next release:</b> mifa --version, Honest mifa search</li>
+  <li data-status="shipped"><b>New in v0.10–v0.12:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target, mifa --version, Honest mifa search</li>
   <li data-status="next"><b>Next:</b> Project-wide mifa verify, HTTP registry client, Staging registry, Real mifa publish</li>
   <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Global lockfile contract</li>
 </ul><!-- /status:mifa-list -->
@@ -242,13 +241,13 @@ HI!</code></pre>
 
   <section id="next-release">
     <div class="wrap">
-      <h2>Honest about the registry <span class="badge wip">next release</span></h2>
-      <p>On <code>main</code>, not in a release yet:</p>
+      <h2>Honest about the registry <span class="badge done">v0.12</span></h2>
+      <p>Since v0.12.0-alpha:</p>
       <ul>
         <li><code>mifa --version</code> prints the Mifa version.</li>
         <li><code>mifa search</code> says the registry is not deployed instead
-        of listing packages. In v0.11.2-alpha, <code>mifa search</code> lists
-        packages that do not exist; that is a known bug in that release.</li>
+        of listing packages. Up to v0.11.2-alpha, <code>mifa search</code>
+        listed packages that do not exist.</li>
         <li>The Mifa flow is part of the black-box release suite that runs on
         every platform before a release publishes.</li>
       </ul>

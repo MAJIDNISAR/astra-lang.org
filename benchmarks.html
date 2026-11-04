@@ -79,7 +79,7 @@ RESULT: all outputs verified.</code></pre>
         harness has been rebuilt and every number below re-measured; where
         Astra is slower than Rust, the table now shows it.</p>
       </div>
-      <dl class="glance"><div><dt>4–5 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2.2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->750<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed on main</dd></div></dl>
+      <dl class="glance"><div><dt>4–5 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2.2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->754<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed in v0.12</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -274,7 +274,7 @@ RESULT: all outputs verified.</code></pre>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>750 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-11-03 (712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>754 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> at v0.12.0-alpha, 2026-11-04 (712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
           <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong>: CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
           <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
           <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>122 / 122</strong>: compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
