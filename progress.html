@@ -60,12 +60,10 @@
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        stands at <strong>712 passed, 0 failed, 0 ignored</strong> for the
-        v0.11.2-alpha release and <strong>750 tests</strong> on
-        <code>main</code>. Items marked <span class="badge wip">next release</span>
-        are on <code>main</code> and not in a release yet.
+        stands at <strong>754 passed, 0 failed, 0 ignored</strong> for the
+        v0.12.0-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.11.2-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->712<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->750<!-- /status:main-tests --> tests</dt><dd>On main: machine fixes, error lines everywhere, memory freed on every exit</dd></div><div><dt>E0021 / E0020 fixes</dt><dd>Next, then <code>@derive(Eq)</code> and <code>Map</code> / <code>Set</code></dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.12.0-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->754<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->754<!-- /status:main-tests --> tests</dt><dd>Released: machine fixes, error lines everywhere, memory freed on every exit</dd></div><div><dt>E0021 / E0020 fixes</dt><dd>Next, then <code>@derive(Eq)</code> and <code>Map</code> / <code>Set</code></dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -75,7 +73,7 @@
       <li><a href="#releases">Where each version stands</a></li>
       <li><a href="#language-feature-matrix">Language feature matrix</a></li>
       <li><a href="#next">The work queue, in priority order</a></li>
-      <li><a href="#timeline">From the first lexer to v0.11</a></li>
+      <li><a href="#timeline">From the first lexer to v0.12</a></li>
       <li><a href="#history">Every release, in three dimensions</a></li>
       <li><a href="#mifa">Package manager progress</a></li>
       <li><a href="#strategic">Design investment, tracked like a feature</a></li>
@@ -88,7 +86,7 @@
   <section id="releases">
     <div class="wrap">
       <h2>Where each version stands</h2>
-      <p class="lead-in">Every release from v0.6 to v0.11 is complete; v1.0 has not started.</p>
+      <p class="lead-in">Every release from v0.6 to v0.12 is complete; v1.0 has not started.</p>
 
       <figure class="viz" data-viz="bars" data-source="#version-bars" hidden>
         <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="3D columns for each version's progress. The percentages are in the bars below."></canvas></div>
@@ -99,6 +97,7 @@
       <div class="bar-row"><span>v0.9</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.10</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v0.11</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
+      <div class="bar-row"><span>v0.12</span><div class="bar"><span style="width:100%"></span></div><span class="pct">100%</span></div>
       <div class="bar-row"><span>v1.0</span><div class="bar"><span style="width:0%"></span></div><span class="pct">0%</span></div></div>
 
       <div class="table-wrap stack"><table>
@@ -110,7 +109,7 @@
           <tr><td data-label="Release"><strong>v0.9</strong></td><td data-label="Scope"><em>Soundness &amp; hardening</em>: nominal structs, enums with payload variants, <code>?</code> operator + try/catch, tuples, impl blocks, bitwise ops, callable closures, ARC scope-based reclamation, compiler-never-panics on malformed input, CI gates (fmt / clippy / audit / llc corpus), <strong>cross-platform release binaries</strong> (Linux, macOS ×2, Windows)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9.1-alpha released 2026-07-15</span></td></tr>
           <tr><td data-label="Release"><strong>v0.10 – v0.11</strong></td><td data-label="Scope">Tree-walking interpreter behind <code>astra run</code> with parity tests and differential fuzzing against native; modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>, E0013); <code>mifa build</code>/<code>run</code> with path dependencies as modules; runtime traps for overflow, division by zero, bad shifts, out-of-bounds and runaway recursion on both engines; <code>def</code> alias (A4); type inference for omitted parameter/return types (A3); Python-style indentation is the canonical syntax (braces still accepted) and <code>astra fmt</code> converts to it; functions may be called before they are defined; a <code>match</code> that misses an enum variant is a compile error (E0021); <code>s.split()</code>; Cargo-style <code>astra.toml</code> and <code>mifa test</code>; structs/lists are values, <code>mut</code> parameters + E0022, read-only bindings (A8); <code>a[i] = v</code>; headered string literals (E0); nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>, E0020) and trait bounds <code>fn f&lt;T: Shape&gt;</code> with static dispatch; v0.11.1: released binaries compile natively (C runtime embedded)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.11.1-alpha released 2026-11-02</span></td></tr>
           <tr><td data-label="Release"><strong>v0.11.2</strong></td><td data-label="Scope">Trait bounds checked at the call site and impl signatures checked against the trait (E0020); <code>while</code>-loop locals, list copies and struct list fields freed (loops stay ~1.3 MB); tuples holding structs compile; 712 tests</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.11.2-alpha released 2026-11-02</span></td></tr>
-          <tr><td data-label="Release"><strong>Next release</strong></td><td data-label="Scope">On <code>main</code>, not released: every type error in the main file carries the line and column of its statement, a function reports all its independent errors in one run, and E0014 points at the offending built-in call; machine-applicable <code>fix</code> edits on E0002/E0003 (misspelt names) and E0022 (missing or extra <code>mut</code>) plus <code>astra fix &lt;file&gt;</code>; single-owner locals freed on every exit, strings returned from functions, lists of fresh strings and template-literal intermediates freed (the measured cases drop from 20–231&nbsp;MB to 1.3&nbsp;MB peak); bools print <code>true</code>/<code>false</code> on both engines; <code>==</code>/<code>!=</code> only on int/float/bool/str; native crash on <code>let b = a</code> for strings fixed; <code>mifa --version</code>; <code>mifa search</code> says the registry is not deployed; a 55-check black-box release suite; 750 tests</td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td></tr>
+          <tr><td data-label="Release"><strong>v0.12</strong></td><td data-label="Scope">Every type error in the main file carries the line and column of its statement, a function reports all its independent errors in one run, and E0014 points at the offending built-in call; machine-applicable <code>fix</code> edits on E0002/E0003 (misspelt names) and E0022 (missing or extra <code>mut</code>) plus <code>astra fix &lt;file&gt;</code>; single-owner locals freed on every exit, strings returned from functions, lists of fresh strings and template-literal intermediates freed (the measured cases drop from 20–231&nbsp;MB to 1.3&nbsp;MB peak); bools print <code>true</code>/<code>false</code> on both engines; <code>==</code>/<code>!=</code> only on int/float/bool/str; native crash on <code>let b = a</code> for strings fixed; <code>mifa --version</code>; <code>mifa search</code> says the registry is not deployed; a 55-check black-box release suite; 754 tests</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12.0-alpha released 2026-11-04</span></td></tr>
           <tr><td data-label="Release"><strong>Next</strong></td><td data-label="Scope">Fixes for E0021 and E0020; <code>@derive(Eq)</code> + trait default methods, then the other standard traits; <code>Map</code> / <code>Set</code> and comprehensions; the remaining memory leaks; generic structs, typed collections (<code>Vec&lt;T&gt;</code>, <code>Map</code>, <code>Set</code>) with iterators, LSP alpha, stdlib core; then <code>tool</code> / <code>agent</code> / <code>prompt</code> / <code>memory</code> keywords, agent SDK, sandbox</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Release"><strong>v1.0</strong></td><td data-label="Scope">GPU target (NVPTX), production tooling, hosted Mifa registry</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
         </tbody>
@@ -129,7 +128,7 @@
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.11","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4"]},{"id":"progress","name":"On main, next release","items":["Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native verify"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.12","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed"]},{"id":"progress","name":"In progress","items":["Windows native builds"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -143,7 +142,7 @@
           <tr><td data-label="Feature">Enums + match</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes">Unit variants + single-payload data variants (int, string, struct payloads via boxed repr), match in expression and statement position; multi-field variants gated with a clear error</td></tr>
           <tr><td data-label="Feature"><code>Result&lt;T,E&gt;</code> + match + <code>?</code></td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Ok/Err paths, match binding; <code>?</code> unwraps Ok/Some or early-returns Err/None (v0.9); built-in Result payloads currently int-like, user enums for richer payloads</td></tr>
           <tr><td data-label="Feature">try / catch</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9 (local)</span></td><td data-label="Notes">Lowered as function-local control flow, no unwinder, so a <code>throw</code> in a <em>called</em> function still aborts; use <code>Result</code> + <code>?</code> across functions</td></tr>
-          <tr><td data-label="Feature">Closures (defined <em>and called</em>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes">Lambda-lifting before typecheck (the v0.7 pipeline-order bug is fixed); v0 is int-typed closures on the default path. Next release: defined in any block, capture and return types inferred, captures copied at definition</td></tr>
+          <tr><td data-label="Feature">Closures (defined <em>and called</em>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes">Lambda-lifting before typecheck (the v0.7 pipeline-order bug is fixed); v0 is int-typed closures on the default path. Next: defined in any block, capture and return types inferred, captures copied at definition</td></tr>
           <tr><td data-label="Feature">Interpreter (<code>astra run</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">Tree-walking, no LLVM needed; parity-tested and fuzzed against native, same stdout and exit code</td></tr>
           <tr><td data-label="Feature">Modules (<code>import</code>, <code>pub</code>, <code>util::f()</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">v0: enum variant names are global; programs from stdin/REPL cannot import</td></tr>
           <tr><td data-label="Feature">Runtime safety traps</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.10</span></td><td data-label="Notes">Overflow, division by zero, shifts outside 0..63, out-of-bounds and runaway recursion stop with <code>Runtime error</code>, exit 1, on both engines</td></tr>
@@ -154,14 +153,14 @@
           <tr><td data-label="Feature">String interpolation <code>${}</code></td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Runtime-value interpolation, <code>.length()</code>, <code>.to_string()</code>, concat, string-method suite</td></tr>
           <tr><td data-label="Feature">Bitwise + compound operators</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes"><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code> with Python-parity precedence; <code>+=</code> family, <code>**</code>, radix literals</td></tr>
           <tr><td data-label="Feature">Float arithmetic / compare</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Native <code>fadd</code>/<code>fcmp</code> with int→double promotion</td></tr>
-          <tr><td data-label="Feature">JSON diagnostics with line + column</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Parse + named-symbol typecheck spans. Next release: every type error in the main file carries the line and column of the statement that raised it (human output <code>(line N, column M)</code>), a function reports all its independent errors in one run, and E0014 points at the offending built-in call; errors in imported modules and function signatures still have no line</td></tr>
-          <tr><td data-label="Feature">Machine-applicable fixes + <code>astra fix</code></td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Notes">Diagnostics carry <code>"fix": {"edits": [...]}</code> when the repair is unambiguous: misspelt variable/function names (E0002/E0003, <code>did you mean 'total'?</code>) and a missing or extra <code>mut</code> at a call (E0022). <code>astra fix &lt;file&gt;</code> applies them, re-verifies, repeats and writes the file. Fixes for E0021 and E0020 are next</td></tr>
+          <tr><td data-label="Feature">JSON diagnostics with line + column</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Since v0.12: every type error in the main file carries the line and column of the statement that raised it (human output <code>(line N, column M)</code>), a function reports all its independent errors in one run, and E0014 points at the offending built-in call; errors in imported modules and function signatures still have no line</td></tr>
+          <tr><td data-label="Feature">Machine-applicable fixes + <code>astra fix</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12</span></td><td data-label="Notes">Diagnostics carry <code>"fix": {"edits": [...]}</code> when the repair is unambiguous: misspelt variable/function names (E0002/E0003, <code>did you mean 'total'?</code>) and a missing or extra <code>mut</code> at a call (E0022). <code>astra fix &lt;file&gt;</code> applies them, re-verifies, repeats and writes the file. Fixes for E0021 and E0020 are next</td></tr>
           <tr><td data-label="Feature">Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Stable E0001–E0022 codes</td></tr>
           <tr><td data-label="Feature"><code>astra repl</code></td><td class="badge-cell" data-label="Status"><span class="badge done">alpha</span></td><td data-label="Notes">Whole-program re-compile model</td></tr>
           <tr><td data-label="Feature"><code>dyn</code> gradual typing</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">First milestone: boundary typecheck + boxed lowering</td></tr>
-          <tr><td data-label="Feature">ARC memory reclamation</td><td class="badge-cell" data-label="Status"><span class="badge wip">working, partial</span></td><td data-label="Notes">Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB), in <code>for</code> and <code>while</code> loops, including list copies and struct list fields. String-aliased values, lists of heap values and some non-loop scopes still leak, bounded and safe, never a double-free. Next release: single-owner locals are freed on every exit (fall-through, <code>return</code>, <code>break</code>, <code>continue</code>), strings returned from functions, lists of fresh strings and template-literal intermediates are freed; peak RSS 231&nbsp;MB → 1.3&nbsp;MB for a helper building a struct/list/tuple called 1M times, 47&nbsp;MB → 1.3&nbsp;MB for a returned <code>str</code> bound in a loop ×1M, 20&nbsp;MB → 1.3&nbsp;MB for a list of fresh strings or a template literal ×200k, with identical output on both engines. Still leaking: locals inside <code>if</code>/<code>match</code> branches, locals passed to calls, stored or reassigned, exits via <code>?</code>/<code>throw</code>, <code>str</code> fields of structs</td></tr>
+          <tr><td data-label="Feature">ARC memory reclamation</td><td class="badge-cell" data-label="Status"><span class="badge wip">working, partial</span></td><td data-label="Notes">Single-owner structs, strings, tuples, arrays freed at loop-body + function scope with retain-on-alias; 2M-iteration loops ~1.3 MB (were 98–194 MB), in <code>for</code> and <code>while</code> loops, including list copies and struct list fields. String-aliased values, lists of heap values and some non-loop scopes still leak, bounded and safe, never a double-free. Since v0.12, single-owner locals are freed on every exit (fall-through, <code>return</code>, <code>break</code>, <code>continue</code>), strings returned from functions, lists of fresh strings and template-literal intermediates are freed; peak RSS 231&nbsp;MB → 1.3&nbsp;MB for a helper building a struct/list/tuple called 1M times, 47&nbsp;MB → 1.3&nbsp;MB for a returned <code>str</code> bound in a loop ×1M, 20&nbsp;MB → 1.3&nbsp;MB for a list of fresh strings or a template literal ×200k, with identical output on both engines. Still leaking: locals inside <code>if</code>/<code>match</code> branches, locals passed to calls, stored or reassigned, exits via <code>?</code>/<code>throw</code>, <code>str</code> fields of structs</td></tr>
           <tr><td data-label="Feature">async / await</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.8</span></td><td data-label="Notes">Parses + compiles natively; synchronous lowering, real task runtime still ahead</td></tr>
-          <tr><td data-label="Feature">Printing and equality</td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Notes">Bools print <code>true</code>/<code>false</code> on both engines (were <code>1</code>/<code>0</code>); <code>==</code>/<code>!=</code> only on int/float/bool/str, because on structs, enums, tuples and lists the native path compared pointers, so those are a type error until <code>@derive(Eq)</code>; a native crash on <code>let b = a</code> for strings is fixed</td></tr>
+          <tr><td data-label="Feature">Printing and equality</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12</span></td><td data-label="Notes">Bools print <code>true</code>/<code>false</code> on both engines (were <code>1</code>/<code>0</code>); <code>==</code>/<code>!=</code> only on int/float/bool/str, because on structs, enums, tuples and lists the native path compared pointers, so those are a type error until <code>@derive(Eq)</code>; a native crash on <code>let b = a</code> for strings is fixed</td></tr>
           <tr><td data-label="Feature">Traits + generic structs</td><td class="badge-cell" data-label="Status"><span class="badge wip">partial</span></td><td data-label="Notes">Nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>) with E0020 conformance (full signatures); trait bounds <code>fn f&lt;T: Shape&gt;</code> checked at the call site; static dispatch. <code>@derive</code>, standard traits, trait default methods and generic structs are next</td></tr>
           <tr><td data-label="Feature">Not implemented yet</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>@derive(Eq, Show, Hash)</code> and standard traits, trait default methods, <code>Map</code>/<code>Set</code> and <code>{k: v}</code> literals, comprehensions, slicing, closures as values, multi-field enum variants, generic structs, <code>spawn</code>, <code>tool</code>/<code>agent</code> keywords</td></tr>
           <tr><td data-label="Feature">WASM target</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>--target=wasm32-wasi</code> emits a wasm object today; a WASI runtime build (for runnable <code>.wasm</code>) and a browser playground are next</td></tr>
@@ -183,16 +182,15 @@
       warnings</code>, <code>cargo audit</code>, and an llc IR-validity
       corpus.</p>
 
-      <h3>Release testing <span class="badge wip">next release</span></h3>
+      <h3>Release testing <span class="badge done">v0.12</span></h3>
       <p>A black-box release suite tests the downloaded binaries, not the
       source tree: <strong>55 checks</strong> covering 17 programs on the
       interpreter and native, modules, error codes and lines,
       <code>astra fmt</code>, <code>astra fix</code> and the Mifa flow. It
-      runs on every platform before a release publishes. v0.11.2-alpha
-      scores <strong>52/55</strong> (<code>mifa search</code> fails, and 2
-      checks for newer features are skipped); <code>main</code> scores
-      <strong>55/55</strong>. Native compile on Windows has never been
-      verified; its first real run is at the next release.</p>
+      runs on every platform before a release publishes. v0.12.0-alpha
+      scores <strong>55/55</strong>; v0.11.2-alpha scored 52/55
+      (<code>mifa search</code> failed, and 2 checks for newer features were
+      skipped). Its first native run on Windows compiled programs but failed to link them, so Windows is interpreter-only for now; the fix is next.</p>
     </div>
   </section>
 
@@ -214,7 +212,7 @@
           <tr><td data-label="#">5</td><td data-label="Astra">Modules v0</td><td data-label="Status / why it&#x27;s next"><span class="badge done">done 2026-10-28</span>, <code>import util;</code>, <code>pub</code> items, <code>util::f()</code> names; resolved before type checking so both engines get them; cycles, missing modules and private items are E0013 at the import line</td></tr>
           <tr><td data-label="#">6</td><td data-label="Astra">Program input and output</td><td data-label="Status / why it&#x27;s next"><span class="badge done">v0.10</span> Command-line arguments, stdin, files and environment variables, with capabilities</td></tr>
           <tr><td data-label="#">7</td><td data-label="Astra">Consolidate the two codegen paths</td><td data-label="Status / why it&#x27;s next">Done 2026-11-01: the legacy backends (<code>--llvm-native</code>, <code>--legacy-c</code>) were removed; <code>ir.rs</code> is the only code generator</td></tr>
-          <tr><td data-label="#">8</td><td data-label="Astra">Machine-applicable fixes</td><td data-label="Status / why it&#x27;s next"><span class="badge wip">next release</span> Diagnostics carry <code>fix</code> edits for misspelt names (E0002/E0003) and a missing or extra <code>mut</code> (E0022), and <code>astra fix</code> applies them; fixes for a missing match arm (E0021) and a missing trait method (E0020) are next</td></tr>
+          <tr><td data-label="#">8</td><td data-label="Astra">Machine-applicable fixes</td><td data-label="Status / why it&#x27;s next"><span class="badge done">v0.12</span> Diagnostics carry <code>fix</code> edits for misspelt names (E0002/E0003) and a missing or extra <code>mut</code> (E0022), and <code>astra fix</code> applies them; fixes for a missing match arm (E0021) and a missing trait method (E0020) are next</td></tr>
           <tr><td data-label="#">9</td><td data-label="Astra">Traits, generic structs, typed collections</td><td data-label="Status / why it&#x27;s next">Nominal traits and trait bounds shipped in v0.11 (static dispatch, E0020); next is <code>@derive(Eq)</code> + trait default methods, then <code>Map</code> / <code>Set</code> and comprehensions, then generic structs</td></tr>
           <tr><td data-label="#">10</td><td data-label="Astra">Remaining memory leaks</td><td data-label="Status / why it&#x27;s next">Locals inside <code>if</code>/<code>match</code> branches, locals passed to calls, stored or reassigned, exits via <code>?</code>/<code>throw</code>, and <code>str</code> fields of structs still leak (bounded, safe)</td></tr>
           <tr><td data-label="#">11</td><td data-label="Astra">LSP alpha + stdlib core (<code>astra fmt</code> shipped)</td><td data-label="Status / why it&#x27;s next">Diagnostics-on-save first (reuses the JSON pipeline); collections/string/fs surface</td></tr>
@@ -237,7 +235,7 @@
 
   <section id="timeline">
     <div class="wrap">
-      <h2>From the first lexer to v0.11</h2>
+      <h2>From the first lexer to v0.12</h2>
       <p>Each release on one line, oldest first. Test counts are the suite
       at the time of the release.</p>
       <figure class="viz" data-viz="releases" hidden>
@@ -311,18 +309,18 @@
           the compiler, and macOS links for the compiler's own architecture.
           <span class="tl-tests">699 tests</span></p>
         </li>
-        <li class="now">
+        <li>
           <span class="tl-when">Nov 2, 2026</span>
-          <span class="tl-title">v0.11.2-alpha <span class="badge wip">current</span></span>
+          <span class="tl-title">v0.11.2-alpha</span>
           <p>Trait bounds checked at the call site and impl signatures checked
           against the trait (E0020); loops no longer leak memory
           (<code>while</code> bodies, list copies, struct list fields); every
           release binary is smoke-tested before publishing.
           <span class="tl-tests">712 tests</span></p>
         </li>
-        <li class="planned">
-          <span class="tl-when">On main</span>
-          <span class="tl-title">Next release <span class="badge wip">next release</span></span>
+        <li class="now">
+          <span class="tl-when">Nov 4, 2026</span>
+          <span class="tl-title">v0.12.0-alpha <span class="badge wip">current</span></span>
           <p>Every type error in the main file carries its line and column;
           machine-applicable fixes and <code>astra fix</code>; single-owner
           locals freed on every exit (a helper building a struct/list/tuple,
@@ -330,7 +328,7 @@
           <code>==</code> only where it compares by value;
           <code>mifa --version</code> and an honest <code>mifa search</code>;
           a 55-check black-box release suite on every platform.
-          <span class="tl-tests">750 tests</span></p>
+          <span class="tl-tests">754 tests</span></p>
         </li>
         <li class="planned">
           <span class="tl-when">Next</span>
@@ -354,11 +352,11 @@
   <section id="history">
     <div class="wrap">
       <h2>Every release, in three dimensions</h2>
-      <p>Each column is a release, as tall as its test suite; the orange one is <code>main</code>. Drag to turn it, or use the arrow keys to step through the releases.</p>
+      <p>Each column is a release, as tall as its test suite; the latest is darkest. Drag to turn it, or use the arrow keys to step through the releases.</p>
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
-      <tr><td data-label="Version">main (not released)</td><td data-label="Date">2026-11-03</td><td data-label="Tests">750</td><td data-label="What changed">Every type error has a line; machine fixes and astra fix; memory freed on every exit; a 55-check release suite.</td></tr>
+      <tr><td data-label="Version">v0.12.0</td><td data-label="Date">2026-11-04</td><td data-label="Tests">754</td><td data-label="What changed">Every type error has a line; machine fixes and astra fix; memory freed on every exit; bools print true/false; a 55-check release suite.</td></tr>
       <tr><td data-label="Version">v0.11.2</td><td data-label="Date">2026-11-02</td><td data-label="Tests">712</td><td data-label="What changed">Trait bounds checked at call sites, impl signatures checked (E0020); loops no longer leak.</td></tr>
       <tr><td data-label="Version">v0.11.1</td><td data-label="Date">2026-11-02</td><td data-label="Tests">699</td><td data-label="What changed">Released binaries compile natively: the C runtime is embedded in the compiler.</td></tr>
       <tr><td data-label="Version">v0.11.0</td><td data-label="Date">2026-11-02</td><td data-label="Tests">695</td><td data-label="What changed">Value semantics, indentation syntax and astra fmt, type inference, nominal traits and trait bounds.</td></tr>
@@ -373,7 +371,7 @@
     </tbody>
   </table></div><!-- /status:releases-table -->
       <h3>Memory, before and after</h3>
-      <p>Peak memory of four programs that used to leak, built natively. The tall columns are before; the short ones are after memory was freed on every exit (on main).</p>
+      <p>Peak memory of four programs that used to leak, built natively. The tall columns are before; the short ones are after memory was freed on every exit (v0.12).</p>
       <figure class="viz" data-viz="memory" hidden>
         <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="A 3D chart of peak memory before and after, for four programs. The same numbers are in the table below."></canvas></div>
         <figcaption>Grey columns are before, orange after, for each program in the table. Hover or step through them for the names.</figcaption>
@@ -415,8 +413,8 @@
           <tr><td data-label="Capability">Path dependencies</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Resolve from local <code>astra.toml</code></td></tr>
           <tr><td data-label="Capability">Cache (<code>~/.mifa/cache</code>)</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>MIFA_CACHE_DIR</code> override supported</td></tr>
           <tr><td data-label="Capability"><code>mifa clean [--cache]</code></td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"></td></tr>
-          <tr><td data-label="Capability"><code>mifa --version</code></td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Evidence">Prints the Mifa version</td></tr>
-          <tr><td data-label="Capability"><code>mifa search</code></td><td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td><td data-label="Evidence">Says the registry is not deployed instead of listing packages. Known bug in v0.11.2-alpha: its <code>search</code> lists packages that do not exist</td></tr>
+          <tr><td data-label="Capability"><code>mifa --version</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12</span></td><td data-label="Evidence">Prints the Mifa version</td></tr>
+          <tr><td data-label="Capability"><code>mifa search</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12</span></td><td data-label="Evidence">Says the registry is not deployed instead of listing packages (v0.11.2-alpha and earlier listed packages that do not exist)</td></tr>
           <tr><td data-label="Capability"><strong>M5-basics</strong>: <code>--json</code> on local commands</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence">Stable JSON envelope (<code>command</code>, <code>success</code>, <code>diagnostics[]</code>) on <code>init</code>/<code>add</code>/<code>verify</code>/<code>test</code>/<code>lock</code>/<code>login</code>/<code>publish</code>; JSON error envelope on failure</td></tr>
           <tr><td data-label="Capability"><strong>M3</strong>: Registry protocol</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>/v1/packages</code> v1 API (<code>RegistryApi</code> trait), SHA-256 checksums with verification, yanked-version handling, stable <code>REG4xx</code> error codes; 34 tests</td></tr>
           <tr><td data-label="Capability"><strong>M4</strong>: Publish + auth</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td><td data-label="Evidence"><code>mifa login</code> (per-registry tokens, 0600 credentials file), <code>publish --dry-run</code> (semver/license validation, deterministic archive, 10&nbsp;MiB limit, checksum report)</td></tr>
@@ -445,10 +443,10 @@
         <tbody>
           <tr><td data-label="Strategic guarantee">Interfaces can't drift silently</td><td data-label="Mechanism">Static types + inference</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped v0.6</span></td></tr>
           <tr><td data-label="Strategic guarantee">Errors are values, not surprises</td><td data-label="Mechanism"><code>Result&lt;T,E&gt;</code> + exhaustive <code>match</code> + <code>?</code> operator</td><td data-label="Status"><span class="badge done">shipped v0.6 · <code>?</code> v0.9</span></td></tr>
-          <tr><td data-label="Strategic guarantee">Feedback is a machine contract</td><td data-label="Mechanism">JSON diagnostics, stable E-codes, <code>suggestion</code>, <code>astra explain</code>; machine-applicable <code>fix</code> edits and <code>astra fix</code> in the next release</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped v0.7</span></td></tr>
+          <tr><td data-label="Strategic guarantee">Feedback is a machine contract</td><td data-label="Mechanism">JSON diagnostics, stable E-codes, <code>suggestion</code>, <code>astra explain</code>; machine-applicable <code>fix</code> edits and <code>astra fix</code> (v0.12)</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped v0.7</span></td></tr>
           <tr><td data-label="Strategic guarantee">Flexibility is explicit, never accidental</td><td data-label="Mechanism"><code>dyn</code> gradual-typing boundary</td><td class="badge-cell" data-label="Status"><span class="badge done">shipped v0.7</span></td></tr>
           <tr><td data-label="Strategic guarantee">Builds are reproducible</td><td data-label="Mechanism">Mifa sha256-stable <code>astra.lock</code></td><td class="badge-cell" data-label="Status"><span class="badge done">shipped M2</span></td></tr>
-          <tr><td data-label="Strategic guarantee">Memory correctness without generator burden</td><td data-label="Mechanism">ARC + escape analysis (no GC, no lifetimes)</td><td class="badge-cell" data-label="Status"><span class="badge wip">reclaiming since v0.9, loop + function scope; every-exit release and owned strings next release</span></td></tr>
+          <tr><td data-label="Strategic guarantee">Memory correctness without generator burden</td><td data-label="Mechanism">ARC + escape analysis (no GC, no lifetimes)</td><td class="badge-cell" data-label="Status"><span class="badge wip">reclaiming since v0.9; every exit and owned strings since v0.12</span></td></tr>
           <tr><td data-label="Strategic guarantee">Generated code runs in a cage</td><td data-label="Mechanism">WASM sandbox target</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Strategic guarantee">Tool schemas can't lie</td><td data-label="Mechanism"><code>tool</code> keyword, signature <em>is</em> the schema</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Strategic guarantee">Agent state is typed, prompts are checked</td><td data-label="Mechanism"><code>agent</code> / <code>memory</code> / <code>prompt</code> keywords</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td></tr>
@@ -498,7 +496,7 @@
       </table></div>
     </div>
   </section>
-  <nav class="next-steps" aria-label="Where next"><h2>Where next</h2><div><a href="download.html"><b>Get the alpha</b><span>v0.11.2 for Linux, macOS and Windows.</span></a><a href="benchmarks.html"><b>See the numbers</b><span>Every claim, with the script behind it.</span></a><a href="vision.html"><b>Where it is going</b><span>Agent keywords and the road to v1.0.</span></a></div></nav>
+  <nav class="next-steps" aria-label="Where next"><h2>Where next</h2><div><a href="download.html"><b>Get the alpha</b><span>v0.12.0 for Linux, macOS and Windows.</span></a><a href="benchmarks.html"><b>See the numbers</b><span>Every claim, with the script behind it.</span></a><a href="vision.html"><b>Where it is going</b><span>Agent keywords and the road to v1.0.</span></a></div></nav>
   </div>
 </div>
 </main>

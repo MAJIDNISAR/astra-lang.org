@@ -78,7 +78,7 @@
   <section>
     <div class="wrap">
       <h2 id="three-commands-stable-semantics-and-a-fourth-nex">The commands an agent calls</h2>
-      <p class="lead-in">An agent needs only these commands, each with a stable exit code; <code>astra fix</code> joins them in the next release.</p>
+      <p class="lead-in">An agent needs only these commands, each with a stable exit code.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Command</th><th>What it does</th><th>Exit code</th></tr></thead>
         <tbody>
@@ -98,7 +98,7 @@
             <td data-label="Exit code">0</td>
           </tr>
           <tr>
-            <td data-label="Command"><code>astra fix &lt;file&gt;</code> <span class="badge wip">next release</span></td>
+            <td data-label="Command"><code>astra fix &lt;file&gt;</code> <span class="badge done">v0.12</span></td>
             <td data-label="What it does">Applies every machine-applicable fix, re-verifies, repeats, and writes the file. Accepts <code>--error-format=json</code>.</td>
             <td data-label="Exit code">0 = verified after fixing · non-zero = errors remain</td>
           </tr>
@@ -133,18 +133,17 @@
 }</code></pre>
       <ul>
         <li><strong>Parse errors</strong> always carry <code>line</code> and <code>column</code> of the offending token.</li>
-        <li><strong>Typecheck errors</strong> carry them when the error names a symbol; otherwise <code>null</code> (never <code>0</code>).
-        <span class="badge wip">next release</span> Every type error in the
+        <li><strong>Typecheck errors</strong>: every type error in the
         main file carries the line and column of the statement that raised it
         (human output ends with <code>(line N, column M)</code>); a function
         reports all of its independent errors in one run, not just the first;
         capability errors (E0014) point at the offending built-in call. Errors
-        in imported modules and in function signatures still have no line.</li>
+        in imported modules and in function signatures still have no line (<code>null</code>, never <code>0</code>).</li>
         <li><strong><code>suggestion</code></strong> is a human/LLM-readable repair hint, name-aware where possible.</li>
         <li>Success shape: <code>{"success": true, "diagnostics": []}</code>.</li>
       </ul>
 
-      <h3 id="fix">Machine-applicable fixes <span class="badge wip">next release</span></h3>
+      <h3 id="fix">Machine-applicable fixes <span class="badge done">v0.12</span></h3>
       <p>When the repair is unambiguous, a diagnostic also carries a
       <code>fix</code>: text edits that repair the error without an LLM call.
       Each edit replaces the text from <code>line</code>/<code>column</code> up
@@ -191,7 +190,7 @@
 
 binary = run(<span class="s">"astra compile --error-format=json"</span>, source)
 execute(binary)                              <span class="c"># native, already typechecked</span></code></pre>
-      <p><span class="badge wip">next release</span> Apply the compiler's own
+      <p>Apply the compiler's own
       fixes first, and spend a model call only on what remains:</p>
 <pre><code><span class="kw">for</span> attempt <span class="kw">in</span> 1..MAX_REPAIRS:
     report = run(<span class="s">"astra verify --error-format=json"</span>, source)
@@ -206,9 +205,9 @@ execute(binary)                              <span class="c"># native, already t
         <li>Diagnostics are <strong>positional</strong>: the model repairs one
         pinpointed line instead of regenerating the file.</li>
         <li>Codes are <strong>categorical</strong>: frameworks can route
-        E0002 to a cheap local fix and reserve the LLM for E0004/E0011
-        (next release: the compiler supplies that fix itself).</li>
-        <li>Verification is <strong>~100 ms</strong>: cheaper than any token
+        E0002 to the compiler's own fix and reserve the LLM for
+        E0004/E0011.</li>
+        <li>Verification takes <strong>4–5 ms</strong>: cheaper than any token
         round-trip, so verify after every single edit.</li>
         <li>Whole error classes <strong>cannot escape to runtime</strong>, so
         the expensive failure mode (bad code executing) is structurally
@@ -233,8 +232,8 @@ execute(binary)                              <span class="c"># native, already t
         <thead><tr><th>Code</th><th>Meaning</th><th>Typical agent repair</th></tr></thead>
         <tbody>
           <tr><td data-label="Code"><code>E0001</code></td><td data-label="Meaning">Syntax error</td><td data-label="Typical agent repair">Re-emit the statement; check delimiters and semicolons</td></tr>
-          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling (next release: a near-miss name carries a <code>fix</code>)</td></tr>
-          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target (next release: a near-miss name carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0002</code></td><td data-label="Meaning">Undefined variable</td><td data-label="Typical agent repair">Declare with <code>let</code>, or fix the identifier spelling (a near-miss name carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0003</code></td><td data-label="Meaning">Undefined function</td><td data-label="Typical agent repair">Define the function or correct the call target (a near-miss name carries a <code>fix</code>)</td></tr>
           <tr><td data-label="Code"><code>E0004</code></td><td data-label="Meaning">Type mismatch</td><td data-label="Typical agent repair">Align value type with the annotation / return type</td></tr>
           <tr><td data-label="Code"><code>E0005</code></td><td data-label="Meaning">Wrong number of arguments</td><td data-label="Typical agent repair">Match the call to the function signature</td></tr>
           <tr><td data-label="Code"><code>E0006</code></td><td data-label="Meaning">Condition must be boolean</td><td data-label="Typical agent repair">Use a comparison, not a bare value, in <code>if</code>/<code>while</code></td></tr>
@@ -251,7 +250,7 @@ execute(binary)                              <span class="c"># native, already t
           <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
           <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method (or fix its signature) named in the message in the <code>impl Trait for Type</code> block; for a bound, pass a type that implements the trait</td></tr>
           <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
-          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (next release: a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
+          <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
         </tbody>
       </table></div>
