@@ -526,6 +526,7 @@
     else window.addEventListener("resize", function () { size(); request(); });
 
     fig.hidden = false;
+    fig.setAttribute("data-ui", "");
     size();
     request();
   }

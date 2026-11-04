@@ -168,6 +168,8 @@
     });
   }
 
+  // Code blocks and terminal sessions are Astra's own interface, so they
+  // are marked as interface fragments (data-ui) for the design checks.
   function addCopyButton(pre) {
     var btn = document.createElement("button");
     btn.type = "button";
@@ -203,6 +205,7 @@
       wrap.appendChild(pre);
     }
     head.appendChild(btn);
+    (pre.closest(".codeblock") || pre.closest(".pre-wrap") || pre).setAttribute("data-ui", "");
   }
 
   function setupCode() {

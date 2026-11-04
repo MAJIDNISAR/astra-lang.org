@@ -299,7 +299,7 @@ header.site .wrap {
   align-items: baseline;
   gap: var(--px-2);
 }
-.brand .tld { color: var(--orange); font-weight: 500; font-size: 0.6em; letter-spacing: 0; }
+.brand .tld { color: var(--link); font-weight: 500; font-size: 0.6em; letter-spacing: 0; }
 nav.main {
   display: flex;
   flex-wrap: wrap;
@@ -408,10 +408,10 @@ hr { border: 0; height: var(--sec); }
 .head-plate {
   position: absolute;
   right: max(var(--gutter), calc((100% - var(--page)) / 2 + var(--gutter)));
-  bottom: -14%;
-  height: 128%;
+  bottom: -22%;
+  height: 150%;
   width: auto;
-  max-width: 40%;
+  max-width: 46%;
   object-fit: contain;
   object-position: bottom right;
   z-index: 0;
@@ -442,7 +442,7 @@ hr { border: 0; height: var(--sec); }
 }
 .page-head .wrap > * { max-width: min(100%, 60%); }
 @media (max-width: 860px) { .page-head .wrap > * { max-width: none; } }
-.page-head h1 { max-width: 22ch; font-size: clamp(2.375rem, 1rem + 4.2vw, 4.75rem); }
+.page-head h1 { max-width: 20ch; font-size: clamp(2.25rem, 1rem + 3.8vw, 4.25rem); }
 .page-head .lede { color: var(--ink-soft); }
 .page-head .btn-row { margin-top: var(--px-28); }
 

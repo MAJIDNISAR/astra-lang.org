@@ -55,9 +55,9 @@
   <section class="page-head">
     <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="957" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
-      <h1>Every number on this page<br>comes from a script you can run.</h1>
+      <h1>Every number, reproducible.</h1>
       <p class="lede">
-        No synthetic marketing charts. Two harnesses ship with the compiler:
+        Every number on this page comes from a script you can run. No synthetic marketing charts. Two harnesses ship with the compiler:
         <code>scripts/validate_metrics.sh</code> exercises the five
         differentiators end-to-end (13 checks, all pass), and
         <code>benchmarks/run.py</code> compares seven languages and fails if
@@ -88,7 +88,7 @@ RESULT: all outputs verified.</code></pre>
     <ol>
       <li><a href="#astra-against-c-rust-go-java-node-js-and-python">Astra against C, Rust, Go, Java, Node.js and Python</a></li>
       <li><a href="#native-speed-including-compile-time">Native speed, including compile time</a></li>
-      <li><a href="#verification-is-fast-enough-for-every-loop-itera">Verification is fast enough for every loop iteration</a></li>
+      <li><a href="#verification-is-fast-enough-for-every-loop-itera">Verify after every edit</a></li>
       <li><a href="#the-repair-loop-closes">The repair loop closes</a></li>
       <li><a href="#agent-mistakes-rejected-before-execution">Agent mistakes rejected before execution</a></li>
       <li><a href="#deterministic-dependency-resolution">Deterministic dependency resolution</a></li>
@@ -204,7 +204,7 @@ RESULT: all outputs verified.</code></pre>
 
   <section>
     <div class="wrap">
-      <h2 id="verification-is-fast-enough-for-every-loop-itera">Verification is fast enough for every loop iteration</h2>
+      <h2 id="verification-is-fast-enough-for-every-loop-itera">Verify after every edit</h2>
       <p><strong>Claim:</strong> <code>verify</code> is cheap enough that an
       agent can call it after every edit, like a linter, with compiler
       guarantees.</p>
