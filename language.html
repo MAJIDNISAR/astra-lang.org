@@ -85,11 +85,11 @@
       <p>Types are inferred from initializers; annotations are optional and
       checked when present. Template literals interpolate with
       <code>${}</code>.</p>
-<pre><code><span class="kw">let</span> name = <span class="s">"Astra"</span>;          <span class="c">// inferred str</span>
-<span class="kw">let</span> version: <span class="kw">float</span> = <span class="n">0.9</span>;   <span class="c">// explicit annotation</span>
-<span class="kw">let</span> tests = <span class="n">449</span>;            <span class="c">// inferred int</span>
+<pre><code><span class="kw">let</span> name = <span class="s">"Astra"</span>           <span class="c">// inferred str</span>
+<span class="kw">let</span> version: <span class="kw">float</span> = <span class="n">0.12</span>  <span class="c">// explicit annotation</span>
+<span class="kw">let</span> checks = <span class="n">55</span>              <span class="c">// inferred int</span>
 
-<span class="fn">print</span>(<span class="s">"${name} v${version}, ${tests} tests green"</span>);</code></pre>
+<span class="fn">print</span>(<span class="s">"${name} v${version}: ${checks} release checks pass"</span>)</code></pre>
     </div>
   </section>
 
@@ -133,6 +133,11 @@
     Status::Active    =&gt; <span class="s">&quot;ok&quot;</span>
     Status::Suspended =&gt; <span class="s">&quot;paused&quot;</span>
     Status::Deleted   =&gt; <span class="s">&quot;gone&quot;</span></code></pre>
+      <p><code>print</code> and <code>${}</code> take <code>int</code>,
+      <code>float</code>, <code>bool</code> and <code>str</code>; the same
+      goes for <code>==</code>. Print or compare a struct's fields, and
+      <code>match</code> an enum, until <code>@derive(Show, Eq)</code>
+      arrives.</p>
     </div>
   </section>
 
@@ -140,7 +145,10 @@
     <div class="wrap">
       <h2 id="result-no-exceptions">Result&lt;T,E&gt;, no exceptions</h2>
       <p>Fallible operations return <code>Result</code>. The compiler forces
-      the caller to handle both arms; there is no invisible control flow.</p>
+      the caller to handle both arms; there is no invisible control flow.
+      The built-ins that can fail (<code>read_file</code>, <code>parse_int</code>, …) return
+      <code>Result</code> or <code>Option</code>; <code>throw</code> and <code>try</code>/<code>catch</code>
+      exist for code that prefers them, in braced syntax for now.</p>
 <pre><code><span class="kw">fn</span> <span class="fn">divide</span>(a: <span class="kw">int</span>, b: <span class="kw">int</span>) -&gt; Result&lt;<span class="kw">int</span>, <span class="kw">str</span>&gt;:
     <span class="kw">if</span> b == <span class="n">0</span>:
         <span class="kw">return</span> <span class="fn">Err</span>(<span class="s">&quot;division by zero&quot;</span>)
@@ -172,10 +180,14 @@
       <p>Generic functions are monomorphized, specialized per concrete type
       at compile time, like Rust and C++, so generics carry zero runtime
       cost.</p>
-<pre><code><span class="kw">fn</span> <span class="fn">max</span>&lt;T&gt;(a: T, b: T) -&gt; T:
-    <span class="kw">if</span> a &gt; b:
-        <span class="kw">return</span> a
-    <span class="kw">return</span> b</code></pre>
+<pre><code><span class="kw">fn</span> <span class="fn">first</span>&lt;T&gt;(xs: [T]) -&gt; T:
+    <span class="kw">return</span> xs[<span class="n">0</span>]
+
+<span class="fn">print</span>(<span class="fn">first</span>([<span class="n">3</span>, <span class="n">1</span>, <span class="n">2</span>]))       <span class="c">// 3: first&lt;int&gt;</span>
+<span class="fn">print</span>(<span class="fn">first</span>([<span class="s">"a"</span>, <span class="s">"b"</span>]))      <span class="c">// a: first&lt;str&gt;</span></code></pre>
+      <p>Comparing two values of a type parameter (<code>a &gt; b</code>)
+      needs a trait bound such as <code>Ord</code>; that comes with the
+      standard traits, after <code>@derive</code>.</p>
       <p>When a boundary genuinely can't be typed statically, data from an
       LLM, a dynamic config, <code>dyn</code> marks it explicitly. Checks
       defer to runtime at that boundary and nowhere else.</p>

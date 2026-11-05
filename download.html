@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Downloads: Astra</title>
-<meta name="description" content="Download the Astra compiler and the Mifa package manager. v0.12.0-alpha for Linux, macOS and Windows (early access).">
+<meta name="description" content="Download the Astra compiler and the Mifa package manager. v0.12.1-alpha for Linux, macOS and Windows (early access).">
 <link rel="canonical" href="https://astra-lang.org/download.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Downloads: Astra">
-<meta property="og:description" content="Download the Astra compiler and the Mifa package manager. v0.12.0-alpha for Linux, macOS and Windows (early access).">
+<meta property="og:description" content="Download the Astra compiler and the Mifa package manager. v0.12.1-alpha for Linux, macOS and Windows (early access).">
 <meta property="og:url" content="https://astra-lang.org/download.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Downloads: Astra">
-<meta name="twitter:description" content="Download the Astra compiler and the Mifa package manager. v0.12.0-alpha for Linux, macOS and Windows (early access).">
+<meta name="twitter:description" content="Download the Astra compiler and the Mifa package manager. v0.12.1-alpha for Linux, macOS and Windows (early access).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
@@ -54,9 +54,9 @@
   <section class="page-head">
     <img class="head-plate" src="assets/celestial-globe-1579.webp" width="647" height="957" alt="A gilded and silver celestial globe from 1579, driven by clockwork and carried on a winged horse." decoding="async">
     <div class="wrap">
-      <h1>v0.12.0-alpha is out.</h1>
+      <h1>v0.12.1-alpha is out.</h1>
       <p class="lede">
-        Astra <strong>v0.12.0-alpha</strong> (2026-11-04) ships the
+        Astra <strong>v0.12.1-alpha</strong> (2026-11-05) ships the
         <code>astra</code> compiler and the <code>mifa</code> package manager
         for Linux, macOS and Windows. This alpha is an <strong>early-access
         preview</strong>: binaries go to testers through the private release
@@ -91,15 +91,15 @@
       <div class="table-wrap stack"><table>
         <thead><tr><th>Platform</th><th>Archive</th><th><code>astra run</code></th><th>Native <code>astra build</code></th></tr></thead>
         <tbody>
-          <tr><td data-label="Platform">macOS Apple Silicon</td><td data-label="Archive"><code>astra-v0.12.0-alpha-macos-arm64.tar.gz</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
-          <tr><td data-label="Platform">macOS Intel</td><td data-label="Archive"><code>astra-v0.12.0-alpha-macos-x64.tar.gz</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
-          <tr><td data-label="Platform">Linux x64</td><td data-label="Archive"><code>astra-v0.12.0-alpha-linux-x64.tar.gz</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
-          <tr><td data-label="Platform">Windows x64</td><td data-label="Archive"><code>astra-v0.12.0-alpha-windows-x64.zip</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge wip">not yet: use <code>astra run</code></span></td></tr>
+          <tr><td data-label="Platform">macOS Apple Silicon</td><td data-label="Archive"><code>astra-v0.12.1-alpha-macos-arm64.tar.gz</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
+          <tr><td data-label="Platform">macOS Intel</td><td data-label="Archive"><code>astra-v0.12.1-alpha-macos-x64.tar.gz</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
+          <tr><td data-label="Platform">Linux x64</td><td data-label="Archive"><code>astra-v0.12.1-alpha-linux-x64.tar.gz</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
+          <tr><td data-label="Platform">Windows x64</td><td data-label="Archive"><code>astra-v0.12.1-alpha-windows-x64.zip</code></td><td data-label="astra run"><span class="badge done">yes</span></td><td data-label="Native"><span class="badge done">yes</span></td></tr>
           <tr><td data-label="Platform">WebAssembly</td><td data-label="Archive">—</td><td data-label="astra run">—</td><td data-label="Native"><span class="badge planned">object file only</span></td></tr>
         </tbody>
       </table></div>
       <p>Building native executables needs the LLVM tools (<code>llc</code>)
-      and a linker (<code>clang</code> on Linux, the Xcode Command
+      and a linker (<code>clang</code> on Linux and Windows, the Xcode Command
       Line Tools on macOS) on your PATH; <code>astra run</code> needs neither.
       The binaries are unsigned: on macOS run
       <code>xattr -d com.apple.quarantine astra mifa</code>; on Windows choose
@@ -115,6 +115,7 @@
       <h2 id="since-v0-9-1">Since v0.9.1</h2>
       <p class="lead-in">The main changes since v0.9.1:</p>
       <ul>
+        <li><strong>Native builds on Windows</strong> (v0.12.1): Windows compiles and links programs like macOS and Linux; install the full LLVM archive (the installer has no <code>llc</code>)</li>
         <li><strong>Machine-applicable fixes</strong> (v0.12): every type error carries its line and column, and <code>astra fix</code> repairs misspelt names and a missing or extra <code>mut</code> without a model call, <a href="agents.html#fix">agents page</a></li>
         <li><strong>Memory freed on every exit</strong> (v0.12): a helper called a million times peaks at 1.3 MB instead of 231 MB</li>
         <li><strong>Behaviour changes</strong> (v0.12): bools print <code>true</code>/<code>false</code>; <code>==</code> works only on numbers, bools and strings until <code>@derive(Eq)</code></li>

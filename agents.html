@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>For Agents: Astra's machine interface</title>
-<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta name="description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalogue E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="canonical" href="https://astra-lang.org/agents.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="For Agents: Astra's machine interface">
-<meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta property="og:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalogue E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <meta property="og:url" content="https://astra-lang.org/agents.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="For Agents: Astra's machine interface">
-<meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalog E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
+<meta name="twitter:description" content="The Astra compiler as an API: JSON diagnostics contract, stable error-code catalogue E0001–E0022, exit codes, and the canonical generate-verify-repair-compile loop for AI agents and framework authors.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
@@ -58,7 +58,7 @@
       <p class="lede">
         This page is its documentation. If you're building an agent, a coding assistant, or a framework that
         generates Astra, everything you need is here: the CLI surface, the
-        JSON contract, the error-code catalog, and the canonical loop.
+        JSON contract, the error-code catalogue, and the canonical loop.
       </p>
       <dl class="glance"><div><dt>JSON</dt><dd>every diagnostic: a stable code, a line, a column, a suggestion</dd></div><div><dt>21 codes</dt><dd>never renumbered, so an agent can branch on them</dd></div><div><dt>4–5 ms</dt><dd>per <code>astra verify</code>: cheaper than one model call</dd></div></dl>
     </div>
@@ -121,7 +121,7 @@
     {
       <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,       <span class="c">// "parse" | "typecheck" | "codegen"</span>
       <span class="s">"kind"</span>: <span class="s">"TypeError"</span>,        <span class="c">// coarse class</span>
-      <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,      <span class="c">// stable, catalog below</span>
+      <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,      <span class="c">// stable, catalogue below</span>
       <span class="s">"message"</span>: <span class="s">"Type error: Undefined variable 'total'"</span>,
       <span class="s">"file"</span>: <span class="kw">null</span>,
       <span class="s">"line"</span>: <span class="n">4</span>,                  <span class="c">// 1-based; null if unresolvable</span>
@@ -215,7 +215,7 @@ execute(binary)                              <span class="c"># native, already t
       </ul>
       <div class="callout">
         <p><strong>Versioning promise:</strong> the JSON field set and the
-        E-code catalog only grow, existing codes and fields are never
+        E-code catalogue only grow, existing codes and fields are never
         renamed or repurposed. Breaking changes to this contract would get a
         major version bump and a migration note on this page.</p>
       </div>
