@@ -205,6 +205,9 @@
     var running = false;
     var orbit = 0.9; // the moon's place on its orbit
     var center = { x: 0, y: 0, R: 0 };
+    // Text laid over the globe (the hero's sentence and release line), in
+    // canvas coordinates. The moon rises over it rather than passing under.
+    var keepOut = [];
 
     function size() {
       var rect = canvas.getBoundingClientRect();
@@ -213,6 +216,45 @@
       H = rect.height;
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
+      var holder = stage.parentElement;
+      keepOut = Array.prototype.filter.call(holder ? holder.querySelectorAll(".hero-side") : [], function (el) {
+        return getComputedStyle(el).position === "absolute";
+      }).map(function (el) {
+        var r = el.getBoundingClientRect();
+        return { left: r.left - rect.left, right: r.right - rect.left, top: r.top - rect.top };
+      });
+    }
+
+    // How far the moon must rise to clear the text: full height once it is
+    // a radius into a text column, eased in over the radius before that, so
+    // it glides up instead of jumping.
+    function lift(mx, my, mR) {
+      var label = 26; // the "Mifa" name under the moon
+      var need = 0;
+      keepOut.forEach(function (k) {
+        var gap = Math.max(k.left - (mx + mR), (mx - mR) - k.right);
+        var t = Math.max(0, Math.min(1, 1 - gap / mR));
+        t = t * t * (3 - 2 * t);
+        var over = my + mR + label - (k.top - 12);
+        if (over > 0) need = Math.max(need, over * t);
+      });
+      return need;
+    }
+
+    function clearsAbove(top, mR) {
+      return keepOut.every(function (k) { return top + mR + 26 <= k.top - 12; });
+    }
+
+    // Eases a sideways offset so the moon's edge never reaches the text
+    // columns: nearly linear near the middle, slowing towards the limit.
+    function squeeze(dx, mR) {
+      var room = Infinity;
+      keepOut.forEach(function (k) {
+        if (dx >= 0 && k.left > center.x) room = Math.min(room, k.left - center.x - 12 - mR);
+        if (dx < 0 && k.right < center.x) room = Math.min(room, center.x - k.right - 12 - mR);
+      });
+      if (room === Infinity) return dx;
+      return room > 0 ? room * Math.tanh(dx / room) : 0;
     }
 
     function motion() {
@@ -256,7 +298,13 @@
         var oy = -Math.sin(orbit) * R * 0.22 - R * 0.62;
         var f = 2.8 / (2.8 - oz / R * 0.55);
         var mR = R * 0.27 * f;
-        var mx = cx + ox * f, my = Math.max(cy + oy * f, mR * 1.1 + 6);
+        var mx = cx + ox * f, my = cy + oy * f;
+        var top = mR * 1.1 + 6;
+        // Where there is room above the text the moon rises over it;
+        // where there is not, its swing narrows to the gap between.
+        if (clearsAbove(top, mR)) my -= lift(mx, my, mR);
+        else mx = cx + squeeze(ox * f, mR);
+        my = Math.max(my, top);
         moon.mz = oz;
         moon.cx = mx;
         moon.cy = my;
@@ -418,7 +466,11 @@
         v.yaw += v.vel * dt + v.rate * slow * dt;
         v.vel *= Math.pow(0.93, dt / 16);
       });
-      if (motion() && !(dragging && grabbed === spin.moon)) orbit += 0.00016 * dt;
+      // The moon hurries round the far side, so it is hidden behind the
+      // planet for about a third of its orbit rather than half.
+      if (motion() && !(dragging && grabbed === spin.moon)) {
+        orbit += 0.00016 * dt * (1 + 1.2 * Math.max(0, -Math.sin(orbit)));
+      }
       draw(t);
       if (shouldAnimate()) request();
       else lastT = 0;
@@ -572,6 +624,8 @@
     }
     if ("ResizeObserver" in window) new ResizeObserver(resized).observe(frame);
     else window.addEventListener("resize", resized);
+    // The text the moon avoids changes height once the web fonts arrive.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(resized);
 
     stage.hidden = false;
     stage.setAttribute("data-ui", "");

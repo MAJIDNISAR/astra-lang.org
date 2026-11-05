@@ -359,6 +359,7 @@
       if (rows.length < 5) return;
       var heads = table.querySelectorAll("thead th");
       var original = rows.slice();
+      var refresh = null; // re-applies the filter and row limit after a sort
 
       function cellKey(row, col) {
         var c = row.cells[col];
@@ -387,6 +388,7 @@
             return next === "ascending" ? r : -r;
           });
           sorted.forEach(function (r) { body.appendChild(r); });
+          if (refresh) refresh();
           announce("Sorted by " + label + ", " + next);
         });
       });
@@ -429,17 +431,44 @@
       wrap.parentNode.insertBefore(tools, wrap);
       var input = tools.querySelector("input");
 
+      // Long tables open on their first rows; a filter, a status chip or
+      // "Show all" reaches the rest.
+      var LIMIT = 8;
+      var limited = rows.length >= 12;
+      var more = null;
+      if (limited) {
+        more = document.createElement("button");
+        more.type = "button";
+        more.className = "table-more btn ghost";
+        more.addEventListener("click", function () {
+          limited = !limited;
+          apply();
+          if (limited && wrap.getBoundingClientRect().top < 0) tools.scrollIntoView({ block: "start" });
+          announce(limited ? "Showing the first " + LIMIT + " rows" : "Showing all " + rows.length + " rows");
+        });
+        wrap.parentNode.insertBefore(more, wrap.nextSibling);
+      }
+
       function apply() {
         var q = input.value.trim().toLowerCase();
+        var filtering = !!q || !!chosen;
         var shown = 0;
-        rows.forEach(function (r) {
+        Array.prototype.forEach.call(body.rows, function (r) {
           var okText = !q || r.textContent.toLowerCase().indexOf(q) !== -1;
           var okStatus = !chosen || !!r.querySelector(".badge." + chosen);
-          r.hidden = !(okText && okStatus);
-          if (!r.hidden) shown += 1;
+          var ok = okText && okStatus;
+          if (ok) shown += 1;
+          r.hidden = !ok || (!filtering && limited && shown > LIMIT);
         });
-        count.textContent = shown === rows.length ? rows.length + " rows" : "Showing " + shown + " of " + rows.length;
+        var visible = Math.min(shown, !filtering && limited ? LIMIT : shown);
+        count.textContent = visible === rows.length ? rows.length + " rows" : "Showing " + visible + " of " + rows.length;
+        if (more) {
+          more.hidden = filtering;
+          more.textContent = limited ? "Show all " + rows.length + " rows" : "Show fewer";
+          more.setAttribute("aria-expanded", String(!limited));
+        }
       }
+      refresh = apply;
       input.addEventListener("input", apply);
       apply();
     });
