@@ -123,17 +123,59 @@
     gutter.innerHTML = nums;
   }
 
-  // Replace a range through the browser's editing commands, so Ctrl+Z
-  // undoes it; fall back to setRangeText where execCommand is gone.
-  function replaceRange(start, end, text) {
-    source.focus();
-    source.setSelectionRange(start, end);
-    var done = false;
-    try { done = document.execCommand("insertText", false, text); } catch (e) { done = false; }
-    if (!done) {
-      source.setRangeText(text, start, end, "end");
-      source.dispatchEvent(new Event("input"));
+  // ---- undo history ----
+  //
+  // The editor keeps its own history instead of the browser's, which WebKit
+  // merges unpredictably once the page edits the text (an example, a fix,
+  // a format). Each such edit is one step; typing is one step per pause.
+  var steps = [];
+  var at = -1;
+  var lastTyped = 0;
+  var TYPING_GROUP_MS = 1000;
+
+  function snapshot() {
+    return { v: source.value, s: source.selectionStart, e: source.selectionEnd };
+  }
+  function record() {
+    if (at >= 0 && steps[at].v === source.value) {
+      steps[at] = snapshot(); // same text: just remember the caret
+      return;
     }
+    steps = steps.slice(0, at + 1);
+    steps.push(snapshot());
+    if (steps.length > 300) steps.shift();
+    at = steps.length - 1;
+  }
+  function resetHistory() {
+    steps = [];
+    at = -1;
+    record();
+  }
+  function restore(step) {
+    source.value = step.v;
+    source.setSelectionRange(step.s, step.e);
+    changed();
+  }
+  function undo() {
+    if (at < 0) return;
+    if (steps[at].v !== source.value) record(); // keep the unsaved typing
+    if (at === 0) return;
+    at -= 1;
+    restore(steps[at]);
+  }
+  function redo() {
+    if (at >= steps.length - 1) return;
+    at += 1;
+    restore(steps[at]);
+  }
+
+  // Replace a range as one undoable step.
+  function replaceRange(start, end, text) {
+    if (at < 0 || steps[at].v !== source.value) record();
+    source.focus();
+    source.setRangeText(text, start, end, "end");
+    record();
+    changed();
   }
 
   function setSource(text) { replaceRange(0, source.value.length, text); }
@@ -144,6 +186,13 @@
 
   source.addEventListener("keydown", function (e) {
     var v = source.value, s = source.selectionStart, end = source.selectionEnd;
+    var key = e.key.toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && !e.altKey && (key === "z" || key === "y")) {
+      e.preventDefault();
+      if (key === "y" || e.shiftKey) redo();
+      else undo();
+      return;
+    }
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       e.preventDefault();
       run();
@@ -176,15 +225,29 @@
     }
   });
 
+  // Typing: the state before a burst of typing is one undo step.
+  source.addEventListener("beforeinput", function (e) {
+    if (e.inputType === "historyUndo" || e.inputType === "historyRedo") {
+      e.preventDefault(); // the Edit menu's Undo/Redo use the same history
+      if (e.inputType === "historyUndo") undo();
+      else redo();
+      return;
+    }
+    var now = Date.now();
+    if (now - lastTyped > TYPING_GROUP_MS && (at < 0 || steps[at].v !== source.value)) record();
+    lastTyped = now;
+  });
+
   var saveTimer = null;
-  source.addEventListener("input", function () {
+  function changed() {
     render();
     scheduleCheck(CHECK_DELAY_MS);
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () {
       try { localStorage.setItem("pg-draft", JSON.stringify({ source: source.value, stdin: stdin.value })); } catch (e) { /* private mode */ }
     }, 400);
-  });
+  }
+  source.addEventListener("input", changed);
 
   function goTo(line, column) {
     var lines = source.value.split("\n");
@@ -337,7 +400,7 @@
         setStatus("Not run: fix the problems first (or press Fix).");
         return;
       }
-      writeOutput(a.stdout || "", a.ok ? null : a.error, a.ok ? a.exit : null);
+      writeOutput(a.stdout || "", a.ok ? null : a.error, a.ok ? a.exit : null, a.code);
       setStatus((a.ok ? "Finished" : "Stopped with an error") + " in " + ms + " ms.");
     }, function (e) {
       clearTimeout(limitTimer);
@@ -346,7 +409,7 @@
     });
   }
 
-  function writeOutput(text, error, exit) {
+  function writeOutput(text, error, exit, code) {
     outPre.textContent = text;
     if (!text && !error && exit !== null) {
       var none = document.createElement("span");
@@ -357,7 +420,9 @@
     if (error) {
       var err = document.createElement("span");
       err.className = "pg-error";
-      err.textContent = (text && !/\n$/.test(text) ? "\n" : "") + "error: " + String(error).replace(/^Runtime error:\s*/, "") + "\n";
+      // "error R0002: division by zero", the code as `astra run` reports it.
+      var message = String(error).replace(/^Runtime error:\s*/, "");
+      err.textContent = (text && !/\n$/.test(text) ? "\n" : "") + "error" + (code ? " " + code : "") + ": " + message + "\n";
       outPre.appendChild(err);
     }
     if (exit !== null) {
@@ -461,7 +526,7 @@
     var ex = examples.filter(function (e) { return e.id === id; })[0];
     if (!ex) return;
     if (replace) setSource(ex.source);
-    else { source.value = ex.source; render(); }
+    else { source.value = ex.source; render(); resetHistory(); }
     stdin.value = ex.stdin || "";
     stdin.closest("details").open = !!ex.stdin;
     picker.value = id;
@@ -504,6 +569,7 @@
       stdin.value = start.stdin || "";
       picker.value = "";
       render();
+      resetHistory();
       if (start.shared) setStatus("Opened a shared program.");
     } else {
       loadExample("welcome", false);

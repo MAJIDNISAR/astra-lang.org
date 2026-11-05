@@ -10,19 +10,30 @@ var api = null;
 var loading = null;
 var enc = new TextEncoder();
 var dec = new TextDecoder();
+// Program output as the module prints it (its one import, env.pg_out), so
+// what was printed survives if the engine's stack runs out mid-run.
+var streamed = "";
+var streamDec = new TextDecoder();
+var imports = {
+  env: {
+    pg_out: function (ptr, len) {
+      streamed += streamDec.decode(new Uint8Array(api.memory.buffer, ptr, len), { stream: true });
+    }
+  }
+};
 
 function load() {
   if (!loading) {
     var url = new URL("astra.wasm", self.location.href);
     var instantiate = WebAssembly.instantiateStreaming
-      ? WebAssembly.instantiateStreaming(fetch(url), {}).catch(function () {
+      ? WebAssembly.instantiateStreaming(fetch(url), imports).catch(function () {
           // Served without the application/wasm type: fall back to bytes.
           return fetch(url).then(function (r) { return r.arrayBuffer(); }).then(function (b) {
-            return WebAssembly.instantiate(b, {});
+            return WebAssembly.instantiate(b, imports);
           });
         })
       : fetch(url).then(function (r) { return r.arrayBuffer(); }).then(function (b) {
-          return WebAssembly.instantiate(b, {});
+          return WebAssembly.instantiate(b, imports);
         });
     loading = instantiate.then(function (result) {
       api = result.instance.exports;
@@ -32,6 +43,8 @@ function load() {
 }
 
 function ask(request) {
+  streamed = "";
+  streamDec = new TextDecoder();
   var bytes = enc.encode(JSON.stringify(request));
   var ptr = api.pg_alloc(bytes.length);
   new Uint8Array(api.memory.buffer, ptr, bytes.length).set(bytes);
@@ -51,13 +64,16 @@ self.onmessage = function (event) {
       // The engine's own stack ran out (very deep recursion with large
       // frames) or the module trapped: its state is unknown, so load a fresh
       // copy for the next request.
+      // Safari gives workers the smallest stack, so this is where deep
+      // recursion usually ends there; the output printed so far is kept.
       var deep = e instanceof RangeError || /stack|recursion/i.test(String(e && e.message));
       answer = {
         ok: false,
         phase: "run",
-        stdout: "",
+        stdout: streamed + streamDec.decode(),
+        code: deep ? "R0005" : undefined,
         error: deep
-          ? "stack overflow (recursion too deep for the browser)"
+          ? "stack overflow (recursion too deep for this browser)"
           : "the playground stopped unexpectedly (" + (e && e.message ? e.message : e) + ")",
       };
       api = null;

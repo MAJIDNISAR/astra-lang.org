@@ -1423,11 +1423,20 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
   font: inherit;
   font-size: 1rem;
   color: var(--ink);
-  background: var(--paper-2);
+  background-color: var(--paper-2);
   border: 0;
+  border-radius: 0;
   min-height: var(--control);
-  padding: 0 var(--px-14);
+  padding: 0 var(--px-40) 0 var(--px-14);
   max-width: min(24rem, 100%);
+  /* The same box in every browser (Safari's native menu is short and rounded),
+     with a drawn chevron. */
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - var(--px-20)) 50%, calc(100% - var(--px-14)) 50%;
+  background-size: var(--px-6) var(--px-6);
+  background-repeat: no-repeat;
 }
 .pg-actions { display: flex; flex-wrap: wrap; gap: var(--px-6); }
 .pg-run { min-width: 6.5rem; justify-content: center; }
