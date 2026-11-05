@@ -10,7 +10,9 @@
 // Mifa, the package manager, is a moon on an inclined orbit with its own
 // features as stars (figure attribute data-moon="mifa"). Like the Earth and
 // the Moon, the two turn at their own rates, and each can be dragged on its
-// own: a drag grabs whichever body is under the pointer.
+// own: a drag grabs whichever body is under the pointer. The moon's orbit is
+// a real 3D one (it never passes through the planet), fastest where it is
+// closest, and spinning the planet tugs the moon along.
 //
 // The data is the JSON in `script.orb-data[data-for=…]` (generated from
 // assets/status.json by tools/sync-status.mjs). Progressive enhancement: the
@@ -41,6 +43,9 @@
     var data = readData(planetName);
     if (!data) return;
     var moonData = moonName ? readData(moonName) : null;
+    var title = function (name) { return name ? name.charAt(0).toUpperCase() + name.slice(1) : ""; };
+    var planetLabel = title(planetName);
+    var moonLabel = title(moonName);
     var rise = stage.hasAttribute("data-rise");
 
     var ctx = canvas.getContext("2d");
@@ -203,11 +208,14 @@
     var nextSpark = 0;
     var lastT = 0;
     var running = false;
-    var orbit = 0.9; // the moon's place on its orbit
+    var orbit = 0.9; // the moon's place on its orbit (parametric angle)
+    var orbitBoost = 0; // extra orbital speed from the planet's tug, rad/ms
+    var lastPlanetYaw = null;
     var center = { x: 0, y: 0, R: 0 };
     // Text laid over the globe (the hero's sentence and release line), in
-    // canvas coordinates. The moon rises over it rather than passing under.
+    // canvas coordinates; the moon's orbit is fitted to stay clear of it.
     var keepOut = [];
+    var fit = null;
 
     function size() {
       var rect = canvas.getBoundingClientRect();
@@ -223,38 +231,100 @@
         var r = el.getBoundingClientRect();
         return { left: r.left - rect.left, right: r.right - rect.left, top: r.top - rect.top };
       });
+      if (moon.length) fit = fitOrbit();
     }
 
-    // How far the moon must rise to clear the text: full height once it is
-    // a radius into a text column, eased in over the radius before that, so
-    // it glides up instead of jumping.
-    function lift(mx, my, mR) {
-      var label = 26; // the "Mifa" name under the moon
-      var need = 0;
-      keepOut.forEach(function (k) {
-        var gap = Math.max(k.left - (mx + mR), (mx - mR) - k.right);
-        var t = Math.max(0, Math.min(1, 1 - gap / mR));
-        t = t * t * (3 - 2 * t);
-        var over = my + mR + label - (k.top - 12);
-        if (over > 0) need = Math.max(need, over * t);
-      });
-      return need;
+    // ---- the moon's orbit ----
+    //
+    // A real orbit in 3D, so the two bodies never pass through each other:
+    // the moon's sphere always stays outside the planet's, and whichever
+    // centre is nearer the viewer is drawn in front (exact for two separate
+    // spheres; at the moment the moon crosses the planet's depth their discs
+    // cannot overlap). The orbit is a tilted ellipse seen from slightly above,
+    // its centre raised over the planet and pushed back, so the moon swings
+    // close and fast round the far side and drifts slowly across the front,
+    // as gravity would have it (speed ~ 1/r^2, see tick).
+    var LABEL_H = 24; // the name under the moon
+    var GAP = 10; // closest approach between the two surfaces, px
+    var DEPTH = 0.35; // how strongly distance shrinks the moon
+    var ECC = 0.25; // how far the orbit's centre sits behind the planet's
+
+    // Where the moon is at parametric angle `theta` for orbit `o` (sizes in
+    // planet radii) around planet geometry `g`: screen x, y, depth z (px,
+    // positive towards the viewer) and drawn radius r.
+    function moonAt(theta, g, o) {
+      var a = o.a * g.R;
+      var z = a * (Math.sin(theta) - ECC);
+      var f = 2.8 / (2.8 - (z / g.R) * DEPTH);
+      return {
+        x: g.x + a * Math.cos(theta),
+        y: g.y - o.h * g.R + o.k * g.R * Math.sin(theta),
+        z: z,
+        r: o.m * g.R * f
+      };
     }
 
-    function clearsAbove(top, mR) {
-      return keepOut.every(function (k) { return top + mR + 26 <= k.top - 12; });
+    function distance(p, g) {
+      var dx = p.x - g.x, dy = p.y - g.y;
+      return Math.sqrt(dx * dx + dy * dy + p.z * p.z);
     }
 
-    // Eases a sideways offset so the moon's edge never reaches the text
-    // columns: nearly linear near the middle, slowing towards the limit.
-    function squeeze(dx, mR) {
-      var room = Infinity;
-      keepOut.forEach(function (k) {
-        if (dx >= 0 && k.left > center.x) room = Math.min(room, k.left - center.x - 12 - mR);
-        if (dx < 0 && k.right < center.x) room = Math.min(room, center.x - k.right - 12 - mR);
-      });
-      if (room === Infinity) return dx;
-      return room > 0 ? room * Math.tanh(dx / room) : 0;
+    // Does orbit `o` keep the moon inside the canvas, clear of the text and
+    // outside the planet all the way round?
+    function orbitFits(o, g, texts) {
+      for (var i = 0; i < 72; i++) {
+        var p = moonAt((i / 72) * Math.PI * 2, g, o);
+        if (p.y - p.r < 2 || p.x - p.r < 2 || p.x + p.r > W - 2 || p.y + p.r + LABEL_H > H) return false;
+        if (distance(p, g) < g.R * (1 + o.m) + GAP) return false;
+        for (var j = 0; j < texts.length; j++) {
+          var t = texts[j];
+          if (p.x + p.r > t.left - GAP && p.x - p.r < t.right + GAP && p.y + p.r + LABEL_H > t.top - GAP) return false;
+        }
+      }
+      return true;
+    }
+
+    // The largest moon, then the widest and lowest orbit, that fits this
+    // layout. Runs on resize only.
+    function fitOrbit() {
+      var g = planetGeometry(1.01);
+      var tries = [keepOut, []];
+      for (var n = 0; n < tries.length; n++) {
+        for (var m = 0.26; m >= 0.119; m -= 0.02) {
+          for (var ki = 0; ki < 3; ki++) {
+            var k = [0.12, 0.08, 0.05][ki];
+            for (var a = 1.6; a >= 0.3; a -= 0.04) {
+              for (var h = 0.2; h <= 1.5; h += 0.02) {
+                var o = { m: m, k: k, a: a, h: h };
+                if (orbitFits(o, g, tries[n])) return withMeanDistance(o, g);
+              }
+            }
+          }
+        }
+      }
+      return withMeanDistance({ m: 0.12, k: 0.05, a: 1.2, h: 1 }, g);
+    }
+
+    function withMeanDistance(o, g) {
+      var sum = 0;
+      for (var i = 0; i < 72; i++) sum += distance(moonAt((i / 72) * Math.PI * 2, g, o), g);
+      o.mean = sum / 72 / g.R;
+      return o;
+    }
+
+    function planetGeometry(breath) {
+      var R, cy;
+      if (rise) {
+        // The globe rises from the bottom edge: its top is whole, its lower
+        // part cut off by the frame. With a moon it sits a little smaller
+        // and lower, leaving room above it for the moon's far side.
+        R = Math.min(W * 0.34, H * 0.8) * (moon.length ? 0.85 : 1) * breath;
+        cy = R * (moon.length ? 1.3 : 1.06) + 8;
+      } else {
+        R = Math.min(W, H) * (moon.length ? 0.3 : 0.36) * breath;
+        cy = H / 2;
+      }
+      return { x: W / 2, y: cy, R: R };
     }
 
     function motion() {
@@ -275,43 +345,19 @@
     }
 
     function layout(breath) {
-      var R, cx = W / 2, cy;
-      if (rise) {
-        // The globe rises from the bottom edge: its lower part is cut off.
-        // The globe rises from the bottom edge: its top is whole, its
-        // lower part is cut off by the frame.
-        R = Math.min(W * 0.34, H * 0.8) * breath;
-        cy = R * 1.06 + 8;
-      } else {
-        R = Math.min(W, H) * (moon.length ? 0.3 : 0.36) * breath;
-        cy = H / 2;
+      var g = planetGeometry(breath);
+      center = g;
+      planet.forEach(function (nd) { rotate(nd, g.x, g.y, g.R, spin.planet); });
+      if (moon.length && fit) {
+        var p = moonAt(orbit, g, fit);
+        moon.mz = p.z;
+        moon.cx = p.x;
+        moon.cy = p.y;
+        moon.R = p.r;
+        moon.dist = distance(p, g) / g.R;
+        moon.forEach(function (nd) { rotate(nd, p.x, p.y, p.r, spin.moon); });
       }
-      center = { x: cx, y: cy, R: R };
-      planet.forEach(function (nd) { rotate(nd, cx, cy, R, spin.planet); });
-      if (moon.length) {
-        // An inclined circular orbit around the planet, seen in perspective.
-        var oR = R * 1.32;
-        // The orbit passes over the planet's upper half, clear of the
-        // corners where the hero's text sits.
-        var ox = Math.cos(orbit) * oR;
-        var oz = Math.sin(orbit) * oR;
-        var oy = -Math.sin(orbit) * R * 0.22 - R * 0.62;
-        var f = 2.8 / (2.8 - oz / R * 0.55);
-        var mR = R * 0.27 * f;
-        var mx = cx + ox * f, my = cy + oy * f;
-        var top = mR * 1.1 + 6;
-        // Where there is room above the text the moon rises over it;
-        // where there is not, its swing narrows to the gap between.
-        if (clearsAbove(top, mR)) my -= lift(mx, my, mR);
-        else mx = cx + squeeze(ox * f, mR);
-        my = Math.max(my, top);
-        moon.mz = oz;
-        moon.cx = mx;
-        moon.cy = my;
-        moon.R = mR;
-        moon.forEach(function (nd) { rotate(nd, mx, my, mR, spin.moon); });
-      }
-      return R;
+      return g.R;
     }
 
     function dimFactor(nd) {
@@ -414,11 +460,16 @@
       drawBody(moon.cx, moon.cy, moon.R, 0.85);
       drawEdges(edges.filter(function (e) { return e[0].body === "moon"; }));
       order.forEach(function (nd) { if (nd.body === "moon") drawStar(nd, 0.62); });
+      drawName(moonLabel, moon.cx, moon.cy + moon.R + 8, "top");
+    }
+
+    // A body's name, as an atlas labels a plate.
+    function drawName(text, x, y, baseline) {
       ctx.font = "700 13px " + font;
       ctx.textAlign = "center";
-      ctx.textBaseline = "top";
+      ctx.textBaseline = baseline;
       ctx.fillStyle = css(colors.ink, 0.75);
-      ctx.fillText("Mifa", moon.cx, moon.cy + moon.R + 8);
+      ctx.fillText(text, x, y);
     }
 
     function draw(t) {
@@ -433,6 +484,7 @@
       drawEdges(edges.filter(function (e) { return e[0].body === "planet"; }));
       drawSparks(t);
       order.forEach(function (nd) { if (nd.body === "planet") drawStar(nd, 1); });
+      if (moon.length) drawName(planetLabel, center.x, center.y - center.R * 1.02 - 8, "bottom");
       if (moon.length && !moonBehind) drawMoon(order);
       drawLabels(order);
     }
@@ -466,14 +518,31 @@
         v.yaw += v.vel * dt + v.rate * slow * dt;
         v.vel *= Math.pow(0.93, dt / 16);
       });
-      // The moon hurries round the far side, so it is hidden behind the
-      // planet for about a third of its orbit rather than half.
-      if (motion() && !(dragging && grabbed === spin.moon)) {
-        orbit += 0.00016 * dt * (1 + 1.2 * Math.max(0, -Math.sin(orbit)));
-      }
+      if (moon.length && fit && motion()) advanceOrbit(dt);
       draw(t);
       if (shouldAnimate()) request();
       else lastT = 0;
+    }
+
+    // Gravity: the moon moves fastest where it is closest to the planet
+    // (angular speed ~ 1/r^2), and the planet's spin tugs it along: turn
+    // the planet faster and the moon is drawn after it, with a lag, then
+    // settles back to its own pace; turn it against the orbit and the moon
+    // slows.
+    var ORBIT_RATE = 0.00016; // rad/ms at the mean distance
+    var TUG = 0.6;
+    function advanceOrbit(dt) {
+      var yaw = spin.planet.yaw;
+      var planetRate = lastPlanetYaw === null ? spin.planet.rate : (yaw - lastPlanetYaw) / dt;
+      lastPlanetYaw = yaw;
+      var pull = Math.max(-0.003, Math.min(0.003, (planetRate - spin.planet.rate) * TUG));
+      orbitBoost += (pull - orbitBoost) * (1 - Math.pow(0.985, dt / 16));
+      if (dragging && grabbed === spin.moon) return; // held in the hand
+      var r = moon.dist || fit.mean;
+      var kepler = (fit.mean / r) * (fit.mean / r);
+      // A counter-spin brakes the moon but never turns it back.
+      var natural = ORBIT_RATE * kepler;
+      orbit += Math.max(natural * 0.15, natural + orbitBoost) * dt;
     }
 
     // ---- interaction ----
