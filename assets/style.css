@@ -423,7 +423,7 @@ hr { border: 0; height: var(--sec); }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("1750-star-chart-of-the-constellations-libra.jpg") 70% 30% / cover no-repeat;
+  background: url("1750-star-chart-of-the-constellations-libra.webp") 70% 30% / cover no-repeat;
   filter: grayscale(1) contrast(1.1);
   mix-blend-mode: multiply;
   opacity: 0.16;
@@ -762,6 +762,7 @@ th[aria-sort="descending"] .th-sort::after { content: "↓"; color: var(--accent
 .table-chip:hover { background: var(--ink); color: var(--paper); }
 .table-chip[aria-pressed="true"] { background: var(--orange); color: var(--night); }
 .table-count { font-size: var(--step-small); color: var(--ink-soft); margin-left: auto; }
+.table-more { margin: var(--px-12) 0 0; }
 tr[hidden] { display: none !important; }
 @media (max-width: 680px) {
   /* wide comparison tables: the first column stays put while you swipe */
@@ -1011,7 +1012,7 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
   content: "";
   position: absolute;
   inset: 0;
-  background: url("1750-star-chart-of-the-constellations-libra.jpg") 50% 60% / cover no-repeat;
+  background: url("1750-star-chart-of-the-constellations-libra.webp") 50% 60% / cover no-repeat;
   filter: grayscale(1) contrast(1.1);
   mix-blend-mode: multiply;
   opacity: 0.12;
@@ -1144,9 +1145,9 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
 }
 .panel h2 { position: relative; z-index: 2; max-width: 9ch; font-size: var(--step-display); }
 .panel-object {
-  position: absolute;
-  inset: 22% -18% auto 8%;
+  position: relative;
   z-index: 1;
+  margin: var(--px-32) calc(-1 * var(--px-28)) var(--px-32) 8%;
 }
 .panel-object pre {
   font-size: clamp(0.875rem, 0.5rem + 0.9vw, 1.25rem);
@@ -1154,7 +1155,7 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
   padding: var(--px-28) var(--px-32);
   overflow: hidden;
 }
-.field-orange .panel-object { inset: -6% -10% auto 10%; }
+.field-orange .panel-object { margin-top: 0; margin-left: 10%; }
 .panel-foot {
   position: relative;
   z-index: 2;
@@ -1172,8 +1173,7 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
 @media (max-width: 900px) {
   .split { grid-template-columns: 1fr; }
   .panel { min-height: 0; }
-  .panel-object { position: relative; inset: auto; margin: var(--px-24) calc(-1 * var(--px-28)) 0 0; }
-  .field-orange .panel-object { inset: auto; }
+  .panel-object, .field-orange .panel-object { margin: var(--px-24) calc(-1 * var(--px-28)) 0 0; }
   .panel-object pre { font-size: 0.8125rem; }
 }
 
@@ -1254,25 +1254,37 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
 .cmd-row[hidden] { display: none; }
 @media (max-width: 600px) { .cmd-row code { font-size: 8.5vw; } }
 .no-js .cmd-row .what { display: block; }
+@media (min-width: 1000px) {
+  .cmd-list { position: relative; width: 56%; }
+  .cmd-row[aria-selected="true"] .what {
+    position: absolute;
+    top: 0;
+    left: calc(100% + var(--px-48));
+    width: min(34ch, calc(100% * 44 / 56 - var(--px-48)));
+    margin: 0;
+    font-size: var(--step-lead);
+    line-height: 1.35;
+    color: var(--ink);
+    border-top: var(--px-4) solid var(--orange);
+    padding-top: var(--px-16);
+  }
+  .no-js .cmd-list { width: auto; }
+  .no-js .cmd-row .what { position: static; }
+}
 
 /* ---------- home: stepped figure tiles ---------- */
 
 .figures { padding: var(--sec) 0 0; }
-.tiles { display: grid; grid-template-columns: 6fr 3fr 3fr; grid-template-rows: auto 1fr; gap: var(--px-8); align-items: start; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--px-8); align-items: stretch; }
 .tile { display: flex; flex-direction: column; justify-content: space-between; padding: var(--px-28); gap: var(--px-24); }
 .tile .fig { font-size: var(--tile-fig); font-weight: 900; letter-spacing: -0.05em; line-height: 0.9; font-variant-numeric: tabular-nums; }
 .tile p { margin: 0; max-width: 32ch; }
-.tile-a { grid-column: 1; grid-row: 1 / span 2; min-height: min(70vh, 46rem); }
-.tile-b { grid-column: 2; grid-row: 2; min-height: min(44vh, 30rem); }
-.tile-c { grid-column: 3; grid-row: 2; min-height: min(34vh, 23rem); margin-top: min(12vh, 8rem); }
-.tiles-head { grid-column: 2 / span 2; grid-row: 1; align-self: start; margin: 0; padding: var(--px-8) 0 var(--px-40); font-size: var(--step-head); max-width: 12ch; }
+.tile { min-height: min(40vh, 22rem); }
+.tiles-head { grid-column: 1 / -1; margin: 0; padding: 0 0 var(--px-24); font-size: var(--step-head); max-width: 16ch; }
 @media (max-width: 860px) {
   .tiles { grid-template-columns: 1fr 1fr; }
-  .tiles-head { grid-column: 1 / -1; grid-row: auto; padding-bottom: var(--px-16); }
-  .tile-a { grid-column: 1 / -1; grid-row: auto; min-height: 56vw; }
-  .tile-b, .tile-c { grid-row: auto; min-height: 48vw; margin-top: 0; }
-  .tile-b { grid-column: 1; }
-  .tile-c { grid-column: 2; margin-top: var(--px-32); }
+  .tile-a { grid-column: 1 / -1; }
+  .tile { min-height: 40vw; }
   .tile .fig { font-size: 12vw; }
 }
 
