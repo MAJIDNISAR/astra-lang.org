@@ -68,13 +68,41 @@
   <nav class="toc" aria-label="On this page">
     <h2>On this page</h2>
     <ol>
+      <li><a href="#mcp">Connect any agent: astra mcp</a></li>
       <li><a href="#three-commands-stable-semantics-and-a-fourth-nex">The commands an agent calls</a></li>
       <li><a href="#the-diagnostic-json-shape">The diagnostic JSON shape</a></li>
       <li><a href="#canonical-integration-pattern">Canonical integration pattern</a></li>
       <li><a href="#stable-error-codes">Stable error codes</a></li>
+      <li><a href="#runtime-error-codes">Runtime error codes</a></li>
     </ol>
   </nav>
   <div class="doc-body">
+
+  <section>
+    <div class="wrap">
+      <h2 id="mcp">Connect any agent: <code>astra mcp</code> <span class="badge done">v0.13</span></h2>
+      <p class="lead-in"><code>astra mcp</code> serves the whole toolchain over the
+      Model Context Protocol, so any MCP client can call it, whichever model drives it.</p>
+      <div class="table-wrap stack"><table>
+        <thead><tr><th>Client</th><th>Setup</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Client">Claude Code</td><td data-label="Setup"><code>claude mcp add astra -- astra mcp</code></td></tr>
+          <tr><td data-label="Client">Cursor</td><td data-label="Setup"><code>.cursor/mcp.json</code>: <code>{"mcpServers": {"astra": {"command": "astra", "args": ["mcp"]}}}</code></td></tr>
+          <tr><td data-label="Client">VS Code</td><td data-label="Setup"><code>.vscode/mcp.json</code>: <code>{"servers": {"astra": {"type": "stdio", "command": "astra", "args": ["mcp"]}}}</code></td></tr>
+          <tr><td data-label="Client">Gemini CLI</td><td data-label="Setup"><code>.gemini/settings.json</code>: <code>{"mcpServers": {"astra": {"command": "astra", "args": ["mcp"]}}}</code></td></tr>
+          <tr><td data-label="Client">Codex CLI</td><td data-label="Setup"><code>~/.codex/config.toml</code>: <code>[mcp_servers.astra]</code>, <code>command = "astra"</code>, <code>args = ["mcp"]</code></td></tr>
+          <tr><td data-label="Client">Any other</td><td data-label="Setup">a stdio server: command <code>astra</code>, argument <code>mcp</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Its tools are <code>verify</code>, <code>fix</code>, <code>run</code>,
+      <code>build</code>, <code>format</code>, <code>explain</code> and
+      <code>test</code>, and each answers with exactly the JSON the matching
+      command prints. Programs run in a separate process with a time limit and
+      capped output, and paths outside the folder the server started in are
+      refused. The model reads the developer guide once, from the resource
+      <code>astra://guide</code>; <code>astra://errors</code> lists every code.</p>
+    </div>
+  </section>
 
   <section>
     <div class="wrap">
@@ -94,8 +122,13 @@
             <td data-label="Exit code">0 = binary written · non-zero = failed</td>
           </tr>
           <tr>
+            <td data-label="Command"><code>astra run --error-format=json &lt;file&gt;</code> <span class="badge done">v0.13</span></td>
+            <td data-label="What it does">Checks first (a compile error is reported without running), then runs with the interpreter. A runtime error goes to stderr as JSON with an R code; stdout stays the program's.</td>
+            <td data-label="Exit code">the program's · 1 = check or runtime error</td>
+          </tr>
+          <tr>
             <td data-label="Command"><code>astra explain E0002</code></td>
-            <td data-label="What it does">Expands any error code into a full explanation + guidance.</td>
+            <td data-label="What it does">Expands any error code into a full explanation + guidance; <code>astra explain list</code> lists them all.</td>
             <td data-label="Exit code">0</td>
           </tr>
           <tr>
@@ -253,6 +286,27 @@ execute(binary)                              <span class="c"># native, already t
           <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
           <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 id="runtime-error-codes">Runtime error codes <span class="badge done">v0.13</span></h2>
+      <p>When a program stops with an error, <code>astra run --error-format=json</code>,
+      the <code>run</code> tool of <code>astra mcp</code> and the playground all report one of these.</p>
+      <div class="table-wrap stack"><table>
+        <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Code"><code>R0001</code></td><td data-label="Meaning">Integer overflow</td></tr>
+          <tr><td data-label="Code"><code>R0002</code></td><td data-label="Meaning">Division by zero</td></tr>
+          <tr><td data-label="Code"><code>R0003</code></td><td data-label="Meaning">Invalid shift amount</td></tr>
+          <tr><td data-label="Code"><code>R0004</code></td><td data-label="Meaning">Index out of bounds</td></tr>
+          <tr><td data-label="Code"><code>R0005</code></td><td data-label="Meaning">Stack overflow (runaway recursion)</td></tr>
+          <tr><td data-label="Code"><code>R0006</code></td><td data-label="Meaning">Uncaught <code>throw</code></td></tr>
+          <tr><td data-label="Code"><code>R0007</code></td><td data-label="Meaning">Assertion failed</td></tr>
+          <tr><td data-label="Code"><code>R0099</code></td><td data-label="Meaning">Any other runtime error</td></tr>
         </tbody>
       </table></div>
     </div>

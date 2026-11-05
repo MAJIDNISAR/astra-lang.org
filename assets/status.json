@@ -1,20 +1,20 @@
 {
   "updated": "2026-11-05",
   "release": {
-    "version": "v0.12.2-alpha",
+    "version": "v0.13.0-alpha",
     "date": "2026-11-05",
-    "tests": 760,
-    "platforms": ["Linux x64", "macOS Apple Silicon", "macOS Intel", "Windows x64"]
+    "tests": 777,
+    "platforms": ["Linux x64", "macOS Apple Silicon", "macOS Intel", "Windows x64", "WebAssembly"]
   },
   "main": {
-    "tests": 760,
+    "tests": 777,
     "releaseChecks": "55 of 55",
     "note": "Same as the release"
   },
   "astra": {
     "statuses": [
       {"id": "works", "name": "Works today", "items": ["Variables", "Functions", "Recursion", "Control flow", "Arrays", "Nominal structs", "Enums + match", "Tuples", "Result + ?", "try / catch", "Closures", "Generic functions", "impl blocks", "Bitwise ops", "String interpolation", "Floats", "async / await", "REPL", "LLVM-IR backend", "--emit-ir / --target", "Never panics on bad input", "CI gates"]},
-      {"id": "shipped", "name": "New in v0.10–v0.12", "items": ["Interpreter (astra run)", "Native parity + fuzzing", "Modules + pub", "mifa build / run", "Runtime traps", "Type inference", "Indentation syntax", "astra fmt", "Forward references", "Exhaustive match (E0021)", "Value semantics (E0022)", "a[i] = v", "Nominal traits", "Trait bounds", "Signature checks (E0020)", "Embedded runtime", "Release binaries ×4", "Error lines everywhere", "All errors per function", "Fix edits", "astra fix", "Every-exit memory release", "Owned strings freed", "Template literals freed", "true / false printing", "== by value only", "Release test suite", "String copy crash fixed", "Windows native builds"]},
+      {"id": "shipped", "name": "New in v0.10–v0.13", "items": ["astra mcp (any agent)", "Runtime error codes", "WebAssembly + playground", "Interpreter (astra run)", "Native parity + fuzzing", "Modules + pub", "mifa build / run", "Runtime traps", "Type inference", "Indentation syntax", "astra fmt", "Forward references", "Exhaustive match (E0021)", "Value semantics (E0022)", "a[i] = v", "Nominal traits", "Trait bounds", "Signature checks (E0020)", "Embedded runtime", "Release binaries ×4", "Error lines everywhere", "All errors per function", "Fix edits", "astra fix", "Every-exit memory release", "Owned strings freed", "Template literals freed", "true / false printing", "== by value only", "Release test suite", "String copy crash fixed", "Windows native builds"]},
       {"id": "next", "name": "Next", "items": ["E0021 / E0020 fixes", "@derive(Eq)", "Default methods", "Standard traits", "Map / Set", "Comprehensions", "Generic structs", "Branch / call locals freed", "LSP alpha", "stdlib core"]},
       {"id": "planned", "name": "Planned", "items": ["tool / agent keywords", "prompt / memory", "Python interop", "WASM target", "GPU target", "Source opens at v1.0-beta"]}
     ]
@@ -41,7 +41,8 @@
     {"version": "v0.11.2", "date": "2026-11-02", "tests": 712, "summary": "Trait bounds checked at call sites, impl signatures checked (E0020); loops no longer leak."},
     {"version": "v0.12.0", "date": "2026-11-04", "tests": 754, "summary": "Every type error has a line; machine fixes and astra fix; memory freed on every exit; bools print true/false; a 55-check release suite."},
     {"version": "v0.12.1", "date": "2026-11-05", "tests": 756, "summary": "Native builds on Windows; print and ${} refuse values that native printed as addresses; release check passes on every platform."},
-    {"version": "v0.12.2", "date": "2026-11-05", "tests": 760, "summary": "Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python."}
+    {"version": "v0.12.2", "date": "2026-11-05", "tests": 760, "summary": "Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python."},
+    {"version": "v0.13.0", "date": "2026-11-05", "tests": 777, "summary": "astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground."}
   ],
   "memory": {
     "unit": "MB peak",
