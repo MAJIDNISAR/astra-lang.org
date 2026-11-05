@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
+<title>Playground: Astra</title>
+<meta name="description" content="Write Astra and run it in your browser. The compiler runs on your machine as WebAssembly: run, check, fix and format, with nothing to install.">
+<link rel="canonical" href="https://astra-lang.org/playground.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050f16"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
+<meta name="author" content="Majid Nisar">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="astra-lang.org">
+<meta property="og:title" content="Playground: Astra">
+<meta property="og:description" content="Write Astra and run it in your browser. The compiler runs on your machine as WebAssembly: run, check, fix and format, with nothing to install.">
+<meta property="og:url" content="https://astra-lang.org/playground.html">
+<meta property="og:image" content="https://astra-lang.org/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Astra: a language built for the way code is written now. Verify, repair, compile, native.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
+<meta name="twitter:title" content="Playground: Astra">
+<meta name="twitter:description" content="Write Astra and run it in your browser. The compiler runs on your machine as WebAssembly: run, check, fix and format, with nothing to install.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
+<script src="assets/playground/playground.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Astra, home">Astra<span class="tld">lang</span></a>
+    <nav class="main" aria-label="Main">
+      <a href="start.html">Start</a>
+      <a href="playground.html" aria-current="page">Playground</a>
+      <a href="language.html">Language</a>
+      <a href="agents.html">Agents</a>
+      <a href="mifa.html">Mifa</a>
+      <a href="progress.html">Progress</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="vision.html">Vision</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="download.html">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head pg-head">
+    <div class="wrap">
+      <h1>Playground</h1>
+      <p class="lede">Write Astra and run it here. The compiler runs in your browser as WebAssembly: nothing to install, and your code never leaves this page.</p>
+    </div>
+  </section>
+
+  <section class="pg" aria-label="Astra playground">
+    <div class="wrap">
+      <noscript><p class="pg-needs">The playground needs JavaScript and WebAssembly. You can still <a href="start.html">install the alpha</a>.</p></noscript>
+      <div class="pg-bar">
+        <label class="pg-pick"><span class="sr-only">Example program</span>
+          <select id="pg-example"><option value="">Your program</option></select>
+        </label>
+        <div class="pg-actions">
+          <button class="btn primary pg-run" id="pg-run" type="button" aria-label="Run the program">Run</button>
+          <button class="pg-act" id="pg-check" type="button" title="astra verify: the errors as JSON">Check</button>
+          <button class="pg-act" id="pg-fix" type="button" title="astra fix: apply every certain repair, then check again">Fix</button>
+          <button class="pg-act" id="pg-fmt" type="button" title="astra fmt: canonical indented style">Format</button>
+          <button class="pg-act" id="pg-share" type="button" title="Copy a link that holds this program">Share</button>
+        </div>
+        <p class="pg-keys"><kbd>Ctrl</kbd> <kbd>Enter</kbd> runs. <kbd>Esc</kbd> then <kbd>Tab</kbd> leaves the editor.</p>
+      </div>
+      <div class="pg-panes">
+        <div class="pg-editor">
+          <div class="pg-scroll">
+            <pre class="pg-gutter" aria-hidden="true" data-copy="none"></pre>
+            <div class="pg-code">
+              <pre class="pg-highlight" aria-hidden="true" data-copy="none"><code></code></pre>
+              <textarea id="pg-source" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" aria-label="Astra program" aria-describedby="pg-status"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="pg-out">
+          <div class="pg-tabs" role="tablist" aria-label="Results">
+            <button type="button" role="tab" id="tab-output" data-tab="output" aria-controls="pg-output" aria-selected="true">Output</button>
+            <button type="button" role="tab" id="tab-problems" data-tab="problems" aria-controls="pg-problems" aria-selected="false" tabindex="-1">Problems <span class="pg-count" id="pg-problem-count"></span></button>
+            <button type="button" role="tab" id="tab-ir" data-tab="ir" aria-controls="pg-ir" aria-selected="false" tabindex="-1">LLVM IR</button>
+          </div>
+          <div class="pg-panel" id="pg-output" role="tabpanel" aria-labelledby="tab-output" tabindex="0"><pre aria-live="polite" data-copy="none"></pre></div>
+          <div class="pg-panel" id="pg-problems" role="tabpanel" aria-labelledby="tab-problems" tabindex="0" hidden>
+            <ul class="pg-problems" id="pg-problem-list"></ul>
+            <details class="pg-json"><summary>The JSON an agent reads</summary><pre data-copy="none"></pre></details>
+          </div>
+          <div class="pg-panel" id="pg-ir" role="tabpanel" aria-labelledby="tab-ir" tabindex="0" hidden><pre data-copy="none"></pre></div>
+          <details class="pg-stdin"><summary>Input for <code>read_line()</code></summary>
+            <label class="sr-only" for="pg-stdin">Program input, one line per read_line() call</label>
+            <textarea id="pg-stdin" rows="4" spellcheck="false" placeholder="One line per read_line() call"></textarea>
+          </details>
+        </div>
+      </div>
+      <p class="pg-status" id="pg-status" role="status" aria-live="polite"></p>
+      <p class="pg-note">The playground runs <code>astra run</code>, Astra's interpreter. Release tests check it prints exactly what a native build prints. Files, environment variables, command-line arguments and modules are not available here, and recursion stops at 400 nested calls (250,000 natively). To build native binaries, <a href="download.html">get the alpha</a>.</p>
+    </div>
+  </section>
+  <div class="wrap pg-next">
+  <nav class="next-steps" aria-label="Where next"><h2>Where next</h2><div><a href="language.html"><b>Learn the language</b><span>Every feature, with examples you can paste here.</span></a><a href="agents.html"><b>The agent interface</b><span>The JSON behind Check and Fix.</span></a><a href="download.html"><b>Get the alpha</b><span>Native builds for Linux, macOS and Windows.</span></a></div></nav>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <p class="foot-invite">Trust what agents write.</p>
+        <a class="btn primary" href="download.html">Get the alpha</a>
+      </div>
+      <ul class="foot-links">
+        <li><a href="start.html">Start</a></li>
+        <li><a href="playground.html">Playground</a></li>
+        <li><a href="language.html">Language</a></li>
+        <li><a href="agents.html">Agents</a></li>
+        <li><a href="mifa.html">Mifa</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><a href="benchmarks.html">Benchmarks</a></li>
+        <li><a href="vision.html">Vision</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>Astra and Mifa are made by <a href="https://majidnisar.com">Majid Nisar</a>. <a href="https://majidnisar.com/projects/astra/">Project page</a>. MIT License.</p>
+      <p class="credits">Pictures: <a href="https://commons.wikimedia.org/wiki/File:1750_star_chart_of_the_constellations_Libra,_Cancer_and_neighboring_stars_from_John_Bevis%27_Celestial_Atlas.jpg">John Bevis, 1750</a> and Gerhard Emmoser's celestial globe with clockwork, 1579, <a href="https://www.metmuseum.org/art/collection/search/193606">The Metropolitan Museum of Art</a>, CC0.</p>
+    </div>
+  </div>
+  <span class="foot-name" aria-hidden="true">Astra</span>
+</footer>
+
+</body>
+</html>
