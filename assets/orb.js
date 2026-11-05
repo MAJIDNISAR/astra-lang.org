@@ -8,7 +8,9 @@
 // like constellations, and sparks travel the links.
 //
 // Mifa, the package manager, is a moon on an inclined orbit with its own
-// features as stars (figure attribute data-moon="mifa").
+// features as stars (figure attribute data-moon="mifa"). Like the Earth and
+// the Moon, the two turn at their own rates, and each can be dragged on its
+// own: a drag grabs whichever body is under the pointer.
 //
 // The data is the JSON in `script.orb-data[data-for=…]` (generated from
 // assets/status.json by tools/sync-status.mjs). Progressive enhancement: the
@@ -188,7 +190,12 @@
 
     // ---- view state ----
     var dpr = 1, W = 0, H = 0;
-    var yaw = 0.7, pitch = -0.28, vel = 0;
+    // Each body keeps its own turn; rate is its idle spin in radians per ms.
+    var spin = {
+      planet: { yaw: 0.7, pitch: -0.28, vel: 0, rate: 0.00011 },
+      moon: { yaw: 2.1, pitch: -0.12, vel: 0, rate: 0.00016 }
+    };
+    var grabbed = spin.planet;
     var dragging = false, moved = 0, lastX = 0, lastY = 0, pointerType = "mouse";
     var hovered = null;
     var visible = true;
@@ -212,9 +219,9 @@
       return !reduce.matches;
     }
 
-    function rotate(nd, cx, cy, R) {
-      var cyw = Math.cos(yaw), syw = Math.sin(yaw);
-      var cp = Math.cos(pitch), sp = Math.sin(pitch);
+    function rotate(nd, cx, cy, R, v) {
+      var cyw = Math.cos(v.yaw), syw = Math.sin(v.yaw);
+      var cp = Math.cos(v.pitch), sp = Math.sin(v.pitch);
       var x = nd.x * cyw - nd.z * syw;
       var z1 = nd.x * syw + nd.z * cyw;
       var y = nd.y * cp - z1 * sp;
@@ -238,7 +245,7 @@
         cy = H / 2;
       }
       center = { x: cx, y: cy, R: R };
-      planet.forEach(function (nd) { rotate(nd, cx, cy, R); });
+      planet.forEach(function (nd) { rotate(nd, cx, cy, R, spin.planet); });
       if (moon.length) {
         // An inclined circular orbit around the planet, seen in perspective.
         var oR = R * 1.32;
@@ -254,7 +261,7 @@
         moon.cx = mx;
         moon.cy = my;
         moon.R = mR;
-        moon.forEach(function (nd) { rotate(nd, mx, my, mR); });
+        moon.forEach(function (nd) { rotate(nd, mx, my, mR, spin.moon); });
       }
       return R;
     }
@@ -398,13 +405,20 @@
       running = false;
       var dt = lastT ? Math.min(50, t - lastT) : 16;
       lastT = t;
-      if (!dragging && motion()) {
-        yaw += vel * dt + (hovered ? 0.00003 : 0.00011) * dt;
-        vel *= Math.pow(0.93, dt / 16);
-        orbit += 0.00016 * dt;
-      } else if (!dragging) {
-        vel = 0;
-      }
+      // A body in the hand stays put; the other keeps turning. A hovered
+      // star slows its own body so it can be read.
+      Object.keys(spin).forEach(function (body) {
+        var v = spin[body];
+        if (dragging && grabbed === v) return;
+        if (!motion()) {
+          v.vel = 0;
+          return;
+        }
+        var slow = hovered && hovered.body === body ? 0.27 : 1;
+        v.yaw += v.vel * dt + v.rate * slow * dt;
+        v.vel *= Math.pow(0.93, dt / 16);
+      });
+      if (motion() && !(dragging && grabbed === spin.moon)) orbit += 0.00016 * dt;
       draw(t);
       if (shouldAnimate()) request();
       else lastT = 0;
@@ -422,6 +436,19 @@
         }
       });
       return best;
+    }
+
+    // Which body a drag starting at (x, y) turns: the moon when the pointer
+    // is on it and it is not hidden behind the planet, else the planet (the
+    // open sky turns the planet too, as the biggest target).
+    function bodyAt(x, y) {
+      if (!moon.length) return spin.planet;
+      var slop = pointerType === "touch" ? 12 : 4;
+      var mdx = x - moon.cx, mdy = y - moon.cy;
+      var onMoon = mdx * mdx + mdy * mdy <= Math.pow(moon.R * 1.04 + slop, 2);
+      var pdx = x - center.x, pdy = y - center.y;
+      var onPlanet = pdx * pdx + pdy * pdy <= Math.pow(center.R * 1.02, 2);
+      return onMoon && (!onPlanet || moon.mz >= 0) ? spin.moon : spin.planet;
     }
 
     function local(ev) {
@@ -450,7 +477,9 @@
       pointerType = ev.pointerType;
       lastX = ev.clientX;
       lastY = ev.clientY;
-      vel = 0;
+      var p = local(ev);
+      grabbed = bodyAt(p.x, p.y);
+      grabbed.vel = 0;
       try { canvas.setPointerCapture(ev.pointerId); } catch (e) { /* older browsers */ }
       request();
     });
@@ -461,9 +490,9 @@
         lastX = ev.clientX;
         lastY = ev.clientY;
         moved += Math.abs(dx) + Math.abs(dy);
-        yaw += dx * 0.008;
-        pitch = Math.max(-1.1, Math.min(1.1, pitch + dy * 0.006));
-        vel = (dx * 0.008) / 16;
+        grabbed.yaw += dx * 0.008;
+        grabbed.pitch = Math.max(-1.1, Math.min(1.1, grabbed.pitch + dy * 0.006));
+        grabbed.vel = (dx * 0.008) / 16;
         showTip(null);
         request();
         return;
@@ -508,12 +537,14 @@
       request();
     });
 
+    // Arrow keys turn the planet; with Shift they turn the moon.
     canvas.addEventListener("keydown", function (ev) {
       var step = 0.18;
-      if (ev.key === "ArrowLeft") yaw -= step;
-      else if (ev.key === "ArrowRight") yaw += step;
-      else if (ev.key === "ArrowUp") pitch = Math.max(-1.1, pitch - step);
-      else if (ev.key === "ArrowDown") pitch = Math.min(1.1, pitch + step);
+      var v = ev.shiftKey && moon.length ? spin.moon : spin.planet;
+      if (ev.key === "ArrowLeft") v.yaw -= step;
+      else if (ev.key === "ArrowRight") v.yaw += step;
+      else if (ev.key === "ArrowUp") v.pitch = Math.max(-1.1, v.pitch - step);
+      else if (ev.key === "ArrowDown") v.pitch = Math.min(1.1, v.pitch + step);
       else return;
       ev.preventDefault();
       request();
