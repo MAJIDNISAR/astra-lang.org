@@ -61,10 +61,10 @@
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        stands at <strong>760 passed, 0 failed, 0 ignored</strong> for the
-        v0.12.2-alpha release.
+        stands at <strong>777 passed, 0 failed, 0 ignored</strong> for the
+        v0.13.0-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.12.2-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->760<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->760<!-- /status:main-tests --> tests</dt><dd>Released: machine fixes, error lines everywhere, memory freed on every exit</dd></div><div><dt>E0021 / E0020 fixes</dt><dd>Next, then <code>@derive(Eq)</code> and <code>Map</code> / <code>Set</code></dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.0-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->777<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->777<!-- /status:main-tests --> tests</dt><dd>Released: machine fixes, error lines everywhere, memory freed on every exit</dd></div><div><dt>E0021 / E0020 fixes</dt><dd>Next, then <code>@derive(Eq)</code> and <code>Map</code> / <code>Set</code></dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -129,7 +129,7 @@
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.12","items":["Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -189,7 +189,7 @@
       interpreter and native, modules, error codes and lines,
       <code>astra fmt</code>, <code>astra fix</code> and the Mifa flow. It
       runs on every platform before a release publishes, and a failure on any
-      platform stops the release. v0.12.2-alpha scores <strong>55/55</strong>
+      platform stops the release. v0.13.0-alpha scores <strong>55/55</strong>
       on macOS, Linux and Windows. v0.12.0-alpha's Windows run found that
       programs compiled but did not link there; v0.12.1 fixed it.
       v0.11.2-alpha scored 52/55 (<code>mifa search</code> failed).</p>
@@ -341,15 +341,24 @@
           <code>Option</code>; the release check now blocks a release on
           any platform. <span class="tl-tests">756 tests</span></p>
         </li>
-        <li class="now">
+        <li>
           <span class="tl-when">Nov 5, 2026</span>
-          <span class="tl-title">v0.12.2-alpha <span class="badge wip">current</span></span>
+          <span class="tl-title">v0.12.2-alpha</span>
           <p>Three native wrong answers fixed, all found by writing real
           programs: nested structs that share a field name, a
           <code>f(mut x)?</code> statement, a <code>bool</code> inside a
           <code>Result</code>. 20 showcase and 8 real-world examples, each
           checked against a Python version on both engines.
           <span class="tl-tests">760 tests</span></p>
+        </li>
+        <li class="now">
+          <span class="tl-when">Nov 5, 2026</span>
+          <span class="tl-title">v0.13.0-alpha <span class="badge wip">current</span></span>
+          <p><code>astra mcp</code>: a Model Context Protocol server, so any
+          AI agent can verify, fix, run, build and test Astra, whatever the
+          model. Runtime errors carry stable codes (R0001–R0007). Astra as
+          WebAssembly, with a Node runner, and the browser playground.
+          <span class="tl-tests">777 tests</span></p>
         </li>
         <li class="planned">
           <span class="tl-when">Next</span>
@@ -377,6 +386,7 @@
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
+      <tr><td data-label="Version">v0.13.0</td><td data-label="Date">2026-11-05</td><td data-label="Tests">777</td><td data-label="What changed">astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground.</td></tr>
       <tr><td data-label="Version">v0.12.2</td><td data-label="Date">2026-11-05</td><td data-label="Tests">760</td><td data-label="What changed">Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python.</td></tr>
       <tr><td data-label="Version">v0.12.1</td><td data-label="Date">2026-11-05</td><td data-label="Tests">756</td><td data-label="What changed">Native builds on Windows; print and ${} refuse values that native printed as addresses; release check passes on every platform.</td></tr>
       <tr><td data-label="Version">v0.12.0</td><td data-label="Date">2026-11-04</td><td data-label="Tests">754</td><td data-label="What changed">Every type error has a line; machine fixes and astra fix; memory freed on every exit; bools print true/false; a 55-check release suite.</td></tr>
@@ -519,7 +529,7 @@
       </table></div>
     </div>
   </section>
-  <nav class="next-steps" aria-label="Where next"><h2>Where next</h2><div><a href="download.html"><b>Get the alpha</b><span>v0.12.2 for Linux, macOS and Windows.</span></a><a href="benchmarks.html"><b>See the numbers</b><span>Every claim, with the script behind it.</span></a><a href="vision.html"><b>Where it is going</b><span>Agent keywords and the road to v1.0.</span></a></div></nav>
+  <nav class="next-steps" aria-label="Where next"><h2>Where next</h2><div><a href="download.html"><b>Get the alpha</b><span>v0.13 for Linux, macOS, Windows and WebAssembly.</span></a><a href="benchmarks.html"><b>See the numbers</b><span>Every claim, with the script behind it.</span></a><a href="vision.html"><b>Where it is going</b><span>Agent keywords and the road to v1.0.</span></a></div></nav>
   </div>
 </div>
 </main>
