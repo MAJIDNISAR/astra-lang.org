@@ -171,8 +171,8 @@ HI!</code></pre>
 
   <section id="git-workspaces">
     <div class="wrap">
-      <h2>Git dependencies and workspaces <span class="badge wip">next release</span></h2>
-      <p class="lead-in">On <code>main</code> now: dependencies from git, the whole graph resolved, and several packages in one tree.</p>
+      <h2>Git dependencies and workspaces <span class="badge done">v0.13.2</span></h2>
+      <p class="lead-in">Dependencies from git, the whole graph resolved, and several packages in one tree.</p>
 <pre><code><span class="c"># astra.toml</span>
 [dependencies]
 textutil = { git = <span class="s">"https://github.com/acme/textutil.git"</span>, tag = <span class="s">"v1.2.0"</span> }
@@ -235,10 +235,10 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target","mifa --version","Honest mifa search","Semver requirements (^ ~ = ranges)"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target","mifa --version","Honest mifa search","Semver requirements (^ ~ = ranges)","Git dependencies","Whole-graph version solving","Workspaces","Lockfile v2 (--locked / --offline)","mifa tree / update"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
       <!-- status:mifa-list --><ul class="status-list">
   <li data-status="works"><b>Works today:</b> mifa init, mifa add --path, mifa verify, mifa lock, Path dependencies, Package cache, mifa clean, --json on local commands, Registry protocol (34 tests), login + publish --dry-run</li>
-  <li data-status="shipped"><b>New in v0.10–v0.13:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target, mifa --version, Honest mifa search, Semver requirements (^ ~ = ranges)</li>
+  <li data-status="shipped"><b>New in v0.10–v0.13:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target, mifa --version, Honest mifa search, Semver requirements (^ ~ = ranges), Git dependencies, Whole-graph version solving, Workspaces, Lockfile v2 (--locked / --offline), mifa tree / update</li>
   <li data-status="next"><b>Next:</b> Project-wide mifa verify, HTTP registry client, Staging registry, Real mifa publish</li>
   <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Global lockfile contract</li>
 </ul><!-- /status:mifa-list -->
@@ -280,7 +280,7 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
           <tr>
             <td data-label="Milestone"><strong>M6</strong>: Graph, git, workspaces</td>
             <td data-label="Scope">Transitive resolution with backtracking, git dependencies pinned to commits, <code>update</code> / <code>tree</code>, <code>--locked</code> / <code>--offline</code>, <code>[workspace]</code></td>
-            <td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">v0.13.2</span></td>
           </tr>
           <tr>
             <td data-label="Milestone"><strong>mifa.dev</strong>: Public registry</td>

@@ -80,7 +80,7 @@ RESULT: all outputs verified.</code></pre>
         harness has been rebuilt and every number below re-measured; where
         Astra is slower than Rust, the table now shows it.</p>
       </div>
-      <dl class="glance"><div><dt>4–5 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2.2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->796<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed in v0.12</dd></div></dl>
+      <dl class="glance"><div><dt>4–5 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2.2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->831<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed in v0.12</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -276,11 +276,11 @@ RESULT: all outputs verified.</code></pre>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>796 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> at v0.13.1-alpha, 2026-11-06 (777 at v0.13.0-alpha, 760 at v0.12.2-alpha, 712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>831 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> at v0.13.2-alpha, 2026-11-06 (796 at v0.13.1-alpha, 777 at v0.13.0-alpha, 760 at v0.12.2-alpha, 712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
           <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong>: CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
           <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
           <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>122 / 122</strong>: compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
-          <tr><td data-label="Metric">Showcase examples</td><td data-label="Value"><strong>20 / 20</strong> print their expected output on both engines</td><td data-label="Source"><code>tests/showcase_examples_tests.rs</code></td></tr>
+          <tr><td data-label="Metric">Showcase examples</td><td data-label="Value"><strong>21 / 21</strong> print their expected output on both engines</td><td data-label="Source"><code>tests/showcase_examples_tests.rs</code></td></tr>
           <tr><td data-label="Metric">IR validity gate</td><td data-label="Value">every corpus program's IR must pass <code>llc</code></td><td data-label="Source"><code>tests/ir_validity_tests.rs</code> (in CI)</td></tr>
           <tr><td data-label="Metric">Validation checks</td><td data-label="Value"><strong>13 / 13</strong></td><td data-label="Source"><code>scripts/validate_metrics.sh</code></td></tr>
         </tbody>
@@ -298,15 +298,17 @@ RESULT: all outputs verified.</code></pre>
       plot. Each has an independent Python reference, and Astra's output
       must match it byte for byte on the interpreter and natively. Writing
       them found three native wrong answers, fixed in v0.12.2
-      and logged with the tests that guard them. Measured on
-      v0.12.2-alpha, 2026-11-05.</p>
+      and logged with the tests that guard them. Since v0.13.2 none of the
+      eight needs a workaround: they count with <code>Map</code> and rank
+      with <code>sort_by_key</code> as a developer would. Measured on
+      v0.13.2-alpha, 2026-11-06.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Result</th><th>What it means</th></tr></thead>
         <tbody>
           <tr><td data-label="Metric">Correct answers</td><td data-label="Result"><strong>8 / 8</strong> interpreter, <strong>8 / 8</strong> native</td><td data-label="What it means">same output and exit code as the Python reference</td></tr>
-          <tr><td data-label="Metric">Lines of code vs Python</td><td data-label="Result"><strong>1.78×</strong> (median)</td><td data-label="What it means">mostly workarounds for missing <code>Map</code> and list methods (string methods arrived in v0.13.1; the programs are rewritten when <code>Map</code> lands); the target is 1.3×</td></tr>
-          <tr><td data-label="Metric">Native speed vs Python</td><td data-label="Result"><strong>7.2× faster</strong> (median)</td><td data-label="What it means">small programs, process start-up included</td></tr>
-          <tr><td data-label="Metric">Verify / build</td><td data-label="Result">about <strong>7 ms</strong> / <strong>118 ms</strong></td><td data-label="What it means">per program, median, process start-up included</td></tr>
+          <tr><td data-label="Metric">Lines of code vs Python</td><td data-label="Result"><strong>1.63×</strong> (median; 1.71× in total, was 2.08×)</td><td data-label="What it means">no workarounds left; the rest is padding, CSV parsing and number formatting that Python's library does; the target is 1.3×</td></tr>
+          <tr><td data-label="Metric">Native speed vs Python</td><td data-label="Result"><strong>7.4× faster</strong> (median)</td><td data-label="What it means">small programs, process start-up included</td></tr>
+          <tr><td data-label="Metric">Verify / build</td><td data-label="Result">about <strong>6 ms</strong> / <strong>101 ms</strong></td><td data-label="What it means">per program, median, process start-up included</td></tr>
           <tr><td data-label="Metric">Error cases</td><td data-label="Result"><strong>6 / 6</strong> right code and line, <strong>2 / 6</strong> with a machine fix</td><td data-label="What it means">the release suite's error programs</td></tr>
           <tr><td data-label="Metric">Mifa, init to running program</td><td data-label="Result">about <strong>1.2 s</strong> with a path dependency</td><td data-label="What it means"><code>mifa test</code>, a reproducible lockfile and JSON output also checked</td></tr>
         </tbody>
