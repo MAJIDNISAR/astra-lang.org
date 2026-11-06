@@ -1,28 +1,28 @@
 {
   "updated": "2026-11-06",
   "release": {
-    "version": "v0.13.1-alpha",
+    "version": "v0.13.2-alpha",
     "date": "2026-11-06",
-    "tests": 796,
+    "tests": 831,
     "platforms": ["Linux x64", "macOS Apple Silicon", "macOS Intel", "Windows x64", "WebAssembly"]
   },
   "main": {
-    "tests": 796,
-    "releaseChecks": "57 of 57",
+    "tests": 831,
+    "releaseChecks": "60 of 60",
     "note": "Same as the release"
   },
   "astra": {
     "statuses": [
       {"id": "works", "name": "Works today", "items": ["Variables", "Functions", "Recursion", "Control flow", "Arrays", "Nominal structs", "Enums + match", "Tuples", "Result + ?", "try / catch", "Closures", "Generic functions", "impl blocks", "Bitwise ops", "String interpolation", "Floats", "async / await", "REPL", "LLVM-IR backend", "--emit-ir / --target", "Never panics on bad input", "CI gates"]},
-      {"id": "shipped", "name": "New in v0.10–v0.13", "items": ["astra mcp (any agent)", "Runtime error codes", "WebAssembly + playground", "Interpreter (astra run)", "Native parity + fuzzing", "Modules + pub", "mifa build / run", "Runtime traps", "Type inference", "Indentation syntax", "astra fmt", "Forward references", "Exhaustive match (E0021)", "Value semantics (E0022)", "a[i] = v", "Nominal traits", "Trait bounds", "Signature checks (E0020)", "Embedded runtime", "Release binaries ×4", "Error lines everywhere", "All errors per function", "Fix edits", "astra fix", "Every-exit memory release", "Owned strings freed", "Template literals freed", "true / false printing", "== by value only", "Release test suite", "String copy crash fixed", "Windows native builds", "String methods + for c in s", "< > on strings"]},
-      {"id": "next", "name": "Next", "items": ["E0021 / E0020 fixes", "@derive(Eq)", "Default methods", "Standard traits", "Map / Set", "Comprehensions", "Generic structs", "Branch / call locals freed", "LSP alpha", "stdlib core"]},
+      {"id": "shipped", "name": "New in v0.10–v0.13", "items": ["astra mcp (any agent)", "Runtime error codes", "WebAssembly + playground", "Interpreter (astra run)", "Native parity + fuzzing", "Modules + pub", "mifa build / run", "Runtime traps", "Type inference", "Indentation syntax", "astra fmt", "Forward references", "Exhaustive match (E0021)", "Value semantics (E0022)", "a[i] = v", "Nominal traits", "Trait bounds", "Signature checks (E0020)", "Embedded runtime", "Release binaries ×4", "Error lines everywhere", "All errors per function", "Fix edits", "astra fix", "Every-exit memory release", "Owned strings freed", "Template literals freed", "true / false printing", "== by value only", "Release test suite", "String copy crash fixed", "Windows native builds", "String methods + for c in s", "< > on strings", "Map<K, V>", "List sort / sort_by_key", "Any value in Result / Option", "Real programs without workarounds"]},
+      {"id": "next", "name": "Next", "items": ["E0021 / E0020 fixes", "@derive(Eq)", "Default methods", "Standard traits", "Set + slicing", "Comprehensions", "Generic structs", "Branch / call locals freed", "LSP alpha", "stdlib core"]},
       {"id": "planned", "name": "Planned", "items": ["tool / agent keywords", "prompt / memory", "Python interop", "WASM target", "GPU target", "Source opens at v1.0-beta"]}
     ]
   },
   "mifa": {
     "statuses": [
       {"id": "works", "name": "Works today", "items": ["mifa init", "mifa add --path", "mifa verify", "mifa lock", "Path dependencies", "Package cache", "mifa clean", "--json on local commands", "Registry protocol (34 tests)", "login + publish --dry-run"]},
-      {"id": "shipped", "name": "New in v0.10–v0.13", "items": ["mifa build", "mifa run", "Importable dependencies", "mifa test", "Cargo-style manifests", "build --release / --target", "mifa --version", "Honest mifa search", "Semver requirements (^ ~ = ranges)"]},
+      {"id": "shipped", "name": "New in v0.10–v0.13", "items": ["mifa build", "mifa run", "Importable dependencies", "mifa test", "Cargo-style manifests", "build --release / --target", "mifa --version", "Honest mifa search", "Semver requirements (^ ~ = ranges)", "Git dependencies", "Whole-graph version solving", "Workspaces", "Lockfile v2 (--locked / --offline)", "mifa tree / update"]},
       {"id": "next", "name": "Next", "items": ["Project-wide mifa verify", "HTTP registry client", "Staging registry", "Real mifa publish"]},
       {"id": "planned", "name": "Planned", "items": ["Hosted registry (mifa.dev)", "Global lockfile contract"]}
     ]
@@ -43,7 +43,8 @@
     {"version": "v0.12.1", "date": "2026-11-05", "tests": 756, "summary": "Native builds on Windows; print and ${} refuse values that native printed as addresses; release check passes on every platform."},
     {"version": "v0.12.2", "date": "2026-11-05", "tests": 760, "summary": "Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python."},
     {"version": "v0.13.0", "date": "2026-11-05", "tests": 777, "summary": "astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground."},
-    {"version": "v0.13.1", "date": "2026-11-06", "tests": 796, "summary": "String methods: char_at, chars, for c in s, starts_with/ends_with, replace, < and > on strings; Mifa version requirements with Cargo's rules and semver ordering."}
+    {"version": "v0.13.1", "date": "2026-11-06", "tests": 796, "summary": "String methods: char_at, chars, for c in s, starts_with/ends_with, replace, < and > on strings; Mifa version requirements with Cargo's rules and semver ordering."},
+    {"version": "v0.13.2", "date": "2026-11-06", "tests": 831, "summary": "Map<K, V>, list sort and sort_by_key, any value in Result and Option: the 8 real-world programs need no workarounds. Mifa: git dependencies, whole-graph version solving, workspaces."}
   ],
   "memory": {
     "unit": "MB peak",

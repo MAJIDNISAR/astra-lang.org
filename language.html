@@ -70,6 +70,7 @@
       <li><a href="#variables-inference-and-strings">Variables, inference, and strings</a></li>
       <li><a href="#recursion-control-flow-loops">Recursion, control flow, loops</a></li>
       <li><a href="#structs-enums-and-pattern-matching">Structs, enums, and pattern matching</a></li>
+      <li><a href="#maps-and-sorting">Maps and sorting</a></li>
       <li><a href="#result-no-exceptions">Result&lt;T,E&gt;, no exceptions</a></li>
       <li><a href="#closures">Closures</a></li>
       <li><a href="#generics-and-gradual-typing">Generics and gradual typing</a></li>
@@ -155,6 +156,32 @@
       goes for <code>==</code>. Print or compare a struct's fields, and
       <code>match</code> an enum, until <code>@derive(Show, Eq)</code>
       arrives.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 id="maps-and-sorting">Maps and sorting <span class="badge done">v0.13.2</span></h2>
+      <p class="lead-in">Count by key with a <code>Map</code>, then rank with a stable sort.</p>
+<pre><code><span class="kw">let</span> counts: Map&lt;<span class="kw">str</span>, <span class="kw">int</span>&gt; = {}
+<span class="kw">for</span> w <span class="kw">in</span> text.<span class="fn">split</span>():
+    <span class="kw">if</span> w <span class="kw">in</span> counts:
+        counts[w] += <span class="n">1</span>
+    <span class="kw">else</span>:
+        counts[w] = <span class="n">1</span>
+
+<span class="kw">let</span> words = counts.<span class="fn">keys</span>()
+words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="c"># most common first</span>
+
+<span class="kw">let</span> ports = {<span class="s">&quot;http&quot;</span>: <span class="n">80</span>, <span class="s">&quot;https&quot;</span>: <span class="n">443</span>}
+<span class="kw">match</span> ports.<span class="fn">get</span>(<span class="s">&quot;ssh&quot;</span>):
+    <span class="fn">Some</span>(p) =&gt; <span class="fn">print</span>(<span class="s">&quot;ssh on ${p}&quot;</span>)
+    <span class="fn">None</span>    =&gt; <span class="fn">print</span>(<span class="s">&quot;no ssh&quot;</span>)</code></pre>
+      <p>Keys are <code>int</code> or <code>str</code>, iteration follows
+      insertion order, and a map is a value like a list. Lists have
+      <code>sort()</code>, <code>sort_by_key</code> and <code>reverse()</code>;
+      equal keys keep their order. <code>Result</code> and
+      <code>Option</code> carry any value, structs and floats included.</p>
     </div>
   </section>
 
