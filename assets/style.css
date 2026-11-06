@@ -1416,6 +1416,8 @@ footer.site .btn.primary:hover { background: var(--on-night); color: var(--night
 .pg-head { padding: clamp(var(--px-24), 4vw, var(--px-56)) 0 var(--px-24); }
 .pg-head h1 { font-size: var(--step-head); margin-bottom: var(--px-8); }
 .pg-head .lede { margin: 0; max-width: 60ch; }
+.pg-version { margin: var(--px-12) 0 0; max-width: 72ch; }
+.pg-version .badge { font-family: var(--mono); }
 .pg { padding: var(--px-16) 0 var(--px-64); }
 .pg-needs { padding: var(--px-16); background: var(--paper-2); }
 .pg-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--px-8) var(--px-16); margin: 0 0 var(--px-12); }
