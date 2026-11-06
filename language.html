@@ -91,6 +91,22 @@
 <span class="kw">let</span> checks = <span class="n">55</span>              <span class="c">// inferred int</span>
 
 <span class="fn">print</span>(<span class="s">"${name} v${version}: ${checks} release checks pass"</span>)</code></pre>
+      <p>Strings have the methods you reach for first, on both engines. A
+      <code>for</code> loop over a string visits one character at a time,
+      and <code>&lt;</code> / <code>&gt;</code> compare strings
+      alphabetically (byte order).</p>
+<pre><code><span class="kw">let</span> word = <span class="s">"Hello, world"</span>
+<span class="kw">let</span> vowels = <span class="n">0</span>
+<span class="kw">for</span> c <span class="kw">in</span> word:                  <span class="c">// one str per character</span>
+    <span class="kw">if</span> <span class="s">"aeiou"</span>.<span class="fn">contains</span>(c):
+        vowels += <span class="n">1</span>
+<span class="fn">print</span>(word.<span class="fn">starts_with</span>(<span class="s">"Hell"</span>))    <span class="c">// true</span>
+<span class="fn">print</span>(word.<span class="fn">replace</span>(<span class="s">"world"</span>, <span class="s">"Astra"</span>))
+<span class="fn">print</span>(word.<span class="fn">char_at</span>(<span class="n">0</span>))             <span class="c">// H</span>
+<span class="fn">print</span>(<span class="s">"apple"</span> &lt; <span class="s">"banana"</span>)        <span class="c">// true</span></code></pre>
+      <p>Also <code>split</code>, <code>trim</code>, <code>substring</code>,
+      <code>index_of</code>, <code>ends_with</code>, <code>to_upper</code>
+      and <code>chars()</code>. <span class="badge done">v0.13.1</span></p>
     </div>
   </section>
 

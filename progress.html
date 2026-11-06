@@ -61,10 +61,10 @@
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        stands at <strong>777 passed, 0 failed, 0 ignored</strong> for the
-        v0.13.0-alpha release.
+        stands at <strong>796 passed, 0 failed, 0 ignored</strong> for the
+        v0.13.1-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.0-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->777<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->777<!-- /status:main-tests --> tests</dt><dd>Released: machine fixes, error lines everywhere, memory freed on every exit</dd></div><div><dt>E0021 / E0020 fixes</dt><dd>Next, then <code>@derive(Eq)</code> and <code>Map</code> / <code>Set</code></dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.1-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->796<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->796<!-- /status:main-tests --> tests</dt><dd>Released: machine fixes, error lines everywhere, memory freed on every exit</dd></div><div><dt>E0021 / E0020 fixes</dt><dd>Next, then <code>@derive(Eq)</code> and <code>Map</code> / <code>Set</code></dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -74,7 +74,7 @@
       <li><a href="#releases">Where each version stands</a></li>
       <li><a href="#language-feature-matrix">Language feature matrix</a></li>
       <li><a href="#next">The work queue, in priority order</a></li>
-      <li><a href="#timeline">From the first lexer to v0.12</a></li>
+      <li><a href="#timeline">From the first lexer to v0.13</a></li>
       <li><a href="#history">Every release, in three dimensions</a></li>
       <li><a href="#mifa">Package manager progress</a></li>
       <li><a href="#strategic">Design investment, tracked like a feature</a></li>
@@ -129,7 +129,7 @@
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds","String methods + for c in s","\u003c > on strings"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Map / Set","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -152,6 +152,7 @@
           <tr><td data-label="Feature">Generics (monomorphized fns)</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Generic <em>functions</em> specialize per concrete type; nominal traits have declarations + E0020 conformance (static dispatch); generic <em>structs</em> still gated</td></tr>
           <tr><td data-label="Feature"><code>Vec&lt;int&gt;</code> (minimal)</td><td class="badge-cell" data-label="Status"><span class="badge wip">v0.9 slice</span></td><td data-label="Notes"><code>Vec::new()</code> + push/read over the array runtime; typed <code>Vec&lt;T&gt;</code> annotations don't parse yet</td></tr>
           <tr><td data-label="Feature">String interpolation <code>${}</code></td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Runtime-value interpolation, <code>.length()</code>, <code>.to_string()</code>, concat, string-method suite</td></tr>
+          <tr><td data-label="Feature">String methods and characters</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.13.1</span></td><td data-label="Notes"><code>split</code>, <code>trim</code>, <code>substring</code>, <code>contains</code>, <code>index_of</code>, and since v0.13.1 <code>starts_with</code>/<code>ends_with</code>, <code>replace</code>, <code>char_at(i)</code> (byte-indexed; out of range is R0004), <code>chars()</code> and <code>for c in s</code> (one <code>str</code> per UTF-8 character), <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> on strings (byte order). Both engines, same output</td></tr>
           <tr><td data-label="Feature">Bitwise + compound operators</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes"><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code> with Python-parity precedence; <code>+=</code> family, <code>**</code>, radix literals</td></tr>
           <tr><td data-label="Feature">Float arithmetic / compare</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Native <code>fadd</code>/<code>fcmp</code> with int→double promotion</td></tr>
           <tr><td data-label="Feature">JSON diagnostics with line + column</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Since v0.12: every type error in the main file carries the line and column of the statement that raised it (human output <code>(line N, column M)</code>), a function reports all its independent errors in one run, and E0014 points at the offending built-in call; errors in imported modules and function signatures still have no line</td></tr>
@@ -163,7 +164,7 @@
           <tr><td data-label="Feature">async / await</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.8</span></td><td data-label="Notes">Parses + compiles natively; synchronous lowering, real task runtime still ahead</td></tr>
           <tr><td data-label="Feature">Printing and equality</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12</span></td><td data-label="Notes">Bools print <code>true</code>/<code>false</code> on both engines (were <code>1</code>/<code>0</code>); <code>==</code>/<code>!=</code> only on int/float/bool/str, because on structs, enums, tuples and lists the native path compared pointers, so those are a type error until <code>@derive(Eq)</code>; a native crash on <code>let b = a</code> for strings is fixed. Since v0.12.1: <code>print</code> and <code>${}</code> follow the same rule (native printed a heap address for <code>Result</code>/<code>Option</code>/enums and garbage for lists), and <code>xs.pop()</code> is refused (native returned 0)</td></tr>
           <tr><td data-label="Feature">Traits + generic structs</td><td class="badge-cell" data-label="Status"><span class="badge wip">partial</span></td><td data-label="Notes">Nominal traits (<code>trait Shape:</code> + <code>impl Shape for Circle:</code>) with E0020 conformance (full signatures); trait bounds <code>fn f&lt;T: Shape&gt;</code> checked at the call site; static dispatch. <code>@derive</code>, standard traits, trait default methods and generic structs are next</td></tr>
-          <tr><td data-label="Feature">Not implemented yet</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>@derive(Eq, Show, Hash)</code> and standard traits, trait default methods, <code>Map</code>/<code>Set</code> and <code>{k: v}</code> literals, comprehensions, list <code>pop</code>/<code>sort</code>/slicing, string <code>replace</code>/<code>starts_with</code>/<code>char_at</code>/<code>&lt;</code>, <code>for c in s</code>, <code>sqrt</code> and math, <code>int * float</code> without <code>.to_float()</code>, <code>elif</code>, indented <code>try:</code>/<code>catch e:</code>, range patterns, closures as values, multi-field enum variants, generic structs, <code>await</code> in the interpreter, <code>spawn</code>, <code>tool</code>/<code>agent</code> keywords</td></tr>
+          <tr><td data-label="Feature">Not implemented yet</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>@derive(Eq, Show, Hash)</code> and standard traits, trait default methods, <code>Map</code>/<code>Set</code> and <code>{k: v}</code> literals, comprehensions, list <code>pop</code>/<code>sort</code>/slicing, <code>sqrt</code> and math, <code>int * float</code> without <code>.to_float()</code>, <code>elif</code>, indented <code>try:</code>/<code>catch e:</code>, range patterns, closures as values, multi-field enum variants, generic structs, <code>await</code> in the interpreter, <code>spawn</code>, <code>tool</code>/<code>agent</code> keywords</td></tr>
           <tr><td data-label="Feature">WASM target</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes"><code>--target=wasm32-wasi</code> emits a wasm object today; a WASI runtime build (for runnable <code>.wasm</code>) and a browser playground are next</td></tr>
           <tr><td data-label="Feature">Python interop</td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes">Embedded CPython, ratified decision</td></tr>
           <tr><td data-label="Feature"><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code></td><td class="badge-cell" data-label="Status"><span class="badge planned">planned</span></td><td data-label="Notes">Agent-native keywords</td></tr>
@@ -185,11 +186,11 @@
 
       <h3>Release testing <span class="badge done">v0.12</span></h3>
       <p>A black-box release suite tests the downloaded binaries, not the
-      source tree: <strong>55 checks</strong> covering 17 programs on the
+      source tree: <strong>57 checks</strong> covering 18 programs on the
       interpreter and native, modules, error codes and lines,
       <code>astra fmt</code>, <code>astra fix</code> and the Mifa flow. It
       runs on every platform before a release publishes, and a failure on any
-      platform stops the release. v0.13.0-alpha scores <strong>55/55</strong>
+      platform stops the release. v0.13.1-alpha scores <strong>57/57</strong>
       on macOS, Linux and Windows. v0.12.0-alpha's Windows run found that
       programs compiled but did not link there; v0.12.1 fixed it.
       v0.11.2-alpha scored 52/55 (<code>mifa search</code> failed).</p>
@@ -237,7 +238,7 @@
 
   <section id="timeline">
     <div class="wrap">
-      <h2>From the first lexer to v0.12</h2>
+      <h2>From the first lexer to v0.13</h2>
       <p>Each release on one line, oldest first. Test counts are the suite
       at the time of the release.</p>
       <figure class="viz" data-viz="releases" hidden>
@@ -351,14 +352,24 @@
           checked against a Python version on both engines.
           <span class="tl-tests">760 tests</span></p>
         </li>
-        <li class="now">
+        <li>
           <span class="tl-when">Nov 5, 2026</span>
-          <span class="tl-title">v0.13.0-alpha <span class="badge wip">current</span></span>
+          <span class="tl-title">v0.13.0-alpha</span>
           <p><code>astra mcp</code>: a Model Context Protocol server, so any
           AI agent can verify, fix, run, build and test Astra, whatever the
           model. Runtime errors carry stable codes (R0001–R0007). Astra as
           WebAssembly, with a Node runner, and the browser playground.
           <span class="tl-tests">777 tests</span></p>
+        </li>
+        <li class="now">
+          <span class="tl-when">Nov 6, 2026</span>
+          <span class="tl-title">v0.13.1-alpha <span class="badge wip">current</span></span>
+          <p>The string methods of a first hour with Astra: <code>char_at</code>,
+          <code>chars()</code>, <code>for c in s</code>, <code>starts_with</code>,
+          <code>ends_with</code>, <code>replace</code>, and <code>&lt;</code> /
+          <code>&gt;</code> on strings, on both engines. Mifa version
+          requirements follow Cargo's rules and pick the newest version by semver.
+          <span class="tl-tests">796 tests</span></p>
         </li>
         <li class="planned">
           <span class="tl-when">Next</span>
@@ -386,6 +397,7 @@
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
+      <tr><td data-label="Version">v0.13.1</td><td data-label="Date">2026-11-06</td><td data-label="Tests">796</td><td data-label="What changed">String methods: char_at, chars, for c in s, starts_with/ends_with, replace, &lt; and &gt; on strings; Mifa version requirements with Cargo's rules and semver ordering.</td></tr>
       <tr><td data-label="Version">v0.13.0</td><td data-label="Date">2026-11-05</td><td data-label="Tests">777</td><td data-label="What changed">astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground.</td></tr>
       <tr><td data-label="Version">v0.12.2</td><td data-label="Date">2026-11-05</td><td data-label="Tests">760</td><td data-label="What changed">Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python.</td></tr>
       <tr><td data-label="Version">v0.12.1</td><td data-label="Date">2026-11-05</td><td data-label="Tests">756</td><td data-label="What changed">Native builds on Windows; print and ${} refuse values that native printed as addresses; release check passes on every platform.</td></tr>
