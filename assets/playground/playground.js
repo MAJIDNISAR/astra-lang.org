@@ -50,6 +50,7 @@
         if (!version) {
           call({ op: "version" }).then(function (a) {
             version = a.version || "?";
+            showVersion(version);
             setStatus("Ready. Compiler " + version + ", running in your browser.");
           });
         }
@@ -84,6 +85,23 @@
   }
 
   function setStatus(text) { status.textContent = text; }
+
+  // The badge under the heading names the release the page was published
+  // for; once the module answers, it shows the version the module itself
+  // reports, and says so if the two ever differ.
+  function showVersion(v) {
+    var badge = $("pg-version");
+    var note = $("pg-version-note");
+    if (!badge) return;
+    var released = badge.textContent.replace(/^\s*compiler\s+/, "").trim();
+    var loaded = /^v/.test(v) ? v : "v" + v;
+    badge.textContent = "compiler " + loaded;
+    badge.title = "Reported by the loaded astra.wasm";
+    if (released && loaded !== released && note) {
+      badge.className = "badge wip";
+      note.textContent = "This module reports " + loaded + "; the latest release is " + released + ".";
+    }
+  }
 
   // ---------------------------------------------------------------- editor
   function escapeHtml(s) {

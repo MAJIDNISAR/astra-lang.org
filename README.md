@@ -20,6 +20,7 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 1. Edit `assets/status.json`: the release, test counts, feature statuses for Astra and Mifa, the release list, memory figures.
 2. Run `node tools/sync-status.mjs`. It rewrites every fragment between `<!-- status:NAME -->` markers (version, test counts, the globe data, the fallback lists and tables) and leaves the rest of each page untouched. `--check` exits 1 if a page is out of date.
 3. Update any prose that names the release (download page, release notes on the progress page), then `sitemap.xml` dates.
+4. Rebuild the playground module from the release (`assets/playground/astra.wasm`, `examples.json`). The playground page shows the release as a `compiler vX` badge (a `status:release-version` marker); once `astra.wasm` loads, `playground.js` replaces it with the version the module reports, and turns it orange with a note if the two differ.
 
 The globe (`orb.js`) reads the generated `script.orb-data` blocks. The 3D charts (`viz.js`) come in five kinds, each a `<figure data-viz="…">`:
 
