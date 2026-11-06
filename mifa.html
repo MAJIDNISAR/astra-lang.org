@@ -71,6 +71,7 @@
       <li><a href="#from-zero-to-running-project">From zero to running project</a></li>
       <li><a href="#next">Dependencies you can import</a></li>
       <li><a href="#versions">Version requirements</a></li>
+      <li><a href="#git-workspaces">Git dependencies and workspaces</a></li>
       <li><a href="#the-lockfile">The lockfile</a></li>
       <li><a href="#globe">Mifa, as a globe</a></li>
       <li><a href="#mifa-milestones">Mifa milestones</a></li>
@@ -136,8 +137,9 @@ HI!</code></pre>
     <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">&quot;hi&quot;</span>))
     <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
-      <p><code>mifa add</code> without <code>--path</code> is an error
-      instead of recording a package nothing can fetch. This flow is covered
+      <p><code>mifa add</code> without <code>--path</code> (or, in the next
+      release, <code>--git</code>) is an error instead of recording a package
+      nothing can fetch. This flow is covered
       by an end-to-end test that drives the real <code>mifa</code> binary.</p>
     </div>
   </section>
@@ -164,6 +166,42 @@ HI!</code></pre>
       <strong>Behaviour change in v0.13.1:</strong> a bare
       <code>"1.2.3"</code> used to mean exactly 1.2.3 and now means
       <code>^1.2.3</code>; write <code>"=1.2.3"</code> to pin.</p>
+    </div>
+  </section>
+
+  <section id="git-workspaces">
+    <div class="wrap">
+      <h2>Git dependencies and workspaces <span class="badge wip">next release</span></h2>
+      <p class="lead-in">On <code>main</code> now: dependencies from git, the whole graph resolved, and several packages in one tree.</p>
+<pre><code><span class="c"># astra.toml</span>
+[dependencies]
+textutil = { git = <span class="s">"https://github.com/acme/textutil.git"</span>, tag = <span class="s">"v1.2.0"</span> }
+helper   = { git = <span class="s">"https://github.com/acme/helper.git"</span>, version = <span class="s">"^1.2"</span> }
+util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../libs/util"</span> }</code></pre>
+      <ul>
+        <li><strong>Git dependencies</strong> by <code>tag</code>,
+        <code>branch</code> or <code>rev</code>, or a <code>version</code>
+        chosen among the repository's version tags.
+        <code>mifa add textutil --git &lt;url&gt; --tag v1.2.0</code> checks
+        the repository before writing the manifest; repositories are cached
+        and each commit is checked out once.</li>
+        <li><strong>Version solving across the whole graph.</strong> Your
+        dependencies' dependencies are resolved too. Mifa picks one version
+        of each package that satisfies every requirement, backs off to an
+        older version when the newest makes another requirement impossible,
+        and names each requirement and who made it when nothing works.
+        Cycles are refused.</li>
+        <li><strong>Pinned and reproducible.</strong> <code>astra.lock</code>
+        records each package's version, source and git commit; a branch
+        stays on its pinned commit until <code>mifa update</code>.
+        <code>--locked</code> fails instead of changing the lockfile and
+        <code>--offline</code> builds from the cache, for CI.
+        <code>mifa tree</code> shows the graph.</li>
+        <li><strong>Workspaces.</strong> <code>[workspace] members = ["app",
+        "libs/*"]</code> in the root <code>astra.toml</code>: one lockfile
+        and one <code>target/</code>, commands that work from any member,
+        and <code>-p &lt;name&gt;</code> to pick one.</li>
+      </ul>
     </div>
   </section>
 
@@ -238,6 +276,11 @@ HI!</code></pre>
             <td data-label="Milestone"><strong>M4</strong>: Publish + auth</td>
             <td data-label="Scope"><code>mifa login</code> (per-registry tokens), <code>publish --dry-run</code> (validation, deterministic archive, checksum)</td>
             <td class="badge-cell" data-label="Status"><span class="badge done">shipped</span></td>
+          </tr>
+          <tr>
+            <td data-label="Milestone"><strong>M6</strong>: Graph, git, workspaces</td>
+            <td data-label="Scope">Transitive resolution with backtracking, git dependencies pinned to commits, <code>update</code> / <code>tree</code>, <code>--locked</code> / <code>--offline</code>, <code>[workspace]</code></td>
+            <td class="badge-cell" data-label="Status"><span class="badge wip">next release</span></td>
           </tr>
           <tr>
             <td data-label="Milestone"><strong>mifa.dev</strong>: Public registry</td>
