@@ -62,9 +62,9 @@
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
         stands at <strong>831 passed, 0 failed, 0 ignored</strong> for the
-        v0.13.2-alpha release.
+        v0.13.4-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.2-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->831<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->831<!-- /status:main-tests --> tests</dt><dd>Released: <code>Map</code>, list sorting, Mifa git dependencies and workspaces</dd></div><div><dt><code>@derive(Eq)</code></dt><dd>Next, then <code>Set</code>, slicing and comprehensions</dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.4-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->847<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->847<!-- /status:main-tests --> tests</dt><dd>Released: <code>Map</code>, list sorting, Mifa git dependencies and workspaces</dd></div><div><dt><code>@derive(Eq)</code></dt><dd>Next, then <code>Set</code>, slicing and comprehensions</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -129,7 +129,7 @@
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds","String methods + for c in s","\u003c > on strings","Map\u003cK, V>","List sort / sort_by_key","Any value in Result / Option","Real programs without workarounds"]},{"id":"next","name":"Next","items":["E0021 / E0020 fixes","@derive(Eq)","Default methods","Standard traits","Set + slicing","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","E0021 automatic fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds","String methods + for c in s","\u003c > on strings","Map\u003cK, V>","List sort / sort_by_key","Any value in Result / Option","Real programs without workarounds"]},{"id":"next","name":"Next","items":["E0020 fixes","@derive(Eq)","Default methods","Standard traits","Set + slicing","Comprehensions","Generic structs","Branch / call locals freed","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -190,7 +190,7 @@
       interpreter and native, modules, error codes and lines,
       <code>astra fmt</code>, <code>astra fix</code> and the Mifa flow, workspaces included. It
       runs on every platform before a release publishes, and a failure on any
-      platform stops the release. v0.13.2-alpha scores <strong>60/60</strong>
+      platform stops the release. v0.13.4-alpha scores <strong>60/60</strong>
       on macOS, Linux and Windows. v0.12.0-alpha's Windows run found that
       programs compiled but did not link there; v0.12.1 fixed it.
       v0.11.2-alpha scored 52/55 (<code>mifa search</code> failed).</p>
@@ -373,7 +373,7 @@
         </li>
         <li class="now">
           <span class="tl-when">Nov 6, 2026</span>
-          <span class="tl-title">v0.13.2-alpha <span class="badge wip">current</span></span>
+          <span class="tl-title">v0.13.4-alpha <span class="badge wip">current</span></span>
           <p>Everyday programs without workarounds: <code>Map&lt;K, V&gt;</code>,
           list <code>sort</code> and <code>sort_by_key</code>, and any value in
           <code>Result</code> / <code>Option</code>. All eight real-world
@@ -407,6 +407,8 @@
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
+      <tr><td data-label="Version">v0.13.4-alpha</td><td data-label="Date">2026-11-07</td><td data-label="Tests">847</td><td data-label="What changed">Runtime Restoration and FFI/Mifa updates: restored runtime stability and refined FFI/Mifa integration for release.</td></tr>
+      <tr><td data-label="Version">v0.13.3-alpha</td><td data-label="Date">2026-11-06</td><td data-label="Tests">847</td><td data-label="What changed">C FFI + static package registry: Calling C with int/float/bool/str; @link for custom libraries; Static registry with mifa publish/add and SHA-256 checksums.</td></tr>
       <tr><td data-label="Version">v0.13.2</td><td data-label="Date">2026-11-06</td><td data-label="Tests">831</td><td data-label="What changed">Map&lt;K, V&gt;, list sort and sort_by_key, any value in Result and Option: the 8 real-world programs need no workarounds. Mifa: git dependencies, whole-graph version solving, workspaces.</td></tr>
       <tr><td data-label="Version">v0.13.1</td><td data-label="Date">2026-11-06</td><td data-label="Tests">796</td><td data-label="What changed">String methods: char_at, chars, for c in s, starts_with/ends_with, replace, &lt; and &gt; on strings; Mifa version requirements with Cargo's rules and semver ordering.</td></tr>
       <tr><td data-label="Version">v0.13.0</td><td data-label="Date">2026-11-05</td><td data-label="Tests">777</td><td data-label="What changed">astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground.</td></tr>
