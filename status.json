@@ -1,1 +1,7 @@
-"version": "v0.13.3-alpha",
+{
+  "version": "v0.13.5-alpha",
+  "date": "2026-11-10",
+  "tests": 856,
+  "releaseChecks": "63 of 63",
+  "source": "assets/status.json"
+}

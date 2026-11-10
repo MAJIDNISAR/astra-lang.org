@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();</script>
 <title>Mifa: Astra's package manager</title>
-<meta name="description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
+<meta name="description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a static, self-hosted package registry.">
 <link rel="canonical" href="https://astra-lang.org/mifa.html">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1efea"><!-- ds-allow-hardcode: meta theme-color cannot read CSS variables -->
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="astra-lang.org">
 <meta property="og:title" content="Mifa: Astra's package manager">
-<meta property="og:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
+<meta property="og:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a static, self-hosted package registry.">
 <meta property="og:url" content="https://astra-lang.org/mifa.html">
 <meta property="og:image" content="https://astra-lang.org/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://astra-lang.org/assets/og.png">
 <meta name="twitter:title" content="Mifa: Astra's package manager">
-<meta name="twitter:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a roadmap toward a real registry.">
+<meta name="twitter:description" content="Mifa is Astra's package manager: project scaffolding, dependency resolution, reproducible astra.lock lockfiles, and a static, self-hosted package registry.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
@@ -72,6 +72,7 @@
       <li><a href="#next">Dependencies you can import</a></li>
       <li><a href="#versions">Version requirements</a></li>
       <li><a href="#git-workspaces">Git dependencies and workspaces</a></li>
+      <li><a href="#registry">A static package registry</a></li>
       <li><a href="#the-lockfile">The lockfile</a></li>
       <li><a href="#globe">Mifa, as a globe</a></li>
       <li><a href="#mifa-milestones">Mifa milestones</a></li>
@@ -137,9 +138,9 @@ HI!</code></pre>
     <span class="fn">print</span>(textutil::<span class="fn">shout</span>(<span class="s">&quot;hi&quot;</span>))
     <span class="kw">return</span> <span class="n">0</span></code></pre>
       </div>
-      <p><code>mifa add</code> without <code>--path</code> (or, in the next
-      release, <code>--git</code>) is an error instead of recording a package
-      nothing can fetch. This flow is covered
+      <p><code>mifa add</code> needs <code>--path</code>, <code>--git</code>
+      or a package in the <a href="#registry">registry</a>; anything else is
+      an error instead of recording a package nothing can fetch. This flow is covered
       by an end-to-end test that drives the real <code>mifa</code> binary.</p>
     </div>
   </section>
@@ -205,6 +206,38 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
     </div>
   </section>
 
+  <section id="registry">
+    <div class="wrap">
+      <h2>A static package registry <span class="badge done">v0.13.3</span></h2>
+      <p class="lead-in">A registry is only files: a folder, or any static web host serving one. There is no central public registry yet.</p>
+<pre data-copy="none"><code><span class="p">$</span> mifa publish --registry ~/astra-registry   <span class="c"># add this version; a version never changes</span>
+<span class="p">$</span> mifa add textkit --version "^1.1"          <span class="c"># depend on a registry package by name</span>
+<span class="p">$</span> mifa yank 1.2.0                            <span class="c"># hide a broken version (--undo brings it back)</span>
+<span class="p">$</span> mifa search text                           <span class="c"># registry folders only</span></code></pre>
+      <ul>
+        <li><strong>Where it lives.</strong> An index per package and
+        checksummed archives, in the spirit of Cargo's sparse index, so a
+        shared drive, a git repository or a static web host (GitHub Pages,
+        S3, nginx) can hold it. Name it with <code>--registry</code>,
+        <code>MIFA_REGISTRY</code> or <code>[registry] url = "..."</code> in
+        <code>astra.toml</code>.</li>
+        <li><strong>Solved with everything else.</strong> A dependency with
+        only a version (<code>textkit = "^1.1"</code>) comes from the
+        registry, with its own registry dependencies, in the same solver as
+        path and git packages. Yanked versions are skipped unless
+        <code>astra.lock</code> pins them.</li>
+        <li><strong>Checked.</strong> Each archive's SHA-256 is checked on
+        download and pinned in <code>astra.lock</code>; a replaced archive
+        stops the build. Downloads are cached, so <code>--offline</code>
+        works.</li>
+        <li><strong>Its limits.</strong> Mifa publishes only into a folder,
+        which you then upload; web registries are read with
+        <code>curl</code> and are read-only, and <code>mifa search</code>
+        works on folders only.</li>
+      </ul>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2 id="the-lockfile">The lockfile</h2>
@@ -235,12 +268,12 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target","mifa --version","Honest mifa search","Semver requirements (^ ~ = ranges)","Git dependencies","Whole-graph version solving","Workspaces","Lockfile v2 (--locked / --offline)","mifa tree / update"]},{"id":"next","name":"Next","items":["Project-wide mifa verify","HTTP registry client","Staging registry","Real mifa publish"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["mifa init","mifa add --path","mifa verify","mifa lock","Path dependencies","Package cache","mifa clean","--json on local commands","Registry protocol (34 tests)","login + publish --dry-run"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["mifa build","mifa run","Importable dependencies","mifa test","Cargo-style manifests","build --release / --target","mifa --version","mifa search (registry folders)","Semver requirements (^ ~ = ranges)","Git dependencies","Whole-graph version solving","Workspaces","Lockfile v2 (--locked / --offline)","mifa tree / update","Static self-hosted registry","mifa publish / add \u003cname> / yank","Checksums pinned in astra.lock"]},{"id":"next","name":"Next","items":["Project-wide mifa verify"]},{"id":"planned","name":"Planned","items":["Hosted registry (mifa.dev)","Package signing","Global lockfile contract"]}]}</script><!-- /status:orb-data:mifa -->
       <!-- status:mifa-list --><ul class="status-list">
   <li data-status="works"><b>Works today:</b> mifa init, mifa add --path, mifa verify, mifa lock, Path dependencies, Package cache, mifa clean, --json on local commands, Registry protocol (34 tests), login + publish --dry-run</li>
-  <li data-status="shipped"><b>New in v0.10–v0.13:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target, mifa --version, Honest mifa search, Semver requirements (^ ~ = ranges), Git dependencies, Whole-graph version solving, Workspaces, Lockfile v2 (--locked / --offline), mifa tree / update</li>
-  <li data-status="next"><b>Next:</b> Project-wide mifa verify, HTTP registry client, Staging registry, Real mifa publish</li>
-  <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Global lockfile contract</li>
+  <li data-status="shipped"><b>New in v0.10–v0.13:</b> mifa build, mifa run, Importable dependencies, mifa test, Cargo-style manifests, build --release / --target, mifa --version, mifa search (registry folders), Semver requirements (^ ~ = ranges), Git dependencies, Whole-graph version solving, Workspaces, Lockfile v2 (--locked / --offline), mifa tree / update, Static self-hosted registry, mifa publish / add &lt;name&gt; / yank, Checksums pinned in astra.lock</li>
+  <li data-status="next"><b>Next:</b> Project-wide mifa verify</li>
+  <li data-status="planned"><b>Planned:</b> Hosted registry (mifa.dev), Package signing, Global lockfile contract</li>
 </ul><!-- /status:mifa-list -->
     </div>
   </section>
@@ -248,7 +281,7 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
   <section>
     <div class="wrap">
       <h2 id="mifa-milestones">Mifa milestones</h2>
-      <p class="lead-in">Every local milestone has shipped; the hosted registry is what remains.</p>
+      <p class="lead-in">Every local milestone has shipped, and a static, self-hosted registry works; a central hosted registry is what remains.</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Milestone</th><th>Scope</th><th>Status</th></tr></thead>
         <tbody>
@@ -283,19 +316,25 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
             <td class="badge-cell" data-label="Status"><span class="badge done">v0.13.2</span></td>
           </tr>
           <tr>
+            <td data-label="Milestone"><strong>Static registry</strong></td>
+            <td data-label="Scope">A folder or static web host: <code>mifa publish</code> into a folder, <code>mifa add &lt;name&gt;</code>, <code>yank</code>, <code>search</code>; SHA-256 pinned in <code>astra.lock</code></td>
+            <td class="badge-cell" data-label="Status"><span class="badge done">v0.13.3</span></td>
+          </tr>
+          <tr>
             <td data-label="Milestone"><strong>mifa.dev</strong>: Public registry</td>
-            <td data-label="Scope">Hosted global registry with semantic versioning</td>
+            <td data-label="Scope">Hosted central registry with accounts and uploads</td>
             <td class="badge-cell" data-label="Status"><span class="badge planned">v1.0</span></td>
           </tr>
         </tbody>
       </table></div>
       <div class="callout">
-        <p><strong>Honest note:</strong> the registry protocol is fully
-        specified and tested against an in-memory implementation, checksums,
-        yanked versions, auth, and publish validation all work, but there is
-        no hosted registry yet; real uploads are blocked on deployment, and
-        a registry dependency like <code>utils@1.0.0</code> has nothing to
-        download from. Local workflows (init, verify, lock, run, path
+        <p><strong>Honest note:</strong> there is no central public registry
+        yet. A <a href="#registry">static registry you host yourself</a>
+        works: publish into a folder, upload it anywhere static, and depend
+        on its packages by name, with checksums pinned. Uploading to a hosted
+        registry (<code>mifa.dev</code>) waits on its deployment, and
+        <code>mifa login</code> tokens are stored but a static registry does
+        not use them. Local workflows (init, verify, lock, run, path
         dependencies, JSON output, login, dry-run publish) are real and
         covered by 90+ tests.</p>
       </div>
@@ -310,7 +349,8 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
         <li><code>mifa --version</code> prints the Mifa version.</li>
         <li><code>mifa search</code> says the registry is not deployed instead
         of listing packages. Up to v0.11.2-alpha, <code>mifa search</code>
-        listed packages that do not exist.</li>
+        listed packages that do not exist. Since v0.13.3-alpha it searches
+        a registry folder.</li>
         <li>The Mifa flow is part of the black-box release suite that runs on
         every platform before a release publishes.</li>
       </ul>
@@ -328,7 +368,7 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
         checks only the manifest and layout; type-checking the whole project
         graph from Mifa is planned.</li>
         <li><strong>Lockfile as a contract.</strong> The lock isn't advisory;
-        future registry fetches will refuse checksum mismatches outright.</li>
+        registry downloads refuse checksum mismatches outright.</li>
         <li><strong>One tool, one mental model.</strong> Mifa wraps the same
         compiler library the <code>astra</code> CLI uses. Diagnostics, exit
         codes, and JSON shapes stay identical between both tools, <code>init</code>, <code>add</code>, <code>verify</code>,
