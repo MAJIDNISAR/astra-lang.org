@@ -76,6 +76,7 @@
       <li><a href="#generics-and-gradual-typing">Generics and gradual typing</a></li>
       <li><a href="#nominal-traits">Nominal traits</a></li>
       <li><a href="#modules">Modules</a></li>
+      <li><a href="#calling-c">Calling C</a></li>
       <li><a href="#the-compiler-pipeline">The compiler pipeline</a></li>
     </ol>
   </nav>
@@ -141,6 +142,7 @@
 
 <span class="kw">let</span> u = User { name: <span class="s">&quot;Ada&quot;</span>, age: <span class="n">36</span>, active: <span class="kw">true</span> }
 <span class="fn">print</span>(u.name)  <span class="c">// typed field access, native GEP loads</span>
+<span class="kw">let</span> v = User { active: <span class="kw">false</span>, name: <span class="s">&quot;Lin&quot;</span>, age: <span class="n">29</span> }  <span class="c">// fields in any order</span>
 
 <span class="kw">enum</span> Status:
     Active
@@ -155,7 +157,8 @@
       <code>float</code>, <code>bool</code> and <code>str</code>; the same
       goes for <code>==</code>. Print or compare a struct's fields, and
       <code>match</code> an enum, until <code>@derive(Show, Eq)</code>
-      arrives.</p>
+      arrives. A literal is always the struct it names, even when another
+      struct has the same fields, and its fields can come in any order.</p>
     </div>
   </section>
 
@@ -297,6 +300,30 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
       <code>import</code> line, the same JSON diagnostics an agent already
       handles. Modules are resolved into one program before type checking,
       so the interpreter and the native compiler behave identically.</p>
+    </div>
+  </section>
+
+  <section id="calling-c">
+    <div class="wrap">
+      <h2>Calling C <span class="badge done">v0.13.3</span></h2>
+      <p>Declare a C function with <code>extern "c" fn</code> and call it
+      like any other. <code>int</code>, <code>float</code>, <code>bool</code>
+      and <code>str</code> cross the boundary (C <code>long long</code>,
+      <code>double</code>, <code>bool</code>, <code>const char*</code>), and a
+      C function may return nothing. <code>@link("m")</code> links a library.</p>
+<pre><code>@<span class="fn">link</span>(<span class="s">&quot;m&quot;</span>)
+<span class="kw">extern</span> <span class="s">&quot;c&quot;</span> <span class="kw">fn</span> <span class="fn">cbrt</span>(x: <span class="kw">float</span>) -&gt; <span class="kw">float</span>
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="fn">print</span>(<span class="fn">cbrt</span>(<span class="n">27.0</span>))  <span class="c">// 3</span>
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
+      <p>A string returned by C is copied into Astra, so Astra never frees
+      C's memory, and <code>NULL</code> comes back as <code>""</code>. Calling C
+      is an effect (<code>ffi</code>): <code>--deny ffi</code> refuses it and a
+      <code>@pure</code> function can't reach it. Only native builds can call
+      C; <code>astra run</code> and the playground say to build the program
+      instead. Lists, structs, pointers and callbacks can't cross the
+      boundary yet.</p>
     </div>
   </section>
 
