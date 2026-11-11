@@ -310,7 +310,7 @@
    "version": "v0.13.7-alpha",
    "date": "2026-11-11",
    "tests": 868,
-   "summary": "Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Built outside GitHub Actions (billing hold): no Windows build; Windows stays on v0.13.6-alpha."
+   "summary": "Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Windows stays on v0.13.6-alpha."
   }
  ],
  "memory": {
