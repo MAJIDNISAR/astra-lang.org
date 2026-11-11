@@ -71,6 +71,7 @@
       <li><a href="#recursion-control-flow-loops">Recursion, control flow, loops</a></li>
       <li><a href="#structs-enums-and-pattern-matching">Structs, enums, and pattern matching</a></li>
       <li><a href="#elif-defaults-sqrt">elif, default arguments, sqrt</a></li>
+      <li><a href="#python-habits">and / or / not, if as a value</a></li>
       <li><a href="#maps-and-sorting">Maps and sorting</a></li>
       <li><a href="#result-no-exceptions">Result&lt;T,E&gt;, no exceptions</a></li>
       <li><a href="#closures">Closures</a></li>
@@ -129,6 +130,31 @@
       <p><code>while</code>, <code>do/while</code>, <code>switch</code>,
       <code>break</code>/<code>continue</code>, and for-range loops all
       compile to native code today.</p>
+    </div>
+  </section>
+
+  <section id="python-habits">
+    <div class="wrap">
+      <h2>and / or / not, if as a value <span class="badge done">v0.13.8</span></h2>
+      <p class="lead-in">The Python spellings work.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="kw">int</span>:
+    <span class="kw">let</span> n = <span class="n">7</span>
+    <span class="kw">let</span> tags = {<span class="s">&quot;a&quot;</span>: <span class="n">1</span>}
+    <span class="kw">if</span> n &gt; <span class="n">3</span> <span class="kw">and</span> <span class="s">&quot;z&quot;</span> <span class="kw">not in</span> tags:
+        <span class="fn">print</span>(<span class="s">&#39;big&#39;</span> <span class="kw">if</span> n &gt; <span class="n">5</span> <span class="kw">else</span> <span class="s">&#39;small&#39;</span>)
+    <span class="kw">let</span> port = <span class="fn">parse_int</span>(<span class="s">&quot;80&quot;</span>).<span class="fn">unwrap_or</span>(<span class="n">8080</span>)
+    <span class="fn">print</span>(port)                 <span class="c">// 80</span>
+    <span class="kw">return</span> <span class="n">0</span></code></pre>
+      <p><code>and</code>, <code>or</code>, <code>not</code> and
+      <code>not in</code> follow Python's precedence. Strings may use single
+      quotes; lists, calls and parameters accept a trailing comma. An
+      <code>if</code> can be a value (<code>let x = if c:</code> with indented
+      branches, or <code>a if c else b</code>), and a statement can continue
+      on the next, deeper line after <code>=</code> or an operator.
+      <code>Option</code> and <code>Result</code> have <code>is_some</code>,
+      <code>is_none</code>, <code>is_ok</code>, <code>is_err</code>,
+      <code>unwrap_or</code> and <code>unwrap</code>, which stops the program
+      on <code>None</code> or <code>Err</code>.</p>
     </div>
   </section>
 
@@ -286,8 +312,14 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
       <p>Dispatch is static: <code>impl Shape for Circle</code> lowers to
       <code>Circle__area</code>, exactly like an inherent method. A trait bound
       (<code>fn total&lt;T: Shape&gt;(s: T)</code>) calls the trait's methods
-      and accepts only types that implement it (E0020 at the call site);
-      <code>@derive</code> and standard traits are next.</p>
+      and accepts only types that implement it (E0020 at the call site).
+      A trait method may have a body, a default that an <code>impl</code> can
+      leave out or override (v0.13.8):</p>
+<pre><code><span class="kw">trait</span> Shape:
+    <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>
+    <span class="kw">fn</span> <span class="fn">describe</span>(self) -&gt; <span class="kw">str</span>:
+        <span class="kw">return</span> <span class="s">&quot;area ${self.area()}&quot;</span></code></pre>
+      <p><code>@derive</code> and standard traits are next.</p>
     </div>
   </section>
 
