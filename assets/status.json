@@ -1,9 +1,9 @@
 {
  "updated": "2026-11-11",
  "release": {
-  "version": "v0.13.8-alpha",
+  "version": "v0.13.9-alpha",
   "date": "2026-11-11",
-  "tests": 877,
+  "tests": 880,
   "platforms": [
    "macOS Apple Silicon",
    "macOS Intel",
@@ -11,8 +11,8 @@
   ]
  },
  "main": {
-  "tests": 877,
-  "releaseChecks": "67 of 67",
+  "tests": 880,
+  "releaseChecks": "69 of 69",
   "note": "Same as the release"
  },
  "astra": {
@@ -96,7 +96,8 @@
      "and / or / not",
      "if as a value",
      "Option / Result helpers",
-     "Trait default methods"
+     "Trait default methods",
+     "@derive(Eq, Show)"
     ]
    },
    {
@@ -104,7 +105,6 @@
     "name": "Next",
     "items": [
      "E0020 / E0021 fixes",
-     "@derive(Eq)",
      "Standard traits",
      "Set + slicing",
      "Comprehensions",
@@ -331,6 +331,12 @@
    "date": "2026-11-11",
    "tests": 877,
    "summary": "The Python habits a model writes first: and/or/not and not in, single-quoted strings, trailing commas, if as a value (a if c else b), statements continued on the next line, unwrap / unwrap_or / is_some / is_ok; trait default methods; clearer errors for import std. Linux and Windows builds follow."
+  },
+  {
+   "version": "v0.13.9-alpha",
+   "date": "2026-11-11",
+   "tests": 880,
+   "summary": "@derive(Eq, Show) on structs: == compares field by field and print shows Point { x: 1, y: 2 }; a struct field whose type ends with > no longer breaks parsing. Linux and Windows builds follow."
   }
  ],
  "memory": {
