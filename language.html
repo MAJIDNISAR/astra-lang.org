@@ -319,7 +319,15 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
     <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>
     <span class="kw">fn</span> <span class="fn">describe</span>(self) -&gt; <span class="kw">str</span>:
         <span class="kw">return</span> <span class="s">&quot;area ${self.area()}&quot;</span></code></pre>
-      <p><code>@derive</code> and standard traits are next.</p>
+      <p><code>@derive(Eq, Show)</code> on a struct gives it <code>==</code> and a
+      printed form (v0.13.9):</p>
+<pre><code>@derive(Eq, Show)
+<span class="kw">struct</span> Point:
+    x: <span class="kw">int</span>
+    y: <span class="kw">int</span>
+
+<span class="fn">print</span>(Point { x: <span class="n">1</span>, y: <span class="n">2</span> } == Point { x: <span class="n">1</span>, y: <span class="n">2</span> })  <span class="c">// true</span>
+<span class="fn">print</span>(Point { x: <span class="n">1</span>, y: <span class="n">2</span> })   <span class="c">// Point { x: 1, y: 2 }</span></code></pre>
     </div>
   </section>
 
