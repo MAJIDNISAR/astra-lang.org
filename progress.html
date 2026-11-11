@@ -62,9 +62,9 @@
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
         stands at <strong>868 passed, 0 failed, 0 ignored</strong> for the
-        v0.13.6-alpha release.
+        v0.13.7-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.6-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->868<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->868<!-- /status:main-tests --> tests</dt><dd>Released: <code>elif</code>, default arguments and <code>sqrt</code>; eight correctness fixes in v0.13.5; calling C and a static Mifa registry since v0.13.3</dd></div><div><dt><code>@derive(Eq)</code></dt><dd>Next, then <code>Set</code>, slicing and comprehensions</dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.7-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->868<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->868<!-- /status:main-tests --> tests</dt><dd>Released: <code>elif</code>, default arguments and <code>sqrt</code>; eight correctness fixes in v0.13.5; calling C and a static Mifa registry since v0.13.3</dd></div><div><dt><code>@derive(Eq)</code></dt><dd>Next, then <code>Set</code>, slicing and comprehensions</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -155,7 +155,7 @@
           <tr><td data-label="Feature">String methods and characters</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.13.1</span></td><td data-label="Notes"><code>split</code>, <code>trim</code>, <code>substring</code>, <code>contains</code>, <code>index_of</code>, and since v0.13.1 <code>starts_with</code>/<code>ends_with</code>, <code>replace</code>, <code>char_at(i)</code> (byte-indexed; out of range is R0004), <code>chars()</code> and <code>for c in s</code> (one <code>str</code> per UTF-8 character), <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> on strings (byte order). Both engines, same output</td></tr>
           <tr><td data-label="Feature">Bitwise + compound operators</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.9</span></td><td data-label="Notes"><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code> with Python-parity precedence; <code>+=</code> family, <code>**</code>, radix literals</td></tr>
           <tr><td data-label="Feature">Float arithmetic / compare</td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Native <code>fadd</code>/<code>fcmp</code>; an <code>int</code> becomes a <code>float</code> with <code>.to_float()</code> (no automatic promotion yet: <code>int * float</code> is a type error); <code>sqrt</code> since v0.13.6</td></tr>
-          <tr><td data-label="Feature"><code>elif</code>, default arguments, <code>sqrt</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.13.6</span></td><td data-label="Notes"><code>elif</code> in both syntaxes; literal default values for trailing parameters, filled in at the call on both engines (no keyword arguments yet); <code>sqrt</code> of an <code>int</code> or <code>float</code>. Linux binaries of v0.13.6-alpha fail to link a <code>sqrt</code> of a run-time value; fixed for v0.13.7</td></tr>
+          <tr><td data-label="Feature"><code>elif</code>, default arguments, <code>sqrt</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.13.6</span></td><td data-label="Notes"><code>elif</code> in both syntaxes; literal default values for trailing parameters, filled in at the call on both engines (no keyword arguments yet); <code>sqrt</code> of an <code>int</code> or <code>float</code>. Linux binaries of v0.13.6-alpha fail to link a <code>sqrt</code> of a run-time value; fixed in v0.13.7</td></tr>
           <tr><td data-label="Feature">JSON diagnostics with line + column</td><td class="badge-cell" data-label="Status"><span class="badge done">working</span></td><td data-label="Notes">Since v0.12: every type error in the main file carries the line and column of the statement that raised it (human output <code>(line N, column M)</code>), a function reports all its independent errors in one run, and E0014 points at the offending built-in call; errors in imported modules and function signatures still have no line</td></tr>
           <tr><td data-label="Feature">Machine-applicable fixes + <code>astra fix</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.12</span></td><td data-label="Notes">Diagnostics carry <code>"fix": {"edits": [...]}</code> when the repair is unambiguous: misspelt variable/function names (E0002/E0003, <code>did you mean 'total'?</code>) and a missing or extra <code>mut</code> at a call (E0022). <code>astra fix &lt;file&gt;</code> applies them, re-verifies, repeats and writes the file. Fixes for E0021 and E0020 are next</td></tr>
           <tr><td data-label="Feature">Rich diagnostics: <code>error_code</code>, <code>suggestion</code>, <code>astra explain</code></td><td class="badge-cell" data-label="Status"><span class="badge done">v0.7</span></td><td data-label="Notes">Stable E0001–E0022 codes</td></tr>
@@ -191,7 +191,7 @@
       interpreter and native, modules, calling C, error codes and lines,
       <code>astra fmt</code>, <code>astra fix</code> and the Mifa flow, workspaces included. It
       runs on every platform before a release publishes, and a failure on any
-      platform stops the release. v0.13.6-alpha scores <strong>65/65</strong>
+      platform stops the release. v0.13.7-alpha scores <strong>65/65</strong>
       on macOS (Apple Silicon); v0.13.5-alpha scored 63/63; v0.13.2-alpha scored 60/60. v0.12.0-alpha's Windows run found that
       programs compiled but did not link there; v0.12.1 fixed it.
       v0.11.2-alpha scored 52/55 (<code>mifa search</code> failed).</p>
@@ -406,9 +406,9 @@
           agree.
           <span class="tl-tests">856 tests</span></p>
         </li>
-        <li class="now">
+        <li>
           <span class="tl-when">Nov 11, 2026</span>
-          <span class="tl-title">v0.13.6-alpha <span class="badge wip">current</span></span>
+          <span class="tl-title">v0.13.6-alpha</span>
           <p><code>elif</code> in both syntaxes, default arguments (literal,
           trailing; a call may leave them off) and <code>sqrt</code>, on both
           engines. A compound assignment's index runs once. The agent
@@ -416,6 +416,16 @@
           keys kept out of files and logs. Known issue: on Linux, a
           <code>sqrt</code> of a value computed at run time fails to link;
           v0.13.7-alpha fixes it.
+          <span class="tl-tests">868 tests</span></p>
+        </li>
+        <li class="now">
+          <span class="tl-when">Nov 11, 2026</span>
+          <span class="tl-title">v0.13.7-alpha <span class="badge wip">current</span></span>
+          <p>Linux fixes: native builds link the C math library, so a
+          <code>sqrt</code> of a run-time value links, and every NaN prints as
+          <code>nan</code>. Built while GitHub Actions was unavailable: Linux and
+          WebAssembly by the release workflow, macOS here; no Windows build
+          (Windows stays on v0.13.6-alpha).
           <span class="tl-tests">868 tests</span></p>
         </li>
         <li class="planned">
@@ -444,6 +454,7 @@
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
+      <tr><td data-label="Version">v0.13.7-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">868</td><td data-label="What changed">Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Built outside GitHub Actions (billing hold): no Windows build; Windows stays on v0.13.6-alpha.</td></tr>
       <tr><td data-label="Version">v0.13.6-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">868</td><td data-label="What changed">elif in both syntaxes, default arguments (literal, trailing) and sqrt, on both engines; a compound assignment such as shelf[find(k)].qty -= n runs its index once; the agent benchmark runs against any model provider with keys kept out of files and logs.</td></tr>
       <tr><td data-label="Version">v0.13.5-alpha</td><td data-label="Date">2026-11-10</td><td data-label="Tests">856</td><td data-label="What changed">Eight correctness fixes found by about 74 probe programs on both engines: struct literals typed by name, range end evaluated once, xs.push(v) type-checked, assignment evaluates the value first. No new language features; astra --version reads Cargo.toml and the release build checks tag = Cargo.toml = binary.</td></tr>
       <tr><td data-label="Version">v0.13.3-alpha</td><td data-label="Date">2026-11-06</td><td data-label="Tests">847</td><td data-label="What changed">C FFI + static package registry: Calling C with int/float/bool/str; @link for custom libraries; Static registry with mifa publish/add and SHA-256 checksums.</td></tr>

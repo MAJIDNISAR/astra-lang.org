@@ -1,14 +1,13 @@
 {
  "updated": "2026-11-11",
  "release": {
-  "version": "v0.13.6-alpha",
+  "version": "v0.13.7-alpha",
   "date": "2026-11-11",
   "tests": 868,
   "platforms": [
    "Linux x64",
    "macOS Apple Silicon",
    "macOS Intel",
-   "Windows x64",
    "WebAssembly"
   ]
  },
@@ -306,6 +305,12 @@
    "date": "2026-11-11",
    "tests": 868,
    "summary": "elif in both syntaxes, default arguments (literal, trailing) and sqrt, on both engines; a compound assignment such as shelf[find(k)].qty -= n runs its index once; the agent benchmark runs against any model provider with keys kept out of files and logs."
+  },
+  {
+   "version": "v0.13.7-alpha",
+   "date": "2026-11-11",
+   "tests": 868,
+   "summary": "Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Built outside GitHub Actions (billing hold): no Windows build; Windows stays on v0.13.6-alpha."
   }
  ],
  "memory": {
