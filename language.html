@@ -70,12 +70,14 @@
       <li><a href="#variables-inference-and-strings">Variables, inference, and strings</a></li>
       <li><a href="#recursion-control-flow-loops">Recursion, control flow, loops</a></li>
       <li><a href="#structs-enums-and-pattern-matching">Structs, enums, and pattern matching</a></li>
+      <li><a href="#patterns">Variants with several values, richer patterns</a></li>
       <li><a href="#elif-defaults-sqrt">elif, default arguments, sqrt</a></li>
       <li><a href="#python-habits">and / or / not, if as a value</a></li>
       <li><a href="#maps-and-sorting">Maps and sorting</a></li>
       <li><a href="#result-no-exceptions">Result&lt;T,E&gt;, no exceptions</a></li>
       <li><a href="#closures">Closures</a></li>
       <li><a href="#generics-and-gradual-typing">Generics and gradual typing</a></li>
+      <li><a href="#generic-structs">Generic structs</a></li>
       <li><a href="#nominal-traits">Nominal traits</a></li>
       <li><a href="#modules">Modules</a></li>
       <li><a href="#calling-c">Calling C</a></li>
@@ -213,6 +215,45 @@
     </div>
   </section>
 
+  <section id="patterns">
+    <div class="wrap">
+      <h2>Variants with several values, richer patterns <span class="badge done">v0.13.10</span></h2>
+      <p class="lead-in">Take values apart in <code>match</code> by shape, range or alternative.</p>
+<pre><code><span class="kw">enum</span> Shape:
+    Circle(<span class="kw">float</span>)
+    Rect(<span class="kw">float</span>, <span class="kw">float</span>)
+
+<span class="kw">fn</span> <span class="fn">area</span>(s: Shape) -&gt; <span class="kw">float</span>:
+    <span class="kw">match</span> s:
+        Circle(r) =&gt; <span class="n">3.14</span> * r * r
+        Rect(w, h) =&gt; w * h
+
+<span class="kw">fn</span> <span class="fn">grade</span>(score: <span class="kw">int</span>) -&gt; <span class="kw">str</span>:
+    <span class="kw">match</span> score:
+        <span class="n">90</span>..=<span class="n">100</span> =&gt; <span class="s">&quot;A&quot;</span>
+        <span class="n">80</span>..<span class="n">90</span> =&gt; <span class="s">&quot;B&quot;</span>
+        _ =&gt; <span class="s">&quot;below B&quot;</span>
+
+<span class="kw">fn</span> <span class="fn">where_is</span>(p: (<span class="kw">int</span>, <span class="kw">int</span>)) -&gt; <span class="kw">str</span>:
+    <span class="kw">match</span> p:
+        (<span class="n">0</span>, <span class="n">0</span>) =&gt; <span class="s">&quot;origin&quot;</span>
+        (<span class="n">0</span>, _) | (_, <span class="n">0</span>) =&gt; <span class="s">&quot;on an axis&quot;</span>
+        _ =&gt; <span class="s">&quot;elsewhere&quot;</span>
+
+<span class="fn">print</span>(<span class="fn">area</span>(Rect(<span class="n">2.0</span>, <span class="n">3.0</span>)))   <span class="c">// 6</span>
+<span class="fn">print</span>(<span class="fn">grade</span>(<span class="n">85</span>))              <span class="c">// B</span>
+<span class="fn">print</span>(<span class="fn">where_is</span>((<span class="n">0</span>, <span class="n">4</span>)))       <span class="c">// on an axis</span></code></pre>
+      <p>A variant can carry several values; <code>Rect(w, _)</code> and
+      <code>Triangle(..)</code> skip some. Patterns also take structs
+      (<code>Point { x: 0, y, .. }</code>), tuples, ranges
+      (<code>0..10</code>, <code>0..=9</code>, <code>-5..0</code>) and
+      alternatives (<code>1 | 2</code>), with an <code>if</code> guard. A
+      function's last expression is its return value, so arms can be plain
+      expressions. Not yet: a variant pattern inside a struct or tuple
+      pattern.</p>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2 id="maps-and-sorting">Maps and sorting <span class="badge done">v0.13.2</span></h2>
@@ -293,6 +334,37 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
     <span class="c">// statically compatible with every type;</span>
     <span class="c">// the escape hatch is visible in the signature</span>
     <span class="kw">return</span> payload</code></pre>
+    </div>
+  </section>
+
+  <section id="generic-structs">
+    <div class="wrap">
+      <h2>Generic structs <span class="badge done">v0.13.10</span></h2>
+      <p class="lead-in">One struct and one <code>impl</code> for every element type.</p>
+<pre><code><span class="kw">struct</span> Stack&lt;T&gt;:
+    items: [T]
+
+<span class="kw">impl</span>&lt;T&gt; Stack&lt;T&gt;:
+    <span class="kw">fn</span> <span class="fn">push</span>(<span class="kw">mut</span> self, value: T):
+        self.items.<span class="fn">push</span>(value)
+
+    <span class="kw">fn</span> <span class="fn">top</span>(self) -&gt; Option&lt;T&gt;:
+        <span class="kw">if</span> self.items.<span class="fn">length</span>() == <span class="n">0</span>:
+            <span class="kw">return</span> None
+        Some(self.items[self.items.<span class="fn">length</span>() - <span class="n">1</span>])
+
+<span class="kw">let</span> s: Stack&lt;<span class="kw">str</span>&gt; = Stack { items: [] }
+s.<span class="fn">push</span>(<span class="s">&quot;open&quot;</span>)
+s.<span class="fn">push</span>(<span class="s">&quot;save&quot;</span>)
+<span class="kw">match</span> s.<span class="fn">top</span>():
+    Some(last) =&gt; <span class="fn">print</span>(last)   <span class="c">// save</span>
+    None =&gt; <span class="fn">print</span>(<span class="s">&quot;empty&quot;</span>)</code></pre>
+      <p>Type arguments come from the field values
+      (<code>Pair { left: &quot;x&quot;, right: 2.5 }</code> is a
+      <code>Pair&lt;str, float&gt;</code>); an empty list needs an annotation,
+      as above. Generic structs work in lists, <code>Option</code>,
+      <code>Result</code> and enum variants. The interpreter runs them as
+      written; native builds make one concrete struct per type used.</p>
     </div>
   </section>
 

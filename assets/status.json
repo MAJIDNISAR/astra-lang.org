@@ -1,9 +1,9 @@
 {
  "updated": "2026-11-11",
  "release": {
-  "version": "v0.13.9-alpha",
+  "version": "v0.13.10-alpha",
   "date": "2026-11-11",
-  "tests": 880,
+  "tests": 893,
   "platforms": [
    "macOS Apple Silicon",
    "macOS Intel",
@@ -11,7 +11,7 @@
   ]
  },
  "main": {
-  "tests": 880,
+  "tests": 893,
   "releaseChecks": "69 of 69",
   "note": "Same as the release"
  },
@@ -97,19 +97,24 @@
      "if as a value",
      "Option / Result helpers",
      "Trait default methods",
-     "@derive(Eq, Show)"
+     "@derive(Eq, Show)",
+     "Multi-field enum variants",
+     "Struct / tuple / range patterns",
+     "Tail-expression returns",
+     "Generic structs + impl<T>"
     ]
    },
    {
     "id": "next",
     "name": "Next",
     "items": [
-     "E0020 / E0021 fixes",
-     "Standard traits",
+     "Closures as values",
+     "map / filter / enumerate / sum",
      "Set + slicing",
      "Comprehensions",
-     "Generic structs",
-     "Branch / call locals freed",
+     "Sized integers",
+     "Trait objects",
+     "E0020 / E0021 fixes",
      "LSP alpha",
      "stdlib core"
     ]
@@ -337,6 +342,12 @@
    "date": "2026-11-11",
    "tests": 880,
    "summary": "@derive(Eq, Show) on structs: == compares field by field and print shows Point { x: 1, y: 2 }; a struct field whose type ends with > no longer breaks parsing. Linux and Windows builds follow."
+  },
+  {
+   "version": "v0.13.10-alpha",
+   "date": "2026-11-11",
+   "tests": 893,
+   "summary": "Enum variants with several values (Rect(float, float)); struct, tuple, range (0..10, 0..=9) and | patterns in match; a function's last expression is its return value; generic structs (struct Stack<T>) with impl<T> methods; a native fn main() without a return type exits 0. Linux and Windows builds follow."
   }
  ],
  "memory": {
