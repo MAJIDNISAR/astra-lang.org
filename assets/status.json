@@ -1,19 +1,18 @@
 {
  "updated": "2026-11-11",
  "release": {
-  "version": "v0.13.7-alpha",
+  "version": "v0.13.8-alpha",
   "date": "2026-11-11",
-  "tests": 868,
+  "tests": 877,
   "platforms": [
-   "Linux x64",
    "macOS Apple Silicon",
    "macOS Intel",
    "WebAssembly"
   ]
  },
  "main": {
-  "tests": 868,
-  "releaseChecks": "65 of 65",
+  "tests": 877,
+  "releaseChecks": "67 of 67",
   "note": "Same as the release"
  },
  "astra": {
@@ -93,7 +92,11 @@
      "Range end evaluated once",
      "elif",
      "Default arguments",
-     "sqrt"
+     "sqrt",
+     "and / or / not",
+     "if as a value",
+     "Option / Result helpers",
+     "Trait default methods"
     ]
    },
    {
@@ -102,7 +105,6 @@
     "items": [
      "E0020 / E0021 fixes",
      "@derive(Eq)",
-     "Default methods",
      "Standard traits",
      "Set + slicing",
      "Comprehensions",
@@ -323,6 +325,12 @@
    "date": "2026-11-11",
    "tests": 868,
    "summary": "Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Windows stays on v0.13.6-alpha."
+  },
+  {
+   "version": "v0.13.8-alpha",
+   "date": "2026-11-11",
+   "tests": 877,
+   "summary": "The Python habits a model writes first: and/or/not and not in, single-quoted strings, trailing commas, if as a value (a if c else b), statements continued on the next line, unwrap / unwrap_or / is_some / is_ok; trait default methods; clearer errors for import std. Linux and Windows builds follow."
   }
  ],
  "memory": {
