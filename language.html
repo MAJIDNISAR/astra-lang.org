@@ -70,6 +70,7 @@
       <li><a href="#variables-inference-and-strings">Variables, inference, and strings</a></li>
       <li><a href="#recursion-control-flow-loops">Recursion, control flow, loops</a></li>
       <li><a href="#structs-enums-and-pattern-matching">Structs, enums, and pattern matching</a></li>
+      <li><a href="#elif-defaults-sqrt">elif, default arguments, sqrt</a></li>
       <li><a href="#maps-and-sorting">Maps and sorting</a></li>
       <li><a href="#result-no-exceptions">Result&lt;T,E&gt;, no exceptions</a></li>
       <li><a href="#closures">Closures</a></li>
@@ -128,6 +129,30 @@
       <p><code>while</code>, <code>do/while</code>, <code>switch</code>,
       <code>break</code>/<code>continue</code>, and for-range loops all
       compile to native code today.</p>
+    </div>
+  </section>
+
+  <section id="elif-defaults-sqrt">
+    <div class="wrap">
+      <h2>elif, default arguments, sqrt <span class="badge done">v0.13.6</span></h2>
+      <p class="lead-in">Chain conditions with <code>elif</code>, leave parameters off with defaults.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">grade</span>(score: <span class="kw">int</span>, pass_mark: <span class="kw">int</span> = <span class="n">50</span>) -&gt; <span class="kw">str</span>:
+    <span class="kw">if</span> score &gt;= <span class="n">90</span>:
+        <span class="kw">return</span> <span class="s">&quot;A&quot;</span>
+    <span class="kw">elif</span> score &gt;= pass_mark:
+        <span class="kw">return</span> <span class="s">&quot;pass&quot;</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="s">&quot;fail&quot;</span>
+
+<span class="fn">print</span>(<span class="fn">grade</span>(<span class="n">60</span>))          <span class="c">// pass</span>
+<span class="fn">print</span>(<span class="fn">grade</span>(<span class="n">60</span>, <span class="n">70</span>))      <span class="c">// fail</span>
+<span class="fn">print</span>(<span class="fn">sqrt</span>(<span class="n">2.0</span>))         <span class="c">// 1.41421</span></code></pre>
+      <p><code>elif</code> works in both syntaxes. A default value is a
+      literal, parameters with defaults come last, and a call may leave them
+      off from the end; there are no keyword arguments yet. <code>sqrt</code>
+      takes an <code>int</code> or a <code>float</code> and returns a
+      <code>float</code> (<code>nan</code> for a negative number). The
+      interpreter and native builds fill defaults in the same way.</p>
     </div>
   </section>
 
