@@ -253,6 +253,11 @@
           <p>The idea becomes code: a language as easy as Python, as safe and fast as Rust, built for agentic coding. Lexer, parser and the first AST.</p>
         </li>
         <li>
+          <span class="tl-when">Oct 2025</span>
+          <span class="tl-title">v0.4</span>
+          <p>The package manager gets its name: Mifa.</p>
+        </li>
+        <li>
           <span class="tl-when">Nov 2025</span>
           <span class="tl-title">v0.5</span>
           <p>Native compilation, Docker CI, first pre-built binaries.</p>
@@ -276,6 +281,12 @@
           <p>The true LLVM-IR backend becomes the default; async/await
           (synchronous lowering); ignored tests 10 → 0.
           <span class="tl-tests">285 tests</span></p>
+        </li>
+        <li>
+          <span class="tl-when">Jul 7, 2026</span>
+          <span class="tl-title">v0.8.0.1-alpha</span>
+          <p>Rust and Go join the cross-language benchmark suite, with every
+          program's output checked.</p>
         </li>
         <li>
           <span class="tl-when">Jul 9, 2026</span>
@@ -426,13 +437,25 @@
           <code>nan</code>. Windows stays on v0.13.6-alpha (same language).
           <span class="tl-tests">868 tests</span></p>
         </li>
+        <li>
+          <span class="tl-when">Next release</span>
+          <span class="tl-title">Python habits, trait default methods <span class="badge wip">in progress</span></span>
+          <p>Written and tested, in the next release: <code>and</code> /
+          <code>or</code> / <code>not</code> / <code>not in</code>, single-quoted
+          strings, trailing commas, <code>if</code> as a value
+          (<code>a if c else b</code>), statements continued on the next line,
+          <code>unwrap</code> / <code>unwrap_or</code> / <code>is_some</code> /
+          <code>is_ok</code>, clearer errors for <code>import std</code>, and
+          trait default methods.</p>
+        </li>
         <li class="planned">
           <span class="tl-when">Next</span>
           <span class="tl-title">@derive and standard traits <span class="badge planned">planned</span></span>
-          <p>Fixes for E0021 and E0020; <code>@derive(Eq)</code> and trait
-          default methods, then <code>Show</code> / <code>Hash</code> /
-          <code>Iterable</code>; <code>Set</code> and
-          comprehensions; the remaining memory leaks; a WASI runtime build.</p>
+          <p><code>@derive(Eq, Show)</code>, then <code>Hash</code> /
+          <code>Iterable</code>; fixes for E0021 and E0020; <code>Set</code>,
+          <code>enumerate</code> and comprehensions; generic structs; a
+          <code>math</code> module; the remaining memory leaks; a WASI runtime
+          build.</p>
         </li>
         <li class="planned">
           <span class="tl-when">v1.0</span>
@@ -456,22 +479,24 @@
       <tr><td data-label="Version">v0.13.6-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">868</td><td data-label="What changed">elif in both syntaxes, default arguments (literal, trailing) and sqrt, on both engines; a compound assignment such as shelf[find(k)].qty -= n runs its index once; the agent benchmark runs against any model provider with keys kept out of files and logs.</td></tr>
       <tr><td data-label="Version">v0.13.5-alpha</td><td data-label="Date">2026-11-10</td><td data-label="Tests">856</td><td data-label="What changed">Eight correctness fixes found by about 74 probe programs on both engines: struct literals typed by name, range end evaluated once, xs.push(v) type-checked, assignment evaluates the value first. No new language features; astra --version reads Cargo.toml and the release build checks tag = Cargo.toml = binary.</td></tr>
       <tr><td data-label="Version">v0.13.3-alpha</td><td data-label="Date">2026-11-06</td><td data-label="Tests">847</td><td data-label="What changed">C FFI + static package registry: Calling C with int/float/bool/str; @link for custom libraries; Static registry with mifa publish/add and SHA-256 checksums.</td></tr>
-      <tr><td data-label="Version">v0.13.2</td><td data-label="Date">2026-11-06</td><td data-label="Tests">831</td><td data-label="What changed">Map&lt;K, V&gt;, list sort and sort_by_key, any value in Result and Option: the 8 real-world programs need no workarounds. Mifa: git dependencies, whole-graph version solving, workspaces.</td></tr>
-      <tr><td data-label="Version">v0.13.1</td><td data-label="Date">2026-11-06</td><td data-label="Tests">796</td><td data-label="What changed">String methods: char_at, chars, for c in s, starts_with/ends_with, replace, &lt; and &gt; on strings; Mifa version requirements with Cargo's rules and semver ordering.</td></tr>
-      <tr><td data-label="Version">v0.13.0</td><td data-label="Date">2026-11-05</td><td data-label="Tests">777</td><td data-label="What changed">astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground.</td></tr>
-      <tr><td data-label="Version">v0.12.2</td><td data-label="Date">2026-11-05</td><td data-label="Tests">760</td><td data-label="What changed">Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python.</td></tr>
-      <tr><td data-label="Version">v0.12.1</td><td data-label="Date">2026-11-05</td><td data-label="Tests">756</td><td data-label="What changed">Native builds on Windows; print and ${} refuse values that native printed as addresses; release check passes on every platform.</td></tr>
-      <tr><td data-label="Version">v0.12.0</td><td data-label="Date">2026-11-04</td><td data-label="Tests">754</td><td data-label="What changed">Every type error has a line; machine fixes and astra fix; memory freed on every exit; bools print true/false; a 55-check release suite.</td></tr>
-      <tr><td data-label="Version">v0.11.2</td><td data-label="Date">2026-11-02</td><td data-label="Tests">712</td><td data-label="What changed">Trait bounds checked at call sites, impl signatures checked (E0020); loops no longer leak.</td></tr>
-      <tr><td data-label="Version">v0.11.1</td><td data-label="Date">2026-11-02</td><td data-label="Tests">699</td><td data-label="What changed">Released binaries compile natively: the C runtime is embedded in the compiler.</td></tr>
-      <tr><td data-label="Version">v0.11.0</td><td data-label="Date">2026-11-02</td><td data-label="Tests">695</td><td data-label="What changed">Value semantics, indentation syntax and astra fmt, type inference, nominal traits and trait bounds.</td></tr>
-      <tr><td data-label="Version">v0.10.0</td><td data-label="Date">2026-10-30</td><td data-label="Tests">609</td><td data-label="What changed">Interpreter with native parity and fuzzing; modules; program I/O with capabilities; runtime traps; mifa build and run.</td></tr>
-      <tr><td data-label="Version">v0.9.1</td><td data-label="Date">2026-07-15</td><td data-label="Tests">449</td><td data-label="What changed">First binaries for four platforms; callable closures; ARC memory reclamation; the compiler never panics on bad input.</td></tr>
-      <tr><td data-label="Version">v0.9.0</td><td data-label="Date">2026-07-09</td><td data-label="Tests">—</td><td data-label="What changed">Nominal structs, enums with payloads, ? and try/catch, tuples, impl blocks, bitwise operators.</td></tr>
-      <tr><td data-label="Version">v0.8.0</td><td data-label="Date">2026-07-07</td><td data-label="Tests">285</td><td data-label="What changed">The LLVM-IR backend becomes the default; async/await; ignored tests 10 to 0.</td></tr>
+      <tr><td data-label="Version">v0.13.2-alpha</td><td data-label="Date">2026-11-06</td><td data-label="Tests">831</td><td data-label="What changed">Map&lt;K, V&gt;, list sort and sort_by_key, any value in Result and Option: the 8 real-world programs need no workarounds. Mifa: git dependencies, whole-graph version solving, workspaces.</td></tr>
+      <tr><td data-label="Version">v0.13.1-alpha</td><td data-label="Date">2026-11-06</td><td data-label="Tests">796</td><td data-label="What changed">String methods: char_at, chars, for c in s, starts_with/ends_with, replace, &lt; and &gt; on strings; Mifa version requirements with Cargo's rules and semver ordering.</td></tr>
+      <tr><td data-label="Version">v0.13.0-alpha</td><td data-label="Date">2026-11-05</td><td data-label="Tests">777</td><td data-label="What changed">astra mcp: a Model Context Protocol server any AI agent can use; runtime error codes; Astra as WebAssembly with a Node runner, and the browser playground.</td></tr>
+      <tr><td data-label="Version">v0.12.2-alpha</td><td data-label="Date">2026-11-05</td><td data-label="Tests">760</td><td data-label="What changed">Three native wrong answers fixed, found by writing real programs; 20 showcase and 8 real-world examples checked against Python.</td></tr>
+      <tr><td data-label="Version">v0.12.1-alpha</td><td data-label="Date">2026-11-05</td><td data-label="Tests">756</td><td data-label="What changed">Native builds on Windows; print and ${} refuse values that native printed as addresses; release check passes on every platform.</td></tr>
+      <tr><td data-label="Version">v0.12.0-alpha</td><td data-label="Date">2026-11-04</td><td data-label="Tests">754</td><td data-label="What changed">Every type error has a line; machine fixes and astra fix; memory freed on every exit; bools print true/false; a 55-check release suite.</td></tr>
+      <tr><td data-label="Version">v0.11.2-alpha</td><td data-label="Date">2026-11-02</td><td data-label="Tests">712</td><td data-label="What changed">Trait bounds checked at call sites, impl signatures checked (E0020); loops no longer leak.</td></tr>
+      <tr><td data-label="Version">v0.11.1-alpha</td><td data-label="Date">2026-11-02</td><td data-label="Tests">699</td><td data-label="What changed">Released binaries compile natively: the C runtime is embedded in the compiler.</td></tr>
+      <tr><td data-label="Version">v0.11.0-alpha</td><td data-label="Date">2026-11-02</td><td data-label="Tests">695</td><td data-label="What changed">Value semantics, indentation syntax and astra fmt, type inference, nominal traits and trait bounds.</td></tr>
+      <tr><td data-label="Version">v0.10.0-alpha</td><td data-label="Date">2026-10-30</td><td data-label="Tests">609</td><td data-label="What changed">Interpreter with native parity and fuzzing; modules; program I/O with capabilities; runtime traps; mifa build and run.</td></tr>
+      <tr><td data-label="Version">v0.9.1-alpha</td><td data-label="Date">2026-07-15</td><td data-label="Tests">449</td><td data-label="What changed">First binaries for four platforms; callable closures; ARC memory reclamation; the compiler never panics on bad input.</td></tr>
+      <tr><td data-label="Version">v0.9.0-alpha</td><td data-label="Date">2026-07-09</td><td data-label="Tests">—</td><td data-label="What changed">Nominal structs, enums with payloads, ? and try/catch, tuples, impl blocks, bitwise operators.</td></tr>
+      <tr><td data-label="Version">v0.8.0.1-alpha</td><td data-label="Date">2026-07-07</td><td data-label="Tests">—</td><td data-label="What changed">Rust and Go join the cross-language benchmark suite, with every program output checked.</td></tr>
+      <tr><td data-label="Version">v0.8.0-alpha</td><td data-label="Date">2026-07-07</td><td data-label="Tests">285</td><td data-label="What changed">The LLVM-IR backend becomes the default; async/await; ignored tests 10 to 0.</td></tr>
       <tr><td data-label="Version">v0.7</td><td data-label="Date">2026-07-06</td><td data-label="Tests">—</td><td data-label="What changed">Source spans, structs, Result and closures native, REPL, dyn, astra explain; Mifa lockfile and registry protocol.</td></tr>
       <tr><td data-label="Version">v0.6</td><td data-label="Date">2026-06</td><td data-label="Tests">—</td><td data-label="What changed">Honest alpha reset: JSON diagnostics, verify mode, the verify-repair-compile loop.</td></tr>
       <tr><td data-label="Version">v0.5</td><td data-label="Date">2025-11</td><td data-label="Tests">—</td><td data-label="What changed">Native compilation, Docker CI, first pre-built binaries.</td></tr>
+      <tr><td data-label="Version">v0.4</td><td data-label="Date">2025-10</td><td data-label="Tests">—</td><td data-label="What changed">The package manager gets its name: Mifa.</td></tr>
       <tr><td data-label="Version">v0.1</td><td data-label="Date">2025-10</td><td data-label="Tests">—</td><td data-label="What changed">The idea becomes code: easy like Python, safe and fast like Rust, built for agents. Lexer, parser, first AST.</td></tr>
     </tbody>
   </table></div><!-- /status:releases-table -->
