@@ -423,9 +423,7 @@
           <span class="tl-title">v0.13.7-alpha <span class="badge wip">current</span></span>
           <p>Linux fixes: native builds link the C math library, so a
           <code>sqrt</code> of a run-time value links, and every NaN prints as
-          <code>nan</code>. Built while GitHub Actions was unavailable: Linux and
-          WebAssembly by the release workflow, macOS here; no Windows build
-          (Windows stays on v0.13.6-alpha).
+          <code>nan</code>. Windows stays on v0.13.6-alpha (same language).
           <span class="tl-tests">868 tests</span></p>
         </li>
         <li class="planned">
@@ -454,7 +452,7 @@
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
-      <tr><td data-label="Version">v0.13.7-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">868</td><td data-label="What changed">Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Built outside GitHub Actions (billing hold): no Windows build; Windows stays on v0.13.6-alpha.</td></tr>
+      <tr><td data-label="Version">v0.13.7-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">868</td><td data-label="What changed">Linux fixes: native builds link the C math library (sqrt of a run-time value failed to link with v0.13.6-alpha) and every NaN prints as nan. Windows stays on v0.13.6-alpha.</td></tr>
       <tr><td data-label="Version">v0.13.6-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">868</td><td data-label="What changed">elif in both syntaxes, default arguments (literal, trailing) and sqrt, on both engines; a compound assignment such as shelf[find(k)].qty -= n runs its index once; the agent benchmark runs against any model provider with keys kept out of files and logs.</td></tr>
       <tr><td data-label="Version">v0.13.5-alpha</td><td data-label="Date">2026-11-10</td><td data-label="Tests">856</td><td data-label="What changed">Eight correctness fixes found by about 74 probe programs on both engines: struct literals typed by name, range end evaluated once, xs.push(v) type-checked, assignment evaluates the value first. No new language features; astra --version reads Cargo.toml and the release build checks tag = Cargo.toml = binary.</td></tr>
       <tr><td data-label="Version">v0.13.3-alpha</td><td data-label="Date">2026-11-06</td><td data-label="Tests">847</td><td data-label="What changed">C FFI + static package registry: Calling C with int/float/bool/str; @link for custom libraries; Static registry with mifa publish/add and SHA-256 checksums.</td></tr>
