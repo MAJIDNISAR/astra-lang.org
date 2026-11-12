@@ -72,13 +72,46 @@
       });
       var n = list.length;
       var golden = Math.PI * (3 - Math.sqrt(5));
-      list.forEach(function (nd, i) {
+      var points = [];
+      for (var i = 0; i < n; i++) {
         var y = -1 + (2 * (i + 0.5)) / n; // -1 = top of the screen
         var r = Math.sqrt(1 - y * y);
         var t = golden * i;
-        nd.x = Math.cos(t) * r;
-        nd.y = y;
-        nd.z = Math.sin(t) * r;
+        points.push({ x: Math.cos(t) * r, y: y, z: Math.sin(t) * r, free: true });
+      }
+      // Each status takes a compact patch, so a key turns one area to the
+      // viewer: the newest features at the heart of what works today, the
+      // next steps at the heart of the plan, on the far side.
+      var NOW = { x: 0.25, y: -0.45, z: 0.86 };
+      var LATER = { x: -NOW.x, y: -NOW.y, z: -NOW.z };
+      var around = { shipped: NOW, works: NOW, next: LATER, planned: LATER };
+      ["shipped", "next", "planned", "works"].forEach(function (id) {
+        var c = around[id];
+        var members = list.filter(function (nd) { return nd.status === id; });
+        var near = points
+          .filter(function (pt) { return pt.free; })
+          .sort(function (p, q) {
+            var dp = (p.x - c.x) * (p.x - c.x) + (p.y - c.y) * (p.y - c.y) + (p.z - c.z) * (p.z - c.z);
+            var dq = (q.x - c.x) * (q.x - c.x) + (q.y - c.y) * (q.y - c.y) + (q.z - c.z) * (q.z - c.z);
+            return dp - dq;
+          });
+        members.forEach(function (nd, k) {
+          var pt = near[k];
+          pt.free = false;
+          nd.x = pt.x;
+          nd.y = pt.y;
+          nd.z = pt.z;
+        });
+      });
+      // Any other status (none today) takes the points left over.
+      var rest = points.filter(function (pt) { return pt.free; });
+      list.forEach(function (nd) {
+        if (nd.x === undefined && rest.length) {
+          var pt = rest.shift();
+          nd.x = pt.x;
+          nd.y = pt.y;
+          nd.z = pt.z;
+        }
       });
       return list;
     }
@@ -166,7 +199,12 @@
       counts[s.id] = all.filter(function (nd) { return covers(s.id, nd.status); }).length;
     });
     data.statuses.forEach(function (s) {
-      names[s.id] = s.name;
+      // Each body names its own release ("New in v0.13.11" for Astra, the
+      // moon's latest for Mifa); a shared key shows both.
+      var other = moonData && moonData.statuses.filter(function (m) { return m.id === s.id; })[0];
+      names[s.id] = other && other.name !== s.name && other.items.length
+        ? s.name + " (" + moonLabel + ": " + other.name.replace(/^New in /, "") + ")"
+        : s.name;
       if (!keyBox) return;
       var b = document.createElement("button");
       b.type = "button";
@@ -174,7 +212,7 @@
       b.dataset.status = s.id;
       b.setAttribute("aria-pressed", "false");
       b.innerHTML = '<span class="star" aria-hidden="true"></span><span class="name"></span><span class="n"></span>';
-      b.querySelector(".name").textContent = s.name;
+      b.querySelector(".name").textContent = names[s.id];
       b.querySelector(".n").textContent = counts[s.id] || 0;
       b.addEventListener("click", function () { select(s.id); });
       keyBox.appendChild(b);
@@ -513,6 +551,15 @@
         if (!named || nd.depth < 0.55 || nd === hovered) return;
         var cx = nd.body === "moon" ? moon.cx : center.x;
         var right = nd.sx >= cx;
+        // A name that would run under the hero's text is left off (the
+        // star stays lit; hovering it still shows the name).
+        var w = ctx.measureText(nd.label).width;
+        var x0 = right ? nd.sx + 9 : nd.sx - 9 - w;
+        var x1 = x0 + w;
+        var covered = keepOut.some(function (k) {
+          return x1 > k.left - 6 && x0 < k.right + 6 && nd.sy > k.top - 10;
+        });
+        if (covered) return;
         ctx.textAlign = right ? "left" : "right";
         ctx.fillStyle = css(colors.ink, 0.4 + (0.6 * (nd.depth - 0.55)) / 0.45);
         ctx.fillText(nd.label, nd.sx + (right ? 9 : -9), nd.sy);
