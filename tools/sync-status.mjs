@@ -19,9 +19,17 @@ const check = process.argv.includes("--check");
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+// The keys nest, as on the globes (assets/orb.js NESTED): everything new
+// in the latest release also works today, and the next steps are planned.
+const NESTED = { works: ["works", "shipped"], planned: ["next", "planned"] };
+
 function list(product) {
-  const items = status[product].statuses
-    .map((s) => `<li data-status="${s.id}"><b>${esc(s.name)}:</b> ${s.items.map(esc).join(", ")}</li>`)
+  const statuses = status[product].statuses;
+  const itemsOf = (id) => statuses.find((s) => s.id === id)?.items ?? [];
+  const items = statuses
+    .map((s) => ({ s, all: (NESTED[s.id] ?? [s.id]).flatMap(itemsOf) }))
+    .filter(({ all }) => all.length > 0)
+    .map(({ s, all }) => `<li data-status="${s.id}"><b>${esc(s.name)}:</b> ${all.map(esc).join(", ")}</li>`)
     .join("\n  ");
   return `<ul class="status-list">\n  ${items}\n</ul>`;
 }
