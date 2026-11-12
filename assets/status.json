@@ -37,7 +37,7 @@
      "Bitwise ops",
      "String interpolation",
      "Floats",
-     "async / await",
+     "async / await (native)",
      "REPL",
      "LLVM-IR backend",
      "--emit-ir / --target",
@@ -114,6 +114,7 @@
     "name": "Next",
     "items": [
      "Trait objects",
+     "Storing / returning functions",
      "Set + slicing",
      "Comprehensions",
      "math module",

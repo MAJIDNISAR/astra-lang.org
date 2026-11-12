@@ -150,11 +150,21 @@
     readColors();
 
     // ---- status keys (a magnitude key, like an atlas plate's legend) ----
+    // The keys nest: everything new since v0.10 also works today, and the
+    // next steps are part of the plan. So "Works today" lights both the
+    // older and the new features, and "Planned" lights the next steps too.
+    // Each feature is listed once in the data; only the keys nest.
+    var NESTED = { works: ["works", "shipped"], planned: ["next", "planned"] };
+    function covers(id, status) {
+      return !!id && (status === id || (NESTED[id] || []).indexOf(status) >= 0);
+    }
     var selected = null;
     var keys = {};
     var names = {};
     var counts = {};
-    all.forEach(function (nd) { counts[nd.status] = (counts[nd.status] || 0) + 1; });
+    data.statuses.forEach(function (s) {
+      counts[s.id] = all.filter(function (nd) { return covers(s.id, nd.status); }).length;
+    });
     data.statuses.forEach(function (s) {
       names[s.id] = s.name;
       if (!keyBox) return;
@@ -186,19 +196,74 @@
       Array.prototype.forEach.call(lists, function (list) {
         list.classList.toggle("filtered", !!selected);
         Array.prototype.forEach.call(list.querySelectorAll("li[data-status]"), function (li) {
-          li.classList.toggle("on", li.dataset.status === selected);
+          li.classList.toggle("on", covers(selected, li.dataset.status));
         });
       });
       announce(selected ? "Highlighting " + names[selected] : "Showing every status");
+      turnToward(spin.planet, planet, selected);
+      if (moon.length) turnToward(spin.moon, moon, selected);
       request();
+    }
+
+    // Turning to a status: each status's stars form one band of its sphere
+    // (they are placed in status order), so a body turns until the middle
+    // of that band faces the viewer. The turn is a damped spring torque in
+    // tick(): the globe spins up, slows and settles, then holds still while
+    // the status is selected (its idle drift fades out) and resumes its own
+    // spin and tilt when the selection is cleared.
+    // Where on its disc a body shows a turned-to band: the middle of the
+    // part that is in view. A rising globe is cut off below, so its band is
+    // tilted up into the visible cap; elsewhere the disc's centre.
+    function viewLift(isPlanet) {
+      if (!rise || !isPlanet || !H) return 0;
+      var g = planetGeometry(1);
+      var seen = (g.y - g.R + Math.min(H, g.y + g.R)) / 2;
+      var up = Math.max(-0.9, Math.min(0.9, (g.y - seen) / g.R));
+      return Math.asin(up);
+    }
+
+    function turnToward(v, list, status) {
+      if (!status) {
+        v.returning = !!v.target;
+        v.target = null;
+        return;
+      }
+      var stars = list.filter(function (nd) { return covers(status, nd.status); });
+      if (!stars.length) {
+        v.target = null;
+        return;
+      }
+      var cx = 0, cy = 0, cz = 0;
+      stars.forEach(function (nd) { cx += nd.x; cy += nd.y; cz += nd.z; });
+      cx /= stars.length; cy /= stars.length; cz /= stars.length;
+      var h = Math.sqrt(cx * cx + cz * cz);
+      // A band around the whole sphere has no facing longitude: give it a
+      // quarter turn so the reveal is still a spin; a small cluster turns
+      // its own side to the front.
+      var yaw = h > 0.12 ? Math.atan2(cx, cz) : v.yaw + Math.PI / 2;
+      var delta = yaw - v.yaw;
+      delta -= 2 * Math.PI * Math.round(delta / (2 * Math.PI));
+      // Stars are placed in status order down the sphere, so a set is a cap
+      // or a ring near a pole (seen whole by facing that pole), or a band
+      // round the middle (faced at its own latitude).
+      var lat = Math.abs(cy) > 0.5 && h < 0.3
+        ? (cy > 0 ? 1 : -1) * Math.PI / 2
+        : Math.asin(Math.max(-1, Math.min(1, cy)));
+      var pitch = Math.max(-2, Math.min(2, lat + viewLift(list === planet)));
+      v.target = { yaw: v.yaw + delta, pitch: pitch };
+      if (!motion()) {
+        v.yaw = v.target.yaw;
+        v.pitch = v.target.pitch;
+        v.vel = 0;
+      }
     }
 
     // ---- view state ----
     var dpr = 1, W = 0, H = 0;
     // Each body keeps its own turn; rate is its idle spin in radians per ms.
     var spin = {
-      planet: { yaw: 0.7, pitch: -0.28, vel: 0, rate: 0.00011 },
-      moon: { yaw: 2.1, pitch: -0.12, vel: 0, rate: 0.00016 }
+      planet: { yaw: 0.7, pitch: -0.28, vel: 0, rate: 0.00011, rest: -0.28, pvel: 0, idle: 1, target: null },
+      moon: { yaw: 2.1, pitch: -0.12, vel: 0, rate: 0.00016, rest: -0.12, pvel: 0, idle: 1, target: null }
     };
     var grabbed = spin.planet;
     var dragging = false, moved = 0, lastX = 0, lastY = 0, pointerType = "mouse";
@@ -361,7 +426,7 @@
     }
 
     function dimFactor(nd) {
-      return selected && nd.status !== selected ? 0.14 : 1;
+      return selected && !covers(selected, nd.status) ? 0.14 : 1;
     }
 
     // The planet body: a flat disc one step lighter than the field.
@@ -391,7 +456,7 @@
       if (!motion()) return;
       if (t > nextSpark) {
         var e = edges[(Math.random() * edges.length) | 0];
-        if (e && (!selected || e[0].status === selected || e[1].status === selected)) {
+        if (e && (!selected || covers(selected, e[0].status) || covers(selected, e[1].status))) {
           sparks.push({ e: e, t0: t, dur: 900 + Math.random() * 600, flip: Math.random() < 0.5 });
         }
         nextSpark = t + 120 + Math.random() * 220;
@@ -440,8 +505,12 @@
       if (!selected) return;
       ctx.font = "500 13px " + font;
       ctx.textBaseline = "middle";
+      // A small set is labelled whole; a large one ("Works today") only its
+      // own stars, so the names stay readable.
+      var whole = all.filter(function (nd) { return covers(selected, nd.status); }).length <= 30;
       order.forEach(function (nd) {
-        if (nd.status !== selected || nd.depth < 0.55 || nd === hovered) return;
+        var named = whole ? covers(selected, nd.status) : nd.status === selected;
+        if (!named || nd.depth < 0.55 || nd === hovered) return;
         var cx = nd.body === "moon" ? moon.cx : center.x;
         var right = nd.sx >= cx;
         ctx.textAlign = right ? "left" : "right";
@@ -515,7 +584,25 @@
           return;
         }
         var slow = hovered && hovered.body === body ? 0.27 : 1;
-        v.yaw += v.vel * dt + v.rate * slow * dt;
+        // Idle drift fades out while the body holds a selected status.
+        v.idle += ((v.target ? 0 : 1) - v.idle) * (1 - Math.pow(0.96, dt / 16));
+        if (v.target) {
+          // Damped spring torque toward the target (settles in about 1 s).
+          v.vel += (SPRING * (v.target.yaw - v.yaw) - DAMP * v.vel) * dt;
+          v.pvel += (SPRING * (v.target.pitch - v.pitch) - DAMP * v.pvel) * dt;
+          v.yaw += v.vel * dt;
+          v.pitch += v.pvel * dt;
+          return;
+        }
+        if (v.returning) {
+          // Selection cleared: ease back to the body's own tilt.
+          v.pvel += (SPRING * 0.5 * (v.rest - v.pitch) - DAMP * 0.7 * v.pvel) * dt;
+          v.pitch += v.pvel * dt;
+          if (Math.abs(v.pitch - v.rest) < 0.0005 && Math.abs(v.pvel) < 0.00001) {
+            v.returning = false;
+          }
+        }
+        v.yaw += v.vel * dt + v.rate * slow * v.idle * dt;
         v.vel *= Math.pow(0.93, dt / 16);
       });
       if (moon.length && fit && motion()) advanceOrbit(dt);
@@ -529,13 +616,16 @@
     // the planet faster and the moon is drawn after it, with a lag, then
     // settles back to its own pace; turn it against the orbit and the moon
     // slows.
+    var SPRING = 0.000022; // turn-to-status stiffness, 1/ms^2
+    var DAMP = 0.0088; // just under critical damping: one soft overshoot
     var ORBIT_RATE = 0.00016; // rad/ms at the mean distance
     var TUG = 0.6;
     function advanceOrbit(dt) {
       var yaw = spin.planet.yaw;
       var planetRate = lastPlanetYaw === null ? spin.planet.rate : (yaw - lastPlanetYaw) / dt;
       lastPlanetYaw = yaw;
-      var pull = Math.max(-0.003, Math.min(0.003, (planetRate - spin.planet.rate) * TUG));
+      var pace = spin.planet.rate * spin.planet.idle;
+      var pull = Math.max(-0.003, Math.min(0.003, (planetRate - pace) * TUG));
       orbitBoost += (pull - orbitBoost) * (1 - Math.pow(0.985, dt / 16));
       if (dragging && grabbed === spin.moon) return; // held in the hand
       var r = moon.dist || fit.mean;
@@ -601,6 +691,9 @@
       var p = local(ev);
       grabbed = bodyAt(p.x, p.y);
       grabbed.vel = 0;
+      grabbed.pvel = 0;
+      grabbed.target = null;
+      grabbed.returning = false;
       try { canvas.setPointerCapture(ev.pointerId); } catch (e) { /* older browsers */ }
       request();
     });
@@ -662,6 +755,11 @@
     canvas.addEventListener("keydown", function (ev) {
       var step = 0.18;
       var v = ev.shiftKey && moon.length ? spin.moon : spin.planet;
+      if (/^Arrow/.test(ev.key)) {
+        v.target = null;
+        v.returning = false;
+        v.pvel = 0;
+      }
       if (ev.key === "ArrowLeft") v.yaw -= step;
       else if (ev.key === "ArrowRight") v.yaw += step;
       else if (ev.key === "ArrowUp") v.pitch = Math.max(-1.1, v.pitch - step);
