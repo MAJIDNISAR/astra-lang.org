@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-11",
+ "updated": "2026-11-12",
  "release": {
-  "version": "v0.13.10-alpha",
-  "date": "2026-11-11",
-  "tests": 893,
+  "version": "v0.13.11-alpha",
+  "date": "2026-11-12",
+  "tests": 907,
   "platforms": [
    "macOS Apple Silicon",
    "macOS Intel",
@@ -11,7 +11,7 @@
   ]
  },
  "main": {
-  "tests": 893,
+  "tests": 907,
   "releaseChecks": "69 of 69",
   "note": "Same as the release"
  },
@@ -101,19 +101,22 @@
      "Multi-field enum variants",
      "Struct / tuple / range patterns",
      "Tail-expression returns",
-     "Generic structs + impl<T>"
+     "Generic structs + impl<T>",
+     "Functions as values",
+     "map / filter / fold / sum",
+     "enumerate / zip",
+     "Sized integers",
+     "as conversions"
     ]
    },
    {
     "id": "next",
     "name": "Next",
     "items": [
-     "Closures as values",
-     "map / filter / enumerate / sum",
+     "Trait objects",
      "Set + slicing",
      "Comprehensions",
-     "Sized integers",
-     "Trait objects",
+     "math module",
      "E0020 / E0021 fixes",
      "LSP alpha",
      "stdlib core"
@@ -348,6 +351,12 @@
    "date": "2026-11-11",
    "tests": 893,
    "summary": "Enum variants with several values (Rect(float, float)); struct, tuple, range (0..10, 0..=9) and | patterns in match; a function's last expression is its return value; generic structs (struct Stack<T>) with impl<T> methods; a native fn main() without a return type exits 0. Linux and Windows builds follow."
+  },
+  {
+   "version": "v0.13.11-alpha",
+   "date": "2026-11-12",
+   "tests": 907,
+   "summary": "Functions as values: list map, filter, any, all, count, find, fold and sum with closures or function names, enumerate and zip, for (i, x) in, and fn(..) parameters; sized integers (u8, u16, u32, i8, i16, i32) with every result range-checked, as in Rust, and `as` conversions. Linux and Windows builds follow."
   }
  ],
  "memory": {
