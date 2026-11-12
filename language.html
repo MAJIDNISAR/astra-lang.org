@@ -78,6 +78,8 @@
       <li><a href="#closures">Closures</a></li>
       <li><a href="#generics-and-gradual-typing">Generics and gradual typing</a></li>
       <li><a href="#generic-structs">Generic structs</a></li>
+      <li><a href="#functions-as-values">Functions as values</a></li>
+      <li><a href="#sized-integers">Sized integers</a></li>
       <li><a href="#nominal-traits">Nominal traits</a></li>
       <li><a href="#modules">Modules</a></li>
       <li><a href="#calling-c">Calling C</a></li>
@@ -365,6 +367,66 @@ s.<span class="fn">push</span>(<span class="s">&quot;save&quot;</span>)
       as above. Generic structs work in lists, <code>Option</code>,
       <code>Result</code> and enum variants. The interpreter runs them as
       written; native builds make one concrete struct per type used.</p>
+    </div>
+  </section>
+
+  <section id="functions-as-values">
+    <div class="wrap">
+      <h2>Functions as values <span class="badge done">v0.13.11</span></h2>
+      <p class="lead-in">Lists take closures and function names; functions take functions.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">double</span>(n: <span class="kw">int</span>) -&gt; <span class="kw">int</span>:
+    n * <span class="n">2</span>
+
+<span class="kw">fn</span> <span class="fn">apply_twice</span>(f: <span class="kw">fn</span>(<span class="kw">int</span>) -&gt; <span class="kw">int</span>, x: <span class="kw">int</span>) -&gt; <span class="kw">int</span>:
+    <span class="fn">f</span>(<span class="fn">f</span>(x))
+
+<span class="kw">let</span> xs = [<span class="n">3</span>, <span class="n">8</span>, <span class="n">1</span>, <span class="n">6</span>]
+<span class="kw">let</span> k = <span class="n">10</span>
+<span class="fn">print</span>(xs.<span class="fn">map</span>(|x| x * k).<span class="fn">sum</span>())          <span class="c">// 180</span>
+<span class="fn">print</span>(xs.<span class="fn">filter</span>(|x| x &gt; <span class="n">2</span>).<span class="fn">length</span>())    <span class="c">// 3</span>
+<span class="fn">print</span>(xs.<span class="fn">map</span>(double)[<span class="n">1</span>])                <span class="c">// 16</span>
+<span class="fn">print</span>(xs.<span class="fn">fold</span>(<span class="n">0</span>, |acc, x| acc + x))     <span class="c">// 18</span>
+<span class="kw">for</span> (i, x) <span class="kw">in</span> xs.<span class="fn">enumerate</span>():
+    <span class="fn">print</span>(<span class="s">&quot;${{i}}: ${{x}}&quot;</span>)
+<span class="fn">print</span>(<span class="fn">apply_twice</span>(|x| x + <span class="n">3</span>, <span class="n">1</span>))        <span class="c">// 7</span></code></pre>
+      <p>Lists have <code>map</code>, <code>filter</code>, <code>any</code>,
+      <code>all</code>, <code>count</code>, <code>find</code> (an
+      <code>Option</code>), <code>fold</code> and <code>sum</code>;
+      <code>enumerate</code> and <code>zip</code> pair elements up, also as
+      Python's <code>enumerate(xs)</code> and <code>zip(xs, ys)</code>.
+      A closure may use the variables around it. Functions can be passed but
+      not yet stored in a variable or returned.</p>
+    </div>
+  </section>
+
+  <section id="sized-integers">
+    <div class="wrap">
+      <h2>Sized integers and <code>as</code> <span class="badge done">v0.13.11</span></h2>
+      <p class="lead-in">Bytes, pixels and checksums, with every result checked.</p>
+<pre><code><span class="kw">fn</span> <span class="fn">checksum</span>(data: [u8]) -&gt; u32:
+    <span class="kw">let</span> total: u32 = <span class="n">0</span>
+    <span class="kw">for</span> b <span class="kw">in</span> data:
+        total += b <span class="kw">as</span> u32
+    total
+
+<span class="kw">let</span> r: u8 = <span class="n">200</span>
+<span class="kw">let</span> g: u8 = <span class="n">100</span>
+<span class="fn">print</span>(r - g)                      <span class="c">// 100</span>
+<span class="fn">print</span>(r + <span class="n">3</span>)                      <span class="c">// 203</span>
+<span class="fn">print</span>(<span class="fn">checksum</span>([<span class="n">1</span>, <span class="n">2</span>, <span class="n">250</span>]))     <span class="c">// 253</span>
+<span class="fn">print</span>(<span class="n">300</span> <span class="kw">as</span> u8)                  <span class="c">// 44</span>
+<span class="fn">print</span>(<span class="n">7.9</span> <span class="kw">as</span> <span class="kw">int</span>)                 <span class="c">// 7</span>
+<span class="fn">print</span>(r + g)                      <span class="c">// stops: overflow</span></code></pre>
+      <p><code>u8</code>, <code>u16</code>, <code>u32</code>, <code>i8</code>,
+      <code>i16</code> and <code>i32</code> sit beside <code>int</code>
+      (64-bit); <code>i64</code> and <code>f64</code> are other names for
+      <code>int</code> and <code>float</code>. As in Rust, a result outside
+      the type's range stops the program, on both engines (<code>r + g</code>
+      above is 300: &ldquo;integer overflow: 300 does not fit in u8&rdquo;), and
+      <code>x as u8</code> keeps the low bits. A literal takes the
+      other side's type and must fit (<code>let b: u8 = 256</code> is a
+      compile error), and two different integer types need an
+      <code>as</code> to mix. No <code>u64</code> or <code>usize</code> yet.</p>
     </div>
   </section>
 

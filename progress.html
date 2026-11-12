@@ -61,10 +61,10 @@
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        stands at <strong>893 passed, 0 failed, 0 ignored</strong> for the
-        v0.13.10-alpha release.
+        stands at <strong>907 passed, 0 failed, 0 ignored</strong> for the
+        v0.13.11-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.10-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->893<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->893<!-- /status:main-tests --> tests</dt><dd>Released: <code>elif</code>, default arguments and <code>sqrt</code>; eight correctness fixes in v0.13.5; calling C and a static Mifa registry since v0.13.3</dd></div><div><dt><code>@derive(Eq)</code></dt><dd>Next, then <code>Set</code>, slicing and comprehensions</dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.11-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->907<!-- /status:release-tests --> tests, for four platforms</dd></div><div><dt><!-- status:main-tests -->907<!-- /status:main-tests --> tests</dt><dd>Released: <code>elif</code>, default arguments and <code>sqrt</code>; eight correctness fixes in v0.13.5; calling C and a static Mifa registry since v0.13.3</dd></div><div><dt><code>@derive(Eq)</code></dt><dd>Next, then <code>Set</code>, slicing and comprehensions</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -129,7 +129,7 @@
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds","String methods + for c in s","\u003c > on strings","Map\u003cK, V>","List sort / sort_by_key","Any value in Result / Option","Real programs without workarounds","Calling C (extern \"c\", @link)","Struct literals typed by name","Range end evaluated once","elif","Default arguments","sqrt","and / or / not","if as a value","Option / Result helpers","Trait default methods","@derive(Eq, Show)","Multi-field enum variants","Struct / tuple / range patterns","Tail-expression returns","Generic structs + impl\u003cT>"]},{"id":"next","name":"Next","items":["Closures as values","map / filter / enumerate / sum","Set + slicing","Comprehensions","Sized integers","Trait objects","E0020 / E0021 fixes","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+      <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Variables","Functions","Recursion","Control flow","Arrays","Nominal structs","Enums + match","Tuples","Result + ?","try / catch","Closures","Generic functions","impl blocks","Bitwise ops","String interpolation","Floats","async / await","REPL","LLVM-IR backend","--emit-ir / --target","Never panics on bad input","CI gates"]},{"id":"shipped","name":"New in v0.10–v0.13","items":["astra mcp (any agent)","Runtime error codes","WebAssembly + playground","Interpreter (astra run)","Native parity + fuzzing","Modules + pub","mifa build / run","Runtime traps","Type inference","Indentation syntax","astra fmt","Forward references","Exhaustive match (E0021)","Value semantics (E0022)","a[i] = v","Nominal traits","Trait bounds","Signature checks (E0020)","Embedded runtime","Release binaries ×4","Error lines everywhere","All errors per function","Fix edits","astra fix","Every-exit memory release","Owned strings freed","Template literals freed","true / false printing","== by value only","Release test suite","String copy crash fixed","Windows native builds","String methods + for c in s","\u003c > on strings","Map\u003cK, V>","List sort / sort_by_key","Any value in Result / Option","Real programs without workarounds","Calling C (extern \"c\", @link)","Struct literals typed by name","Range end evaluated once","elif","Default arguments","sqrt","and / or / not","if as a value","Option / Result helpers","Trait default methods","@derive(Eq, Show)","Multi-field enum variants","Struct / tuple / range patterns","Tail-expression returns","Generic structs + impl\u003cT>","Functions as values","map / filter / fold / sum","enumerate / zip","Sized integers","as conversions"]},{"id":"next","name":"Next","items":["Trait objects","Set + slicing","Comprehensions","math module","E0020 / E0021 fixes","LSP alpha","stdlib core"]},{"id":"planned","name":"Planned","items":["tool / agent keywords","prompt / memory","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
       <div class="table-wrap stack"><table>
         <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
         <tbody>
@@ -191,7 +191,7 @@
       interpreter and native, modules, calling C, error codes and lines,
       <code>astra fmt</code>, <code>astra fix</code> and the Mifa flow, workspaces included. It
       runs on every platform before a release publishes, and a failure on any
-      platform stops the release. v0.13.10-alpha scores <strong>69/69</strong>
+      platform stops the release. v0.13.11-alpha scores <strong>69/69</strong>
       on macOS (Apple Silicon); v0.13.5-alpha scored 63/63; v0.13.2-alpha scored 60/60. v0.12.0-alpha's Windows run found that
       programs compiled but did not link there; v0.12.1 fixed it.
       v0.11.2-alpha scored 52/55 (<code>mifa search</code> failed).</p>
@@ -458,9 +458,9 @@
           parsing. Linux and Windows builds follow.
           <span class="tl-tests">880 tests</span></p>
         </li>
-        <li class="now">
+        <li>
           <span class="tl-when">Nov 11, 2026</span>
-          <span class="tl-title">v0.13.10-alpha <span class="badge wip">current</span></span>
+          <span class="tl-title">v0.13.10-alpha</span>
           <p>Enum variants with several values (<code>Rect(float, float)</code>);
           struct, tuple, range (<code>0..10</code>, <code>0..=9</code>) and
           <code>|</code> patterns in <code>match</code>; a function's last
@@ -470,12 +470,23 @@
           0. Linux and Windows builds follow.
           <span class="tl-tests">893 tests</span></p>
         </li>
+        <li class="now">
+          <span class="tl-when">Nov 12, 2026</span>
+          <span class="tl-title">v0.13.11-alpha <span class="badge wip">current</span></span>
+          <p>Functions as values: lists take functions (<code>map</code>,
+          <code>filter</code>, <code>fold</code>, <code>sum</code>, ...),
+          <code>enumerate</code> / <code>zip</code>, and functions take
+          <code>fn(int) -&gt; int</code> parameters. Sized integers
+          (<code>u8</code> to <code>i32</code>) with every result range-checked,
+          as in Rust, and <code>as</code> conversions. Linux and Windows builds
+          follow.
+          <span class="tl-tests">907 tests</span></p>
+        </li>
         <li class="planned">
           <span class="tl-when">Next</span>
-          <span class="tl-title">Closures and iterators <span class="badge planned">planned</span></span>
-          <p>Closures as values and iterator methods (<code>map</code>,
-          <code>filter</code>, <code>enumerate</code>, <code>sum</code>); sized
-          integers and trait objects; <code>Set</code>, slicing, comprehensions
+          <span class="tl-title">Trait objects and collections <span class="badge planned">planned</span></span>
+          <p>Trait objects (<code>dyn Trait</code>); storing and returning
+          functions; <code>Set</code>, slicing, comprehensions
           and a <code>math</code> module; <code>@derive(Hash, Ord)</code> and
           derive on enums; fixes for E0021 and E0020; the remaining memory
           leaks.</p>
@@ -498,6 +509,7 @@
       <!-- status:releases-table --><div class="table-wrap stack"><table>
     <thead><tr><th>Version</th><th>Date</th><th>Tests</th><th>What changed</th></tr></thead>
     <tbody>
+      <tr><td data-label="Version">v0.13.11-alpha</td><td data-label="Date">2026-11-12</td><td data-label="Tests">907</td><td data-label="What changed">Functions as values: list map, filter, any, all, count, find, fold and sum with closures or function names, enumerate and zip, for (i, x) in, and fn(..) parameters; sized integers (u8, u16, u32, i8, i16, i32) with every result range-checked, as in Rust, and `as` conversions. Linux and Windows builds follow.</td></tr>
       <tr><td data-label="Version">v0.13.10-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">893</td><td data-label="What changed">Enum variants with several values (Rect(float, float)); struct, tuple, range (0..10, 0..=9) and | patterns in match; a function's last expression is its return value; generic structs (struct Stack&lt;T&gt;) with impl&lt;T&gt; methods; a native fn main() without a return type exits 0. Linux and Windows builds follow.</td></tr>
       <tr><td data-label="Version">v0.13.9-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">880</td><td data-label="What changed">@derive(Eq, Show) on structs: == compares field by field and print shows Point { x: 1, y: 2 }; a struct field whose type ends with &gt; no longer breaks parsing. Linux and Windows builds follow.</td></tr>
       <tr><td data-label="Version">v0.13.8-alpha</td><td data-label="Date">2026-11-11</td><td data-label="Tests">877</td><td data-label="What changed">The Python habits a model writes first: and/or/not and not in, single-quoted strings, trailing commas, if as a value (a if c else b), statements continued on the next line, unwrap / unwrap_or / is_some / is_ok; trait default methods; clearer errors for import std. Linux and Windows builds follow.</td></tr>
