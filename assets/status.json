@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-12",
+ "updated": "2026-11-13",
  "release": {
-  "version": "v0.13.11-alpha",
-  "date": "2026-11-12",
-  "tests": 907,
+  "version": "v0.13.12-alpha",
+  "date": "2026-11-13",
+  "tests": 933,
   "platforms": [
    "macOS Apple Silicon",
    "macOS Intel",
@@ -11,7 +11,7 @@
   ]
  },
  "main": {
-  "tests": 907,
+  "tests": 933,
   "releaseChecks": "69 of 69",
   "note": "Same as the release"
  },
@@ -22,6 +22,7 @@
     "name": "Works today",
     "items": [
      "Static types + inference",
+     "Sized integers + as",
      "Python-style syntax",
      "Functions + default arguments",
      "Structs + methods",
@@ -30,6 +31,7 @@
      "Generic functions + structs",
      "Traits + @derive",
      "Closures",
+     "Functions as values (map, filter, fold)",
      "Tuples",
      "Result, Option and ?",
      "try / catch",
@@ -55,21 +57,21 @@
    },
    {
     "id": "shipped",
-    "name": "New in v0.13.11",
+    "name": "New in v0.13.12",
     "items": [
-     "Functions as values (map, filter, fold)",
-     "Sized integers + as"
+     "Trait objects (dyn Trait)",
+     "Slices + list comprehensions",
+     "Sets",
+     "Math built-ins (abs, min, max, round)"
     ]
    },
    {
     "id": "next",
     "name": "Next",
     "items": [
-     "Trait objects (dyn Trait)",
      "Storing and returning functions",
-     "Set + slicing",
-     "Comprehensions",
-     "math module"
+     "Concurrency",
+     "Printing and comparing collections"
     ]
    },
    {
@@ -291,6 +293,12 @@
    "date": "2026-11-12",
    "tests": 907,
    "summary": "Functions as values: list map, filter, any, all, count, find, fold and sum with closures or function names, enumerate and zip, for (i, x) in, and fn(..) parameters; sized integers (u8, u16, u32, i8, i16, i32) with every result range-checked, as in Rust, and `as` conversions. Linux and Windows builds follow."
+  },
+  {
+   "version": "v0.13.12-alpha",
+   "date": "2026-11-13",
+   "tests": 933,
+   "summary": "Trait objects: dyn Shape holds any type that implements Shape, in lists, parameters, results and struct fields; methods on enums; slices (xs[a:b]) on lists and strings; list comprehensions; Set<T>; join and repeat; abs, min, max, floor, ceil, round and range. Fixes two wrong answers in v0.13.11 (a trait default method ending in an expression, a method call on an enum). Linux and Windows builds follow."
   }
  ],
  "memory": {

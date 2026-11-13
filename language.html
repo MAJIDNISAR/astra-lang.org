@@ -74,6 +74,7 @@
       <li><a href="#elif-defaults-sqrt">elif, default arguments, sqrt</a></li>
       <li><a href="#python-habits">and / or / not, if as a value</a></li>
       <li><a href="#maps-and-sorting">Maps and sorting</a></li>
+      <li><a href="#slices-comprehensions-sets">Slices, comprehensions and sets</a></li>
       <li><a href="#result-no-exceptions">Result&lt;T,E&gt;, no exceptions</a></li>
       <li><a href="#closures">Closures</a></li>
       <li><a href="#generics-and-gradual-typing">Generics and gradual typing</a></li>
@@ -81,6 +82,7 @@
       <li><a href="#functions-as-values">Functions as values</a></li>
       <li><a href="#sized-integers">Sized integers</a></li>
       <li><a href="#nominal-traits">Nominal traits</a></li>
+      <li><a href="#trait-objects">Trait objects</a></li>
       <li><a href="#modules">Modules</a></li>
       <li><a href="#calling-c">Calling C</a></li>
       <li><a href="#the-compiler-pipeline">The compiler pipeline</a></li>
@@ -282,6 +284,51 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
     </div>
   </section>
 
+  <section id="slices-comprehensions-sets">
+    <div class="wrap">
+      <h2>Slices, comprehensions and sets <span class="badge done">v0.13.12</span></h2>
+      <p class="lead-in">Lists the Python way: take a part, build one from another, keep each item once.</p>
+<pre><code><span class="kw">let</span> days = [<span class="n">12</span>, <span class="n">15</span>, <span class="n">9</span>, <span class="n">21</span>, <span class="n">18</span>, <span class="n">7</span>, <span class="n">14</span>]
+<span class="fn">print</span>(days[<span class="n">1</span>:<span class="n">3</span>].<span class="fn">length</span>())                <span class="c">// 2</span>
+<span class="fn">print</span>(days[:<span class="n">2</span>][<span class="n">1</span>])                       <span class="c">// 15</span>
+<span class="fn">print</span>(days[-<span class="n">2</span>:][<span class="n">0</span>])                      <span class="c">// 7</span>
+<span class="fn">print</span>(days[<span class="n">5</span>:<span class="n">99</span>].<span class="fn">length</span>())               <span class="c">// 2</span>
+<span class="fn">print</span>(<span class="s">&quot;2026-11-13T09:30&quot;</span>[:<span class="n">10</span>])           <span class="c">// 2026-11-13</span>
+
+<span class="kw">let</span> warm = [d <span class="kw">for</span> d <span class="kw">in</span> days <span class="kw">if</span> d &gt;= <span class="n">14</span>]
+<span class="fn">print</span>(warm.<span class="fn">map</span>(|d| d.<span class="fn">to_string</span>()).<span class="fn">join</span>(<span class="s">&quot; &quot;</span>))    <span class="c">// 15 21 18 14</span>
+<span class="fn">print</span>([i * i <span class="kw">for</span> i <span class="kw">in</span> <span class="n">0</span>..<span class="n">5</span>][<span class="n">4</span>])          <span class="c">// 16</span>
+
+<span class="kw">let</span> seen: Set&lt;<span class="kw">str</span>&gt; = <span class="fn">Set</span>()
+<span class="kw">for</span> word <span class="kw">in</span> <span class="s">&quot;the cat and the hat&quot;</span>.<span class="fn">split</span>(<span class="s">&quot; &quot;</span>):
+    seen.<span class="fn">add</span>(word)
+<span class="fn">print</span>(seen.<span class="fn">length</span>())                     <span class="c">// 4</span>
+<span class="fn">print</span>(seen.<span class="fn">to_list</span>().<span class="fn">join</span>(<span class="s">&quot;, &quot;</span>))         <span class="c">// the, cat, and, hat</span>
+<span class="fn">print</span>(<span class="s">&quot;cat&quot;</span> <span class="kw">in</span> seen)                     <span class="c">// true</span>
+<span class="kw">let</span> both = <span class="fn">Set</span>([<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]).<span class="fn">intersection</span>(<span class="fn">Set</span>([<span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]))
+<span class="fn">print</span>(both.<span class="fn">length</span>())                     <span class="c">// 2</span>
+
+<span class="fn">print</span>(<span class="fn">max</span>(<span class="fn">abs</span>(-<span class="n">7</span>), <span class="fn">min</span>(<span class="n">3</span>, <span class="n">9</span>)))           <span class="c">// 7</span>
+<span class="fn">print</span>(<span class="fn">round</span>(<span class="n">2.5</span>))                        <span class="c">// 3</span>
+<span class="fn">print</span>(<span class="fn">floor</span>(<span class="n">2.7</span>) + <span class="fn">ceil</span>(<span class="n">2.2</span>))            <span class="c">// 5</span>
+<span class="fn">print</span>(<span class="s">&quot;ab&quot;</span>.<span class="fn">repeat</span>(<span class="n">3</span>))                    <span class="c">// ababab</span></code></pre>
+      <p>A slice (<code>xs[a:b]</code>, <code>xs[:b]</code>,
+      <code>xs[a:]</code>) copies part of a list or a string; a negative
+      index counts from the end, and ends past the list are clamped, so a
+      slice never fails. A comprehension has one <code>for</code> over a
+      list or a range and an optional <code>if</code>. A
+      <code>Set&lt;T&gt;</code> holds ints or strings once each, in the
+      order first added, with <code>add</code>, <code>remove</code>,
+      <code>contains</code>, <code>to_list</code>, <code>union</code>,
+      <code>intersection</code> and <code>difference</code>; an empty
+      <code>Set()</code> needs its type. <code>join</code> glues a list of
+      strings (<code>sep.join(xs)</code> works too), and <code>floor</code>,
+      <code>ceil</code> and <code>round</code> turn a float into an int.
+      Not yet: a slice step, nested comprehensions, printing or comparing a
+      set.</p>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2 id="result-no-exceptions">Result&lt;T,E&gt;, no exceptions</h2>
@@ -387,7 +434,7 @@ s.<span class="fn">push</span>(<span class="s">&quot;save&quot;</span>)
 <span class="fn">print</span>(xs.<span class="fn">map</span>(double)[<span class="n">1</span>])                <span class="c">// 16</span>
 <span class="fn">print</span>(xs.<span class="fn">fold</span>(<span class="n">0</span>, |acc, x| acc + x))     <span class="c">// 18</span>
 <span class="kw">for</span> (i, x) <span class="kw">in</span> xs.<span class="fn">enumerate</span>():
-    <span class="fn">print</span>(<span class="s">&quot;${{i}}: ${{x}}&quot;</span>)
+    <span class="fn">print</span>(<span class="s">&quot;${i}: ${x}&quot;</span>)
 <span class="fn">print</span>(<span class="fn">apply_twice</span>(|x| x + <span class="n">3</span>, <span class="n">1</span>))        <span class="c">// 7</span></code></pre>
       <p>Lists have <code>map</code>, <code>filter</code>, <code>any</code>,
       <code>all</code>, <code>count</code>, <code>find</code> (an
@@ -462,6 +509,63 @@ s.<span class="fn">push</span>(<span class="s">&quot;save&quot;</span>)
 
 <span class="fn">print</span>(Point { x: <span class="n">1</span>, y: <span class="n">2</span> } == Point { x: <span class="n">1</span>, y: <span class="n">2</span> })  <span class="c">// true</span>
 <span class="fn">print</span>(Point { x: <span class="n">1</span>, y: <span class="n">2</span> })   <span class="c">// Point { x: 1, y: 2 }</span></code></pre>
+    </div>
+  </section>
+
+  <section id="trait-objects">
+    <div class="wrap">
+      <h2>Trait objects <span class="badge done">v0.13.12</span></h2>
+      <p class="lead-in">One list, many types: <code>dyn Shape</code> is any type that implements <code>Shape</code>.</p>
+<pre><code><span class="kw">trait</span> Shape:
+    <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>
+    <span class="kw">fn</span> <span class="fn">name</span>(self) -&gt; <span class="kw">str</span>:
+        <span class="s">&quot;shape&quot;</span>
+
+<span class="kw">struct</span> Square:
+    side: <span class="kw">int</span>
+
+<span class="kw">struct</span> Rect:
+    w: <span class="kw">int</span>
+    h: <span class="kw">int</span>
+
+<span class="kw">impl</span> Shape <span class="kw">for</span> Square:
+    <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>:
+        self.side * self.side
+    <span class="kw">fn</span> <span class="fn">name</span>(self) -&gt; <span class="kw">str</span>:
+        <span class="s">&quot;square&quot;</span>
+
+<span class="kw">impl</span> Shape <span class="kw">for</span> Rect:
+    <span class="kw">fn</span> <span class="fn">area</span>(self) -&gt; <span class="kw">int</span>:
+        self.w * self.h
+
+<span class="kw">enum</span> Light:
+    Red
+    Green
+
+<span class="kw">impl</span> Light:
+    <span class="kw">fn</span> <span class="fn">label</span>(self) -&gt; <span class="kw">str</span>:
+        <span class="kw">match</span> self:
+            Light::Red =&gt; <span class="s">&quot;stop&quot;</span>
+            Light::Green =&gt; <span class="s">&quot;go&quot;</span>
+
+<span class="kw">fn</span> <span class="fn">total</span>(shapes: [<span class="kw">dyn</span> Shape]) -&gt; <span class="kw">int</span>:
+    shapes.<span class="fn">map</span>(|s| s.<span class="fn">area</span>()).<span class="fn">sum</span>()
+
+<span class="kw">let</span> shapes: [<span class="kw">dyn</span> Shape] = [Square { side: <span class="n">3</span> }, Rect { w: <span class="n">2</span>, h: <span class="n">5</span> }]
+<span class="kw">for</span> s <span class="kw">in</span> shapes:
+    <span class="fn">print</span>(<span class="s">&quot;${s.name()}: ${s.area()}&quot;</span>)    <span class="c">// square: 9, then shape: 10</span>
+<span class="fn">print</span>(<span class="fn">total</span>(shapes))                     <span class="c">// 19</span>
+<span class="kw">let</span> light = Light::Green
+<span class="fn">print</span>(light.<span class="fn">label</span>())                     <span class="c">// go</span></code></pre>
+      <p>A <code>dyn Shape</code> holds a value of any type that implements
+      <code>Shape</code>: in lists (<code>[dyn Shape]</code>), parameters,
+      results, struct fields, and <code>Option</code> and <code>Map</code>
+      values. A method call runs the method of the type inside, on both
+      engines. A list literal that mixes types needs the annotation, as
+      <code>shapes</code> has above. An enum can have methods too:
+      <code>impl Light:</code>, called as <code>light.label()</code>. Methods
+      that take <code>mut self</code> can't be called through
+      <code>dyn</code> yet.</p>
     </div>
   </section>
 

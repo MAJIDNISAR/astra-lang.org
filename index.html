@@ -42,7 +42,7 @@
       "license": "https://opensource.org/licenses/MIT",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
-      "softwareVersion": "0.13.11-alpha",
+      "softwareVersion": "0.13.12-alpha",
       "downloadUrl": "https://astra-lang.org/download.html"
     },
     {
@@ -90,7 +90,7 @@
       </figure>
       <p class="hero-side hero-sentence">Astra is a compiled language for code that AI agents write: as easy to read as Python, as safe and fast as Rust. The compiler answers in JSON and repairs what it can before anything runs.</p>
       <div class="hero-side hero-fact">
-        <p><b><!-- status:release-version -->v0.13.11-alpha<!-- /status:release-version --></b> for macOS and WebAssembly; Linux and Windows follow. <!-- status:release-tests -->907<!-- /status:release-tests --> tests, none ignored.</p>
+        <p><b><!-- status:release-version -->v0.13.12-alpha<!-- /status:release-version --></b> for macOS and WebAssembly; Linux and Windows follow. <!-- status:release-tests -->933<!-- /status:release-tests --> tests, none ignored.</p>
         <div class="btn-row"><a class="btn primary" href="playground.html">Try it in your browser</a><a class="btn ghost" href="download.html">Get the alpha</a></div>
       </div>
     </div>
@@ -98,7 +98,7 @@
       <p class="orb-hint">Every star is a feature: Astra on the globe, Mifa on its moon. Drag either one to turn it. Pick a magnitude to light up its stars.</p>
       <div class="orb-keys" role="group" aria-label="Highlight a status"></div>
     </div>
-    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Static types + inference","Python-style syntax","Functions + default arguments","Structs + methods","Value semantics","Enums + pattern matching","Generic functions + structs","Traits + @derive","Closures","Tuples","Result, Option and ?","try / catch","Strings + text methods","Lists + sorting","Maps","Modules","Files, args, stdin, env","Capabilities (--deny)","Calling C","Interpreter (astra run)","Native LLVM builds","WebAssembly + playground","REPL","Runtime safety checks","Automatic memory (ARC)","JSON diagnostics","astra fix","astra fmt","astra mcp for agents","async / await (native)"]},{"id":"shipped","name":"New in v0.13.11","items":["Functions as values (map, filter, fold)","Sized integers + as"]},{"id":"next","name":"Next","items":["Trait objects (dyn Trait)","Storing and returning functions","Set + slicing","Comprehensions","math module"]},{"id":"planned","name":"Planned","items":["Standard library","LSP + editor support","Agent keywords (tool / agent)","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Static types + inference","Sized integers + as","Python-style syntax","Functions + default arguments","Structs + methods","Value semantics","Enums + pattern matching","Generic functions + structs","Traits + @derive","Closures","Functions as values (map, filter, fold)","Tuples","Result, Option and ?","try / catch","Strings + text methods","Lists + sorting","Maps","Modules","Files, args, stdin, env","Capabilities (--deny)","Calling C","Interpreter (astra run)","Native LLVM builds","WebAssembly + playground","REPL","Runtime safety checks","Automatic memory (ARC)","JSON diagnostics","astra fix","astra fmt","astra mcp for agents","async / await (native)"]},{"id":"shipped","name":"New in v0.13.12","items":["Trait objects (dyn Trait)","Slices + list comprehensions","Sets","Math built-ins (abs, min, max, round)"]},{"id":"next","name":"Next","items":["Storing and returning functions","Concurrency","Printing and comparing collections"]},{"id":"planned","name":"Planned","items":["Standard library","LSP + editor support","Agent keywords (tool / agent)","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
     <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents"]},{"id":"shipped","name":"New in v0.13.3","items":["Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"next","name":"Next","items":["Project-wide verify"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
   </section>
 
@@ -200,12 +200,12 @@ sum = 45</code></pre>
         <p>Peak memory for a helper called a million times that builds a struct, a list and a tuple. It was 231 MB before memory was freed on every exit (v0.12).</p>
       </div>
       <div class="tile tile-b field-night" data-reveal>
-        <p class="fig"><!-- status:main-tests -->907<!-- /status:main-tests --></p>
-        <p>tests pass in v0.13.11, none ignored.</p>
+        <p class="fig"><!-- status:main-tests -->933<!-- /status:main-tests --></p>
+        <p>tests pass in v0.13.12, none ignored.</p>
       </div>
       <div class="tile tile-c field-stone" data-reveal>
         <p class="fig"><!-- status:release-checks -->69 of 69<!-- /status:release-checks --></p>
-        <p>release checks pass in v0.13.11, on both engines. <a href="progress.html#history">The record</a></p>
+        <p>release checks pass in v0.13.12, on both engines. <a href="progress.html#history">The record</a></p>
       </div>
     </div>
   </section>
@@ -217,6 +217,7 @@ sum = 45</code></pre>
       <p>What is released and what comes after. The same stars light up on the globe above.</p>
       <h3>Released</h3>
       <ul class="status-list">
+        <li data-status="shipped"><span class="t">Trait objects (<code>dyn Trait</code>), methods on enums, slices, list comprehensions, <code>Set</code>, math built-ins</span> <span class="v">v0.13.12-alpha</span></li>
         <li data-status="shipped"><span class="t">Functions as values (<code>map</code>, <code>filter</code>, <code>fold</code>, <code>fn(..)</code> parameters), sized integers and <code>as</code></span> <span class="v">v0.13.11-alpha</span></li>
         <li data-status="shipped"><span class="t">Multi-field enum variants, struct / tuple / range patterns, generic structs</span> <span class="v">v0.13.10-alpha</span></li>
         <li data-status="shipped"><span class="t"><code>@derive(Eq, Show)</code>: compare and print structs</span> <span class="v">v0.13.9-alpha</span></li>
@@ -244,9 +245,9 @@ sum = 45</code></pre>
       <h3>Next</h3>
       <ul class="status-list">
         <li data-status="next"><span class="t">Fixes for match arms and traits</span> <span class="v">next</span></li>
-        <li data-status="next"><span class="t"><code>@derive(Eq)</code> and default methods</span> <span class="v">next</span></li>
-        <li data-status="next"><span class="t"><code>Set</code> and comprehensions</span> <span class="v">next</span></li>
-        <li data-status="next"><span class="t">Generic structs</span> <span class="v">next</span></li>
+        <li data-status="next"><span class="t">Storing and returning functions</span> <span class="v">next</span></li>
+        <li data-status="next"><span class="t">Concurrency</span> <span class="v">next</span></li>
+        <li data-status="next"><span class="t">Printing and comparing collections</span> <span class="v">next</span></li>
       </ul>
       <p class="hours">Astra is an alpha. The core language compiles and runs natively with every test green, but it is not yet a production language, a package ecosystem or a memory-safe systems language.</p>
       <p class="hours">Planned: <code>tool</code> and <code>agent</code> keywords, Python interop, WASM and GPU targets, a hosted Mifa registry.<br>The source opens at v1.0-beta. <a href="progress.html">The full tracker</a></p>
