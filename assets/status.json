@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13",
+ "updated": "2026-11-15",
  "release": {
   "version": "v0.13.12-alpha",
   "date": "2026-11-13",
@@ -11,9 +11,9 @@
   ]
  },
  "main": {
-  "tests": 933,
+  "tests": 935,
   "releaseChecks": "69 of 69",
-  "note": "Same as the release"
+  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, and a language reference whose examples the test suite runs"
  },
  "astra": {
   "statuses": [
