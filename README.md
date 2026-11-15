@@ -18,7 +18,7 @@ Static site (plain HTML + CSS, no build step) served via GitHub Pages.
 ## Updating the site for a release
 
 1. Edit `assets/status.json`: the release, test counts, feature statuses for Astra and Mifa, the release list, memory figures.
-2. Run `node tools/sync-status.mjs`. It rewrites every fragment between `<!-- status:NAME -->` markers (version, test counts, the globe data, the fallback lists and tables) and leaves the rest of each page untouched. `--check` exits 1 if a page is out of date.
+2. Run `node tools/sync-status.mjs`. It rewrites every fragment between `<!-- status:NAME -->` markers (version, test counts, the globe data, the fallback lists and tables) and leaves the rest of each page untouched; it also regenerates the root `status.json`, a small machine-readable summary, from the same file so it cannot drift. `--check` exits 1 if a page or `status.json` is out of date.
 3. Update any prose that names the release (download page, release notes on the progress page), then `sitemap.xml` dates.
 4. Rebuild the playground module from the release (`assets/playground/astra.wasm`, `examples.json`). The playground page shows the release as a `compiler vX` badge (a `status:release-version` marker); once `astra.wasm` loads, `playground.js` replaces it with the version the module reports, and turns it orange with a note if the two differ.
 

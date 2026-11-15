@@ -8,7 +8,7 @@
 //   <!-- status:NAME -->…<!-- /status:NAME -->
 // Only the text between them changes; the rest of each file stays byte for
 // byte. Running it twice changes nothing.
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -103,5 +103,36 @@ for (const file of readdirSync(root).filter((f) => f.endsWith(".html")).sort()) 
 }
 
 if (failed) process.exit(2);
+
+// Root status.json: a small machine-readable summary at a stable URL. It used to
+// be hand-copied from the site and drifted (it still said v0.13.5-alpha with 856
+// tests while the site said v0.13.12-alpha with 935 on main); derive it here so it
+// cannot. Feature lists, releases and history stay in assets/status.json.
+const summaryPath = join(root, "status.json");
+const summary =
+  JSON.stringify(
+    {
+      version: status.release.version,
+      date: status.release.date,
+      tests: status.release.tests,
+      releaseChecks: status.main.releaseChecks,
+      mainTests: status.main.tests,
+      updated: status.updated,
+      source: "assets/status.json",
+    },
+    null,
+    2
+  ) + "\n";
+const currentSummary = existsSync(summaryPath) ? readFileSync(summaryPath, "utf8") : "";
+if (currentSummary !== summary) {
+  stale += 1;
+  if (check) {
+    console.log("status.json: out of date (version, tests, releaseChecks)");
+  } else {
+    writeFileSync(summaryPath, summary);
+    console.log("status.json: updated");
+  }
+}
+
 if (check && stale) process.exit(1);
-if (!stale) console.log("Every page matches assets/status.json.");
+if (!stale) console.log("Every page and status.json match assets/status.json.");
