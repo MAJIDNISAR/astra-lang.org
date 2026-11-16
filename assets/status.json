@@ -11,9 +11,9 @@
   ]
  },
  "main": {
-  "tests": 951,
-  "releaseChecks": "71 of 71",
-  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, closures inside closures, and function values (a no-capture function stored, returned, passed and called through) - 951 tests"
+  "tests": 952,
+  "releaseChecks": "73 of 73",
+  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, closures inside closures, function values, list pop and mixed int/float arithmetic - 952 tests"
  },
  "astra": {
   "statuses": [

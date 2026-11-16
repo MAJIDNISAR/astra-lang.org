@@ -2,8 +2,8 @@
   "version": "v0.13.12-alpha",
   "date": "2026-11-13",
   "tests": 933,
-  "releaseChecks": "71 of 71",
-  "mainTests": 951,
+  "releaseChecks": "73 of 73",
+  "mainTests": 952,
   "updated": "2026-11-16",
   "source": "assets/status.json"
 }
