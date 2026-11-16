@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15",
+ "updated": "2026-11-16",
  "release": {
   "version": "v0.13.12-alpha",
   "date": "2026-11-13",
@@ -11,9 +11,9 @@
   ]
  },
  "main": {
-  "tests": 948,
-  "releaseChecks": "69 of 69",
-  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, and closures inside closures (which gives nested list comprehensions) — 948 tests"
+  "tests": 951,
+  "releaseChecks": "71 of 71",
+  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, closures inside closures, and function values (a no-capture function stored, returned, passed and called through) - 951 tests"
  },
  "astra": {
   "statuses": [
@@ -34,6 +34,7 @@
      "Functions as values (map, filter, fold)",
      "Tuples",
      "Closures inside closures",
+     "Function values (stored, returned, called)",
      "Result, Option and ?",
      "try / catch",
      "Strings + text methods",
@@ -72,7 +73,7 @@
     "id": "next",
     "name": "Next",
     "items": [
-     "Storing and returning functions",
+     "Boxed closures (a capturing closure as a value)",
      "Concurrency"
     ]
    },
