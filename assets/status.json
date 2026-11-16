@@ -11,9 +11,9 @@
   ]
  },
  "main": {
-  "tests": 935,
+  "tests": 948,
   "releaseChecks": "69 of 69",
-  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, and a language reference whose examples the test suite runs"
+  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, and closures inside closures (which gives nested list comprehensions) — 948 tests"
  },
  "astra": {
   "statuses": [
@@ -33,6 +33,7 @@
      "Closures",
      "Functions as values (map, filter, fold)",
      "Tuples",
+     "Closures inside closures",
      "Result, Option and ?",
      "try / catch",
      "Strings + text methods",
@@ -52,7 +53,9 @@
      "astra fix",
      "astra fmt",
      "astra mcp for agents",
-     "async / await (native)"
+     "async / await (native)",
+     "Sets print, compare and iterate",
+     "Slice steps (xs[::2])"
     ]
    },
    {
@@ -70,8 +73,7 @@
     "name": "Next",
     "items": [
      "Storing and returning functions",
-     "Concurrency",
-     "Printing and comparing collections"
+     "Concurrency"
     ]
    },
    {
