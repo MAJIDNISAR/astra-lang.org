@@ -133,9 +133,11 @@
     <span class="kw">for</span> i <span class="kw">in</span> <span class="n">0</span>..<span class="n">10</span>:
         <span class="fn">print</span>(<span class="s">&quot;fib(${i}) = ${fib(i)}&quot;</span>)
     <span class="kw">return</span> <span class="n">0</span></code></pre>
-      <p><code>while</code>, <code>do/while</code>, <code>switch</code>,
-      <code>break</code>/<code>continue</code>, and for-range loops all
-      compile to native code today.</p>
+      <p><code>while</code>, <code>break</code>/<code>continue</code>,
+      for-range loops and <code>match</code> all compile to native code
+      today. There is no <code>do/while</code> or <code>switch</code>: write
+      <code>while true</code> with a <code>break</code>, and
+      <code>match</code> on the value.</p>
     </div>
   </section>
 
@@ -212,9 +214,9 @@
     Status::Deleted   =&gt; <span class="s">&quot;gone&quot;</span></code></pre>
       <p><code>print</code> and <code>${}</code> take <code>int</code>,
       <code>float</code>, <code>bool</code> and <code>str</code>; the same
-      goes for <code>==</code>. Print or compare a struct's fields, and
-      <code>match</code> an enum, until <code>@derive(Show, Eq)</code>
-      arrives. A literal is always the struct it names, even when another
+      goes for <code>==</code>. A struct prints and compares once it
+      has <code>@derive(Show, Eq)</code>; otherwise print or compare its
+      fields, and <code>match</code> an enum. A literal is always the struct it names, even when another
       struct has the same fields, and its fields can come in any order.</p>
     </div>
   </section>
