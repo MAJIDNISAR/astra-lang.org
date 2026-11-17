@@ -61,10 +61,10 @@
       <p class="lede">
         This page mirrors the tracker maintained inside the repository.
         Every "shipped" claim below is backed by a passing test; the suite
-        stands at <strong><!-- status:main-tests -->952<!-- /status:main-tests --> passed, 0 failed, 0 ignored</strong> on
+        stands at <strong><!-- status:main-tests -->958<!-- /status:main-tests --> passed, 0 failed, 0 ignored</strong> on
         <code>main</code> (2026-11-16), and 933 at the v0.13.12-alpha release.
       </p>
-      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.12-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->933<!-- /status:release-tests --> tests, for macOS and WebAssembly (Linux and Windows follow)</dd></div><div><dt><!-- status:main-tests -->952<!-- /status:main-tests --> tests</dt><dd>On <code>main</code> (2026-11-16): a runtime-checked language reference, <code>Map.remove</code>, <code>Set.remove</code>, closures inside closures (nested comprehensions follow), and function values (a no-capture function stored, returned, passed and called through). Released: trait objects, methods on enums, slices, comprehensions and <code>Set</code> (v0.13.12); functions as values and sized integers (v0.13.11); richer enums, patterns and generic structs (v0.13.10)</dd></div><div><dt>Boxed closures</dt><dd>Next: a capturing closure as a value, then concurrency</dd></div></dl>
+      <dl class="glance"><div><dt><!-- status:release-version -->v0.13.12-alpha<!-- /status:release-version --></dt><dd>Released, with <!-- status:release-tests -->933<!-- /status:release-tests --> tests, for macOS and WebAssembly (Linux and Windows follow)</dd></div><div><dt><!-- status:main-tests -->958<!-- /status:main-tests --> tests</dt><dd>On <code>main</code> (2026-11-16): a runtime-checked language reference, <code>Map.remove</code>, <code>Set.remove</code>, closures inside closures (nested comprehensions follow), and function values (a no-capture function stored, returned, passed and called through). Released: trait objects, methods on enums, slices, comprehensions and <code>Set</code> (v0.13.12); functions as values and sized integers (v0.13.11); richer enums, patterns and generic structs (v0.13.10)</dd></div><div><dt>Boxed closures</dt><dd>Next: a capturing closure as a value, then concurrency</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -189,7 +189,7 @@
       <strong>complete: 10 → 0</strong> and has stayed at 0 since 2026-07-07.
       The end-to-end regression suite
       (<code>tests/regression_tests.rs</code>) has grown from 14 to
-      <strong>108 tests</strong>, each locking a shipped feature through
+      <strong>140 tests</strong>, each locking a shipped feature through
       compile → IR → native run → stdout/exit-code assertions. CI also
       gates every commit on <code>cargo fmt</code>, <code>clippy -D
       warnings</code>, <code>cargo audit</code>, and an llc IR-validity
@@ -662,7 +662,7 @@
     <div class="wrap">
       <h2 id="validated-performance-claims">Validated performance claims</h2>
       <p>Numbers on this site come from a scripted validation harness in the
-      repo (<code>scripts/validate_metrics.sh</code>, 12/12 checks passing),
+      repo (<code>scripts/validate_metrics.sh</code>, 13/13 checks passing),
       not from marketing copy:</p>
       <ul>
         <li><strong>115 ms</strong>: Astra compile <em>and</em> run of a 5M-iteration loop (Python: 959 ms run-only)</li>

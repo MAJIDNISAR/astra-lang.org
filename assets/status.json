@@ -11,9 +11,9 @@
   ]
  },
  "main": {
-  "tests": 952,
+  "tests": 958,
   "releaseChecks": "73 of 73",
-  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, closures inside closures, function values, list pop and mixed int/float arithmetic - 952 tests"
+  "note": "Main after v0.13.12: Map.remove(k) -> Option, Set.remove(x) -> bool, printing and comparing sets and maps, slice steps, a checked language reference, closures inside closures, function values, list pop and mixed int/float arithmetic; do/while and switch now refused - 958 tests"
  },
  "astra": {
   "statuses": [
