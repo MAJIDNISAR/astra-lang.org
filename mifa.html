@@ -269,10 +269,10 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents","verify type-checks the project (on main)"]},{"id":"shipped","name":"New in v0.13.3","items":["Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"next","name":"Next","items":["Cargo habits: check, new, remove"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents","Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"shipped","name":"New in v0.13.13","items":["verify type-checks the project"]},{"id":"next","name":"Next","items":["Cargo habits: check, new, remove"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
       <!-- status:mifa-list --><ul class="status-list">
-  <li data-status="works"><b>Works today:</b> Projects (init, verify, clean), Build, run and test, Path dependencies, Git dependencies, Version solving (semver), Workspaces, Lockfile (--locked, --offline), JSON output for agents, verify type-checks the project (on main), Package registry (publish, add, yank, search), Registry dependencies by version, Checksums pinned in astra.lock</li>
-  <li data-status="shipped"><b>New in v0.13.3:</b> Package registry (publish, add, yank, search), Registry dependencies by version, Checksums pinned in astra.lock</li>
+  <li data-status="works"><b>Works today:</b> Projects (init, verify, clean), Build, run and test, Path dependencies, Git dependencies, Version solving (semver), Workspaces, Lockfile (--locked, --offline), JSON output for agents, Package registry (publish, add, yank, search), Registry dependencies by version, Checksums pinned in astra.lock, verify type-checks the project</li>
+  <li data-status="shipped"><b>New in v0.13.13:</b> verify type-checks the project</li>
   <li data-status="next"><b>Next:</b> Cargo habits: check, new, remove</li>
   <li data-status="planned"><b>Planned:</b> Cargo habits: check, new, remove, Hosted registry, Package signing</li>
 </ul><!-- /status:mifa-list -->
@@ -365,8 +365,8 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
       <ul>
         <li><strong>Verification-first.</strong> <code>astra verify</code>
         type-checks a program without generating code, so an agent can
-        validate a change in milliseconds. In v0.13.12 <code>mifa verify</code>
-        checks the manifest and layout; on <code>main</code> it also
+        validate a change in milliseconds. Since v0.13.13
+        <code>mifa verify</code> checks the manifest and layout and also
         type-checks every program with its dependencies, and fails with each
         problem's file and line (JSON with <code>--json</code>).</li>
         <li><strong>Lockfile as a contract.</strong> The lock isn't advisory;

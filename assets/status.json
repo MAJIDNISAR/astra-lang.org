@@ -1,10 +1,10 @@
 {
  "updated": "2026-11-17",
  "release": {
-  "version": "v0.13.12-alpha",
-  "date": "2026-11-13",
-  "tests": 933,
-  "releaseChecks": "69 of 69",
+  "version": "v0.13.13-alpha",
+  "date": "2026-11-17",
+  "tests": 973,
+  "releaseChecks": "75 of 75",
   "platforms": [
    "macOS Apple Silicon",
    "macOS Intel",
@@ -14,7 +14,7 @@
  "main": {
   "tests": 973,
   "releaseChecks": "75 of 75",
-  "note": "Main after v0.13.12: function values, closures inside closures, sets and maps print and compare, slice steps, list pop, mixed int/float, the C math library (sin, log, pow, PI), Python and Rust spellings (len, in, upper, items, loop), mifa verify type-checks; xs[-1], todo() with astra fix for missing arms and trait methods, dyn narrowed to integers; fixes I-041..I-048 - 973 tests"
+  "note": "Main is at v0.13.13-alpha - 973 tests"
  },
  "astra": {
   "statuses": [
@@ -34,8 +34,6 @@
      "Closures",
      "Functions as values (map, filter, fold)",
      "Tuples",
-     "Closures inside closures (on main)",
-     "Function values: stored, returned, called (on main)",
      "Result, Option and ?",
      "try / catch",
      "Strings + text methods",
@@ -56,21 +54,23 @@
      "astra fmt",
      "astra mcp for agents",
      "async / await (native)",
-     "Sets print, compare and iterate (on main)",
-     "Slice steps, xs[::2] (on main)",
-     "Python spellings: len, in, upper, items, loop (on main)",
-     "Math library: sin, log, pow, PI (on main)",
-     "xs[-1] and todo() (on main)"
-    ]
-   },
-   {
-    "id": "shipped",
-    "name": "New in v0.13.12",
-    "items": [
      "Trait objects (dyn Trait)",
      "Slices + list comprehensions",
      "Sets",
      "Math built-ins (abs, min, max, round)"
+    ]
+   },
+   {
+    "id": "shipped",
+    "name": "New in v0.13.13",
+    "items": [
+     "Function values: stored, returned, called",
+     "Closures inside closures",
+     "Sets and maps print and compare",
+     "Python spellings: len, in, upper, items, loop",
+     "Math library: sin, log, pow, PI",
+     "xs[-1], slice steps and pop",
+     "todo() + astra fix for missing arms"
     ]
    },
    {
@@ -110,16 +110,16 @@
      "Workspaces",
      "Lockfile (--locked, --offline)",
      "JSON output for agents",
-     "verify type-checks the project (on main)"
+     "Package registry (publish, add, yank, search)",
+     "Registry dependencies by version",
+     "Checksums pinned in astra.lock"
     ]
    },
    {
     "id": "shipped",
-    "name": "New in v0.13.3",
+    "name": "New in v0.13.13",
     "items": [
-     "Package registry (publish, add, yank, search)",
-     "Registry dependencies by version",
-     "Checksums pinned in astra.lock"
+     "verify type-checks the project"
     ]
    },
    {
@@ -307,6 +307,12 @@
    "date": "2026-11-13",
    "tests": 933,
    "summary": "Trait objects: dyn Shape holds any type that implements Shape, in lists, parameters, results and struct fields; methods on enums; slices (xs[a:b]) on lists and strings; list comprehensions; Set<T>; join and repeat; abs, min, max, floor, ceil, round and range. Fixes two wrong answers in v0.13.11 (a trait default method ending in an expression, a method call on an enum). Linux and Windows builds follow."
+  },
+  {
+   "version": "v0.13.13-alpha",
+   "date": "2026-11-17",
+   "tests": 973,
+   "summary": "Function values (stored, returned, called) and closures inside closures; sets and maps print, compare and iterate; slice steps, xs.pop() and xs[-1]; mixed int/float and the C math library (sin, log, pow, PI, E); Python and Rust spellings (len, in, upper, items, loop, catch e); todo() with astra fix adding missing match arms and trait methods; mifa verify type-checks the project. Fixes three wrong answers in v0.13.12 (do/while and switch did nothing, an enum mut self method returned 0, ? on a string error). Linux and Windows builds follow."
   }
  ],
  "memory": {

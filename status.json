@@ -1,8 +1,8 @@
 {
-  "version": "v0.13.12-alpha",
-  "date": "2026-11-13",
-  "tests": 933,
-  "releaseChecks": "69 of 69",
+  "version": "v0.13.13-alpha",
+  "date": "2026-11-17",
+  "tests": 973,
+  "releaseChecks": "75 of 75",
   "mainTests": 973,
   "mainReleaseChecks": "75 of 75",
   "updated": "2026-11-17",

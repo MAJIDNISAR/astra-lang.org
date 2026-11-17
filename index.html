@@ -42,7 +42,7 @@
       "license": "https://opensource.org/licenses/MIT",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "author": {"@type": "Person", "name": "Majid Nisar", "url": "https://majidnisar.com"},
-      "softwareVersion": "0.13.12-alpha",
+      "softwareVersion": "0.13.13-alpha",
       "downloadUrl": "https://astra-lang.org/download.html"
     },
     {
@@ -90,7 +90,7 @@
       </figure>
       <p class="hero-side hero-sentence">Astra is a compiled language for code that AI agents write: as easy to read as Python, as safe and fast as Rust. The compiler answers in JSON and repairs what it can before anything runs.</p>
       <div class="hero-side hero-fact">
-        <p><b><!-- status:release-version -->v0.13.12-alpha<!-- /status:release-version --></b> for macOS and WebAssembly; Linux and Windows follow. <!-- status:release-tests -->933<!-- /status:release-tests --> tests, none ignored.</p>
+        <p><b><!-- status:release-version -->v0.13.13-alpha<!-- /status:release-version --></b> for macOS and WebAssembly; Linux and Windows follow. <!-- status:release-tests -->973<!-- /status:release-tests --> tests, none ignored.</p>
         <div class="btn-row"><a class="btn primary" href="playground.html">Try it in your browser</a><a class="btn ghost" href="download.html">Get the alpha</a></div>
       </div>
     </div>
@@ -98,8 +98,8 @@
       <p class="orb-hint">Every star is a feature: Astra on the globe, Mifa on its moon. Drag either one to turn it. Pick a magnitude to light up its stars.</p>
       <div class="orb-keys" role="group" aria-label="Highlight a status"></div>
     </div>
-    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Static types + inference","Sized integers + as","Python-style syntax","Functions + default arguments","Structs + methods","Value semantics","Enums + pattern matching","Generic functions + structs","Traits + @derive","Closures","Functions as values (map, filter, fold)","Tuples","Closures inside closures (on main)","Function values: stored, returned, called (on main)","Result, Option and ?","try / catch","Strings + text methods","Lists + sorting","Maps","Modules","Files, args, stdin, env","Capabilities (--deny)","Calling C","Interpreter (astra run)","Native LLVM builds","WebAssembly + playground","REPL","Runtime safety checks","Automatic memory (ARC)","JSON diagnostics","astra fix","astra fmt","astra mcp for agents","async / await (native)","Sets print, compare and iterate (on main)","Slice steps, xs[::2] (on main)","Python spellings: len, in, upper, items, loop (on main)","Math library: sin, log, pow, PI (on main)","xs[-1] and todo() (on main)"]},{"id":"shipped","name":"New in v0.13.12","items":["Trait objects (dyn Trait)","Slices + list comprehensions","Sets","Math built-ins (abs, min, max, round)"]},{"id":"next","name":"Next","items":["Boxed closures (a capturing closure as a value)","Concurrency"]},{"id":"planned","name":"Planned","items":["Standard library","LSP + editor support","Agent keywords (tool / agent)","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
-    <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents","verify type-checks the project (on main)"]},{"id":"shipped","name":"New in v0.13.3","items":["Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"next","name":"Next","items":["Cargo habits: check, new, remove"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
+    <!-- status:orb-data:astra --><script type="application/json" class="orb-data" data-for="astra">{"statuses":[{"id":"works","name":"Works today","items":["Static types + inference","Sized integers + as","Python-style syntax","Functions + default arguments","Structs + methods","Value semantics","Enums + pattern matching","Generic functions + structs","Traits + @derive","Closures","Functions as values (map, filter, fold)","Tuples","Result, Option and ?","try / catch","Strings + text methods","Lists + sorting","Maps","Modules","Files, args, stdin, env","Capabilities (--deny)","Calling C","Interpreter (astra run)","Native LLVM builds","WebAssembly + playground","REPL","Runtime safety checks","Automatic memory (ARC)","JSON diagnostics","astra fix","astra fmt","astra mcp for agents","async / await (native)","Trait objects (dyn Trait)","Slices + list comprehensions","Sets","Math built-ins (abs, min, max, round)"]},{"id":"shipped","name":"New in v0.13.13","items":["Function values: stored, returned, called","Closures inside closures","Sets and maps print and compare","Python spellings: len, in, upper, items, loop","Math library: sin, log, pow, PI","xs[-1], slice steps and pop","todo() + astra fix for missing arms"]},{"id":"next","name":"Next","items":["Boxed closures (a capturing closure as a value)","Concurrency"]},{"id":"planned","name":"Planned","items":["Standard library","LSP + editor support","Agent keywords (tool / agent)","Python interop","WASM target","GPU target","Source opens at v1.0-beta"]}]}</script><!-- /status:orb-data:astra -->
+    <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents","Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"shipped","name":"New in v0.13.13","items":["verify type-checks the project"]},{"id":"next","name":"Next","items":["Cargo habits: check, new, remove"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
   </section>
 
   <section class="split" aria-labelledby="s-errors">
@@ -201,11 +201,11 @@ sum = 45</code></pre>
       </div>
       <div class="tile tile-b field-night" data-reveal>
         <p class="fig"><!-- status:main-tests -->973<!-- /status:main-tests --></p>
-        <p>tests pass on <code>main</code> (2026-11-17), none ignored; 933 in v0.13.12.</p>
+        <p>tests pass in v0.13.13 (2026-11-17), none ignored.</p>
       </div>
       <div class="tile tile-c field-stone" data-reveal>
         <p class="fig"><!-- status:release-checks -->75 of 75<!-- /status:release-checks --></p>
-        <p>release checks pass on <code>main</code>, on both engines. <a href="progress.html#history">The record</a></p>
+        <p>release checks pass in v0.13.13, on both engines. <a href="progress.html#history">The record</a></p>
       </div>
     </div>
   </section>
@@ -217,6 +217,7 @@ sum = 45</code></pre>
       <p>What is released and what comes after. The same stars light up on the globe above.</p>
       <h3>Released</h3>
       <ul class="status-list">
+        <li data-status="shipped"><span class="t">Function values, Python and Rust spellings (<code>len</code>, <code>in</code>, <code>loop</code>), the math library, <code>xs[-1]</code>, <code>todo()</code> and fixes for missing match arms and trait methods</span> <span class="v">v0.13.13-alpha</span></li>
         <li data-status="shipped"><span class="t">Trait objects (<code>dyn Trait</code>), methods on enums, slices, list comprehensions, <code>Set</code>, math built-ins</span> <span class="v">v0.13.12-alpha</span></li>
         <li data-status="shipped"><span class="t">Functions as values (<code>map</code>, <code>filter</code>, <code>fold</code>, <code>fn(..)</code> parameters), sized integers and <code>as</code></span> <span class="v">v0.13.11-alpha</span></li>
         <li data-status="shipped"><span class="t">Multi-field enum variants, struct / tuple / range patterns, generic structs</span> <span class="v">v0.13.10-alpha</span></li>
@@ -244,7 +245,6 @@ sum = 45</code></pre>
       </ul>
       <h3>Next</h3>
       <ul class="status-list">
-        <li data-status="next"><span class="t">Fixes for match arms and traits</span> <span class="v">next</span></li>
         <li data-status="next"><span class="t">Boxed closures (capturing closures as values)</span> <span class="v">next</span></li>
         <li data-status="next"><span class="t">Concurrency</span> <span class="v">next</span></li>
       </ul>

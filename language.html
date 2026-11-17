@@ -75,6 +75,7 @@
       <li><a href="#python-habits">and / or / not, if as a value</a></li>
       <li><a href="#maps-and-sorting">Maps and sorting</a></li>
       <li><a href="#slices-comprehensions-sets">Slices, comprehensions and sets</a></li>
+      <li><a href="#spellings-math">Python and Rust spellings, math, todo</a></li>
       <li><a href="#result-no-exceptions">Result&lt;T,E&gt;, no exceptions</a></li>
       <li><a href="#closures">Closures</a></li>
       <li><a href="#generics-and-gradual-typing">Generics and gradual typing</a></li>
@@ -326,8 +327,82 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
       <code>Set()</code> needs its type. <code>join</code> glues a list of
       strings (<code>sep.join(xs)</code> works too), and <code>floor</code>,
       <code>ceil</code> and <code>round</code> turn a float into an int.
-      Not yet: a slice step, nested comprehensions, printing or comparing a
-      set.</p>
+      Since v0.13.13 a slice takes a step, a comprehension can be nested
+      as the element, and a set prints and compares by value
+      (<a href="#spellings-math">below</a>). Not yet: several
+      <code>for</code>s in one comprehension.</p>
+    </div>
+  </section>
+
+  <section id="spellings-math">
+    <div class="wrap">
+      <h2>Python and Rust spellings, math, <code>todo</code> <span class="badge done">v0.13.13</span></h2>
+      <p class="lead-in">The words you already type: <code>len</code>, <code>in</code>, <code>upper</code>, <code>items</code>, <code>loop</code>, <code>sin</code>, <code>PI</code>.</p>
+<pre><code><span class="kw">let</span> xs = [<span class="n">3</span>, <span class="n">1</span>, <span class="n">4</span>, <span class="n">1</span>, <span class="n">5</span>]
+<span class="fn">print</span>(<span class="fn">len</span>(xs))                     <span class="c">// 5</span>
+<span class="fn">print</span>(xs[-<span class="n">1</span>])                      <span class="c">// 5</span>
+<span class="fn">print</span>(xs[::-<span class="n">1</span>].<span class="fn">map</span>(|n| n.<span class="fn">to_string</span>()).<span class="fn">join</span>(<span class="s">&quot; &quot;</span>))  <span class="c">// 5 1 4 1 3</span>
+<span class="fn">print</span>(<span class="s">&quot;ell&quot;</span> <span class="kw">in</span> <span class="s">&quot;hello&quot;</span>)            <span class="c">// true</span>
+<span class="fn">print</span>(<span class="s">&quot;-&quot;</span> * <span class="n">10</span>)                    <span class="c">// ----------</span>
+<span class="fn">print</span>(<span class="s">&quot;  Hi &quot;</span>.<span class="fn">strip</span>().<span class="fn">upper</span>())     <span class="c">// HI</span>
+
+<span class="kw">let</span> ages = {<span class="s">&quot;ann&quot;</span>: <span class="n">31</span>, <span class="s">&quot;bo&quot;</span>: <span class="n">27</span>}
+<span class="kw">for</span> name, age <span class="kw">in</span> ages.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="s">&quot;${name} is ${age}&quot;</span>)     <span class="c">// ann is 31, then bo is 27</span>
+
+<span class="fn">print</span>(<span class="fn">round</span>(<span class="fn">sin</span>(PI / <span class="n">6</span>) * <span class="n">100</span>))    <span class="c">// 50</span>
+<span class="fn">print</span>(<span class="n">2</span> ** <span class="n">0.5</span>)                    <span class="c">// 1.41421</span>
+<span class="kw">let</span> x: <span class="kw">float</span> = <span class="n">3</span>
+<span class="fn">print</span>(x / <span class="n">2</span>)                       <span class="c">// 1.5</span>
+
+<span class="kw">let</span> seen = <span class="fn">Set</span>([<span class="n">2</span>, <span class="n">1</span>, <span class="n">2</span>])
+<span class="fn">print</span>(seen)                        <span class="c">// {2, 1}</span>
+<span class="fn">print</span>(seen == <span class="fn">Set</span>([<span class="n">1</span>, <span class="n">2</span>]))         <span class="c">// true</span>
+
+<span class="kw">let</span> n = <span class="n">0</span>
+<span class="kw">loop</span>:
+    n += <span class="n">1</span>
+    <span class="kw">if</span> n == <span class="n">3</span>:
+        <span class="kw">break</span>
+<span class="fn">print</span>(n)                           <span class="c">// 3</span></code></pre>
+      <p><code>len(x)</code> works on strings, lists, maps and sets;
+      <code>"ell" in s</code> looks for a substring; <code>s * n</code>
+      repeats a string; <code>upper</code>, <code>lower</code> and
+      <code>strip</code> are the Python names of <code>to_upper</code>,
+      <code>to_lower</code> and <code>trim</code>; <code>xs.contains(x)</code>
+      is the Rust name of <code>x in xs</code>; <code>m.items()</code> gives
+      key–value pairs in insertion order. <code>xs[-1]</code> is the last
+      element when the index is written as a literal; a computed negative
+      index still stops the program, so an off-by-one is never silently the
+      last element. A slice can take a step (<code>xs[::2]</code>,
+      <code>xs[::-1]</code>), and <code>xs.pop()</code> removes and returns
+      the last element. The C math library is built in: <code>sin cos tan
+      asin acos atan atan2 exp log log10 log2 pow</code>, with
+      <code>PI</code> and <code>E</code>; <code>int</code> and
+      <code>float</code> mix in arithmetic, and an integer literal is
+      accepted where a float is expected (an int <em>variable</em> still
+      needs <code>to_float()</code>). Rust's <code>loop:</code> and Python's
+      <code>catch e:</code> work too. A function of your own with one of
+      these names wins.</p>
+<pre><code><span class="kw">enum</span> Shape:
+    Circle(<span class="kw">float</span>)
+    Square(<span class="kw">float</span>)
+
+<span class="kw">fn</span> <span class="fn">area</span>(s: Shape) -&gt; <span class="kw">float</span>:
+    <span class="kw">match</span> s:
+        Shape::Circle(r) =&gt; PI * r * r
+        Shape::Square(a) =&gt; <span class="fn">todo</span>(<span class="s">&quot;squares&quot;</span>)
+
+<span class="fn">print</span>(<span class="fn">area</span>(Shape::Circle(<span class="n">1.0</span>)))    <span class="c">// 3.14159</span>
+<span class="fn">print</span>(<span class="fn">area</span>(Shape::Square(<span class="n">2.0</span>)))    <span class="c">// Runtime error: not yet written: squares</span></code></pre>
+      <p><code>todo("what")</code> marks code not written yet: it
+      type-checks as whatever is expected and stops the program with
+      <code>not yet written: what</code> if it runs. <code>astra fix</code>
+      uses it: for a <code>match</code> that misses a variant (E0021) it adds
+      <code>Shape::Hexagon(_) =&gt; todo("Shape::Hexagon")</code>, and for an
+      <code>impl</code> that misses a trait method (E0020) it copies the
+      method's signature with a <code>todo</code> body, so the program
+      verifies again.</p>
     </div>
   </section>
 
@@ -383,10 +458,13 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
       today; <code>Ord</code> and <code>Hash</code> do not yet).</p>
       <p>When a boundary genuinely can't be typed statically, data from an
       LLM, a dynamic config, <code>dyn</code> marks it explicitly. Checks
-      defer to runtime at that boundary and nowhere else.</p>
+      defer to runtime at that boundary and nowhere else. For now a
+      <code>dyn</code> holds integers only (since v0.13.13 a string, float or
+      bool is a type error that names the type to use); a <code>dyn</code>
+      that carries any type comes with boxed closures.</p>
 <pre><code><span class="kw">fn</span> <span class="fn">handle</span>(payload: <span class="kw">dyn</span>) -&gt; <span class="kw">dyn</span>:
-    <span class="c">// statically compatible with every type;</span>
-    <span class="c">// the escape hatch is visible in the signature</span>
+    <span class="c">// the escape hatch is visible in the signature;</span>
+    <span class="c">// it holds integers for now</span>
     <span class="kw">return</span> payload</code></pre>
     </div>
   </section>
@@ -446,8 +524,11 @@ s.<span class="fn">push</span>(<span class="s">&quot;save&quot;</span>)
       <code>Option</code>), <code>fold</code> and <code>sum</code>;
       <code>enumerate</code> and <code>zip</code> pair elements up, also as
       Python's <code>enumerate(xs)</code> and <code>zip(xs, ys)</code>.
-      A closure may use the variables around it. Functions can be passed but
-      not yet stored in a variable or returned.</p>
+      A closure may use the variables around it. Since v0.13.13 a function
+      is also a value: <code>let op: fn(int) -&gt; int = double</code>, a
+      <code>fn(..)</code> struct field, a function returned by a function and
+      called through (<code>op(21)</code>). A closure that captures variables
+      can be passed but not yet stored or returned.</p>
     </div>
   </section>
 
