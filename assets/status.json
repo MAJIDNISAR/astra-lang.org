@@ -12,9 +12,9 @@
   ]
  },
  "main": {
-  "tests": 973,
+  "tests": 975,
   "releaseChecks": "75 of 75",
-  "note": "Main is at v0.13.13-alpha - 973 tests"
+  "note": "Main after v0.13.13: a call's result can be called directly (pick(0)(7)) - 975 tests"
  },
  "astra": {
   "statuses": [
@@ -57,7 +57,8 @@
      "Trait objects (dyn Trait)",
      "Slices + list comprehensions",
      "Sets",
-     "Math built-ins (abs, min, max, round)"
+     "Math built-ins (abs, min, max, round)",
+     "Calling a call's result, pick(0)(7) (on main)"
     ]
    },
    {
