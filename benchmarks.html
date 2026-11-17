@@ -80,7 +80,7 @@ RESULT: all outputs verified.</code></pre>
         harness has been rebuilt and every number below re-measured; where
         Astra is slower than Rust, the table now shows it.</p>
       </div>
-      <dl class="glance"><div><dt>~5 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->966<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed on <code>main</code>, 2026-11-16</dd></div></dl>
+      <dl class="glance"><div><dt>~5 ms</dt><dd>to verify a program (<code>validate_metrics.sh</code>, 2026-11-17), so an agent can check after every edit</dd></div><div><dt>2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->968<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed on <code>main</code>, 2026-11-17</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -279,7 +279,7 @@ RESULT: all outputs verified.</code></pre>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>966 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-11-17 (933 at v0.13.12-alpha, 907 at v0.13.11-alpha, 893 at v0.13.10-alpha, 880 at v0.13.9-alpha, 877 at v0.13.8-alpha, 868 at v0.13.6/v0.13.7-alpha, 856 at v0.13.5-alpha, 847 at v0.13.3-alpha, 831 at v0.13.2-alpha, 796 at v0.13.1-alpha, 777 at v0.13.0-alpha, 760 at v0.12.2-alpha, 712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>968 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-11-17 (933 at v0.13.12-alpha, 907 at v0.13.11-alpha, 893 at v0.13.10-alpha, 880 at v0.13.9-alpha, 877 at v0.13.8-alpha, 868 at v0.13.6/v0.13.7-alpha, 856 at v0.13.5-alpha, 847 at v0.13.3-alpha, 831 at v0.13.2-alpha, 796 at v0.13.1-alpha, 777 at v0.13.0-alpha, 760 at v0.12.2-alpha, 712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
           <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong>: CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
           <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
           <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>145 / 145</strong>: compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
@@ -313,7 +313,7 @@ RESULT: all outputs verified.</code></pre>
           <tr><td data-label="Metric">Correct answers</td><td data-label="Result"><strong>11 / 11</strong> interpreter, <strong>11 / 11</strong> native</td><td data-label="What it means">same output and exit code as the Python reference</td></tr>
           <tr><td data-label="Metric">Lines of code vs Python</td><td data-label="Result"><strong>1.46×</strong> (median; 1.46× in total, was 2.08×)</td><td data-label="What it means">no workarounds left; the rest is padding, CSV parsing and number formatting that Python's library does; the target is 1.3×</td></tr>
           <tr><td data-label="Metric">Native speed vs Python</td><td data-label="Result"><strong>6.9× faster</strong> (median)</td><td data-label="What it means">small programs, process start-up included</td></tr>
-          <tr><td data-label="Metric">Verify / build</td><td data-label="Result">about <strong>7 ms</strong> / <strong>95 ms</strong></td><td data-label="What it means">per program, median, process start-up included</td></tr>
+          <tr><td data-label="Metric">Verify / build</td><td data-label="Result">about <strong>7 ms</strong> / <strong>95 ms</strong></td><td data-label="What it means">per real-world program, median, process start-up included (adoption benchmark, 2026-11-15)</td></tr>
           <tr><td data-label="Metric">Error cases</td><td data-label="Result"><strong>6 / 6</strong> right code and line, <strong>2 / 6</strong> with a machine fix</td><td data-label="What it means">the release suite's error programs</td></tr>
           <tr><td data-label="Metric">Mifa, init to running program</td><td data-label="Result">about <strong>1.0 s</strong> with a path dependency</td><td data-label="What it means"><code>mifa test</code>, a reproducible lockfile, JSON output and a self-hosted registry (publish, add by name, run) also checked; there is no central registry yet</td></tr>
         </tbody>

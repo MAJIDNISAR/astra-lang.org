@@ -12,9 +12,9 @@
   ]
  },
  "main": {
-  "tests": 966,
-  "releaseChecks": "73 of 73",
-  "note": "Main after v0.13.12: function values, closures inside closures, sets and maps print and compare, slice steps, list pop, mixed int/float, the C math library (sin, log, pow, PI), Python and Rust spellings (len, in, upper, items, loop), mifa verify type-checks; fixes I-041..I-046 - 966 tests"
+  "tests": 968,
+  "releaseChecks": "75 of 75",
+  "note": "Main after v0.13.12: function values, closures inside closures, sets and maps print and compare, slice steps, list pop, mixed int/float, the C math library (sin, log, pow, PI), Python and Rust spellings (len, in, upper, items, loop), mifa verify type-checks; fixes I-041..I-048 - 968 tests"
  },
  "astra": {
   "statuses": [
