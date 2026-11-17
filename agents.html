@@ -200,8 +200,10 @@
         <li><strong>Fixed since v0.12:</strong> misspelt variable and function names
         (E0002, E0003) and a missing or extra <code>mut</code> at a call
         (E0022).</li>
-        <li><strong>Next:</strong> a missing match arm (E0021) and a missing
-        trait method (E0020).</li>
+        <li><strong>On <code>main</code> (2026-11-17):</strong> a missing match
+        arm (E0021) and a missing trait method (E0020), each added with a
+        <code>todo("..")</code> body that type-checks and stops the program
+        with "not yet written" if it runs.</li>
         <li><code>"fix": null</code> means no unambiguous repair is known; hand
         the diagnostic to the model as before.</li>
       </ul>
@@ -284,7 +286,7 @@ execute(binary)                              <span class="c"># native, already t
           <tr><td data-label="Code"><code>E0017</code></td><td data-label="Meaning">Tuple destructuring error</td><td data-label="Typical agent repair">Bind as many names as the tuple has elements</td></tr>
           <tr><td data-label="Code"><code>E0018</code></td><td data-label="Meaning">Operator requires integers</td><td data-label="Typical agent repair">Use integers on both sides of bitwise operators and shifts</td></tr>
           <tr><td data-label="Code"><code>E0020</code></td><td data-label="Meaning">Trait not implemented</td><td data-label="Typical agent repair">Add the missing method (or fix its signature) named in the message in the <code>impl Trait for Type</code> block; for a bound, pass a type that implements the trait</td></tr>
-          <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code></td></tr>
+          <tr><td data-label="Code"><code>E0021</code></td><td data-label="Meaning">Non-exhaustive match</td><td data-label="Typical agent repair">Add an arm for each missing variant named in the message, or end with <code>_ =&gt;</code> (on <code>main</code>, <code>astra fix</code> adds them with <code>todo</code> bodies)</td></tr>
           <tr><td data-label="Code"><code>E0022</code></td><td data-label="Meaning">Value cannot be modified here</td><td data-label="Typical agent repair">Declare the parameter <code>mut</code>, pass it as <code>mut</code> at the call, or copy it and modify the copy (a missing or extra <code>mut</code> at the call carries a <code>fix</code>)</td></tr>
           <tr><td data-label="Code"><code>E0099</code></td><td data-label="Meaning">Internal / uncategorized</td><td data-label="Typical agent repair">Report upstream; do not retry blindly</td></tr>
         </tbody>

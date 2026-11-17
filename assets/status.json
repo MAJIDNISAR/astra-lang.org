@@ -12,9 +12,9 @@
   ]
  },
  "main": {
-  "tests": 968,
+  "tests": 973,
   "releaseChecks": "75 of 75",
-  "note": "Main after v0.13.12: function values, closures inside closures, sets and maps print and compare, slice steps, list pop, mixed int/float, the C math library (sin, log, pow, PI), Python and Rust spellings (len, in, upper, items, loop), mifa verify type-checks; fixes I-041..I-048 - 968 tests"
+  "note": "Main after v0.13.12: function values, closures inside closures, sets and maps print and compare, slice steps, list pop, mixed int/float, the C math library (sin, log, pow, PI), Python and Rust spellings (len, in, upper, items, loop), mifa verify type-checks; xs[-1], todo() with astra fix for missing arms and trait methods, dyn narrowed to integers; fixes I-041..I-048 - 973 tests"
  },
  "astra": {
   "statuses": [
@@ -59,7 +59,8 @@
      "Sets print, compare and iterate (on main)",
      "Slice steps, xs[::2] (on main)",
      "Python spellings: len, in, upper, items, loop (on main)",
-     "Math library: sin, log, pow, PI (on main)"
+     "Math library: sin, log, pow, PI (on main)",
+     "xs[-1] and todo() (on main)"
     ]
    },
    {
