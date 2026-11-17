@@ -338,7 +338,9 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
       the caller to handle both arms; there is no invisible control flow.
       The built-ins that can fail (<code>read_file</code>, <code>parse_int</code>, …) return
       <code>Result</code> or <code>Option</code>; <code>throw</code> and <code>try</code>/<code>catch</code>
-      exist for code that prefers them, in braced syntax for now.</p>
+      exist for code that prefers them, with the variable in parentheses:
+      <code>catch (e: str)</code> for a thrown message, <code>catch (e)</code>
+      for an integer error code.</p>
 <pre><code><span class="kw">fn</span> <span class="fn">divide</span>(a: <span class="kw">int</span>, b: <span class="kw">int</span>) -&gt; Result&lt;<span class="kw">int</span>, <span class="kw">str</span>&gt;:
     <span class="kw">if</span> b == <span class="n">0</span>:
         <span class="kw">return</span> <span class="fn">Err</span>(<span class="s">&quot;division by zero&quot;</span>)
@@ -376,8 +378,9 @@ words.<span class="fn">sort_by_key</span>(|w| { -counts[w] })      <span class="
 <span class="fn">print</span>(<span class="fn">first</span>([<span class="n">3</span>, <span class="n">1</span>, <span class="n">2</span>]))       <span class="c">// 3: first&lt;int&gt;</span>
 <span class="fn">print</span>(<span class="fn">first</span>([<span class="s">"a"</span>, <span class="s">"b"</span>]))      <span class="c">// a: first&lt;str&gt;</span></code></pre>
       <p>Comparing two values of a type parameter (<code>a &gt; b</code>)
-      needs a trait bound such as <code>Ord</code>; that comes with the
-      standard traits, after <code>@derive</code>.</p>
+      needs a trait bound such as <code>Ord</code>, which is planned with
+      the rest of the standard traits (<code>@derive(Eq, Show)</code> works
+      today; <code>Ord</code> and <code>Hash</code> do not yet).</p>
       <p>When a boundary genuinely can't be typed statically, data from an
       LLM, a dynamic config, <code>dyn</code> marks it explicitly. Checks
       defer to runtime at that boundary and nowhere else.</p>

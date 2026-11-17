@@ -86,20 +86,21 @@
   <section>
     <div class="wrap">
       <h2 id="from-zero-to-running-project">From zero to running project</h2>
-      <p class="lead-in">Five commands take an empty folder to a running native program.</p>
+      <p class="lead-in">A handful of commands take an empty folder to a running native program.</p>
 <pre data-copy="none"><code><span class="p">$</span> mkdir myapp &amp;&amp; cd myapp
-<span class="p">$</span> mifa init myapp          <span class="c"># scaffold astra.toml + src/main.astra here</span>
-<span class="p">$</span> mifa verify              <span class="c"># validate astra.toml and the src/ layout</span>
+<span class="p">$</span> mifa init                <span class="c"># scaffold astra.toml + src/main.astra here</span>
+<span class="p">$</span> mifa verify              <span class="c"># validate astra.toml and src/ (main: also type-check)</span>
 <span class="p">$</span> mifa lock                <span class="c"># write astra.lock (sha256-stable)</span>
 <span class="p">$</span> mifa run                 <span class="c"># compile + execute natively</span>
 <span class="p">$</span> mifa verify --json       <span class="c"># same result as a machine-readable envelope</span>
 <span class="p">$</span> mifa login &lt;token&gt;       <span class="c"># store a registry token (~/.mifa/credentials.toml)</span>
-<span class="p">$</span> mifa publish --dry-run   <span class="c"># validate + archive + checksum, no upload</span>
+<span class="p">$</span> mifa publish --dry-run   <span class="c"># validate + archive + checksum, no upload (needs license = "..." in [package])</span>
 <span class="p">$</span> mifa clean --cache       <span class="c"># drop target/ and ~/.mifa/cache</span></code></pre>
 
-      <p>The manifest is Cargo-style TOML. This is exactly what
-      <code>mifa init</code> writes; only <code>name</code> and
-      <code>version</code> are required:</p>
+      <p>The manifest is Cargo-style TOML. This is what
+      <code>mifa init</code> writes, plus one dependency line; only
+      <code>name</code> and <code>version</code> are required to build
+      (publishing also needs <code>license</code>):</p>
       <div class="codeblock">
         <span class="tab">astra.toml</span>
 <pre><code>[package]
@@ -108,7 +109,7 @@ version = <span class="s">"0.1.0"</span>
 description = <span class="s">"A new Astra package"</span>
 
 [dependencies]
-lib = { path = <span class="s">"../lib"</span> }   <span class="c"># a local dependency (mifa add lib --path ../lib)</span></code></pre>
+lib = { path = <span class="s">"../lib"</span> }   <span class="c"># a local dependency, written by hand</span></code></pre>
       </div>
       <p>Manifests in Mifa's older flat form still load.</p>
     </div>
@@ -268,12 +269,12 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
         </div>
         <div class="orb-caption"><div class="orb-keys" role="group" aria-label="Highlight a status"></div></div>
       </figure>
-      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents"]},{"id":"shipped","name":"New in v0.13.3","items":["Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"next","name":"Next","items":["Project-wide verify"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
+      <!-- status:orb-data:mifa --><script type="application/json" class="orb-data" data-for="mifa">{"statuses":[{"id":"works","name":"Works today","items":["Projects (init, verify, clean)","Build, run and test","Path dependencies","Git dependencies","Version solving (semver)","Workspaces","Lockfile (--locked, --offline)","JSON output for agents","verify type-checks the project (on main)"]},{"id":"shipped","name":"New in v0.13.3","items":["Package registry (publish, add, yank, search)","Registry dependencies by version","Checksums pinned in astra.lock"]},{"id":"next","name":"Next","items":["Cargo habits: check, new, remove"]},{"id":"planned","name":"Planned","items":["Hosted registry","Package signing"]}]}</script><!-- /status:orb-data:mifa -->
       <!-- status:mifa-list --><ul class="status-list">
-  <li data-status="works"><b>Works today:</b> Projects (init, verify, clean), Build, run and test, Path dependencies, Git dependencies, Version solving (semver), Workspaces, Lockfile (--locked, --offline), JSON output for agents, Package registry (publish, add, yank, search), Registry dependencies by version, Checksums pinned in astra.lock</li>
+  <li data-status="works"><b>Works today:</b> Projects (init, verify, clean), Build, run and test, Path dependencies, Git dependencies, Version solving (semver), Workspaces, Lockfile (--locked, --offline), JSON output for agents, verify type-checks the project (on main), Package registry (publish, add, yank, search), Registry dependencies by version, Checksums pinned in astra.lock</li>
   <li data-status="shipped"><b>New in v0.13.3:</b> Package registry (publish, add, yank, search), Registry dependencies by version, Checksums pinned in astra.lock</li>
-  <li data-status="next"><b>Next:</b> Project-wide verify</li>
-  <li data-status="planned"><b>Planned:</b> Project-wide verify, Hosted registry, Package signing</li>
+  <li data-status="next"><b>Next:</b> Cargo habits: check, new, remove</li>
+  <li data-status="planned"><b>Planned:</b> Cargo habits: check, new, remove, Hosted registry, Package signing</li>
 </ul><!-- /status:mifa-list -->
     </div>
   </section>
@@ -364,9 +365,10 @@ util     = { version = <span class="s">"0.3"</span>, path = <span class="s">"../
       <ul>
         <li><strong>Verification-first.</strong> <code>astra verify</code>
         type-checks a program without generating code, so an agent can
-        validate a change in milliseconds. <code>mifa verify</code> today
-        checks only the manifest and layout; type-checking the whole project
-        graph from Mifa is planned.</li>
+        validate a change in milliseconds. In v0.13.12 <code>mifa verify</code>
+        checks the manifest and layout; on <code>main</code> it also
+        type-checks every program with its dependencies, and fails with each
+        problem's file and line (JSON with <code>--json</code>).</li>
         <li><strong>Lockfile as a contract.</strong> The lock isn't advisory;
         registry downloads refuse checksum mismatches outright.</li>
         <li><strong>One tool, one mental model.</strong> Mifa wraps the same

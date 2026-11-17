@@ -80,7 +80,7 @@ RESULT: all outputs verified.</code></pre>
         harness has been rebuilt and every number below re-measured; where
         Astra is slower than Rust, the table now shows it.</p>
       </div>
-      <dl class="glance"><div><dt>~7 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->958<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed on <code>main</code>, 2026-11-16</dd></div></dl>
+      <dl class="glance"><div><dt>~5 ms</dt><dd>to verify a program, so an agent can check after every edit</dd></div><div><dt>2×</dt><dd>faster than Python's run alone, compile time included</dd></div><div><dt><!-- status:main-tests -->966<!-- /status:main-tests --> / 0</dt><dd>tests passed / failed on <code>main</code>, 2026-11-16</dd></div></dl>
     </div>
   </section>
 <div class="doc">
@@ -188,12 +188,13 @@ RESULT: all outputs verified.</code></pre>
       <figure class="viz" data-viz="bars" data-source="#speed-bars" hidden>
         <div class="viz-frame"><canvas tabindex="0" role="img" aria-label="Two 3D columns: Astra compile plus run against Python's run alone. The numbers are in the bars below."></canvas></div>
       </figure>
-      <div id="speed-bars" class="bar-list"><div class="bar-row"><span>astra</span><div class="bar"><span style="width:51%"></span></div><span class="pct">97 ms</span></div>
-      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">191 ms</span></div></div>
+      <div id="speed-bars" class="bar-list"><div class="bar-row"><span>astra</span><div class="bar"><span style="width:50%"></span></div><span class="pct">81 ms</span></div>
+      <div class="bar-row"><span>python3</span><div class="bar"><span style="width:100%"></span></div><span class="pct">163 ms</span></div></div>
 
-      <p><strong>Result:</strong> <span class="badge done">~2× faster, compile included</span>, 93&nbsp;ms to compile (parse, type-check, LLVM IR, <code>llc</code>,
-      link) plus 4&nbsp;ms to run, against 191&nbsp;ms for Python to run the
-      loop. Run alone, the binary is about 45× faster.</p>
+      <p><strong>Result:</strong> <span class="badge done">~2× faster, compile included</span>, 77&nbsp;ms to compile (parse, type-check, LLVM IR, <code>llc</code>,
+      link) plus 4&nbsp;ms to run, against 163&nbsp;ms for Python to run the
+      loop (<code>scripts/validate_metrics.sh</code>, 2026-11-17). Run alone, the
+      binary is about 40× faster.</p>
       <div class="callout">
         <p><strong>Scope honesty:</strong> one small loop, chosen to show the
         architecture (native code with little compile overhead), not a
@@ -278,11 +279,11 @@ RESULT: all outputs verified.</code></pre>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>958 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-11-17 (933 at v0.13.12-alpha, 907 at v0.13.11-alpha, 893 at v0.13.10-alpha, 880 at v0.13.9-alpha, 877 at v0.13.8-alpha, 868 at v0.13.6/v0.13.7-alpha, 856 at v0.13.5-alpha, 847 at v0.13.3-alpha, 831 at v0.13.2-alpha, 796 at v0.13.1-alpha, 777 at v0.13.0-alpha, 760 at v0.12.2-alpha, 712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
+          <tr><td data-label="Metric">Test suite</td><td data-label="Value"><strong>966 passed · 0 failed · 0 ignored</strong></td><td data-label="Source"><code>cargo test</code> on <code>main</code>, 2026-11-17 (933 at v0.13.12-alpha, 907 at v0.13.11-alpha, 893 at v0.13.10-alpha, 880 at v0.13.9-alpha, 877 at v0.13.8-alpha, 868 at v0.13.6/v0.13.7-alpha, 856 at v0.13.5-alpha, 847 at v0.13.3-alpha, 831 at v0.13.2-alpha, 796 at v0.13.1-alpha, 777 at v0.13.0-alpha, 760 at v0.12.2-alpha, 712 at v0.11.2-alpha, 449 at v0.9.1-alpha)</td></tr>
           <tr><td data-label="Metric">Build warnings</td><td data-label="Value"><strong>0</strong>: CI enforces <code>clippy -D warnings</code></td><td data-label="Source"><code>cargo build --quiet</code></td></tr>
           <tr><td data-label="Metric">Ignored-test burn-down</td><td data-label="Value"><strong>10 → 0 (complete)</strong></td><td data-label="Source">Release KPI: tests un-ignore only when the feature runs natively end-to-end</td></tr>
-          <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>140 / 140</strong>: compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
-          <tr><td data-label="Metric">Showcase examples</td><td data-label="Value"><strong>29 / 29</strong> print their expected output on both engines</td><td data-label="Source"><code>tests/showcase_examples_tests.rs</code></td></tr>
+          <tr><td data-label="Metric">End-to-end regression suite</td><td data-label="Value"><strong>145 / 145</strong>: compile → IR → native run → stdout/exit-code asserted</td><td data-label="Source"><code>tests/regression_tests.rs</code></td></tr>
+          <tr><td data-label="Metric">Showcase examples</td><td data-label="Value"><strong>30 / 30</strong> print their expected output on both engines</td><td data-label="Source"><code>tests/showcase_examples_tests.rs</code></td></tr>
           <tr><td data-label="Metric">IR validity gate</td><td data-label="Value">every corpus program's IR must pass <code>llc</code></td><td data-label="Source"><code>tests/ir_validity_tests.rs</code> (in CI)</td></tr>
           <tr><td data-label="Metric">Validation checks</td><td data-label="Value"><strong>13 / 13</strong></td><td data-label="Source"><code>scripts/validate_metrics.sh</code></td></tr>
         </tbody>

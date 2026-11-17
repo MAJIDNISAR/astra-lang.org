@@ -219,7 +219,7 @@
     <div class="wrap">
       <h2 id="agent-native-keywords">Agent-native keywords</h2>
       <p>
-        Four keywords are reserved and ratified (Bet 4). The design intent, syntax is illustrative and will evolve through an RFC process:
+        Four keywords are ratified (Bet 4) and will be reserved when they land. The design intent, syntax is illustrative and will evolve through an RFC process:
       </p>
 
       <div class="codeblock">
@@ -271,8 +271,8 @@
         <div class="def">
           <b>WASM target</b>
           <p>The same LLVM backend emits WebAssembly, verified agent code
-          running in a capability-scoped sandbox, plus a browser playground
-          for this site.</p>
+          running in a capability-scoped sandbox. (The interpreter already
+          runs as WebAssembly in this site's <a href="playground.html">playground</a>.)</p>
         </div>
         <div class="def">
           <b>Python interop (embedded CPython)</b>
@@ -281,13 +281,14 @@
           the orchestration layer verified.</p>
         </div>
         <div class="def">
-          <b>LSP + fmt</b>
-          <p>Language server and formatter, for the humans reviewing what
-          agents wrote.</p>
+          <b>LSP</b>
+          <p>A language server, for the humans reviewing what agents wrote
+          (the formatter, <code>astra fmt</code>, has shipped).</p>
         </div>
         <div class="def">
           <b>Real async runtime + stdlib core</b>
-          <p>async/await already parses and compiles (synchronous lowering);
+          <p>async/await already parses and compiles natively (synchronous
+          lowering; the interpreter refuses <code>await</code>);
           a real task runtime and a standard library form under ARC memory
           management.</p>
         </div>
@@ -307,13 +308,13 @@
       <h2 id="the-five-bets-underneath">The five bets underneath</h2>
       <p>The vision isn't a mood board, it rests on five architecture
       decisions debated and ratified on 2026-07-02, each with recorded
-      rationale, accepted costs, and first milestones (two of which have
-      already shipped):</p>
+      rationale, accepted costs, and first milestones (some have shipped,
+      as the table shows):</p>
       <div class="table-wrap stack"><table>
         <thead><tr><th>Bet</th><th>Decision</th><th>First milestone</th></tr></thead>
         <tbody>
           <tr><td data-label="Bet">1, Memory</td><td data-label="Decision">ARC + escape analysis + <code>region</code></td><td class="badge-cell" data-label="First milestone"><span class="badge wip">reclaiming since v0.9 (partial)</span></td></tr>
-          <tr><td data-label="Bet">2, Typing</td><td data-label="Decision">Static by default, gradual via <code>dyn</code></td><td class="badge-cell" data-label="First milestone"><span class="badge done">shipped v0.7</span></td></tr>
+          <tr><td data-label="Bet">2, Typing</td><td data-label="Decision">Static by default, gradual via <code>dyn</code></td><td class="badge-cell" data-label="First milestone"><span class="badge done">shipped v0.7</span> (natively a <code>dyn</code> carries ints only so far)</td></tr>
           <tr><td data-label="Bet">3, Backend</td><td data-label="Decision">One LLVM compiler → native / WASM / GPU</td><td class="badge-cell" data-label="First milestone"><span class="badge done">native shipped v0.8 · WASM planned</span></td></tr>
           <tr><td data-label="Bet">4, AI primitives</td><td data-label="Decision"><code>tool</code>/<code>agent</code>/<code>prompt</code>/<code>memory</code> keywords</td><td class="badge-cell" data-label="First milestone"><span class="badge planned">planned</span></td></tr>
           <tr><td data-label="Bet">5, Interop</td><td data-label="Decision">Embedded CPython in stdlib</td><td class="badge-cell" data-label="First milestone"><span class="badge planned">planned</span></td></tr>

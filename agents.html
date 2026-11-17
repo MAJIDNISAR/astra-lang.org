@@ -113,7 +113,7 @@
         <tbody>
           <tr>
             <td data-label="Command"><code>astra verify --error-format=json &lt;file&gt;</code></td>
-            <td data-label="What it does">Parse + typecheck only. No codegen, no execution. ~100 ms.</td>
+            <td data-label="What it does">Parse + typecheck only. No codegen, no execution. About 5 ms.</td>
             <td data-label="Exit code">0 = verified · non-zero = diagnostics emitted</td>
           </tr>
           <tr>
@@ -138,7 +138,8 @@
           </tr>
         </tbody>
       </table></div>
-      <p>Rust callers can skip the CLI entirely:</p>
+      <p>Rust callers will be able to skip the CLI entirely once the source
+      opens (v1.0-beta):</p>
 <pre><code><span class="kw">let</span> report = astra::compiler::<span class="fn">verify</span>(source);
 <span class="kw">let</span> result = astra::compiler::<span class="fn">compile_to_result</span>(source);</code></pre>
     </div>
@@ -153,7 +154,7 @@
   <span class="s">"success"</span>: <span class="kw">false</span>,
   <span class="s">"diagnostics"</span>: [
     {
-      <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,       <span class="c">// "parse" | "typecheck" | "codegen"</span>
+      <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,       <span class="c">// "parse" | "typecheck" | "codegen" | "runtime"</span>
       <span class="s">"kind"</span>: <span class="s">"TypeError"</span>,        <span class="c">// coarse class</span>
       <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,      <span class="c">// stable, catalogue below</span>
       <span class="s">"message"</span>: <span class="s">"Type error: Undefined variable 'total'"</span>,
@@ -182,7 +183,7 @@
       <code>fix</code>: text edits that repair the error without an LLM call.
       Each edit replaces the text from <code>line</code>/<code>column</code> up
       to, not including, <code>end_line</code>/<code>end_column</code> (1-based)
-      with <code>text</code>. This is real output from <code>main</code>:</p>
+      with <code>text</code>. This is real output (v0.12 on):</p>
 <pre><code>{
   <span class="s">"phase"</span>: <span class="s">"typecheck"</span>,
   <span class="s">"error_code"</span>: <span class="s">"E0002"</span>,
@@ -201,7 +202,7 @@
         (E0022).</li>
         <li><strong>Next:</strong> a missing match arm (E0021) and a missing
         trait method (E0020).</li>
-        <li>No <code>fix</code> field means no unambiguous repair is known; hand
+        <li><code>"fix": null</code> means no unambiguous repair is known; hand
         the diagnostic to the model as before.</li>
       </ul>
     </div>
@@ -306,6 +307,8 @@ execute(binary)                              <span class="c"># native, already t
           <tr><td data-label="Code"><code>R0005</code></td><td data-label="Meaning">Stack overflow (runaway recursion)</td></tr>
           <tr><td data-label="Code"><code>R0006</code></td><td data-label="Meaning">Uncaught <code>throw</code></td></tr>
           <tr><td data-label="Code"><code>R0007</code></td><td data-label="Meaning">Assertion failed</td></tr>
+          <tr><td data-label="Code"><code>R0008</code></td><td data-label="Meaning">Missing map key</td></tr>
+          <tr><td data-label="Code"><code>R0009</code></td><td data-label="Meaning">unwrap() of None or Err</td></tr>
           <tr><td data-label="Code"><code>R0099</code></td><td data-label="Meaning">Any other runtime error</td></tr>
         </tbody>
       </table></div>
