@@ -12,9 +12,9 @@
   ]
  },
  "main": {
-  "tests": 975,
+  "tests": 979,
   "releaseChecks": "75 of 75",
-  "note": "Main after v0.13.13: a call's result can be called directly (pick(0)(7)) - 975 tests"
+  "note": "Main after v0.13.13: a call's result can be called directly (pick(0)(7)); Mifa new, check, remove and fmt - 979 tests"
  },
  "astra": {
   "statuses": [
@@ -113,7 +113,8 @@
      "JSON output for agents",
      "Package registry (publish, add, yank, search)",
      "Registry dependencies by version",
-     "Checksums pinned in astra.lock"
+     "Checksums pinned in astra.lock",
+     "Cargo's new, check, remove, fmt (on main)"
     ]
    },
    {
@@ -127,15 +128,15 @@
     "id": "next",
     "name": "Next",
     "items": [
-     "Cargo habits: check, new, remove"
+     "Hosted registry"
     ]
    },
    {
     "id": "planned",
     "name": "Planned",
     "items": [
-     "Hosted registry",
-     "Package signing"
+     "Package signing",
+     "outdated and audit"
     ]
    }
   ]
